@@ -4,6 +4,86 @@
   import ActionsDropdown from "./ActionsDropdown";
   import BranchGrid from "../branches/BranchGrid";
 import { arrayMove } from "@dnd-kit/sortable";
+import {
+  DndContext,
+  closestCenter,
+} from "@dnd-kit/core";
+
+import {
+  SortableContext,
+  useSortable,
+  verticalListSortingStrategy,
+} from "@dnd-kit/sortable";
+
+import { CSS } from "@dnd-kit/utilities";
+
+function SortableRow({
+  item,
+  onEdit,
+  onDelete,
+}: {
+  item: PricingItem;
+  onEdit: () => void;
+  onDelete: () => void;
+}) {
+  const {
+    attributes,
+    listeners,
+    setNodeRef,
+    transform,
+    transition,
+  } = useSortable({ id: item.id });
+
+  const style = {
+    transform: CSS.Transform.toString(transform),
+    transition,
+  };
+
+  return (
+    <tr ref={setNodeRef} style={style}>
+      {/* DRAG */}
+      <td className="px-3 py-3 border-y border-[#CDDEE0] border-l rounded-tl-[10px] rounded-bl-[10px] w-1 pr-0">
+        <GripVertical
+          size={18}
+          className="text-[#2A2C30] cursor-grab"
+          {...attributes}
+          {...listeners}
+        />
+      </td>
+
+      {/* MIN */}
+      <td className="px-4 py-3 border-y border-[#CDDEE0]">
+        <input
+          readOnly
+          value={item.min}
+          className="h-10 w-[180px] rounded-lg border px-3 text-sm"
+        />
+      </td>
+
+      {/* PRICE */}
+      <td className="px-4 py-3 border-y border-[#CDDEE0]">
+        <input
+          readOnly
+          value={`£${item.price}`}
+          className="h-10 w-[180px] rounded-lg border px-3 text-sm"
+        />
+      </td>
+
+      {/* BOLD */}
+      <td className="px-4 py-3 border-y border-[#CDDEE0]">
+        <SwitchToggle value={item.bold} onChange={() => {}} />
+      </td>
+
+      {/* ACTIONS */}
+      <td className="px-4 py-3 border-y border-[#CDDEE0] border-r rounded-tr-[10px] rounded-br-[10px] text-right">
+        <ActionsDropdown
+          onEdit={onEdit}
+          onDelete={onDelete}
+        />
+      </td>
+    </tr>
+  );
+}
 
   interface PricingItem {
   id: number;
@@ -217,7 +297,7 @@ const handleDragEnd = (event: any) => {
     const reordered = arrayMove(items, oldIndex, newIndex).map(
       (item, idx) => ({
         ...item,
-        index: idx + 1, // ✅ FIX
+        index: idx + 1,
       })
     );
 
@@ -230,6 +310,7 @@ const handleDragEnd = (event: any) => {
     return updated;
   });
 };
+
 
     /* =================================================== */
     return (
@@ -375,63 +456,28 @@ const handleDragEnd = (event: any) => {
             {/* LIST */}
             <div>
               <h2 className="mb-4 text-lg font-semibold">Pricing List</h2>
-
-              {(pricingMap[selectedBranchId] || []).length !== 0 && 
-              <div className="rounded-[10px] border border-[#E6EEF0] bg-white p-4 overflow-x-auto">
-  <table className="w-full border-separate border-spacing-y-3">
-    <tbody>
-      {(pricingMap[selectedBranchId] || []).map((item) => (
-        <tr key={item.id}>
-          {/* DRAG */}
-          <td className="px-3 py-3 border-y border-[#CDDEE0] border-l rounded-tl-[10px] rounded-bl-[10px] w-1 pr-0">
-              <GripVertical size={18} className="text-[#2A2C30]" />
-          </td>
-
-          {/* MIN */}
-          <td className="px-4 py-3 border-y border-[#CDDEE0]">
-            <div className="flex items-center gap-3">
-              <span className="text-sm whitespace-nowrap">Min</span>
-              <input
-                readOnly
-                value={item.min}
-                className="h-10 w-[180px] rounded-lg border px-3 text-sm"
-              />
-            </div>
-          </td>
-
-          {/* PRICE */}
-          <td className="px-4 py-3 border-y border-[#CDDEE0]">
-            <div className="flex items-center gap-3">
-              <span className="text-sm whitespace-nowrap">Price</span>
-              <input
-                readOnly
-                value={`£${item.price}`}
-                className="h-10 w-[180px] rounded-lg border px-3 text-sm"
-              />
-            </div>
-          </td>
-
-          {/* BOLD */}
-          <td className="px-4 py-3 border-y border-[#CDDEE0]">
-            <div className="flex items-center gap-3">
-              <span className="text-sm whitespace-nowrap">Bold</span>
-              <SwitchToggle value={item.bold} onChange={() => {}} />
-            </div>
-          </td>
-
-          {/* ACTIONS */}
-          <td className="px-4 py-3 border-y border-[#CDDEE0] border-r rounded-tr-[10px] rounded-br-[10px] text-right">
-            <ActionsDropdown
-              onEdit={() => handleEdit(item)}
-              onDelete={() => handleDelete(item.id)}
-            />
-          </td>
-        </tr>
-      ))}
-    </tbody>
-  </table>
-              </div>
-              }
+<DndContext
+  collisionDetection={closestCenter}
+  onDragEnd={handleDragEnd}
+>
+  <SortableContext
+    items={(pricingMap[selectedBranchId] || []).map(i => i.id)}
+    strategy={verticalListSortingStrategy}
+  >
+    <table className="w-full border-separate border-spacing-y-3">
+      <tbody>
+        {(pricingMap[selectedBranchId] || []).map((item) => (
+          <SortableRow
+            key={item.id}
+            item={item}
+            onEdit={() => handleEdit(item)}
+            onDelete={() => handleDelete(item.id)}
+          />
+        ))}
+      </tbody>
+    </table>
+  </SortableContext>
+</DndContext>
 
               {errors.pricing && (
   <p className="text-sm text-red-500 mb-2">
