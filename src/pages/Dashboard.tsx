@@ -29,9 +29,10 @@ const Dashboard = () => {
 
         {/* Content */}
         <div className="flex-1 px-6 py-3 overflow-auto">
-          <div className="bg-card rounded-2xl shadow-card border border-border/60 p-8 min-h-[500px]">
-            <div className="flex items-center justify-center h-full text-muted-foreground">
-              <p className="text-lg">Dashboard content coming soon...</p>
+          <div className="bg-card rounded-2xl shadow-card border border-border/60 p-8 min-h-[500px] flex justify-center items-center">
+            <div className="flex items-center justify-center h-full text-muted-foreground flex-col">
+              <img src="/loader.png" alt="" />
+              <p className="text-lg">Data Not Found</p>
             </div>
           </div>
         </div>

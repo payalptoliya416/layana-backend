@@ -323,9 +323,9 @@ const filtered = treatments.filter(
   className="w-[30%] pl-4 border-l border-[#E5E7EB] flex items-center justify-between cursor-pointer"
 >
               <span>Category</span>
-              <div className="flex flex-col gap-1 ml-2 text-[#B6B7B8] leading-none">
-                <span className="text-[10px]">▲</span>
-                <span className="text-[10px] -mt-1">▼</span>
+              <div className="flex flex-col gap-1 ml-2 text-[#B6B7B8] leading-none mr-2">
+                <span className="text-[10px]"><img src="/top.png" alt="" /></span>
+                <span className="text-[10px] -mt-1"><img src="/down.png" alt="" /></span>
               </div>
             </div>
 
@@ -338,9 +338,9 @@ const filtered = treatments.filter(
                 className="flex-1 pl-4 border-l border-[#E5E7EB] flex items-center justify-between cursor-pointer"
               >
               <span>Treatment</span>
-              <div className="flex flex-col ml-2 gap-1 text-[#B6B7B8] leading-none">
-                <span className="text-[10px]">▲</span>
-                <span className="text-[10px] -mt-1">▼</span>
+              <div className="flex flex-col ml-2 gap-1 text-[#B6B7B8] leading-none mr-2">
+                      <span className="text-[10px]"><img src="/top.png" alt="" /></span>
+                <span className="text-[10px] -mt-1"><img src="/down.png" alt="" /></span>
               </div>
             </div>
 

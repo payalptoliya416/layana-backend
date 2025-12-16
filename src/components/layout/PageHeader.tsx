@@ -32,29 +32,22 @@ export function PageHeader({ title , showBack = false, onBack , isTitleLoading }
   const [isNotificationsOpen, setIsNotificationsOpen] = useState(false);
   const profileRef = useRef<HTMLDivElement>(null);
   const notificationsRef = useRef<HTMLDivElement>(null);
-const [showLoader, setShowLoader] = useState(false);
+
+const [visibleLoader, setVisibleLoader] = useState(true);
 
 useEffect(() => {
-  let t: NodeJS.Timeout;
-
-  if (isTitleLoading) {
-    t = setTimeout(() => setShowLoader(true), 100);
-  } else {
-    setShowLoader(false);
+  if (!title || isTitleLoading) {
+    setVisibleLoader(true);
+    return;
   }
 
+  const t = setTimeout(() => {
+    setVisibleLoader(false);
+  }, 400); // 👈 minimum time to avoid flicker
+
   return () => clearTimeout(t);
-}, [isTitleLoading]);
-const [forceLoading, setForceLoading] = useState(true);
-
-useEffect(() => {
-  const timer = setTimeout(() => {
-    setForceLoading(false); 
-  }, 400);
-
-  return () => clearTimeout(timer);
-}, []);
-const shouldShowLoader = isTitleLoading || forceLoading;
+}, [title, isTitleLoading]);
+const shouldShowLoader = isTitleLoading || !title;
   const toggleTheme = () => {
     setIsDark(!isDark);
     document.documentElement.classList.toggle("dark");
@@ -84,6 +77,16 @@ const shouldShowLoader = isTitleLoading || forceLoading;
   }, []);
 
   return (
+    <>
+    {visibleLoader && (
+  <div className="fixed inset-0 z-[999999] flex items-center justify-center bg-white/70 backdrop-blur-sm">
+    <div className="flex items-center gap-1 text-[32px] font-semibold text-[#2A2C30]">
+      <span className="dot dot-1">.</span>
+      <span className="dot dot-2">.</span>
+      <span className="dot dot-3">.</span>
+    </div>
+  </div>
+)}
     <header className="relative flex items-center h-[72px] px-6 bg-[#F3F3F3]">
      {showBack && (
   <button
@@ -105,37 +108,11 @@ const shouldShowLoader = isTitleLoading || forceLoading;
 <h1
   className="
     absolute left-1/2 -translate-x-1/2
-    w-full max-w-[600px]
-    h-[36px]
-    flex items-center justify-center
     text-[28px] font-semibold text-[#2A2C30]
-    pointer-events-none
   "
 >
-  {/* TITLE */}
-  <span
-    className={cn(
-      "absolute transition-opacity duration-300 ease-in-out",
-      shouldShowLoader ? "opacity-0" : "opacity-100"
-    )}
-  >
-    {title || "\u00A0"}
-  </span>
-
-  {/* LOADER */}
-  <span
-    className={cn(
-      "absolute flex items-center gap-1 transition-opacity duration-300 ease-in-out",
-      shouldShowLoader ? "opacity-100" : "opacity-0"
-    )}
-  >
-  
-    <span className="dot dot-1">.</span>
-    <span className="dot dot-2">.</span>
-    <span className="dot dot-3">.</span>
-  </span>
+  {title || "\u00A0"}
 </h1>
-
 
       {/* Right Actions */}
       <div className="ml-auto flex items-center gap-3">
@@ -273,5 +250,6 @@ const shouldShowLoader = isTitleLoading || forceLoading;
         </div>
       </div>
     </header>
+    </>
   );
 }
