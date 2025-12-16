@@ -94,11 +94,11 @@ useEffect(() => {
     content: initialData.Content || "",
   });
 
+  // 🔥 allow slug auto logic AFTER reset
   setTimeout(() => {
     isInitializing.current = false;
   }, 0);
 }, [initialData, reset]);
-
 
   /* ---------------- LIVE UPDATE TO PARENT ---------------- */
 const nameValue = watch("name");
@@ -107,8 +107,8 @@ useEffect(() => {
   // ❌ init time par slug auto generate na karvo
   if (isInitializing.current) return;
 
-  // ❌ user e slug manually change kari didho hoy to stop
-  if (slugEditedRef.current) return;
+  // 🔥 NAME change thaye etle slug auto allow
+  slugEditedRef.current = false;
 
   if (nameValue) {
     setValue("slug", slugify(nameValue), {
@@ -122,6 +122,25 @@ useEffect(() => {
     });
   }
 }, [nameValue, setValue]);
+
+useEffect(() => {
+  const subscription = watch((values) => {
+    // ❌ init time par block na karo for ADD
+    if (isInitializing.current && initialData) return;
+
+    onChange({
+      name: values.name || "",
+      Slug: values.slug || "",
+      Category: values.category || "",
+      Status: values.status === "published" ? "active" : "draft",
+      indicative_pressure: values.indicativePressure || "medium",
+      Content: values.content || "",
+      type: "message",
+    });
+  });
+
+  return () => subscription.unsubscribe();
+}, [watch, onChange, initialData]);
 
   /* ---------------- CATEGORIES ---------------- */
   const [categories, setCategories] = useState<
@@ -168,18 +187,17 @@ useEffect(() => {
         {/* SLUG */}
         <div>
           <label className="text-sm font-medium">Slug <sup className="text-red-500">*</sup ></label>
-      <input
-  className="form-input"
-  {...register("slug")}
-  onChange={(e) => {
-    slugEditedRef.current = true; // 🔥 stop auto slug
-    setValue("slug", e.target.value, {
-      shouldDirty: true,
-      shouldValidate: true,
-    });
-  }}
-/>
-
+              <input
+          className="form-input"
+          {...register("slug")}
+          onChange={(e) => {
+            slugEditedRef.current = true; // 🔥 stop auto slug
+            setValue("slug", e.target.value, {
+              shouldDirty: true,
+              shouldValidate: true,
+            });
+          }}
+        />
           {errors.slug && (
             <p className="text-sm text-destructive">
               {errors.slug.message}
