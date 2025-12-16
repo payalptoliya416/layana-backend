@@ -21,7 +21,6 @@ const treatmentSchema = z.object({
   indicativePressure: z.enum(["light", "medium", "firm", "strong"]),
   content: z.string().min(1, "Content is required"),
 });
-
 type TreatmentFormData = z.infer<typeof treatmentSchema>;
 
 interface TreatmentFormProps {
@@ -125,7 +124,6 @@ useEffect(() => {
 
 useEffect(() => {
   const subscription = watch((values) => {
-    // ❌ init time par block na karo for ADD
     if (isInitializing.current && initialData) return;
 
     onChange({

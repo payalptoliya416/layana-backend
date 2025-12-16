@@ -8,6 +8,7 @@ interface PageHeaderProps {
   title: string;
   showBack?: boolean;
     onBack?: () => void;
+      isTitleLoading?: boolean;
 }
 
 interface Notification {
@@ -24,14 +25,36 @@ const mockNotifications: Notification[] = [
   { id: "3", title: "Staff update", message: "Sarah Wilson updated her availability", time: "3 hours ago", read: true },
 ];
 
-export function PageHeader({ title , showBack = false, onBack }: PageHeaderProps) {
+export function PageHeader({ title , showBack = false, onBack , isTitleLoading }: PageHeaderProps) {
   const navigate = useNavigate();
   const [isDark, setIsDark] = useState(false);
   const [isProfileOpen, setIsProfileOpen] = useState(false);
   const [isNotificationsOpen, setIsNotificationsOpen] = useState(false);
   const profileRef = useRef<HTMLDivElement>(null);
   const notificationsRef = useRef<HTMLDivElement>(null);
+const [showLoader, setShowLoader] = useState(false);
 
+useEffect(() => {
+  let t: NodeJS.Timeout;
+
+  if (isTitleLoading) {
+    t = setTimeout(() => setShowLoader(true), 100);
+  } else {
+    setShowLoader(false);
+  }
+
+  return () => clearTimeout(t);
+}, [isTitleLoading]);
+const [forceLoading, setForceLoading] = useState(true);
+
+useEffect(() => {
+  const timer = setTimeout(() => {
+    setForceLoading(false); 
+  }, 400);
+
+  return () => clearTimeout(timer);
+}, []);
+const shouldShowLoader = isTitleLoading || forceLoading;
   const toggleTheme = () => {
     setIsDark(!isDark);
     document.documentElement.classList.toggle("dark");
@@ -78,10 +101,39 @@ export function PageHeader({ title , showBack = false, onBack }: PageHeaderProps
     ← Back
   </button>
 )}
+{/* Page Title */}
+<h1
+  className="
+    absolute left-1/2 -translate-x-1/2
+    w-full max-w-[600px]
+    h-[36px]
+    flex items-center justify-center
+    text-[28px] font-semibold text-[#2A2C30]
+    pointer-events-none
+  "
+>
+  {/* TITLE */}
+  <span
+    className={cn(
+      "absolute transition-opacity duration-300 ease-in-out",
+      shouldShowLoader ? "opacity-0" : "opacity-100"
+    )}
+  >
+    {title || "\u00A0"}
+  </span>
 
-      {/* Page Title */}
-     <h1 className="absolute left-1/2 -translate-x-1/2 text-[28px] font-semibold text-[#2A2C30]">
-  {title}
+  {/* LOADER */}
+  <span
+    className={cn(
+      "absolute flex items-center gap-1 transition-opacity duration-300 ease-in-out",
+      shouldShowLoader ? "opacity-100" : "opacity-0"
+    )}
+  >
+  
+    <span className="dot dot-1">.</span>
+    <span className="dot dot-2">.</span>
+    <span className="dot dot-3">.</span>
+  </span>
 </h1>
 
 
@@ -93,9 +145,9 @@ export function PageHeader({ title , showBack = false, onBack }: PageHeaderProps
   <div className="gradient-border-inner flex items-center p-1">
     {/* Light */}
     <button
-      onClick={() => {
-        if (isDark) toggleTheme();
-      }}
+      // onClick={() => {
+      //   if (isDark) toggleTheme();
+      // }}
       className={cn(
         "w-8 h-8 rounded-full flex items-center justify-center transition-all",
         !isDark
@@ -108,9 +160,9 @@ export function PageHeader({ title , showBack = false, onBack }: PageHeaderProps
 
     {/* Dark */}
     <button
-      onClick={() => {
-        if (!isDark) toggleTheme();
-      }}
+      // onClick={() => {
+      //   if (!isDark) toggleTheme();
+      // }}
       className={cn(
         "w-8 h-8 rounded-full flex items-center justify-center transition-all",
         isDark

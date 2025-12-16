@@ -224,3 +224,16 @@ label {
   display: block;
   margin-bottom: 10px;
 }
+.dot {
+  animation: blink 1.4s infinite both;
+}
+
+.dot-1 { animation-delay: 0s; }
+.dot-2 { animation-delay: 0.2s; }
+.dot-3 { animation-delay: 0.4s; }
+
+@keyframes blink {
+  0% { opacity: 0; }
+  20% { opacity: 1; }
+  100% { opacity: 0; }
+}

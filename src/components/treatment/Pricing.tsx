@@ -53,25 +53,34 @@ function SortableRow({
 
       {/* MIN */}
       <td className="px-4 py-3 border-y border-[#CDDEE0]">
+        <div className="flex items-center gap-3">
+                        <span className="text-sm whitespace-nowrap">Min</span>
         <input
           readOnly
           value={item.min}
           className="h-10 w-[180px] rounded-lg border px-3 text-sm"
         />
+        </div>
       </td>
 
       {/* PRICE */}
       <td className="px-4 py-3 border-y border-[#CDDEE0]">
+          <div className="flex items-center gap-3">
+              <span className="text-sm whitespace-nowrap">Price</span>
         <input
           readOnly
           value={`£${item.price}`}
           className="h-10 w-[180px] rounded-lg border px-3 text-sm"
         />
+          </div>
       </td>
 
       {/* BOLD */}
       <td className="px-4 py-3 border-y border-[#CDDEE0]">
+            <div className="flex items-center gap-3">
+  <span className="text-sm whitespace-nowrap">Bold</span>
         <SwitchToggle value={item.bold} onChange={() => {}} />
+            </div>
       </td>
 
       {/* ACTIONS */}

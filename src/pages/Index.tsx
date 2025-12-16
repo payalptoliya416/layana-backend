@@ -102,55 +102,6 @@ const [selectedSeoBranch, setSelectedSeoBranch] =
 
 const navigate = useNavigate();
 
-// const handleSaveTreatment = async () => {
-//   try {
-//     const payload = {
-//       ...(isEdit ? { id: Number(id) } : {}),
-//       ...treatmentPayload,
-//       Location: selectedBranches,
-//       benifits_faq: {
-//         ...treatmentPayload.benifits_faq,
-//         slogan:
-//           treatmentPayload.benifits_faq?.slogan?.trim() || " ",
-//       },
-//     };
-
-//     if (isEdit) {
-//   const res = await updateTreatmentMessage(payload);
-//   if (res.data?.status === "success") {
-//     toast.success(res.data.message || "Treatment updated successfully ✅");
-//     navigate("/treatments-list");
-//   }
-// } else {
-//   const res = await createTreatmentMessage(payload);
-//    if (res?.status === "success") {
-//     toast.success(res.message || "Treatment created successfully 🎉");
-//     navigate("/treatments-list");
-//   }
-// }
-//   } catch (error: any) {
-//     console.error("Save error:", error);
-
-//     // 🔴 Backend validation errors show karva
-//     if (error?.response?.data?.errors) {
-//       const errors = error.response.data.errors;
-
-//       Object.values(errors).forEach((msgs: any) => {
-//         if (Array.isArray(msgs)) {
-//           msgs.forEach((msg) => toast.error(msg));
-//         }
-//       });
-//     } else {
-//       toast.error("Something went wrong. Please try again ❌");
-//     }
-
-//     // ❌ navigate nahi thase
-//     return;
-//   }
-// };
-
-
-
 const handleSaveTreatment = async () => {
   const validations = [
     generalRef.current?.validate?.() ?? true,
@@ -252,6 +203,8 @@ const pageTitle = useMemo(() => {
   // ADD MODE
   return "Add Treatment";
 }, [activeSection, selectedSeoBranch, isEdit, treatmentPayload.general?.name]);
+const isTitleLoading =
+  isEdit && loadingTreatment && !treatmentPayload.general?.name;
 
 const [selectedPricingBranch, setSelectedPricingBranch] =
   useState<number | null>(null);
@@ -389,6 +342,7 @@ case "seo":
         <div className="sticky top-0 z-30 bg-background px-6 pt-3">
         <PageHeader
         title={pageTitle}
+          isTitleLoading={isTitleLoading}
         showBack={
           (activeSection === "pricing" && selectedPricingBranch !== null) ||
           (activeSection === "seo" && selectedSeoBranch !== null)
