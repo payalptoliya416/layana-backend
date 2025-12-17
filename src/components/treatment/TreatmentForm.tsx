@@ -202,6 +202,7 @@ useEffect(() => {
       </label>
       <input
         className="form-input"
+        placeholder="Enter Slug"
         {...register("slug")}
         onChange={(e) => {
           slugEditedRef.current = true; // 🔥 stop auto slug

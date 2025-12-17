@@ -64,13 +64,14 @@ export default function AddFaqModal({
         className="
           w-full rounded-[10px]
           border border-input
-          bg-background
+          bg-card
           px-[15px] py-4
           text-sm text-foreground
           placeholder:text-muted-foreground
           focus:outline-none focus:ring-2 focus:ring-ring/20 focus:border-primary/50
           transition
         "
+        placeholder="Enter Questions"
       />
     </div>
 
@@ -86,7 +87,7 @@ export default function AddFaqModal({
         className="
           w-full rounded-[10px]
           border border-input
-          bg-background
+          bg-card
           px-[15px] py-4
           text-sm text-foreground
           resize-none
@@ -94,6 +95,7 @@ export default function AddFaqModal({
           focus:outline-none focus:ring-2 focus:ring-ring/20 focus:border-primary/50
           transition
         "
+        placeholder="Enter Answer"
       />
     </div>
 
