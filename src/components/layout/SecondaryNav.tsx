@@ -1,4 +1,4 @@
-import { Users, MapPin, Image, Star, Search, Banknote } from "lucide-react";
+import { Users, MapPin, Image, Star, Search, PoundSterling } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 interface SecondaryNavItem {
@@ -11,7 +11,7 @@ const navItems: SecondaryNavItem[] = [
   { icon: Users, label: "General", id: "general" },
   { icon: MapPin, label: "Active Branches", id: "branches" },
   { icon: Image, label: "Visuals", id: "visuals" },
-  { icon: Banknote, label: "Pricing", id: "pricing" },
+  { icon: PoundSterling, label: "Pricing", id: "pricing" },
   { icon: Star, label: "Benefits & FAQ's", id: "benefits" },
   { icon: Search, label: "SEO", id: "seo" },
 ];
@@ -41,7 +41,7 @@ export function SecondaryNav({ activeItem, onItemChange }: SecondaryNavProps) {
         bg-card
         border border-primary
         text-primary  font-medium
-         shadow-[0_6px_20px_hsl(var(--foreground)/0.05),inset_8px_8px_30px_hsl(var(--primary)/0.15)]
+         greenshadow
       `
                   : "text-muted-foreground hover:bg-muted"
               )}

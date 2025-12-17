@@ -42,7 +42,7 @@ useEffect(() => {
 
   const t = setTimeout(() => {
     setVisibleLoader(false);
-  }, 400); // 👈 minimum time to avoid flicker
+  }, 1200); 
 
   return () => clearTimeout(t);
 }, [title, isTitleLoading]);
@@ -97,16 +97,21 @@ useEffect(() => {
 
   return (
     <>
-    {visibleLoader && (
-  <div className="fixed inset-0 z-[999999] flex items-center justify-center bg-background/70 backdrop-blur-sm">
-    <div className="flex items-center gap-1 text-[32px] font-semibold text-foreground">
-      <span className="dot dot-1">.</span>
-      <span className="dot dot-2">.</span>
-      <span className="dot dot-3">.</span>
+{visibleLoader && (
+  <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 backdrop-blur-sm">
+    <div className="flex flex-col items-center gap-4 relative z-50">
+      {/* Dot Wave */}
+      <div className="flex items-end gap-2 h-8">
+        <span className="dot-wave dot-1" />
+        <span className="dot-wave dot-2" />
+        <span className="dot-wave dot-3" />
+        <span className="dot-wave dot-4" />
+      </div>
     </div>
   </div>
 )}
-    <header className="relative flex items-center h-[72px] px-6">
+
+    <header className="relative flex items-center px-6">
      {showBack && (
   <button
     onClick={onBack}
@@ -137,22 +142,28 @@ useEffect(() => {
       <div className="ml-auto flex items-center gap-3">
         {/* Theme Toggle */}
      {/* Theme Toggle */}
-<div className="gradient-border shadow-[0_6px_10px_rgba(0,0,0,0.1)]">
-  <div className="gradient-border-inner flex items-center p-1">
+<div className="gradient-border boxshadow">
+  <div className="gradient-border-inner flex items-center p-2">
     {/* Light */}
+    <div  className={cn(
+        !isDark
+          ? "gradient-border"
+          : ""
+      )}>
     <button
       onClick={() => {
         if (isDark) toggleTheme();
       }}
       className={cn(
-        "w-8 h-8 rounded-full flex items-center justify-center transition-all",
+        "w-[34px] h-[34px] rounded-full flex items-center justify-center transition-all",
         !isDark
-          ? "bg-card shadow-[inset_0_0_20px_hsl(var(--primary)/0.15)]"
+          ? "bg-card"
           : "text-muted-foreground"
       )}
     >
       <Sun className="w-4 h-4 text-foreground" />
     </button>
+    </div>
 
     {/* Dark */}
     <button
@@ -160,13 +171,13 @@ useEffect(() => {
         if (!isDark) toggleTheme();
       }}
       className={cn(
-        "w-8 h-8 rounded-full flex items-center justify-center transition-all",
+        "w-[34px] h-[34px] rounded-full flex items-center justify-center transition-all",
         isDark
           ? "bg-card shadow-[inset_0_0_20px_hsl(var(--primary)/0.15)]"
           : "text-muted-foreground"
       )}
     >
-      <Moon className="w-4 h-4" />
+      <Moon className="w-4 h-4 transform rotate-[280deg]" />
     </button>
   </div>
 </div>
@@ -180,9 +191,9 @@ useEffect(() => {
           }}
           className="
             gradient-border-inner
-            w-10 h-10 rounded-full
+            w-[50px] h-[50px] rounded-full
             flex items-center justify-center
-            shadow-[inset_8px_8px_30px_hsl(var(--primary)/0.15)]
+            boxshadow
             transition-all
             hover:scale-[1.02]
           "
@@ -225,20 +236,21 @@ useEffect(() => {
               setIsNotificationsOpen(false);
             }}
             className={cn(
-              "flex items-center gap-2.5 pl-1 pr-3 py-1 rounded-full bg-card border border-border shadow-profile-pill hover:bg-muted/50 transition-all duration-200",
+              "flex items-center gap-2.5 p-[7px] rounded-full bg-card border border-border hover:bg-muted/50 transition-all duration-200 w-[175px]",
               isProfileOpen && "bg-muted/50"
             )}
+            style={{boxShadow : '0px 6px 10px 0px rgba(0, 0, 0, 0.1)'}}
           >
             <img
               src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=80&h=80&fit=crop&crop=face"
               alt="Jane Cooper"
-              className="w-8 h-8 rounded-full object-cover"
+              className="w-[36px] h-[36px] rounded-full object-cover"
             />
             <span className="font-medium text-foreground text-sm">Jane Cooper</span>
-            <ChevronDown className={cn(
+            {/* <ChevronDown className={cn(
               "w-4 h-4 text-muted-foreground transition-transform duration-200",
               isProfileOpen && "rotate-180"
-            )} />
+            )} /> */}
           </button>
 
           {/* Profile Dropdown Menu */}

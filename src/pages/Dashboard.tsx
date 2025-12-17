@@ -23,23 +23,20 @@ const Dashboard = () => {
         )}
       >
         {/* Sticky Header */}
-        <div className="sticky top-0 z-30 bg-background px-6 pt-3">
+        <div className="sticky top-0 z-30 bg-background px-6 py-3">
           <PageHeader title="Dashboard" />
         </div>
 
         {/* Content */}
         <div className="flex-1 px-6 py-3 overflow-auto">
-          <div className="bg-card rounded-2xl shadow-card border border-border/60 p-8 min-h-[500px] flex justify-center items-center">
+          <div className="bg-card rounded-2xl shadow-card border border-border/60 p-8 flex justify-center items-center h-full">
             <div className="flex items-center justify-center h-full text-muted-foreground flex-col">
               <img src="/loader.png" alt="" />
             </div>
           </div>
         </div>
 
-        {/* Footer */}
-        <div className="px-6 pb-3">
-          <Footer />
-        </div>
+     
       </div>
     </div>
   );

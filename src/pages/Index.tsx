@@ -319,7 +319,7 @@ case "seo":
         )}
       >
         {/* Sticky Header */}
-        <div className="sticky top-0 z-30 bg-background px-6 pt-3">
+        <div className="sticky top-0 z-30 bg-background px-6 py-3">
         <PageHeader
         title={pageTitle}
           isTitleLoading={isTitleLoading}
@@ -342,8 +342,7 @@ case "seo":
         <div className="flex-1 pl-[15px] pr-6 py-3 overflow-hidden flex flex-col">
           {/* Main Card with equal height tabs and content */}
             <div className="flex-1 bg-card rounded-2xl shadow-card p-5 overflow-y-auto  scrollbar-hide">
-            <div className="flex overflow-hidden h-[680px] overflow-y-auto">
-              <div className="flex w-full gap-5 ">
+              <div className="flex w-full gap-5 overflow-hidden h-[680px] overflow-y-auto">
                 {/* Secondary Navigation - Sticky left side */}
                 <aside className="w-[270px] flex-shrink-0 border border-border p-4 rounded-[20px] h-full">
                   <SecondaryNav
@@ -357,7 +356,6 @@ case "seo":
                   {renderTabContent()}
                 </section>
               </div>
-            </div>
              <div className="flex items-center justify-end gap-3 pt-4">
         <Button type="button" variant="cancel" className="w-[105px]">
           Cancel
@@ -371,7 +369,7 @@ case "seo":
           Save
         </Button>
 
-           </div>
+              </div>
             </div>
         </div>
 
@@ -379,9 +377,6 @@ case "seo":
       </div>
       {/* </div> */}
     </div>
-        <div className="px-6 pb-3">
-          <Footer />
-        </div>
     </>
   );
 };

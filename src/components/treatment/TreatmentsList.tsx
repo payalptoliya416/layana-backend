@@ -24,8 +24,12 @@ import {
 
 import {
   DndContext,
+  KeyboardSensor,
   MeasuringStrategy,
+  PointerSensor,
   closestCenter,
+  useSensor,
+  useSensors,
 } from "@dnd-kit/core";
 import {
   SortableContext,
@@ -55,12 +59,13 @@ function SortableRow({
   onEdit: (id: number) => void;
   onDelete: (id: number) => void;
 }) {
-  const { attributes, listeners, setNodeRef, transform, transition } =
+  const { attributes, listeners, setNodeRef, transform, transition ,isDragging} =
     useSortable({ id: item.id });
-  const style = {
-    transform: CSS.Transform.toString(transform),
-    transition,
-  };
+ const style = {
+  transform: CSS.Transform.toString(transform),
+  transition: transition ?? "transform 200ms cubic-bezier(0.25, 1, 0.5, 1)",
+  opacity: isDragging ? 0.6 : 1,
+};
 
   return (
   <div className="px-[15px]">
@@ -135,7 +140,12 @@ export default function TreatmentsList() {
   const navigate = useNavigate();
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
   const [search, setSearch] = useState("");
-
+const sensors = useSensors(
+  useSensor(PointerSensor, {
+    activationConstraint: { distance: 5 }, // 👈 accidental drag avoid
+  }),
+  useSensor(KeyboardSensor)
+);
    const [error, setError] = useState<string | null>(null);
    const [treatments, setTreatments] = useState<Treatment[]>([]);
 const [loading, setLoading] = useState(false);
@@ -171,7 +181,44 @@ const isSortingActive = sortBy !== "name" || sortDirection !== "asc";
 const [deleteId, setDeleteId] = useState<number | null>(null);
 const [isDeleting, setIsDeleting] = useState(false);
 
- 
+// const handleDragEnd = async (event: any) => {
+//   const { active, over } = event;
+//   if (!over || active.id === over.id) return;
+
+//   if (isSortingActive) {
+//     toast.warning("Disable sorting to reorder");
+//     return;
+//   }
+
+//   const oldIndex = treatments.findIndex((i) => i.id === active.id);
+//   const newIndex = treatments.findIndex((i) => i.id === over.id);
+
+//   const reordered = arrayMove(treatments, oldIndex, newIndex);
+//   setTreatments(reordered);
+
+//   try {
+//     await reorderTreatment({
+//       id: active.id,
+//       index: newIndex,
+//     });
+
+//     toast.success("Order updated");
+
+//     const res = await getTreatments({
+//       page,
+//       sortBy,
+//       sortDirection,
+//     });
+
+//     setTreatments(res.data);
+//     setPagination(res.pagination);
+//   } catch (error) {
+//     toast.error("Reorder failed");
+
+//     // ❌ rollback UI
+//     setTreatments(treatments);
+//   }
+// };
 const handleDragEnd = async (event: any) => {
   const { active, over } = event;
   if (!over || active.id === over.id) return;
@@ -184,6 +231,11 @@ const handleDragEnd = async (event: any) => {
   const oldIndex = treatments.findIndex((i) => i.id === active.id);
   const newIndex = treatments.findIndex((i) => i.id === over.id);
 
+  if (oldIndex === -1 || newIndex === -1) return;
+
+  const previous = [...treatments]; // 🔐 save for rollback
+
+  // 🔄 optimistic UI update
   const reordered = arrayMove(treatments, oldIndex, newIndex);
   setTreatments(reordered);
 
@@ -193,8 +245,7 @@ const handleDragEnd = async (event: any) => {
       index: newIndex,
     });
 
-    toast.success("Order updated");
-
+    // 🔄 fetch fresh sorted data
     const res = await getTreatments({
       page,
       sortBy,
@@ -203,13 +254,14 @@ const handleDragEnd = async (event: any) => {
 
     setTreatments(res.data);
     setPagination(res.pagination);
+
+    toast.success("Order updated");
   } catch (error) {
     toast.error("Reorder failed");
-
-    // ❌ rollback UI
-    setTreatments(treatments);
+    setTreatments(previous); // ⬅ rollback
   }
 };
+
 const handleEdit = (id: number) => {
   navigate(`/treatments/edit/${id}`);
 };
@@ -253,14 +305,13 @@ const filtered = treatments.filter(
         )}
       >
         {/* HEADER */}
-        <div className="sticky top-0 z-30 bg-background px-6 pt-3">
+        <div className="sticky top-0 z-30 bg-background px-6 py-3">
           <PageHeader title="Treatments" />
         </div>
 
         {/* CONTENT */}
-        <div className="flex-1 px-6 py-4 overflow-auto  h-[calc(100vh-24px)]">
-            
-          <div className="rounded-2xl bg-card p-6 shadow-card border border-border">
+        <div className="flex-1 px-6 py-4 overflow-hidden bg-card rounded-2xl  border border-border   p-6 shadow-card h-full">
+          <div className=" overflow-y-auto">
             {/* TOP BAR */}
             <div className="mb-5 flex items-center justify-between">
             <div className="relative w-[256px]">
@@ -356,6 +407,7 @@ const filtered = treatments.filter(
 <DndContext
   collisionDetection={closestCenter}
   onDragEnd={handleDragEnd}
+   sensors={sensors}
   measuring={{
     droppable: {
       strategy: MeasuringStrategy.Always,
@@ -407,13 +459,17 @@ const filtered = treatments.filter(
               </SortableContext>
             </DndContext>
         {pagination && (
-  <div className="flex items-center justify-end gap-6 px-4 py-6 text-sm text-muted-foreground">
+  <div className="flex items-center justify-between gap-6 px-4 py-6 text-sm text-muted-foreground">
+<span className="text-foreground font-medium">
+  Page {pagination.current_page} of {pagination.last_page}
+</span>
+<div className="flex gap-6 items-center">
 
     {/* First */}
     <button
       disabled={pagination.current_page === 1}
       onClick={() => setPage(1)}
-      className="hover:text-foreground disabled:opacity-40 text-xl"
+      className="hover:text-foreground disabled:opacity-40 text-2xl"
     >
       «
     </button>
@@ -422,7 +478,7 @@ const filtered = treatments.filter(
     <button
       disabled={!pagination.prev_page_url}
       onClick={() => setPage((p) => p - 1)} 
-      className="hover:text-foreground disabled:opacity-40 text-xl"
+      className="hover:text-foreground disabled:opacity-40 text-2xl"
     >
       ‹
     </button>
@@ -436,7 +492,7 @@ const filtered = treatments.filter(
     <button
       disabled={!pagination.next_page_url}
       onClick={() => setPage((p) => p + 1)}
-      className="hover:text-foreground disabled:opacity-40 text-xl"
+      className="hover:text-foreground disabled:opacity-40 text-2xl"
     >
       ›
     </button>
@@ -445,10 +501,11 @@ const filtered = treatments.filter(
     <button
       disabled={pagination.current_page === pagination.last_page}
       onClick={() => setPage(pagination.last_page)}
-      className="hover:text-foreground disabled:opacity-40 text-xl"
+      className="hover:text-foreground disabled:opacity-40 text-2xl"
     >
       »
     </button>
+</div>
   </div>
 )}
 
@@ -458,10 +515,7 @@ const filtered = treatments.filter(
           </div>
         </div>
 
-        {/* FOOTER */}
-        <div className="px-6 pb-3">
-          <Footer />
-        </div>
+
       </div>
     </div>
   );
