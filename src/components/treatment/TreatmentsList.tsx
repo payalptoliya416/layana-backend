@@ -304,10 +304,11 @@ const filtered = treatments.filter(
         )}
       >
         {/* HEADER */}
-        <div className="sticky top-0 z-30 bg-background px-6 py-3">
+        <div className="sticky top-0 z-30 px-6 py-3">
           <PageHeader title="Treatments" />
         </div>
-     <div className="p-6  h-full flex-1 ">
+        
+     <div className="px-6  h-full flex-1 ">
         <div className="px-6 py-4 bg-card rounded-2xl border border-border overflow-y-auto shadow-card h-full">
           <div className="h-full">
             {/* TOP BAR */}

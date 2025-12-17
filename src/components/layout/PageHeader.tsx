@@ -111,7 +111,7 @@ useEffect(() => {
   </div>
 )}
 
-    <header className="relative flex items-center px-6">
+    <header className="relative flex items-center px-6 bg-card py-3 rounded-2xl">
      {showBack && (
   <button
     onClick={onBack}
@@ -143,7 +143,7 @@ useEffect(() => {
         {/* Theme Toggle */}
      {/* Theme Toggle */}
 <div className="gradient-border boxshadow">
-  <div className="gradient-border-inner flex items-center p-2">
+  <div className="gradient-border-inner flex items-center p-2 h-[50px]">
     {/* Light */}
     <div  className={cn(
         !isDark
@@ -229,15 +229,15 @@ useEffect(() => {
       </div>
 
         {/* User Profile Pill with Dropdown */}
-        <div ref={profileRef} className="relative">
+        <div ref={profileRef} className="relative gradient-border">
           <button
             onClick={() => {
               setIsProfileOpen(!isProfileOpen);
               setIsNotificationsOpen(false);
             }}
             className={cn(
-              "flex items-center gap-2.5 p-[7px] rounded-full bg-card border border-border hover:bg-muted/50 transition-all duration-200 w-[175px]",
-              isProfileOpen && "bg-muted/50"
+              "flex items-center gap-2.5 p-[7px] h-[50px] rounded-full gradient-border-inner hover:bg-muted/50 transition-all duration-200 w-[175px] gradient-border-inner",
+              isProfileOpen && "bg-muted/50 "
             )}
             style={{boxShadow : '0px 6px 10px 0px rgba(0, 0, 0, 0.1)'}}
           >

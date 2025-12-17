@@ -339,7 +339,7 @@ case "seo":
         </div>
 
         {/* Content Wrapper */}
-        <div className="flex-1 pl-[15px] pr-6 py-3 flex flex-col">
+        <div className="flex-1 pl-[15px] pr-6 flex flex-col px-6  h-full ">
           {/* Main Card with equal height tabs and content */}
             <div className="flex-1 bg-card rounded-2xl shadow-card p-5 overflow-y-auto  scrollbar-hide">
               <div className="flex w-full gap-5 h-[680px] overflow-y-auto">
