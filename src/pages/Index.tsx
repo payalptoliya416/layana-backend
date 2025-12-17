@@ -112,11 +112,8 @@ const handleSaveTreatment = async () => {
     seoRef.current?.validate?.() ?? true,
   ];
 
-  console.log("Validation results:", validations);
 
   const hasError = validations.includes(false);
-
-  console.log("hasError:", hasError);
 
   if (hasError) {
     toast.error("Please fix validation errors");

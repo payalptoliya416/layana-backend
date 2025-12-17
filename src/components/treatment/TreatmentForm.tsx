@@ -63,6 +63,7 @@ const slugify = (text: string) =>
     .trim()
     .replace(/[^a-z0-9]+/g, "-")
     .replace(/^-+|-+$/g, "");
+
 const slugEditedRef = useRef(false);
 
   /* ---------------- INIT GUARD ---------------- */
@@ -108,24 +109,24 @@ useEffect(() => {
 }, [initialData, reset]);
 
   /* ---------------- LIVE UPDATE TO PARENT ---------------- */
-useEffect(() => {
-  if (isInitializing.current) return;
+// useEffect(() => {
+//   if (isInitializing.current) return;
 
-  slugEditedRef.current = false;
+//   // ❌ user manually slug edit kare pachhi auto override na karo
+//   if (slugEditedRef.current) return;
 
-  if (nameValue) {
-    setValue("slug", slugify(nameValue), {
-      shouldDirty: true,
-      shouldValidate: true,
-    });
-  } else {
-    setValue("slug", "", {
-      shouldDirty: true,
-      shouldValidate: true,
-    });
-  }
-}, [nameValue, setValue]);
-
+//   if (nameValue) {
+//     setValue("slug", slugify(nameValue), {
+//       shouldDirty: true,
+//       shouldValidate: true,
+//     });
+//   } else {
+//     setValue("slug", "", {
+//       shouldDirty: true,
+//       shouldValidate: true,
+//     });
+//   }
+// }, [nameValue, setValue]);  
  useEffect(() => {
   getTreatmentCategories()
     .then((data) => {
@@ -169,11 +170,24 @@ useEffect(() => {
       <label className="text-sm font-medium text-foreground">
         Name <sup className="text-destructive">*</sup>
       </label>
-      <input
-        className="form-input"
-        {...register("name")}
-        placeholder="Enter treatment name"
-      />
+    <input
+  className="form-input"
+  {...register("name", {
+    onBlur: (e) => {
+      // 🔒 edit mode / manual slug edit ma auto na karo
+      if (isInitializing.current || slugEditedRef.current) return;
+
+      const value = e.target.value;
+      if (!value) return;
+
+      setValue("slug", slugify(value), {
+        shouldDirty: true,
+        shouldValidate: true,
+      });
+    },
+  })}
+  placeholder="Enter treatment name"
+/>
       {errors.name && (
         <p className="text-sm text-destructive">
           {errors.name.message}

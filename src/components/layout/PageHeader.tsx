@@ -248,7 +248,6 @@ useEffect(() => {
                 style={{ width: 'calc(100% - 8px)' }}
                 onClick={() => {
                   setIsProfileOpen(false);
-                  console.log("Edit Profile clicked");
                 }}
               >
                 <User className="w-4 h-4 text-muted-foreground" />
