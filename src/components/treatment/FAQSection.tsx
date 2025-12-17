@@ -214,7 +214,7 @@ useImperativeHandle(ref, () => ({
   {/* HEADER */}
   <div className="flex justify-between items-center">
     <h2 className="text-lg font-medium text-foreground">
-      FAQ’s <sup className="text-destructive">*</sup>
+      FAQ’s<sup className="text-destructive">*</sup>
     </h2>
 
     <button

@@ -159,7 +159,7 @@ useEffect(() => {
     {/* NAME */}
     <div>
       <label className="text-sm font-medium text-foreground">
-        Name <sup className="text-destructive">*</sup>
+        Name<sup className="text-destructive">*</sup>
       </label>
     <input
   className="form-input"
@@ -189,7 +189,7 @@ useEffect(() => {
     {/* SLUG */}
     <div>
       <label className="text-sm font-medium text-foreground">
-        Slug <sup className="text-destructive">*</sup>
+        Slug<sup className="text-destructive">*</sup>
       </label>
       <input
         className="form-input"
@@ -213,7 +213,7 @@ useEffect(() => {
     {/* STATUS */}
     <div>
       <label className="text-sm font-medium text-foreground">
-        Status <sup className="text-destructive">*</sup>
+        Status<sup className="text-destructive">*</sup>
       </label>
       <Select
         value={status}
@@ -242,7 +242,7 @@ useEffect(() => {
     {/* PRESSURE */}
     <div>
       <label className="text-sm font-medium text-foreground">
-        Indicative Pressure <sup className="text-destructive">*</sup>
+        Indicative Pressure<sup className="text-destructive">*</sup>
       </label>
       <Select
         value={indicativePressure}
@@ -268,7 +268,7 @@ useEffect(() => {
     {/* CATEGORY */}
     <div>
       <label className="text-sm font-medium text-foreground">
-        Category <sup className="text-destructive">*</sup>
+        Category<sup className="text-destructive">*</sup>
       </label>
       <Select
         value={category}
@@ -301,7 +301,7 @@ useEffect(() => {
   {/* CONTENT */}
   <div>
     <label className="text-sm font-medium text-foreground">
-      Content <sup className="text-destructive">*</sup>
+      Content<sup className="text-destructive">*</sup>
     </label>
     <DescriptionEditor
       value={content || ""}

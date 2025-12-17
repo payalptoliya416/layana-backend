@@ -160,7 +160,7 @@ useImperativeHandle(ref, () => ({
 <div className="space-y-6">
   {/* Slogan */}
   <h2 className="text-lg font-semibold text-foreground">
-    Slogan <sup className="text-destructive">*</sup>
+    Slogan<sup className="text-destructive">*</sup>
   </h2>
 
   <div className="rounded-[15px] border border-border bg-card p-5 space-y-4">
@@ -190,7 +190,7 @@ useImperativeHandle(ref, () => ({
 
   {/* Benefits */}
   <h2 className="text-lg font-semibold text-foreground">
-    Benefits <sup className="text-destructive">*</sup>
+    Benefits<sup className="text-destructive">*</sup>
   </h2>
 
   <div className="rounded-[15px] border border-border bg-card p-5 space-y-4">
