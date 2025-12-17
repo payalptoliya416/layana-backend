@@ -99,7 +99,7 @@ const handleSaveTreatment = async () => {
     faqRef.current?.validate?.() ?? true,
     seoRef.current?.validate?.() ?? true,
   ];
-
+console.log("validations",validations)
   const hasError = validations.includes(false);
 
   if (hasError) {
@@ -341,7 +341,7 @@ case "seo":
         {/* Content Wrapper */}
         <div className="flex-1 pl-[15px] pr-6 py-3 overflow-hidden flex flex-col">
           {/* Main Card with equal height tabs and content */}
-            <div className="flex-1 bg-card rounded-2xl shadow-card p-5 overflow-hidden">
+            <div className="flex-1 bg-card rounded-2xl shadow-card p-5 overflow-y-auto  scrollbar-hide">
             <div className="flex overflow-hidden h-[720px] overflow-y-auto">
               <div className="flex w-full gap-5 ">
                 {/* Secondary Navigation - Sticky left side */}
