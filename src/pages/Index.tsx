@@ -71,9 +71,9 @@ const [treatmentPayload, setTreatmentPayload] = useState<TreatmentPayload>({
 const initialTreatmentData = useMemo(() => {
 
   const pressureReverseMap: Record<string, any> = {
-    Low: "light",
-    Medium: "Medium",
-    High: "High",
+    Light: "light",
+    Medium: "medium",
+    Deep: "deep",
     firm: "firm",
   };
 
@@ -83,10 +83,7 @@ const initialTreatmentData = useMemo(() => {
     Category: treatmentPayload.general?.Category || "",
     Status:
       treatmentPayload.general?.Status || "draft",
-    indicative_pressure:
-      pressureReverseMap[
-        treatmentPayload.general?.indicative_pressure
-      ] || "medium",
+    indicative_pressure:treatmentPayload.general?.indicative_pressure || "medium",
     Content: treatmentPayload.general?.Content || "",
   };
 }, [isEdit, treatmentPayload.general]);

@@ -18,7 +18,7 @@ const treatmentSchema = z.object({
   slug: z.string().min(1, "Treatment slug is required"),
   category: z.string().min(1, "Category is required"),
   status: z.enum(["draft", "live", "archived"]),
-  indicativePressure: z.enum(["light", "medium", "firm", "strong"]),
+  indicativePressure: z.enum(["light", "medium", "firm", "deep"]),
   content: z.string().min(1, "Content is required"),
 });
 type TreatmentFormData = z.infer<typeof treatmentSchema>;
@@ -81,24 +81,23 @@ const lastIdRef = useRef<number | null>(null);
   /* ---------------- RESET ON EDIT ---------------- */
 useEffect(() => {
   if (!initialData) return;
-
+console.log("initialData",initialData)
   lastIdRef.current = initialData.id;
   isInitializing.current = true;
 
-  const pressureReverseMap: Record<string, any> = {
-    Low: "Low",
-    Medium: "Medium",
-    High: "High",
-    firm: "firm",
-  };
+const pressureReverseMap: Record<string, any> = {
+  Light: "light",
+  Medium: "medium",
+  Firm: "firm",
+  Deep: "deep",
+};
 
   reset({
     name: initialData.name || "",
     slug: initialData.Slug || "",
     category: initialData.Category || "",
     status: initialData.Status || "draft",
-    indicativePressure:
-      pressureReverseMap[initialData.indicative_pressure] || "medium",
+   indicativePressure: initialData.indicative_pressure || "medium",
     content: initialData.Content || "",
   });
 
@@ -269,7 +268,7 @@ useEffect(() => {
           <SelectItem value="light">Light</SelectItem>
           <SelectItem value="medium">Medium</SelectItem>
           <SelectItem value="firm">Firm</SelectItem>
-          <SelectItem value="strong">Deep</SelectItem>
+          <SelectItem value="deep">Deep</SelectItem>
         </SelectContent>
       </Select>
     </div>
