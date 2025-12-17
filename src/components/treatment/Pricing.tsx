@@ -456,7 +456,7 @@ const handleDragEnd = (event: any) => {
                   transition
                 "
               >
-                <img src="/send.png" alt="send" className="h-4 w-4" />
+                <img src="/send.svg" alt="send" className="h-4 w-4" />
               </button>
             </td>
           </tr>
