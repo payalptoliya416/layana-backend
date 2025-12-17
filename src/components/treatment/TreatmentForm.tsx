@@ -81,16 +81,8 @@ const lastIdRef = useRef<number | null>(null);
   /* ---------------- RESET ON EDIT ---------------- */
 useEffect(() => {
   if (!initialData) return;
-console.log("initialData",initialData)
   lastIdRef.current = initialData.id;
   isInitializing.current = true;
-
-const pressureReverseMap: Record<string, any> = {
-  Light: "light",
-  Medium: "medium",
-  Firm: "firm",
-  Deep: "deep",
-};
 
   reset({
     name: initialData.name || "",

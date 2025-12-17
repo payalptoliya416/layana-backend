@@ -70,13 +70,6 @@ const [treatmentPayload, setTreatmentPayload] = useState<TreatmentPayload>({
 
 const initialTreatmentData = useMemo(() => {
 
-  const pressureReverseMap: Record<string, any> = {
-    Light: "light",
-    Medium: "medium",
-    Deep: "deep",
-    firm: "firm",
-  };
-
   return {
     name: treatmentPayload.general?.name || "",
     Slug: treatmentPayload.general?.Slug || "",
@@ -318,9 +311,9 @@ case "seo":
 
   return (
     <>
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-background flex">
       {/* Sidebar */}
-      <div className="flex">
+      {/* <div className="flex"> */}
 
       <Sidebar
         collapsed={sidebarCollapsed}
@@ -330,7 +323,7 @@ case "seo":
       {/* Main Content Area */}
       <div
         className={cn(
-          "flex-1 flex flex-col transition-all duration-300",
+          "flex-1 flex flex-col transition-all h-[calc(100vh-24px)] duration-300",
           sidebarCollapsed ? "ml-[96px]" : "ml-[284px]"
         )}
       >
@@ -357,7 +350,6 @@ case "seo":
         {/* Content Wrapper */}
         <div className="flex-1 pl-[15px] pr-6 py-3 overflow-hidden flex flex-col">
           {/* Main Card with equal height tabs and content */}
-          <div>
             <div className="flex-1 bg-card rounded-2xl shadow-card p-5 overflow-hidden">
             <div className="flex overflow-hidden h-[720px] overflow-y-auto">
               <div className="flex w-full gap-5 ">
@@ -390,16 +382,15 @@ case "seo":
 
            </div>
             </div>
-          </div>
         </div>
 
         {/* Footer */}
       </div>
-      </div>
+      {/* </div> */}
+    </div>
         <div className="px-6 pb-3">
           <Footer />
         </div>
-    </div>
     </>
   );
 };
