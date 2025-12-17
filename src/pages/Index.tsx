@@ -33,7 +33,6 @@ interface TreatmentPayload {
 const Index = () => {
 const { id } = useParams();
 const isEdit = Boolean(id);
-
 const generalRef = useRef<any>(null);
 const branchesRef = useRef<any>(null);
 const visualsRef = useRef<any>(null);
@@ -45,7 +44,6 @@ const seoRef = useRef<any>(null);
   const [activeSection, setActiveSection] = useState("general");
   const [selectedBranches, setSelectedBranches] = useState<number[]>([]);
 const [loadingTreatment, setLoadingTreatment] = useState(false);
-
 const selectedBranchObjects = selectedBranches.map((id) => ({
   id,
   name:
@@ -102,15 +100,13 @@ const handleSaveTreatment = async () => {
     seoRef.current?.validate?.() ?? true,
   ];
 
-
   const hasError = validations.includes(false);
 
   if (hasError) {
     toast.error("Please fix validation errors");
-    return; // ❌ STOP API
+    return; 
   }
 
-  // ✅ ALL VALID → API
   try {
     const payload = {
       ...(isEdit ? { id: Number(id) } : {}),
@@ -139,7 +135,6 @@ useEffect(() => {
 
       const data = await getTreatmentById(Number(id));
 
-      // 🔹 locations mathi ids nikalo
       const locationIds = (data.locations || []).map(
         (loc: { id: number }) => loc.id
       );
@@ -157,7 +152,6 @@ useEffect(() => {
         seo: data.seo || [],
       });
 
-      // ✅ THIS IS KEY
       setSelectedBranches(locationIds);
 
       setBenefitsFaq(data.benifits_faq || {
@@ -176,17 +170,14 @@ useEffect(() => {
 }, [id]);
 
 const pageTitle = useMemo(() => {
-  // SEO branch view
   if (activeSection === "seo" && selectedSeoBranch) {
     return "Branch SEO";
   }
 
-  // EDIT MODE → show treatment name
   if (isEdit && treatmentPayload.general?.name) {
     return treatmentPayload.general.name;
   }
 
-  // ADD MODE
   return "Add Treatment";
 }, [activeSection, selectedSeoBranch, isEdit, treatmentPayload.general?.name]);
 const isTitleLoading =

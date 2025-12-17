@@ -13,7 +13,6 @@ import { Footer } from "@/components/layout/Footer";
 import { cn } from "@/lib/utils";
 import {
   AlertDialog,
-  AlertDialogTrigger,
   AlertDialogContent,
   AlertDialogHeader,
   AlertDialogTitle,
@@ -172,21 +171,11 @@ const isSortingActive = sortBy !== "name" || sortDirection !== "asc";
 const [deleteId, setDeleteId] = useState<number | null>(null);
 const [isDeleting, setIsDeleting] = useState(false);
 
-  // const handleDragEnd = (event: any) => {
-  //   const { active, over } = event;
-  //   if (!over || active.id === over.id) return;
-
-  //   setTreatments((items) => {
-  //     const oldIndex = items.findIndex((i) => i.id === active.id);
-  //     const newIndex = items.findIndex((i) => i.id === over.id);
-  //     return arrayMove(items, oldIndex, newIndex);
-  //   });
-  // };
+ 
 const handleDragEnd = async (event: any) => {
   const { active, over } = event;
   if (!over || active.id === over.id) return;
 
-  // ❌ Sorting active hoy to reorder allow na karo
   if (isSortingActive) {
     toast.warning("Disable sorting to reorder");
     return;
@@ -195,12 +184,10 @@ const handleDragEnd = async (event: any) => {
   const oldIndex = treatments.findIndex((i) => i.id === active.id);
   const newIndex = treatments.findIndex((i) => i.id === over.id);
 
-  // ✅ UI optimistic update
   const reordered = arrayMove(treatments, oldIndex, newIndex);
   setTreatments(reordered);
 
   try {
-    // ✅ API CALL
     await reorderTreatment({
       id: active.id,
       index: newIndex,
@@ -208,7 +195,6 @@ const handleDragEnd = async (event: any) => {
 
     toast.success("Order updated");
 
-    // ✅ REFRESH LIST (SERVER ORDER)
     const res = await getTreatments({
       page,
       sortBy,
@@ -376,15 +362,7 @@ const filtered = treatments.filter(
     },
   }}
 >
-            {/* <DndContext
-            collisionDetection={closestCenter}
-            onDragEnd={handleDragEnd}
-            measuring={{
-              droppable: {
-                strategy: MeasuringStrategy.Always,
-              },
-            }}
-          > */}
+
           <AlertDialog open={!!deleteId} onOpenChange={() => setDeleteId(null)}>
   <AlertDialogContent>
     <AlertDialogHeader>

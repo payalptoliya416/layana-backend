@@ -19,7 +19,6 @@ export default function AddFaqModal({
   const [question, setQuestion] = useState("");
   const [answer, setAnswer] = useState("");
 
-  // ✅ PREFILL ON EDIT
   useEffect(() => {
     if (open) {
       setQuestion(defaultQ || "");
