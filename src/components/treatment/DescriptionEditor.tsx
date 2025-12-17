@@ -29,7 +29,18 @@ export default function DescriptionEditor({
 
   return (
  <div className="space-y-3">
-  <div className="rounded-[10px] border border-border overflow-hidden bg-card">
+ <div
+    className="
+      rounded-[10px]
+      border border-border
+      bg-card
+      overflow-hidden
+      transition
+      focus-within:ring-2
+      focus-within:ring-ring/20
+      focus-within:border-ring
+    "
+  >
     <ReactQuill
       theme="snow"
       value={value}

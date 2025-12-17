@@ -12,10 +12,7 @@ const ProtectedRoute: React.FC<ProtectedRouteProps> = ({ children }) => {
     return <Navigate to="/login" replace />;
   }
 
-  return <>{children}
-   <div className="px-6 pb-3">
-          <Footer />
-        </div></>;
+  return <>{children}</>;
 };
 
 export default ProtectedRoute;

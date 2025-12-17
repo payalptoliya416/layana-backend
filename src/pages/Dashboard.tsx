@@ -8,6 +8,7 @@ const Dashboard = () => {
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
 
   return (
+    <>
     <div className="min-h-screen bg-background flex">
       {/* Sidebar */}
       <Sidebar
@@ -29,7 +30,7 @@ const Dashboard = () => {
 
         {/* Content */}
         <div className="flex-1 px-6 py-3 overflow-auto">
-          <div className="bg-card rounded-2xl shadow-card border border-border/60 p-8 flex justify-center items-center h-full">
+          <div className="bg-card rounded-2xl shadow-card border border-border/60 p-8 flex justify-center items-center  h-[calc(88vh-24px)]">
             <div className="flex items-center justify-center h-full text-muted-foreground flex-col">
               <img src="/loader.png" alt="" />
             </div>
@@ -39,6 +40,11 @@ const Dashboard = () => {
      
       </div>
     </div>
+     <div className="px-6 pb-3">
+          <Footer/>
+        </div>
+    </>
+    
   );
 };
 

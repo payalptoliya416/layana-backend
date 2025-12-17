@@ -314,7 +314,7 @@ case "seo":
       {/* Main Content Area */}
       <div
         className={cn(
-          "flex-1 flex flex-col transition-all h-[calc(100vh-24px)] duration-300",
+          "flex-1 flex flex-col transition-all h-[calc(95vh-24px)] duration-300",
           sidebarCollapsed ? "ml-[96px]" : "ml-[284px]"
         )}
       >
@@ -339,10 +339,10 @@ case "seo":
         </div>
 
         {/* Content Wrapper */}
-        <div className="flex-1 pl-[15px] pr-6 py-3 overflow-hidden flex flex-col">
+        <div className="flex-1 pl-[15px] pr-6 py-3 flex flex-col">
           {/* Main Card with equal height tabs and content */}
             <div className="flex-1 bg-card rounded-2xl shadow-card p-5 overflow-y-auto  scrollbar-hide">
-              <div className="flex w-full gap-5 overflow-hidden h-[680px] overflow-y-auto">
+              <div className="flex w-full gap-5 h-[680px] overflow-y-auto">
                 {/* Secondary Navigation - Sticky left side */}
                 <aside className="w-[270px] flex-shrink-0 border border-border p-4 rounded-[20px] h-full">
                   <SecondaryNav
@@ -373,10 +373,11 @@ case "seo":
             </div>
         </div>
 
-        {/* Footer */}
-      </div>
-      {/* </div> */}
     </div>
+      </div>
+         <div className="px-6 pb-3">
+          <Footer/>
+        </div>
     </>
   );
 };

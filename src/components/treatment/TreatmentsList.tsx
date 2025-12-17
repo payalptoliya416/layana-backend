@@ -290,17 +290,16 @@ const filtered = treatments.filter(
 );
 
   return (
-    <div className="min-h-screen bg-background flex">
-      {/* SIDEBAR */}
+    <> 
+    <div className="min-h-screen  overflow-hidden">
+      <div className=" bg-background flex">
       <Sidebar
         collapsed={sidebarCollapsed}
         onToggle={() => setSidebarCollapsed(!sidebarCollapsed)}
       />
-
-      {/* MAIN */}
       <div
         className={cn(
-          "flex-1 flex flex-col transition-all duration-300",
+          "flex-1 flex flex-col transition-all duration-300 h-[calc(96vh-24px)]",
           sidebarCollapsed ? "ml-[96px]" : "ml-[284px]"
         )}
       >
@@ -308,10 +307,9 @@ const filtered = treatments.filter(
         <div className="sticky top-0 z-30 bg-background px-6 py-3">
           <PageHeader title="Treatments" />
         </div>
-
-        {/* CONTENT */}
-        <div className="flex-1 px-6 py-4 overflow-hidden bg-card rounded-2xl  border border-border   p-6 shadow-card h-full">
-          <div className=" overflow-y-auto">
+     <div className="p-6  h-full flex-1 ">
+        <div className="px-6 py-4 bg-card rounded-2xl border border-border overflow-y-auto shadow-card h-full">
+          <div className="h-full">
             {/* TOP BAR */}
             <div className="mb-5 flex items-center justify-between">
             <div className="relative w-[256px]">
@@ -514,9 +512,13 @@ const filtered = treatments.filter(
 
           </div>
         </div>
-
-
+     </div>
       </div>
+      </div>
+     <div className="px-6 pb-3">
+          <Footer/>
+        </div>
     </div>
+    </>
   );
 }

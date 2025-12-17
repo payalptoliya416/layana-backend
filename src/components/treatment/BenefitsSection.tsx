@@ -164,7 +164,7 @@ useImperativeHandle(ref, () => ({
   </h2>
 
   <div className="rounded-[15px] border border-border bg-card p-5 space-y-4">
-    <div className="rounded-[10px] border border-input px-[15px] py-2">
+    <div className=" ">
       <input
         value={value.slogan}
         onChange={(e) =>
@@ -178,7 +178,8 @@ useImperativeHandle(ref, () => ({
           w-full text-sm outline-none
           text-foreground
           placeholder:text-muted-foreground
-          bg-transparent py-2
+          bg-transparent py-4
+          focus:outline-none focus:ring-2 focus:ring-ring/20  px-[15px] border border-input rounded-[10px] 
         "
       />
     </div>
@@ -195,7 +196,7 @@ useImperativeHandle(ref, () => ({
 
   <div className="rounded-[15px] border border-border bg-card p-5 space-y-4">
     {/* Input */}
-    <div className="flex items-center gap-4 rounded-[10px] border border-input px-[15px] py-2">
+    <div className="flex items-center gap-4">
       <input
         value={input}
         onChange={(e) => setInput(e.target.value)}
@@ -205,7 +206,8 @@ useImperativeHandle(ref, () => ({
           flex-1 text-sm outline-none
           text-foreground
           placeholder:text-muted-foreground
-          bg-transparent
+         bg-transparent py-4
+          focus:outline-none focus:ring-2 focus:ring-ring/20  px-[15px] border border-input rounded-[10px] 
         "
       />
 

@@ -137,13 +137,14 @@ useEffect(() => {
   };
 
   return (
-    <aside
-      className={cn(
-        "fixed m-3 h-[calc(100vh-24px)] left-0 top-0 z-40 bg-sidebar transition-all duration-300 ease-in-out flex flex-col shadow-sidebar",
-        collapsed ? "w-[72px]" : "w-[260px]",
-        "rounded-[24px]"
-      )}
-    >
+   <aside
+  className={cn(
+    "fixed left-0 top-0 m-3 z-20 flex flex-col",
+    "h-[calc(95vh-24px)]", // 👈 full height minus margin
+    "bg-sidebar rounded-[24px] shadow-sidebar transition-all duration-300",
+    collapsed ? "w-[72px]" : "w-[260px]"
+  )}
+>
       {/* Logo Row with Collapse Toggle */}
       <div className="relative flex items-center h-[80px] px-4 pt-2 justify-center">
         {!collapsed ? (

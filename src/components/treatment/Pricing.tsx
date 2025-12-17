@@ -69,6 +69,7 @@ function SortableRow({
           px-3
           text-sm
           text-foreground
+          focus:outline-none focus:ring-2 focus:ring-ring/20 
         "
       />
     </div>
@@ -92,6 +93,7 @@ function SortableRow({
           px-3
           text-sm
           text-foreground
+          focus:outline-none focus:ring-2 focus:ring-ring/20 
         "
       />
     </div>
