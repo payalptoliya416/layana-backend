@@ -428,41 +428,53 @@ const filtered = treatments.filter(
                 ))}
               </SortableContext>
             </DndContext>
-          {pagination && (
-            <div className="flex justify-between items-center px-4 py-3 text-sm text-foreground">
-              <span>
-                Page {pagination.current_page} of {pagination.last_page}
-              </span>
+        {pagination && (
+  <div className="flex items-center justify-end gap-6 px-4 py-4 text-sm text-muted-foreground">
 
-              <div className="flex gap-2">
-                <button
-                  disabled={!pagination.prev_page_url}
-                  onClick={() => setPage((p) => p - 1)}
-                  className="
-                    px-3 py-1 rounded
-                    border border-border
-                    bg-card
-                    disabled:opacity-40
-                  "
-                >
-                  Prev
-                </button>
+    {/* First */}
+    <button
+      disabled={pagination.current_page === 1}
+      onClick={() => setPage(1)}
+      className="hover:text-foreground disabled:opacity-40 text-xl"
+    >
+      «
+    </button>
 
-                <button
-                  disabled={!pagination.next_page_url}
-                  onClick={() => setPage((p) => p + 1)}
-                  className="
-                    px-3 py-1 rounded
-                    border border-border
-                    bg-card
-                    disabled:opacity-40
-                  "
-                >
-                  Next
-                </button>
-              </div>
-            </div>
-          )}
+    {/* Prev */}
+    <button
+      disabled={!pagination.prev_page_url}
+      onClick={() => setPage((p) => p - 1)} 
+      className="hover:text-foreground disabled:opacity-40 text-xl"
+    >
+      ‹
+    </button>
+
+    {/* Page Info */}
+    <span className="text-foreground font-medium">
+      {pagination.current_page} / {pagination.last_page}
+    </span>
+
+    {/* Next */}
+    <button
+      disabled={!pagination.next_page_url}
+      onClick={() => setPage((p) => p + 1)}
+      className="hover:text-foreground disabled:opacity-40 text-xl"
+    >
+      ›
+    </button>
+
+    {/* Last */}
+    <button
+      disabled={pagination.current_page === pagination.last_page}
+      onClick={() => setPage(pagination.last_page)}
+      className="hover:text-foreground disabled:opacity-40 text-xl"
+    >
+      »
+    </button>
+  </div>
+)}
+
+
           </div>
 
           </div>
