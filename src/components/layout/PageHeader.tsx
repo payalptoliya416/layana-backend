@@ -67,6 +67,7 @@ useEffect(() => {
   setIsDark((prev) => {
     const next = !prev;
     localStorage.setItem(THEME_KEY, next ? "dark" : "light");
+      window.dispatchEvent(new Event("theme-change"));
     return next;
   });
 };

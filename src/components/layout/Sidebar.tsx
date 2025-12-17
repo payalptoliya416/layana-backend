@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { ChevronLeft, LayoutDashboard, Users, Building2, UserCog, Settings, ChevronDown, Sparkles } from "lucide-react";
 import { cn } from "@/lib/utils";
@@ -8,6 +8,7 @@ import {
   TooltipTrigger,
 } from "@/components/ui/tooltip";
 import LayanLogo from "@/assets/LayanLogo.png";
+import LayanLogoDark from "@/assets/LayanLogo-dark.png";
 
 interface NavItem {
   icon: React.ComponentType<{ className?: string }>;
@@ -33,6 +34,25 @@ export function Sidebar({ collapsed, onToggle }: SidebarProps) {
   const navigate = useNavigate();
   const location = useLocation();
   const [expandedItems, setExpandedItems] = useState<string[]>([]);
+const [isDark, setIsDark] = useState(
+  localStorage.getItem("theme") === "dark"
+);
+useEffect(() => {
+  const updateTheme = () => {
+    setIsDark(localStorage.getItem("theme") === "dark");
+  };
+
+  // custom event (same tab)
+  window.addEventListener("theme-change", updateTheme);
+
+  // storage event (fallback / other tabs)
+  window.addEventListener("storage", updateTheme);
+
+  return () => {
+    window.removeEventListener("theme-change", updateTheme);
+    window.removeEventListener("storage", updateTheme);
+  };
+}, []);
 
   const toggleExpanded = (label: string) => {
     setExpandedItems(prev =>
@@ -130,7 +150,7 @@ export function Sidebar({ collapsed, onToggle }: SidebarProps) {
         {!collapsed ? (
           <div className="flex items-center">
             <img 
-              src={LayanLogo} 
+              src={isDark ? LayanLogoDark : LayanLogo}
               alt="Layana" 
               className="h-12 w-auto object-contain"
             />
@@ -138,7 +158,7 @@ export function Sidebar({ collapsed, onToggle }: SidebarProps) {
         ) : (
           <div className="mx-auto">
             <img 
-              src='/favicon.png' 
+              src={isDark ? "/favicon-dark.png" : "/favicon.png"}
               alt="Layana" 
               className="h-8 w-auto object-contain"
             />
