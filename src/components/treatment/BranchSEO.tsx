@@ -47,7 +47,7 @@ const update = <K extends keyof typeof form>(
 
 
   return (
-   <div className="rounded-2xl border border-border bg-card p-6 space-y-4">
+   <div className="space-y-4">
   <h2 className="text-lg font-semibold text-foreground">
     Branch SEO
   </h2>
