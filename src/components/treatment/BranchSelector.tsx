@@ -16,7 +16,6 @@ export function BranchSelector({
   selectedId,
   onSelect,
 }: BranchSelectorProps) {
-  console.log("branches",branches)
   return (
     <> 
     {branches.length > 0 && (
@@ -30,10 +29,10 @@ export function BranchSelector({
               type="button"
               onClick={() => onSelect(branch.id)}
               className={cn(
-                "rounded-[10px] border px-6 py-5 text-left text-xl leading-[20px] font-medium transition-all bg-white text-[#121419]",
+                "rounded-[10px] border px-6 py-5 text-left text-xl leading-[20px] font-medium transition-all bg-card  text-foreground",
                 active
-                  ? "border-[#035865] shadow-[0_0_0_1px_#035865]"
-                  : "border-[#E7E8E8] hover:border-[#CFE6EA]"
+                  ? "border-primary  shadow-[0_0_0_1px_hsl(var(--primary))]"
+                  : "border-border   hover:border-primary/40"
               )}
             >
               {branch.name}

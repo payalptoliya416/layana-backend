@@ -123,33 +123,25 @@
     @apply flex items-center gap-3 px-4 py-3 rounded-xl text-sidebar-foreground transition-all duration-200 hover:bg-sidebar-accent hover:text-sidebar-accent-foreground;
   }
 
- .sidebar-nav-item-active {
-  /* Background */
-  background-color: #ffffff;
-
-  /* Border */
-  border: 1px solid #035865;
-
-  /* Text color */
-  color: #035865;
-
-  /* Radius */
+.sidebar-nav-item-active {
+  background-color: hsl(var(--card));
+  border: 1px solid hsl(var(--sidebar-primary));
+  color: hsl(var(--sidebar-primary));
   border-radius: 12px;
 
-  /* Shadows */
   box-shadow:
-    0px 6px 20px rgba(0, 0, 0, 0.05),          /* Drop shadow */
-    inset 8px 8px 30px rgba(121, 199, 255, 0.15); /* Inner shadow */
+    0px 6px 20px hsl(var(--foreground) / 0.05),
+    inset 8px 8px 30px hsl(var(--sidebar-primary) / 0.15);
 
   transition: all 0.2s ease-in-out;
 }
-.sidebar-nav-item-active:hover {
-  background-color: #ffffff;
-  box-shadow:
-    0px 6px 24px rgba(0, 0, 0, 0.08),
-    inset 8px 8px 30px rgba(121, 199, 255, 0.2);
-}
 
+.sidebar-nav-item-active:hover {
+  background-color: hsl(var(--card));
+  box-shadow:
+    0px 6px 24px hsl(var(--foreground) / 0.08),
+    inset 8px 8px 30px hsl(var(--sidebar-primary) / 0.2);
+}
 
   /* Form inputs */
   .form-input {
@@ -181,7 +173,7 @@
   }
 
   .scrollbar-thin::-webkit-scrollbar-track {
-    background: transparent;
+    background-color: hsl(var(--muted-foreground));
   }
 
   .scrollbar-thin::-webkit-scrollbar-thumb {
@@ -196,7 +188,7 @@
 }
 
 .gradient-border-inner {
-  background: white;
+  background: hsl(var(--background));
   border-radius: 9999px;
 }
 /* optional: global.css */
@@ -206,14 +198,19 @@
 /* '---------quite board---' */
 .ql-toolbar {
   border: none !important;
-  border-bottom: 1px solid #e5e7eb !important;
-  border-radius: 12px 12px 0 0;
+  border-bottom: 1px solid hsl(var(--border)) !important;
+  background: hsl(var(--card));
 }
-
+.ql-editor.ql-blank::before {
+  color: hsl(var(--muted-foreground)) !important;
+  opacity: 1;
+}
 .ql-container {
   border: none !important;
   font-size: 14px;
   border-radius: 0 0 12px 12px;
+    background: hsl(var(--card));
+  color: hsl(var(--foreground));
 }
 
 .ql-editor {
@@ -236,4 +233,29 @@ label {
   0% { opacity: 0; }
   20% { opacity: 1; }
   100% { opacity: 0; }
+}
+textarea {
+  caret-color: hsl(var(--foreground));
+}
+/* Remove number input spinners (Chrome, Safari, Edge) */
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Firefox */
+input[type="number"] {
+  -moz-appearance: textfield;
+}
+/* Remove number input spinners (Chrome, Safari, Edge) */
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Firefox */
+input[type="number"] {
+  -moz-appearance: textfield;
 }

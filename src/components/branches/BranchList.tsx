@@ -60,9 +60,15 @@ const toggleBranch = (id: number) => {
 
   if (loading) {
     return (
-      <div className="flex justify-center py-10">
-        <div className="h-6 w-6 animate-spin rounded-full border-2 border-[#035865] border-t-transparent" />
-      </div>
+     <div className="flex justify-center py-10">
+  <div
+    className="
+      h-6 w-6 animate-spin rounded-full
+      border-2 border-primary
+      border-t-transparent
+    "
+  />
+</div>
     );
   }
 
@@ -70,11 +76,24 @@ const toggleBranch = (id: number) => {
     <div className="space-y-4">
   {/* Add Branch */}
   {/* <div className="flex justify-end">
-    <button className="flex items-center gap-2 rounded-full bg-[#035865] px-5 py-2.5 text-sm font-medium text-white hover:bg-[#024a54]">
-      <Plus className="h-4 w-4" />
-      Add Branches
-    </button>
-  </div> */}
+  <button
+    className="
+      flex items-center gap-2
+      rounded-full
+      bg-primary
+      px-5 py-2.5
+      text-sm font-medium
+      text-primary-foreground
+      shadow-button
+      hover:opacity-90
+      transition
+    "
+  >
+    <Plus className="h-4 w-4" />
+    Add Branches
+  </button>
+</div>
+ */}
 {error && (
   <p className="text-sm text-destructive mt-2">
     {error}
@@ -93,15 +112,15 @@ const toggleBranch = (id: number) => {
   className={cn(
     "flex w-full items-center gap-4 overflow-hidden rounded-[12px] border transition-all",
     isSelected
-      ? " bg-[#F4FBFB]"
-      : "border-[#E6E7E7] bg-white hover:bg-gray-50"
+      ? "border-primary"
+      : "border-border bg-card"
   )}
 >
   {/* LEFT STRIP */}
   <div
     className={cn(
       "flex h-full w-[44px] items-center justify-center transition-colors",
-      isSelected ? "bg-[#E6F4F4]" : "bg-[#F3F4F4]"
+      isSelected ? "bg-[#EBF2F3]" : "bg-muted"
     )}
   >
     {/* CHECK ICON */}
@@ -109,7 +128,7 @@ const toggleBranch = (id: number) => {
       src={check}
       alt=""
       className={cn(
-        "h-5 w-5 transition-opacity",
+        "h-5 w-5 transition-opacity ",
         isSelected ? "opacity-100" : "opacity-30 grayscale"
       )}
     />
@@ -118,24 +137,24 @@ const toggleBranch = (id: number) => {
   {/* NAME */}
   <span
     className={cn(
-      "py-4 text-base font-semibold transition-colors",
-      isSelected ? "text-[#035865]" : "text-[#414347]"
+      "py-4 text-base font-medium transition-colors ",
+      isSelected ? "text-primary" : "text-foreground"
     )}
   >
     {location.name}
   </span>
-</button>
-
+        </button>
 
           {/* RIGHT CARD */}
-          <div className="flex items-center gap-[10px] rounded-[10px] border border-gray-200 bg-white py-[13px] px-[15px]">
-            <span className="text-sm text-[#2A2C30]">
-              Location Slug:
-            </span>
-            <span className="rounded-md bg-[#F3F3F3] py-2 px-3 text-sm font-medium text-[#414347]">
-              {location.slug}
-            </span>
-          </div>
+         <div className="flex items-center gap-[10px] rounded-[10px] border border-border bg-card py-[13px] px-[15px]">
+  <span className="text-sm text-muted-foreground">
+    Location Slug:
+  </span>
+
+  <span className="rounded-md bg-muted py-2 px-3 text-sm text-foreground">
+    {location.slug}
+  </span>
+</div>
         </div>
       );
     })}

@@ -66,29 +66,32 @@ export function ImageCropModal({
   };
 
   return (
-    <div className="fixed inset-0 z-50 bg-black/60 flex items-center justify-center">
-      <div className="bg-white rounded-xl p-5 w-[90vw] max-w-[600px]">
-        <div className="relative h-[350px] bg-black rounded-lg">
-          <Cropper
-            image={image}
-            crop={crop}
-            zoom={zoom}
-            aspect={aspect}
-            onCropChange={setCrop}
-            onZoomChange={setZoom}
-            onCropComplete={onCropComplete}
-          />
-        </div>
-
-        <div className="mt-4 flex justify-between">
-          <Button variant="outline" onClick={onClose}>
-            Cancel
-          </Button>
-          <Button onClick={createCroppedImage}>
-            Crop & Save
-          </Button>
-        </div>
-      </div>
+   <div className="fixed inset-0 z-50 flex items-center justify-center bg-background/70 backdrop-blur-sm">
+  <div className="bg-card rounded-xl p-5 w-[90vw] max-w-[600px] border border-border shadow-dropdown">
+    
+    {/* Crop Area */}
+    <div className="relative h-[350px] bg-muted rounded-lg overflow-hidden">
+      <Cropper
+        image={image}
+        crop={crop}
+        zoom={zoom}
+        aspect={aspect}
+        onCropChange={setCrop}
+        onZoomChange={setZoom}
+        onCropComplete={onCropComplete}
+      />
     </div>
+
+    {/* Actions */}
+    <div className="mt-4 flex justify-between">
+      <Button variant="outline" onClick={onClose}>
+        Cancel
+      </Button>
+      <Button onClick={createCroppedImage}>
+        Crop & Save
+      </Button>
+    </div>
+  </div>
+</div>
   );
 }

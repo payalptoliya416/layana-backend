@@ -77,33 +77,49 @@ const toolbarGroups = [
 
 export function RichTextEditor({ value, onChange, placeholder = "Enter description" }: RichTextEditorProps) {
   return (
-    <div className="border border-input rounded-xl overflow-hidden bg-card">
-      {/* Toolbar */}
-      <div className="editor-toolbar flex-wrap">
-        {toolbarGroups.map((group, groupIndex) => (
-          <div key={groupIndex} className="flex items-center">
-            {group.map((tool, toolIndex) => (
-              <button
-                key={toolIndex}
-                type="button"
-                className="editor-button"
-                title={tool.label}
-              >
-                <tool.icon className="w-4 h-4" />
-              </button>
-            ))}
-            {groupIndex < toolbarGroups.length - 1 && <div className="editor-divider" />}
-          </div>
+ <div className="border border-input rounded-xl overflow-hidden bg-card">
+  {/* Toolbar */}
+  <div className="editor-toolbar flex-wrap">
+    {toolbarGroups.map((group, groupIndex) => (
+      <div key={groupIndex} className="flex items-center">
+        {group.map((tool, toolIndex) => (
+          <button
+            key={toolIndex}
+            type="button"
+            className="
+              editor-button
+              text-muted-foreground
+              hover:text-foreground
+            "
+            title={tool.label}
+          >
+            <tool.icon className="w-4 h-4" />
+          </button>
         ))}
+        {groupIndex < toolbarGroups.length - 1 && (
+          <div className="editor-divider" />
+        )}
       </div>
+    ))}
+  </div>
 
-      {/* Editor Content */}
-      <textarea
-        value={value}
-        onChange={(e) => onChange(e.target.value)}
-        placeholder={placeholder}
-        className="w-full min-h-[200px] p-4 bg-transparent resize-none focus:outline-none text-foreground placeholder:text-muted-foreground"
-      />
-    </div>
+  {/* Editor Content */}
+  <textarea
+    value={value}
+    onChange={(e) => onChange(e.target.value)}
+    placeholder={placeholder}
+    className="
+      w-full min-h-[200px]
+      p-4
+      bg-transparent
+      resize-none
+      text-foreground
+      placeholder:text-muted-foreground
+      focus:outline-none
+      focus:ring-2 focus:ring-ring/20
+    "
+  />
+</div>
+
   );
 }

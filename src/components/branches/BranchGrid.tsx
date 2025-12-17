@@ -31,10 +31,10 @@ export default function BranchGrid({
             type="button"
             onClick={() => onSelect(branch.id)}
             className={cn(
-              "w-full rounded-lg border py-[25px] px-5 text-left text-xl font-medium bg-white transition",
+              "w-full rounded-lg border py-[25px] px-5 text-left text-xl font-medium bg-card text-foreground transition",
               active
-                ? "border-[#035865] shadow-[0_0_0_1px_#035865]"
-                : "border-[#E5E7EB] hover:border-gray-300"
+                ? "border-primary shadow-[0_0_0_1px_hsl(var(--primary))]"
+                : "border-border hover:border-muted-foreground/40"
             )}
           >
             {branch.name}

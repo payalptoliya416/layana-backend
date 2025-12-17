@@ -41,56 +41,78 @@ function SortableRow({
 
   return (
     <tr ref={setNodeRef} style={style}>
-      {/* DRAG */}
-      <td className="px-3 py-3 border-y border-[#CDDEE0] border-l rounded-tl-[10px] rounded-bl-[10px] w-1 pr-0">
-        <GripVertical
-          size={18}
-          className="text-[#2A2C30] cursor-grab"
-          {...attributes}
-          {...listeners}
-        />
-      </td>
+  {/* DRAG */}
+  <td className="px-3 py-3 border-y border-border border-l rounded-tl-[10px] rounded-bl-[10px] w-1 pr-0">
+    <GripVertical
+      size={18}
+      className="text-muted-foreground cursor-grab"
+      {...attributes}
+      {...listeners}
+    />
+  </td>
 
-      {/* MIN */}
-      <td className="px-4 py-3 border-y border-[#CDDEE0]">
-        <div className="flex items-center gap-3">
-                        <span className="text-sm whitespace-nowrap">Min</span>
-        <input
-          readOnly
-          value={item.min}
-          className="h-10 w-[180px] rounded-lg border px-3 text-sm"
-        />
-        </div>
-      </td>
+  {/* MIN */}
+  <td className="px-4 py-3 border-y border-border">
+    <div className="flex items-center gap-3">
+      <span className="text-sm whitespace-nowrap text-muted-foreground">
+        Min
+      </span>
 
-      {/* PRICE */}
-      <td className="px-4 py-3 border-y border-[#CDDEE0]">
-          <div className="flex items-center gap-3">
-              <span className="text-sm whitespace-nowrap">Price</span>
-        <input
-          readOnly
-          value={`£${item.price}`}
-          className="h-10 w-[180px] rounded-lg border px-3 text-sm"
-        />
-          </div>
-      </td>
+      <input
+        readOnly
+        value={item.min}
+        className="
+          h-10 w-[180px]
+          rounded-lg
+          border border-input
+          bg-card
+          px-3
+          text-sm
+          text-foreground
+        "
+      />
+    </div>
+  </td>
 
-      {/* BOLD */}
-      <td className="px-4 py-3 border-y border-[#CDDEE0]">
-            <div className="flex items-center gap-3">
-  <span className="text-sm whitespace-nowrap">Bold</span>
-        <SwitchToggle value={item.bold} onChange={() => {}} />
-            </div>
-      </td>
+  {/* PRICE */}
+  <td className="px-4 py-3 border-y border-border">
+    <div className="flex items-center gap-3">
+      <span className="text-sm whitespace-nowrap text-muted-foreground">
+        Price
+      </span>
 
-      {/* ACTIONS */}
-      <td className="px-4 py-3 border-y border-[#CDDEE0] border-r rounded-tr-[10px] rounded-br-[10px] text-right">
-        <ActionsDropdown
-          onEdit={onEdit}
-          onDelete={onDelete}
-        />
-      </td>
-    </tr>
+      <input
+        readOnly
+        value={`£${item.price}`}
+        className="
+          h-10 w-[180px]
+          rounded-lg
+          border border-input
+          bg-card
+          px-3
+          text-sm
+          text-foreground
+        "
+      />
+    </div>
+  </td>
+
+  {/* BOLD */}
+  <td className="px-4 py-3 border-y border-border">
+    <div className="flex items-center gap-3">
+      <span className="text-sm whitespace-nowrap text-muted-foreground">
+        Bold
+      </span>
+
+      <SwitchToggle value={item.bold} onChange={() => {}} />
+    </div>
+  </td>
+
+  {/* ACTIONS */}
+  <td className="px-4 py-3 border-y border-border border-r rounded-tr-[10px] rounded-br-[10px] text-right">
+    <ActionsDropdown onEdit={onEdit} onDelete={onDelete} />
+  </td>
+</tr>
   );
 }
 
@@ -335,166 +357,157 @@ const handleDragEnd = (event: any) => {
 
         {/* STEP 2: PRICING */}
         {selectedBranchId !== null && (
-          <div className="space-y-10">
-            {/* HEADER */}
-            <div>
-              <h3 className="text-[#121419] font-medium text-xl mb-[25px]">
-                {selectedBranch?.name} Pricing
-              </h3>
+         <div className="space-y-10">
+  {/* HEADER */}
+  <div>
+    <h3 className="font-medium text-xl mb-[25px] text-foreground">
+      {selectedBranch?.name} Pricing
+    </h3>
 
-              <h2 className="mb-4 text-lg font-semibold">
-                {editingId ? "Edit Pricing" : "Add Pricing"} <sup className="text-red-500">*</sup >
-              </h2>
+    <h2 className="mb-4 text-lg font-semibold text-foreground">
+      {editingId ? "Edit Pricing" : "Add Pricing"}
+      <sup className="text-destructive">*</sup>
+    </h2>
 
-              {/* FORM */}
-              <div className="rounded-[10px] border bordre-[#E6EEF0] px-4 py-3 bg-white p-5 overflow-x-auto">
-              <table className="w-full border-separate">
-                <tbody>
-                  <tr className="rounded-[10px]">
-                    {/* MIN */}
-                    <td className="px-4 py-3 border-y border-[#CDDEE0] border-l rounded-tl-[10px] rounded-bl-[10px] ">
-                      <div className="flex items-center gap-3">
-                        <span className="text-sm whitespace-nowrap">Min</span>
-                        <input
-                          type="number"
-                          min={0}
-                          step={1}
-                          value={minute}
-                          onChange={(e) => {
-                            const val = e.target.value;
-                            if (/^\d*$/.test(val)) setMinute(val);
-                          }}
-                          placeholder="00"
-                          className="h-10 w-[180px] rounded-lg border px-3 text-sm"
-                        />
-                      </div>
-                    </td>
+    {/* FORM */}
+    <div className="rounded-[10px] border border-border bg-card p-5 overflow-x-auto">
+      <table className="w-full border-separate">
+        <tbody>
+          <tr className="rounded-[10px]">
+            {/* MIN */}
+            <td className="px-4 py-3 border-y border-input border-l rounded-tl-[10px] rounded-bl-[10px]">
+              <div className="flex items-center gap-3">
+                <span className="text-sm whitespace-nowrap text-foreground">
+                  Min
+                </span>
+                <input
+                  type="number"
+                  min={0}
+                  step={1}
+                  value={minute}
+                  onChange={(e) => {
+                    const val = e.target.value;
+                    if (/^\d*$/.test(val)) setMinute(val);
+                  }}
+                  placeholder="00"
+                  className="
+                    h-10 w-[180px] rounded-lg
+                    border border-input
+                    bg-card
+                    px-3 text-sm text-foreground
+                    placeholder:text-muted-foreground
+                    focus:outline-none focus:ring-2 focus:ring-ring/20
+                  "
+                />
+              </div>
+            </td>
 
-                    {/* PRICE */}
-                    <td className="px-4 py-3 border-y border-[#CDDEE0]">
-                      <div className="flex items-center gap-3">
-                        <span className="text-sm whitespace-nowrap">Price</span>
-                        <input
-                          type="number"
-                          min={0}
-                          step={1}
-                          value={price}
-                          onChange={(e) => {
-                            const val = e.target.value;
-                            if (/^\d*$/.test(val)) setPrice(val);
-                          }}
-                          placeholder="£00"
-                          className="h-10 w-[180px] rounded-lg border px-3 text-sm"
-                        />
-                      </div>
-                    </td>
+            {/* PRICE */}
+            <td className="px-4 py-3 border-y border-input">
+              <div className="flex items-center gap-3">
+                <span className="text-sm whitespace-nowrap text-foreground">
+                  Price
+                </span>
+                <input
+                  type="number"
+                  min={0}
+                  step={1}
+                  value={price}
+                  onChange={(e) => {
+                    const val = e.target.value;
+                    if (/^\d*$/.test(val)) setPrice(val);
+                  }}
+                  placeholder="£00"
+                  className="
+                    h-10 w-[180px] rounded-lg
+                    border border-input
+                    bg-card
+                    px-3 text-sm text-foreground
+                    placeholder:text-muted-foreground
+                    focus:outline-none focus:ring-2 focus:ring-ring/20
+                  "
+                />
+              </div>
+            </td>
 
-                    {/* BOLD */}
-                    <td className="px-4 py-3 border-y border-[#CDDEE0]">
-                      <div className="flex items-center gap-3">
-                        <span className="text-sm whitespace-nowrap">Bold</span>
-                        <SwitchToggle
-                          value={bold}
-                          onChange={() => setBold(!bold)}
-                        />
-                      </div>
-                    </td>
+            {/* BOLD */}
+            <td className="px-4 py-3 border-y border-input">
+              <div className="flex items-center gap-3">
+                <span className="text-sm whitespace-nowrap text-foreground">
+                  Bold
+                </span>
+                <SwitchToggle
+                  value={bold}
+                  onChange={() => setBold(!bold)}
+                />
+              </div>
+            </td>
 
-                    {/* ACTION */}
-                    <td className="px-4 py-3 text-right border-y border-[#CDDEE0] border-r rounded-tr-[10px] rounded-br-[10px]">
-                      <button
-                        onClick={handleSave}
-                        className="inline-flex h-9 w-12 items-center justify-center rounded-full bg-[#035865] text-white"
-                      >
-                        <img src="/send.png" alt="send" />
-                      </button>
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
-              {/* <div className="rounded-[15px] border bg-white p-5">
-                <div className="flex items-center gap-5 rounded-[10px] border px-4 py-3">
-                  <span className="text-sm">Min</span>
-                 <input
-                      type="number"
-                      min={0}
-                      step={1}
-                      value={minute}
-                      onChange={(e) => {
-                        const val = e.target.value;
-                        if (/^\d*$/.test(val)) {
-                          setMinute(val);
-                        }
-                      }}
-                      className="h-9 w-[180px] rounded-[10px] border px-3 text-sm"
-                    />
+            {/* ACTION */}
+            <td className="px-4 py-3 text-right border-y border-input border-r rounded-tr-[10px] rounded-br-[10px]">
+              <button
+                onClick={handleSave}
+                className="
+                  inline-flex h-9 w-12 items-center justify-center
+                  rounded-full
+                  bg-primary text-primary-foreground
+                  shadow-button
+                  hover:opacity-90
+                  transition
+                "
+              >
+                <img src="/send.png" alt="send" className="h-4 w-4" />
+              </button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
 
-                  <span className="text-sm">Price</span>
-                                        <input
-                        type="number"
-                        min={0}
-                        step={1}
-                        value={price}
-                        onChange={(e) => {
-                          const val = e.target.value;
-                          if (/^\d*$/.test(val)) {
-                            setPrice(val);
-                          }
-                        }}
-                        className="h-9 w-20 rounded-[10px] border px-3 text-sm"
-                  />
+  {errors.branch && (
+    <p className="text-sm text-destructive mt-2">
+      {errors.branch}
+    </p>
+  )}
 
-                  <span className="text-sm">Bold</span>
-                  <SwitchToggle value={bold} onChange={() => setBold(!bold)} />
+  {/* LIST */}
+  <div>
+    <h2 className="mb-4 text-lg font-semibold text-foreground">
+      Pricing List
+    </h2>
 
-                  <button
-                    onClick={handleSave}
-                    className=" flex h-9 w-12 items-center justify-center rounded-full bg-[#035865] text-white"
-                  >
-                   <img src="/send.png" alt="send"/>
-                  </button>
-                </div>
-              </div> */}
-            </div>
-            {errors.branch && (
-              <p className="text-sm text-red-500 mt-2">
-                {errors.branch}
-              </p>
-            )}
-            {/* LIST */}
-            <div>
-              <h2 className="mb-4 text-lg font-semibold">Pricing List</h2>
-<DndContext
-  collisionDetection={closestCenter}
-  onDragEnd={handleDragEnd}
->
-  <SortableContext
-    items={(pricingMap[selectedBranchId] || []).map(i => i.id)}
-    strategy={verticalListSortingStrategy}
-  >
-    <table className="w-full border-separate border-spacing-y-3">
-      <tbody>
-        {(pricingMap[selectedBranchId] || []).map((item) => (
-          <SortableRow
-            key={item.id}
-            item={item}
-            onEdit={() => handleEdit(item)}
-            onDelete={() => handleDelete(item.id)}
-          />
-        ))}
-      </tbody>
-    </table>
-  </SortableContext>
-</DndContext>
+    <DndContext
+      collisionDetection={closestCenter}
+      onDragEnd={handleDragEnd}
+    >
+      <SortableContext
+        items={(pricingMap[selectedBranchId] || []).map(i => i.id)}
+        strategy={verticalListSortingStrategy}
+      >
+        <table className="w-full border-separate border-spacing-y-3">
+          <tbody>
+            {(pricingMap[selectedBranchId] || []).map((item) => (
+              <SortableRow
+                key={item.id}
+                item={item}
+                onEdit={() => handleEdit(item)}
+                onDelete={() => handleDelete(item.id)}
+              />
+            ))}
+          </tbody>
+        </table>
+      </SortableContext>
+    </DndContext>
 
-              {errors.pricing && (
-  <p className="text-sm text-red-500 mb-2">
-    {errors.pricing}
-  </p>
-)}
-            </div>
-          </div>
+    {errors.pricing && (
+      <p className="text-sm text-destructive mb-2">
+        {errors.pricing}
+      </p>
+    )}
+  </div>
+</div>
+
         )}
       </>
     );

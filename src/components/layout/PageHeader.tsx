@@ -27,7 +27,6 @@ const mockNotifications: Notification[] = [
 
 export function PageHeader({ title , showBack = false, onBack , isTitleLoading }: PageHeaderProps) {
   const navigate = useNavigate();
-  const [isDark, setIsDark] = useState(false);
   const [isProfileOpen, setIsProfileOpen] = useState(false);
   const [isNotificationsOpen, setIsNotificationsOpen] = useState(false);
   const profileRef = useRef<HTMLDivElement>(null);
@@ -47,11 +46,30 @@ useEffect(() => {
 
   return () => clearTimeout(t);
 }, [title, isTitleLoading]);
-const shouldShowLoader = isTitleLoading || !title;
-  const toggleTheme = () => {
-    setIsDark(!isDark);
-    document.documentElement.classList.toggle("dark");
-  };
+
+const THEME_KEY = "theme";
+
+const getInitialTheme = () => {
+  if (typeof window === "undefined") return false;
+  return localStorage.getItem(THEME_KEY) === "dark";
+};
+const [isDark, setIsDark] = useState<boolean>(getInitialTheme);
+
+useEffect(() => {
+  if (isDark) {
+    document.documentElement.classList.add("dark");
+  } else {
+    document.documentElement.classList.remove("dark");
+  }
+}, [isDark]);
+
+ const toggleTheme = () => {
+  setIsDark((prev) => {
+    const next = !prev;
+    localStorage.setItem(THEME_KEY, next ? "dark" : "light");
+    return next;
+  });
+};
 
   const handleLogout = () => {
     removeToken();
@@ -79,25 +97,25 @@ const shouldShowLoader = isTitleLoading || !title;
   return (
     <>
     {visibleLoader && (
-  <div className="fixed inset-0 z-[999999] flex items-center justify-center bg-white/70 backdrop-blur-sm">
-    <div className="flex items-center gap-1 text-[32px] font-semibold text-[#2A2C30]">
+  <div className="fixed inset-0 z-[999999] flex items-center justify-center bg-background/70 backdrop-blur-sm">
+    <div className="flex items-center gap-1 text-[32px] font-semibold text-foreground">
       <span className="dot dot-1">.</span>
       <span className="dot dot-2">.</span>
       <span className="dot dot-3">.</span>
     </div>
   </div>
 )}
-    <header className="relative flex items-center h-[72px] px-6 bg-[#F3F3F3]">
+    <header className="relative flex items-center h-[72px] px-6">
      {showBack && (
   <button
     onClick={onBack}
     className="
       absolute left-6
       flex items-center gap-2
-      rounded-full border border-[#035865]
+      rounded-full border  border-primary
       px-4 py-2
-      text-sm font-medium text-[#035865]
-      hover:bg-[#035865] hover:text-white
+      text-sm font-medium text-primary
+      hover:bg-primary hover:text-primary-foreground
       transition
     "
   >
@@ -108,7 +126,7 @@ const shouldShowLoader = isTitleLoading || !title;
 <h1
   className="
     absolute left-1/2 -translate-x-1/2
-    text-[28px] font-semibold text-[#2A2C30]
+    text-[28px] font-semibold text-foreground
   "
 >
   {title || "\u00A0"}
@@ -122,28 +140,28 @@ const shouldShowLoader = isTitleLoading || !title;
   <div className="gradient-border-inner flex items-center p-1">
     {/* Light */}
     <button
-      // onClick={() => {
-      //   if (isDark) toggleTheme();
-      // }}
+      onClick={() => {
+        if (isDark) toggleTheme();
+      }}
       className={cn(
         "w-8 h-8 rounded-full flex items-center justify-center transition-all",
         !isDark
-          ? "bg-white shadow-[inset_0_0_20px_rgba(121,199,255,0.15)]"
+          ? "bg-card shadow-[inset_0_0_20px_hsl(var(--primary)/0.15)]"
           : "text-muted-foreground"
       )}
     >
-      <Sun className="w-4 h-4 text-black" />
+      <Sun className="w-4 h-4 text-foreground" />
     </button>
 
     {/* Dark */}
     <button
-      // onClick={() => {
-      //   if (!isDark) toggleTheme();
-      // }}
+      onClick={() => {
+        if (!isDark) toggleTheme();
+      }}
       className={cn(
         "w-8 h-8 rounded-full flex items-center justify-center transition-all",
         isDark
-          ? "bg-white shadow-[inset_0_0_20px_rgba(121,199,255,0.15)]"
+          ? "bg-card shadow-[inset_0_0_20px_hsl(var(--primary)/0.15)]"
           : "text-muted-foreground"
       )}
     >
@@ -163,18 +181,17 @@ const shouldShowLoader = isTitleLoading || !title;
             gradient-border-inner
             w-10 h-10 rounded-full
             flex items-center justify-center
-            shadow-[inset_8px_8px_30px_rgba(121,199,255,0.15)]
+            shadow-[inset_8px_8px_30px_hsl(var(--primary)/0.15)]
             transition-all
             hover:scale-[1.02]
           "
         >
-          <Bell className="w-[18px] h-[18px] text-[#2B2B2B]" strokeWidth={1.5} />
-          {/* <span className="absolute top-2.5 right-1 w-2 h-2 bg-[#79C7FF] rounded-full ring-2 ring-white" /> */}
+          <Bell className="w-[18px] h-[18px] text-foreground" strokeWidth={1.5} />
         </button>
 
         {/* DROPDOWN */}
         {isNotificationsOpen && (
-          <div className="absolute right-0 top-full mt-2 w-80 rounded-xl bg-white border shadow-dropdown z-50">
+          <div className="absolute right-0 top-full mt-2 w-80 rounded-xl bg-card border shadow-dropdown z-50">
             <div className="px-4 py-3 border-b font-semibold">
               Notifications
             </div>

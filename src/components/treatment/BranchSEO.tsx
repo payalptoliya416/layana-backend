@@ -47,73 +47,85 @@ const update = <K extends keyof typeof form>(
 
 
   return (
-    <div className="rounded-2xl border bg-white p-6 space-y-4">
-      <h2 className="text-lg font-semibold">
-        Branch SEO
-      </h2>
+   <div className="rounded-2xl border border-border bg-card p-6 space-y-4">
+  <h2 className="text-lg font-semibold text-foreground">
+    Branch SEO
+  </h2>
 
-      {/* ANALYTICS */}
-      <div>
-        <label className="text-sm font-medium">
-          Analytics (optional)
-        </label>
-        <DescriptionEditor
-          value={form.analitycs}
-          onChange={(v) => update("analitycs", v)}
-        />
-      </div>
+  {/* ANALYTICS */}
+  <div>
+    <label className="text-sm font-medium text-foreground">
+      Analytics (optional)
+    </label>
+    <DescriptionEditor
+      value={form.analitycs}
+      onChange={(v) => update("analitycs", v)}
+    />
+  </div>
 
-      {/* SEO TITLE */}
-      <div>
-        <label className="text-sm font-medium">
-          SEO Title
-        </label>
-        <input
-          value={form.seo_title}
-          onChange={(e) =>
-            update("seo_title", e.target.value)
-          }
-           placeholder="Enter SEO title (e.g. Best Spa in Ahmedabad)"
-          className="w-full h-11 rounded-lg border px-4 text-sm"
-        />
-      </div>
+  {/* SEO TITLE */}
+  <div>
+    <label className="text-sm font-medium text-foreground">
+      SEO Title
+    </label>
+    <input
+      value={form.seo_title}
+      onChange={(e) =>
+        update("seo_title", e.target.value)
+      }
+      placeholder="Enter SEO title (e.g. Best Spa in Ahmedabad)"
+      className="
+        w-full h-11 rounded-lg
+        border border-input
+        bg-card 
+        px-4 text-sm
+        text-foreground
+        placeholder:text-muted-foreground
+        focus:outline-none focus:ring-2 focus:ring-ring/20 focus:border-primary/50
+        transition
+      "
+    />
+  </div>
 
-      {/* META DESCRIPTION */}
-      <div>
-        <label className="text-sm font-medium">
-          Meta Description
-        </label>
-        <textarea
-          value={form.meta_description}
-          onChange={(e) =>
-            update("meta_description", e.target.value)
-          }
-           placeholder="Write a short description for search engines"
-          rows={4}
-          className="w-full rounded-lg border px-4 py-3 text-sm resize-none"
-        />
-      </div>
+  {/* META DESCRIPTION */}
+  <div>
+    <label className="text-sm font-medium text-foreground">
+      Meta Description
+    </label>
+    <textarea
+      value={form.meta_description}
+      onChange={(e) =>
+        update("meta_description", e.target.value)
+      }
+      placeholder="Write a short description for search engines"
+      rows={4}
+      className="
+        w-full rounded-lg
+        border border-input
+        bg-card 
+        px-4 py-3 text-sm
+        text-foreground
+        resize-none
+        placeholder:text-muted-foreground
+        focus:outline-none focus:ring-2 focus:ring-ring/20 focus:border-primary/50
+        transition
+      "
+    />
+  </div>
 
-      {/* SEO KEYWORDS */}
-      <div>
-        <label className="text-sm font-medium">
-          SEO Keywords (comma separated)
-        </label>
-        {/* <input
-          value={form.seo_keyword}
-          onChange={(e) =>
-            update("seo_keyword", e.target.value)
-          }
-           placeholder="spa, massage, wellness, therapy"
-          className="w-full h-11 rounded-lg border px-4 text-sm"
-        /> */}
-      <SeoKeywordInput
-        value={form.seo_keyword}
-        onChange={(keywords) =>
-          update("seo_keyword", keywords)
-        }
-      />
-      </div>
-    </div>
+  {/* SEO KEYWORDS */}
+  <div>
+    <label className="text-sm font-medium text-foreground">
+      SEO Keywords (comma separated)
+    </label>
+
+    <SeoKeywordInput
+      value={form.seo_keyword}
+      onChange={(keywords) =>
+        update("seo_keyword", keywords)
+      }
+    />
+  </div>
+</div>
   );
 }

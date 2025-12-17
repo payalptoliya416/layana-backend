@@ -72,8 +72,9 @@ const initialTreatmentData = useMemo(() => {
 
   const pressureReverseMap: Record<string, any> = {
     Low: "light",
-    Medium: "medium",
-    High: "firm",
+    Medium: "Medium",
+    High: "High",
+    firm: "firm",
   };
 
   return {
@@ -81,9 +82,7 @@ const initialTreatmentData = useMemo(() => {
     Slug: treatmentPayload.general?.Slug || "",
     Category: treatmentPayload.general?.Category || "",
     Status:
-      treatmentPayload.general?.Status === "active"
-        ? "published"
-        : "draft",
+      treatmentPayload.general?.Status || "draft",
     indicative_pressure:
       pressureReverseMap[
         treatmentPayload.general?.indicative_pressure
@@ -324,8 +323,11 @@ case "seo":
   };
 
   return (
-    <div className="min-h-screen bg-background flex">
+    <>
+    <div className="min-h-screen bg-background">
       {/* Sidebar */}
+      <div className="flex">
+
       <Sidebar
         collapsed={sidebarCollapsed}
         onToggle={() => setSidebarCollapsed(!sidebarCollapsed)}
@@ -334,7 +336,7 @@ case "seo":
       {/* Main Content Area */}
       <div
         className={cn(
-          "flex-1 flex flex-col transition-all duration-300 min-h-screen",
+          "flex-1 flex flex-col transition-all duration-300",
           sidebarCollapsed ? "ml-[96px]" : "ml-[284px]"
         )}
       >
@@ -359,14 +361,14 @@ case "seo":
         </div>
 
         {/* Content Wrapper */}
-        <div className="flex-1 px-6 py-3 overflow-hidden flex flex-col">
+        <div className="flex-1 pl-[15px] pr-6 py-3 overflow-hidden flex flex-col">
           {/* Main Card with equal height tabs and content */}
           <div>
             <div className="flex-1 bg-card rounded-2xl shadow-card p-5 overflow-hidden">
             <div className="flex overflow-hidden h-[720px] overflow-y-auto">
               <div className="flex w-full gap-5 ">
                 {/* Secondary Navigation - Sticky left side */}
-                <aside className="w-[270px] flex-shrink-0 border border-border p-4 rounded-[24px] h-full">
+                <aside className="w-[270px] flex-shrink-0 border border-border p-4 rounded-[20px] h-full">
                   <SecondaryNav
                     activeItem={activeSection}
                     onItemChange={setActiveSection}
@@ -380,16 +382,17 @@ case "seo":
               </div>
             </div>
              <div className="flex items-center justify-end gap-3 pt-4">
-        <Button type="button" variant="cancel">
+        <Button type="button" variant="cancel" className="w-[105px]">
           Cancel
         </Button>
-       <Button
-  type="button"
-  variant="save"
-  onClick={handleSaveTreatment}
->
-  Save
-</Button>
+              <Button
+          type="button"
+          variant="save"
+          onClick={handleSaveTreatment}
+          className="w-[105px]"
+        >
+          Save
+        </Button>
 
            </div>
             </div>
@@ -397,11 +400,13 @@ case "seo":
         </div>
 
         {/* Footer */}
+      </div>
+      </div>
         <div className="px-6 pb-3">
           <Footer />
         </div>
-      </div>
     </div>
+    </>
   );
 };
 

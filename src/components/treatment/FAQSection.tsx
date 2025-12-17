@@ -19,6 +19,7 @@ import {
   arrayMove,
 } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
+import { cn } from "@/lib/utils";
 
 /* ================= TYPES ================= */
 interface FAQItem {
@@ -58,54 +59,97 @@ function SortableFAQ({
   };
 
   return (
-    <div
-      ref={setNodeRef}
-      style={style}
-      className="rounded-xl border border-[#E5E7EB] bg-white px-4 py-4"
+   <div
+  ref={setNodeRef}
+  style={style}
+  className="
+    rounded-xl
+    border border-border
+    bg-card
+    px-4 py-4
+    transition
+  "
+>
+  <div className="flex gap-4 items-start">
+    {/* DRAG HANDLE */}
+    <span
+      {...attributes}
+      {...listeners}
+      className="
+        mt-1
+        cursor-grab
+        active:cursor-grabbing
+        text-muted-foreground
+        hover:text-foreground
+        transition
+      "
     >
-      <div className="flex gap-4 items-center">
-        <span
-          {...attributes}
-          {...listeners}
-          className="mt-1 cursor-grab active:cursor-grabbing block"
-        >
-          <GripVertical size={18} />
-        </span>
+      <GripVertical size={18} />
+    </span>
 
-        <div className="flex-1 space-y-3">
-          <div className="flex items-center justify-between gap-4">
-            <div className="flex gap-2 text-sm font-medium">
-              <span className="font-semibold">Q.</span>
-              {faq.question}
-            </div>
+    <div className="flex-1 space-y-3">
+      <div className="flex items-center justify-between gap-4">
+        {/* QUESTION */}
+        <div className="flex gap-2 text-sm font-medium text-foreground">
+          <span className="font-semibold">Q.</span>
+          {faq.question}
+        </div>
 
-            <div className="flex items-center gap-2">
-              <button onClick={onToggle}>
-                <ChevronDown
-                  size={18}
-                  className={isOpen ? "rotate-180" : ""}
-                />
-              </button>
+        {/* ACTIONS */}
+        <div className="flex items-center gap-2">
+          <button
+            onClick={onToggle}
+            className="text-muted-foreground hover:text-foreground transition"
+          >
+            <ChevronDown
+              size={18}
+              className={cn("transition-transform", isOpen && "rotate-180")}
+            />
+          </button>
 
-              <button onClick={onEdit} className="w-7  h-7 rounded-full border border-[#E7E8E8] flex justify-center items-center">
-                <Pencil size={14} />
-              </button>
+          <button
+            onClick={onEdit}
+            className="
+              w-7 h-7 rounded-full
+              border border-border
+              bg-card
+              flex items-center justify-center
+              text-muted-foreground
+              hover:text-foreground hover:bg-muted
+              transition
+            "
+          >
+            <Pencil size={14} />
+          </button>
 
-              <button onClick={onDelete} className="w-7  h-7 rounded-full border border-[#E7E8E8] flex justify-center items-center">
-                <Trash2 size={14} />
-              </button>
-            </div>
-          </div>
-
-          {faq.answer && isOpen && (
-            <div className="flex gap-2 text-sm text-gray-600">
-              <span className="font-semibold">Ans.</span>
-              {faq.answer}
-            </div>
-          )}
+          <button
+            onClick={onDelete}
+            className="
+              w-7 h-7 rounded-full
+              border border-border
+              bg-card
+              flex items-center justify-center
+              text-destructive
+              hover:bg-muted
+              transition
+            "
+          >
+            <Trash2 size={14} />
+          </button>
         </div>
       </div>
+
+      {/* ANSWER */}
+      {faq.answer && isOpen && (
+        <div className="flex gap-2 text-sm text-muted-foreground">
+          <span className="font-semibold text-foreground">Ans.</span>
+          {faq.answer}
+        </div>
+      )}
     </div>
+  </div>
+</div>
+
   );
 }
 
@@ -167,51 +211,65 @@ useImperativeHandle(ref, () => ({
   return (
     <>
       <div className="space-y-4">
-        <div className="flex justify-between items-center">
-          <h2 className="text-lg font-medium">FAQ’s <sup className="text-red-500">*</sup ></h2>
+  {/* HEADER */}
+  <div className="flex justify-between items-center">
+    <h2 className="text-lg font-medium text-foreground">
+      FAQ’s <sup className="text-destructive">*</sup>
+    </h2>
 
-          <button
-            onClick={() => {
-              setEditingIndex(null);
-              setIsModalOpen(true);
-            }}
-            className="rounded-full bg-[#035865] px-5 py-3 text-white flex gap-2 text-sm leading-[14px] justify-center items-center"
-          >
-            <Plus size={18} /> Add FAQ’s
-          </button>
-        </div>
+    <button
+      onClick={() => {
+        setEditingIndex(null);
+        setIsModalOpen(true);
+      }}
+      className="
+        flex items-center gap-2
+        rounded-full
+        bg-primary
+        px-5 py-3
+        text-sm leading-[14px]
+        text-primary-foreground
+        shadow-button
+        hover:opacity-90
+        transition
+      "
+    >
+      <Plus size={18} /> Add FAQ’s
+    </button>
+  </div>
 
-{ uiFaqs.length !== 0 &&
-        <div className="rounded-2xl border bg-white p-4 space-y-3">
-          <DndContext
-            collisionDetection={closestCenter}
-            onDragEnd={handleDragEnd}
-          >
-            <SortableContext
-              items={uiFaqs.map((f) => f.id)}
-              strategy={verticalListSortingStrategy}
-            >
-              {uiFaqs.map((faq, index) => (
-                <SortableFAQ
-                  key={faq.id}
-                  faq={faq}
-                  isOpen={openId === faq.id}
-                  onToggle={() =>
-                    setOpenId(openId === faq.id ? null : faq.id)
-                  }
-                  onDelete={() =>
-                    onChange(value.filter((_, i) => i !== index))
-                  }
-                  onEdit={() => {
-                    setEditingIndex(index);
-                    setIsModalOpen(true);
-                  }}
-                />
-              ))}
-            </SortableContext>
-          </DndContext>
-        </div>
- }
+  {/* LIST */}
+  {uiFaqs.length !== 0 && (
+    <div className="rounded-2xl border border-border bg-card p-4 space-y-3">
+      <DndContext
+        collisionDetection={closestCenter}
+        onDragEnd={handleDragEnd}
+      >
+        <SortableContext
+          items={uiFaqs.map((f) => f.id)}
+          strategy={verticalListSortingStrategy}
+        >
+          {uiFaqs.map((faq, index) => (
+            <SortableFAQ
+              key={faq.id}
+              faq={faq}
+              isOpen={openId === faq.id}
+              onToggle={() =>
+                setOpenId(openId === faq.id ? null : faq.id)
+              }
+              onDelete={() =>
+                onChange(value.filter((_, i) => i !== index))
+              }
+              onEdit={() => {
+                setEditingIndex(index);
+                setIsModalOpen(true);
+              }}
+            />
+          ))}
+        </SortableContext>
+      </DndContext>
+    </div>
+  )}
       </div>
 
       <AddFaqModal

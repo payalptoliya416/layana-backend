@@ -28,17 +28,17 @@ export default function DescriptionEditor({
   };
 
   return (
-    <div className="space-y-3">
-      <div className="rounded-[10px] border border-[#E5E7EB] overflow-hidden bg-white">
-        <ReactQuill
-          theme="snow"
-          value={value}
-          onChange={onChange}
-          modules={modules}
-          placeholder="Enter analytics / description"
-          className="h-[260px]"
-        />
-      </div>
-    </div>
+ <div className="space-y-3">
+  <div className="rounded-[10px] border border-border overflow-hidden bg-card">
+    <ReactQuill
+      theme="snow"
+      value={value}
+      onChange={onChange}
+      modules={modules}
+      placeholder="Enter analytics / description"
+      className="h-[260px] text-foreground"
+    />
+  </div>
+</div>
   );
 }

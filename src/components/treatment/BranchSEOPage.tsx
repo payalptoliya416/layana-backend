@@ -92,50 +92,50 @@ const BranchSEOPage = forwardRef<
   }, [initialData]);
 
    return (
-    <div className="space-y-6">
-      {/* {errors && (
-  <p className="text-sm text-red-500">{errors}</p>
-)} */}
-      {/* STEP 1: Branch select */}
-      {selectedBranchId === null && (
-        <BranchSelector
-          branches={branches}
-          selectedId={selectedBranchId}
-          onSelect={onSelectBranch}
-        />
-      )}
+  <div className="space-y-6">
+  {/* STEP 1: Branch select */}
+  {selectedBranchId === null && (
+    <BranchSelector
+      branches={branches}
+      selectedId={selectedBranchId}
+      onSelect={onSelectBranch}
+    />
+  )}
 
-      {/* STEP 2: SEO FORM */}
-      {selectedBranchId !== null && (
-        <BranchSEO
-          branchId={selectedBranchId}
-          value={seoMap[selectedBranchId]}
-          onChange={(data) => {
-            setSeoMap((prev) => {
-              const updated = {
-                ...prev,
-                [selectedBranchId]: data,
-              };
+  {/* STEP 2: SEO FORM */}
+  {selectedBranchId !== null && (
+    <div className="rounded-2xl border border-border bg-card p-6">
+      <BranchSEO
+        branchId={selectedBranchId}
+        value={seoMap[selectedBranchId]}
+        onChange={(data) => {
+          setSeoMap((prev) => {
+            const updated = {
+              ...prev,
+              [selectedBranchId]: data,
+            };
 
-              // ⛔ skip initial load
-              if (isInitializingRef.current) return updated;
+            // ⛔ skip initial load
+            if (isInitializingRef.current) return updated;
 
-              const apiPayload = Object.entries(updated).map(
-                ([branchId, seo]) => ({
-                  location: {
-                    id: Number(branchId),
-                    ...seo,
-                  },
-                })
-              );
+            const apiPayload = Object.entries(updated).map(
+              ([branchId, seo]) => ({
+                location: {
+                  id: Number(branchId),
+                  ...seo,
+                },
+              })
+            );
 
-              onChange(apiPayload);
-              return updated;
-            });
-          }}
-        />
-      )}
+            onChange(apiPayload);
+            return updated;
+          });
+        }}
+      />
     </div>
+  )}
+</div>
+
   );
 })
 export default BranchSEOPage;

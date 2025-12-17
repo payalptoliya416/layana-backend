@@ -35,25 +35,38 @@ export function SeoKeywordInput({ value, onChange }: SeoKeywordInputProps) {
   };
 
   return (
-    <div className="rounded-xl border border-[#E5E7EB] p-3">
-      <div className="flex flex-wrap gap-2">
-        {keywords.map((keyword, index) => (
-          <span
-            key={index}
-            className="rounded-[7px] bg-[#F3F3F3] px-[10px] py-2 text-sm leading-[14px] text-[#2A2C30]"
-          >
-            {keyword}
-          </span>
-        ))}
+  <div className="rounded-xl border border-border p-3 bg-card focus-within:ring-2 focus-within:ring-ring/20">
+  <div className="flex flex-wrap gap-2 items-center">
+    {keywords.map((keyword, index) => (
+      <span
+        key={index}
+        className="
+          rounded-[7px]
+          bg-muted
+          px-[10px] py-2
+          text-sm leading-[14px]
+          text-foreground
+        "
+      >
+        {keyword}
+      </span>
+    ))}
 
-        <input
-          value={input}
-          onChange={(e) => setInput(e.target.value)}
-          onKeyDown={handleKeyDown}
-          placeholder="Type and press comma or tab"
-          className="flex-1 min-w-[160px] border-none outline-none text-sm"
-        />
-      </div>
-    </div>
+    <input
+      value={input}
+      onChange={(e) => setInput(e.target.value)}
+      onKeyDown={handleKeyDown}
+      placeholder="Type and press comma or tab"
+      className="
+        flex-1 min-w-[160px]
+        border-none outline-none
+        bg-transparent
+        text-sm text-foreground
+        placeholder:text-muted-foreground
+        py-1
+      "
+    />
+  </div>
+</div>  
   );
 }

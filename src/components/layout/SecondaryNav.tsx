@@ -1,4 +1,4 @@
-import { Users, MapPin, Image, DollarSign, Star, Search } from "lucide-react";
+import { Users, MapPin, Image, Star, Search, Banknote } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 interface SecondaryNavItem {
@@ -11,7 +11,7 @@ const navItems: SecondaryNavItem[] = [
   { icon: Users, label: "General", id: "general" },
   { icon: MapPin, label: "Active Branches", id: "branches" },
   { icon: Image, label: "Visuals", id: "visuals" },
-  { icon: DollarSign, label: "Pricing", id: "pricing" },
+  { icon: Banknote, label: "Pricing", id: "pricing" },
   { icon: Star, label: "Benefits & FAQ's", id: "benefits" },
   { icon: Search, label: "SEO", id: "seo" },
 ];
@@ -25,7 +25,7 @@ export function SecondaryNav({ activeItem, onItemChange }: SecondaryNavProps) {
   return (
     <nav className="h-full">
       {/* Outer Card */}
-      <div className="bg-white space-y-2">
+      <div className="bg-card space-y-2">
         {navItems.map((item) => {
           const isActive = activeItem === item.id;
           const Icon = item.icon;
@@ -38,10 +38,10 @@ export function SecondaryNav({ activeItem, onItemChange }: SecondaryNavProps) {
                 "flex items-center gap-3 w-full px-5 py-4 rounded-[16px] text-sm transition-all",
                 isActive
                   ? `
-        bg-white
-        border border-[#035865]
-        text-[#035865] font-medium
-        shadow-[0_6px_20px_rgba(0,0,0,0.05),inset_8px_8px_30px_rgba(121,199,255,0.15)]
+        bg-card
+        border border-primary
+        text-primary  font-medium
+         shadow-[0_6px_20px_hsl(var(--foreground)/0.05),inset_8px_8px_30px_hsl(var(--primary)/0.15)]
       `
                   : "text-muted-foreground hover:bg-muted"
               )}
@@ -49,7 +49,7 @@ export function SecondaryNav({ activeItem, onItemChange }: SecondaryNavProps) {
               <Icon
                 className={cn(
                   "w-5 h-5",
-                  isActive ? "text-[#035865]" : "text-muted-foreground"
+                  isActive ? "text-primary " : "text-muted-foreground"
                 )}
               />
               <span>{item.label}</span>

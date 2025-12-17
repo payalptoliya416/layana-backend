@@ -14,7 +14,7 @@ function SwitchToggle({
       className={cn(
         "relative h-[32px] w-[68px] rounded-full p-[2px] transition-colors",
         value
-          ? "bg-[#035865]" // YES bg
+          ? "bg-primary" // YES bg
           : "bg-gradient-to-r from-[#C77DFF] to-[#4D9FFF]" // NO border
       )}
     >
@@ -22,7 +22,7 @@ function SwitchToggle({
       <div
         className={cn(
           "relative h-full w-full rounded-full flex items-center px-[6px]",
-          value ? "bg-transparent" : "bg-white"
+          value ? "bg-transparent" : "bg-card"
         )}
       >
         {/* TEXT */}
@@ -30,8 +30,8 @@ function SwitchToggle({
           className={cn(
             "text-xs font-medium select-none transition-colors",
             value
-              ? "text-white ml-1"
-              : "text-[#2A2C30] mr-1 ml-auto"
+              ? "text-card ml-1"
+              : "text-foreground mr-1 ml-auto"
           )}
         >
           {value ? "Yes" : "No"}
@@ -40,10 +40,10 @@ function SwitchToggle({
         {/* KNOB */}
         <span
           className={cn(
-            "absolute h-[22px] w-[22px] rounded-full bg-white transition-all duration-300 ease-in-out",
+            "absolute h-[22px] w-[22px] rounded-full bg-card transition-all duration-300 ease-in-out",
             value
               ? "right-[5px]"
-              : "left-[5px] shadow-[0_0_0_2.5px_rgba(121,199,255,0.45)]"
+              : "left-[5px] shadow-[0_0_0_2.5px_hsl(var(--ring)/0.45)]"
           )}
         />
       </div>

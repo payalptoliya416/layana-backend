@@ -33,7 +33,6 @@ export function Sidebar({ collapsed, onToggle }: SidebarProps) {
   const navigate = useNavigate();
   const location = useLocation();
   const [expandedItems, setExpandedItems] = useState<string[]>([]);
-  const [selectedSpa, setSelectedSpa] = useState("LAYANA Spa on the hill");
 
   const toggleExpanded = (label: string) => {
     setExpandedItems(prev =>
@@ -124,7 +123,7 @@ export function Sidebar({ collapsed, onToggle }: SidebarProps) {
         collapsed ? "w-[72px]" : "w-[260px]",
         "rounded-[24px]"
       )}
-      style={{ margin: '12px', height: 'calc(100vh - 24px)' }}
+      style={{ margin: '12px', height: 'calc(97vh - 24px)' }}
     >
       {/* Logo Row with Collapse Toggle */}
       <div className="relative flex items-center h-[80px] px-4 pt-2 justify-center">

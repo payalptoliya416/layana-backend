@@ -24,52 +24,141 @@ export default function ActionsDropdown({
   }, []);
 
   return (
+//     <div ref={ref} className="relative">
+//   {/* Trigger */}
+//   <button
+//     type="button"
+//     onClick={() => setOpen((p) => !p)}
+//     className="
+//       flex items-center gap-2
+//       rounded-full
+//       border border-border
+//       bg-card
+//       px-4 py-2
+//       text-sm text-foreground
+//       hover:bg-muted
+//       transition
+//     "
+//   >
+//     Actions <ChevronDown size={14} />
+//   </button>
+
+//   {/* Menu */}
+//   {open && (
+//     <div
+//       className="
+//         absolute right-0 mt-2 w-40
+//         rounded-[10px]
+//         bg-card
+//         border border-border
+//         shadow-dropdown
+//         overflow-hidden
+//         p-[5px]
+//         z-[99999]
+//       "
+//     >
+//       <button
+//         onClick={() => {
+//           onEdit();
+//           setOpen(false);
+//         }}
+//         className="
+//           block w-full
+//           px-4 py-2.5
+//           text-left text-sm
+//           text-foreground
+//           rounded-md
+//           hover:bg-muted
+//           transition
+//         "
+//       >
+//         Edit Details
+//       </button>
+
+//       <button
+//         onClick={() => {
+//           onDelete();
+//           setOpen(false);
+//         }}
+//         className="
+//           block w-full
+//           px-4 py-2.5
+//           text-left text-sm
+//           text-destructive
+//           rounded-md
+//           hover:bg-muted
+//           transition
+//         "
+//       >
+//         Delete
+//       </button>
+//     </div>
+//   )}
+// </div>
+
     <div ref={ref} className="relative">
-      {/* Trigger */}
+  {/* Trigger */}
+  <button
+    type="button"
+    onClick={() => setOpen((p) => !p)}
+    className="
+      flex items-center gap-2
+      rounded-full border border-border
+      px-4 py-2 text-sm
+      bg-card text-foreground
+      hover:bg-muted
+      transition
+    "
+  >
+    Actions <ChevronDown size={14} className="text-muted-foreground" />
+  </button>
+
+  {/* Menu */}
+  {open && (
+    <div
+      className="
+        absolute right-0 mt-2 w-40
+        rounded-[10px] bg-card
+        border border-border
+        shadow-dropdown
+        overflow-hidden p-[5px]
+        z-[99999]
+      "
+    >
       <button
-        type="button"
-        onClick={() => setOpen((p) => !p)}
+        onClick={() => {
+          onEdit();
+          setOpen(false);
+        }}
         className="
-          flex items-center gap-2
-          rounded-full border border-[#E5E7EB]
-          px-4 py-2 text-sm
+          block w-full px-4 py-2.5 text-left text-sm
+          text-foreground
+          rounded-md
+          hover:bg-muted
+          transition
         "
       >
-        Actions <ChevronDown size={14} />
+        Edit Details
       </button>
 
-      {/* Menu */}
-      {open && (
-        <div
-          className="
-            absolute right-0 mt-2 w-40
-            rounded-[10px] bg-white
-            border border-[#E5E7EB]
-            shadow-[0_8px_24px_rgba(0,0,0,0.12)]
-            overflow-hidden p-[5px] z-[99999]
-          "
-        >
-          <button
-            onClick={() => {
-              onEdit();
-              setOpen(false);
-            }}
-            className="block w-full px-4 py-2.5 text-left text-sm hover:bg-gray-100"
-          >
-            Edit Details
-          </button>
-
-          <button
-            onClick={() => {
-              onDelete();
-              setOpen(false);
-            }}
-            className="block w-full px-4 py-2.5 text-left text-sm text-red-500 hover:bg-gray-100"
-          >
-            Delete
-          </button>
-        </div>
-      )}
+      <button
+        onClick={() => {
+          onDelete();
+          setOpen(false);
+        }}
+        className="
+          block w-full px-4 py-2.5 text-left text-sm
+          text-destructive
+          rounded-md
+          hover:bg-muted
+          transition
+        "
+      >
+        Delete
+      </button>
     </div>
+  )}
+</div>
+
   );
 }
