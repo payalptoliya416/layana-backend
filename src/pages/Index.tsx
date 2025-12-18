@@ -522,7 +522,7 @@ const renderTabContent = () => {
       {/* HEADER */}
       <AlertDialogHeader className="pb-3 border-b border-border">
         <AlertDialogTitle className="text-lg font-semibold text-foreground">
-          Please fix the following issues
+          Please fix the following validation
         </AlertDialogTitle>
         <p className="text-sm text-muted-foreground">
           Some required fields are missing or invalid

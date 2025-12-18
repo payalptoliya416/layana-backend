@@ -214,6 +214,7 @@ const [isDeleting, setIsDeleting] = useState(false);
 //     setTreatments(treatments);
 //   }
 // };
+
 const handleDragEnd = async (event: any) => {
   const { active, over } = event;
   if (!over || active.id === over.id) return;
