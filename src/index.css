@@ -334,5 +334,8 @@ input[type="number"] {
   }
 }
 .index{
-  z-index: 22;
+  z-index: 10;
+}
+.loader-index{
+  z-index: 25;
 }
