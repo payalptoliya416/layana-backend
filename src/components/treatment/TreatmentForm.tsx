@@ -60,10 +60,13 @@ export const TreatmentForm =forwardRef<{ validate: () => Promise<ValidationResul
 
 useImperativeHandle(ref, () => ({
   async validate(): Promise<ValidationResult> {
-    const values = getValues(); // ✅ RHF values
+    const values = getValues();
     const errors: ValidationError[] = [];
 
-    if (!values.name) {
+    const isDraft = values.status === "draft";
+
+    // 🔴 ALWAYS required
+    if (!values.name?.trim()) {
       errors.push({
         section: "General",
         field: "name",
@@ -71,28 +74,31 @@ useImperativeHandle(ref, () => ({
       });
     }
 
-    if (!values.slug) {
-      errors.push({
-        section: "General",
-        field: "slug",
-        message: "Slug is required",
-      });
-    }
+    // 🟢 EXTRA validations ONLY if LIVE
+    if (!isDraft) {
+      if (!values.slug?.trim()) {
+        errors.push({
+          section: "General",
+          field: "slug",
+          message: "Slug is required",
+        });
+      }
 
-    if (!values.category) {
-      errors.push({
-        section: "General",
-        field: "category",
-        message: "Category is required",
-      });
-    }
+      if (!values.category) {
+        errors.push({
+          section: "General",
+          field: "category",
+          message: "Category is required",
+        });
+      }
 
-    if (!values.content) {
-      errors.push({
-        section: "General",
-        field: "content",
-        message: "Content is required",
-      });
+      if (!values.content?.trim()) {
+        errors.push({
+          section: "General",
+          field: "content",
+          message: "Content is required",
+        });
+      }
     }
 
     return {
@@ -101,7 +107,6 @@ useImperativeHandle(ref, () => ({
     };
   },
 }));
-
 
 const slugify = (text: string) =>
   text

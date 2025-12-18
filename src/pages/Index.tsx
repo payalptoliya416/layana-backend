@@ -106,17 +106,77 @@ const [showValidationPopup, setShowValidationPopup] = useState(false);
 const [validationErrors, setValidationErrors] = useState<
   { section: string; field: string; message: string }[]
 >([]);
+const handleCancle = ()=>{
+  navigate('/treatments-list')
+}
+const [saving, setSaving] = useState(false);
 
+// const handleSaveTreatment = async () => {
+//    const validators = [
+//     generalRef,
+//     branchesRef,
+//     visualsRef,
+//     pricingRef,
+//     benefitsRef,
+//     faqRef,
+//     seoRef,
+//   ];
+
+//   const results: ValidationResult[] = await Promise.all(
+//     validators.map(async (ref) => {
+//       try {
+//         return (await ref.current?.validate?.()) ?? OK;
+//       } catch (err) {
+//         console.error("Validation error:", err);
+//         return OK;
+//       }
+//     })
+//   );
+
+//   const allErrors = results.flatMap((r) => r.errors || []);
+
+//   if (allErrors.length > 0) {
+//     setValidationErrors(allErrors);
+//     setShowValidationPopup(true);
+//     return;
+//   }
+
+//   // ✅ API CALL
+//   try {
+//     const payload = {
+//       ...(isEdit ? { id: Number(id) } : {}),
+//       ...treatmentPayload,
+//       Location: selectedBranches,
+//     };
+
+//     const res = isEdit
+//       ? await updateTreatmentMessage(payload)
+//       : await createTreatmentMessage(payload);
+
+//     if (res?.status === "success" || res?.data?.status === "success") {
+//       toast.success(res.message || res.data.message);
+//       navigate("/treatments-list");
+//     }
+//   } catch {
+//     toast.error("Something went wrong");
+//   }
+// };
 const handleSaveTreatment = async () => {
-   const validators = [
-    generalRef,
-    branchesRef,
-    visualsRef,
-    pricingRef,
-    benefitsRef,
-    faqRef,
-    seoRef,
-  ];
+    if (saving) return;
+  const isDraft = treatmentPayload.general?.Status === "draft";
+
+  // 👇 Only General validation for draft
+  const validators = isDraft
+    ? [generalRef]
+    : [
+        generalRef,
+        branchesRef,
+        visualsRef,
+        pricingRef,
+        benefitsRef,
+        faqRef,
+        seoRef,
+      ];
 
   const results: ValidationResult[] = await Promise.all(
     validators.map(async (ref) => {
@@ -134,6 +194,7 @@ const handleSaveTreatment = async () => {
   if (allErrors.length > 0) {
     setValidationErrors(allErrors);
     setShowValidationPopup(true);
+     setSaving(false);
     return;
   }
 
@@ -155,6 +216,8 @@ const handleSaveTreatment = async () => {
     }
   } catch {
     toast.error("Something went wrong");
+  } finally {
+    setSaving(false); // ✅ always stop loader
   }
 };
 
@@ -555,18 +618,25 @@ const renderTabContent = () => {
                 </section>
               </div>
              <div className="flex items-center justify-end gap-3 pt-4 absolute bottom-4 right-6">
-        <Button type="button" variant="cancel" className="w-[105px]">
+        <Button type="button" variant="cancel" className="w-[105px]" onClick={handleCancle}>
           Cancel
         </Button>
-              <Button
-          type="button"
-          variant="save"
-          onClick={handleSaveTreatment}
-          className="w-[105px]"
-        >
-          Save
-        </Button>
-
+            <Button
+  type="button"
+  variant="save"
+  onClick={handleSaveTreatment}
+  disabled={saving}
+  className="w-[105px] flex items-center justify-center gap-2"
+>
+  {saving ? (
+    <>
+      <span className="h-4 w-4 animate-spin rounded-full border-2 border-white/40 border-t-white" />
+      Saving
+    </>
+  ) : (
+    "Save"
+  )}
+</Button>
               </div>
             </div>
         </div>
