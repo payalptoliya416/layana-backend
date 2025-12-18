@@ -162,10 +162,12 @@ const [saving, setSaving] = useState(false);
 //   }
 // };
 const handleSaveTreatment = async () => {
-    if (saving) return;
+  if (saving) return;
+
+  setSaving(true); // ✅ 🔥 THIS WAS MISSING
+
   const isDraft = treatmentPayload.general?.Status === "draft";
 
-  // 👇 Only General validation for draft
   const validators = isDraft
     ? [generalRef]
     : [
@@ -182,8 +184,7 @@ const handleSaveTreatment = async () => {
     validators.map(async (ref) => {
       try {
         return (await ref.current?.validate?.()) ?? OK;
-      } catch (err) {
-        console.error("Validation error:", err);
+      } catch {
         return OK;
       }
     })
@@ -194,11 +195,10 @@ const handleSaveTreatment = async () => {
   if (allErrors.length > 0) {
     setValidationErrors(allErrors);
     setShowValidationPopup(true);
-     setSaving(false);
+    setSaving(false); // 🔴 stop loader on validation error
     return;
   }
 
-  // ✅ API CALL
   try {
     const payload = {
       ...(isEdit ? { id: Number(id) } : {}),
@@ -220,6 +220,7 @@ const handleSaveTreatment = async () => {
     setSaving(false); // ✅ always stop loader
   }
 };
+
 
 useEffect(() => {
   if (!id || loadingTreatment) return;
