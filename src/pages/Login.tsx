@@ -42,7 +42,7 @@ const Login: React.FC = () => {
   };
 
   return (
-  <div className="bg-background flex flex-col justify-center items-center p-4">
+  <div className="bg-background flex flex-col justify-center items-center p-4 h-screen">
   {/* Logo */}
   <div className="mb-8">
     <img
