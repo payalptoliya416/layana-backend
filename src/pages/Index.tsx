@@ -304,14 +304,11 @@ case "seo":
     <>
     <div className="bg-background flex overflow-hidden">
       {/* Sidebar */}
-      {/* <div className="flex"> */}
-
       <Sidebar
         collapsed={sidebarCollapsed}
         onToggle={() => setSidebarCollapsed(!sidebarCollapsed)}
       />
-
-      {/* Main Content Area */}
+      
       <div
         className={cn(
           "flex-1 flex flex-col transition-all h-[calc(95vh-24px)] duration-300 mt-3 px-5",
@@ -373,11 +370,9 @@ case "seo":
             </div>
         </div>
 
-    </div>
       </div>
-         <div className="px-6">
-          <Footer/>
-        </div>
+      </div>
+     <Footer/>
     </>
   );
 };

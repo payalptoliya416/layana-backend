@@ -291,15 +291,14 @@ const filtered = treatments.filter(
 
   return (
     <> 
-    <div>
-      <div className="bg-background flex">
+      <div className="bg-background flex overflow-hidden">
       <Sidebar
         collapsed={sidebarCollapsed}
         onToggle={() => setSidebarCollapsed(!sidebarCollapsed)}
       />
       <div
         className={cn(
-          "flex-1 flex flex-col transition-all duration-300 h-[calc(96vh-24px)] mt-3 px-5",
+          "flex-1 flex flex-col transition-all duration-300 h-[calc(95vh-24px)] mt-3 px-5",
           sidebarCollapsed ? "ml-[96px]" : "ml-[272px]"
         )}
       >
@@ -514,7 +513,6 @@ const filtered = treatments.filter(
       </div>
       </div>
        <Footer/>
-    </div>
     </>
   );
 }
