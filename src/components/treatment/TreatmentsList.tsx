@@ -278,12 +278,13 @@ const handleDelete = async () => {
   }
 };
 
-const filtered = treatments.filter(
-  (t) =>
-    t.name.toLowerCase().includes(search.toLowerCase()) ||
-    t.category.toLowerCase().includes(search.toLowerCase())
-);
+const filtered = treatments.filter((t) => {
+  const name = t.name?.toLowerCase() || "";
+  const category = t.category?.toLowerCase() || "";
+  const q = search.toLowerCase();
 
+  return name.includes(q) || category.includes(q);
+});
   return (
     <> 
       <div className="bg-background flex overflow-hidden">

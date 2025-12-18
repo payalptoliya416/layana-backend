@@ -14,7 +14,15 @@ import BranchSEOPage from "@/components/treatment/BranchSEOPage";
 import { createTreatmentMessage, getTreatmentById, updateTreatmentMessage } from "@/services/treatmentService";
   import { useParams, useNavigate } from "react-router-dom";
 import { toast } from "sonner";
-import { Pricing } from "@/components/treatment/Pricing";
+import { Pricing } from "@/components/treatment/Pricing"
+import {
+  AlertDialog,
+  AlertDialogContent,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogFooter,
+} from "@/components/ui/alert-dialog";
+
 interface BenefitsFaqPayload {
   slogan: string;
   benifites: string[];
@@ -29,6 +37,12 @@ interface TreatmentPayload {
   benifits_faq: BenefitsFaqPayload;
   seo: any[];
 }
+type ValidationResult = {
+  valid: boolean;
+  errors: { section: string; field: string; message: string }[];
+};
+
+const OK: ValidationResult = { valid: true, errors: [] };
 
 const Index = () => {
 const { id } = useParams();
@@ -88,25 +102,42 @@ const [selectedSeoBranch, setSelectedSeoBranch] =
   useState<number | null>(null);
 
 const navigate = useNavigate();
+const [showValidationPopup, setShowValidationPopup] = useState(false);
+const [validationErrors, setValidationErrors] = useState<
+  { section: string; field: string; message: string }[]
+>([]);
 
 const handleSaveTreatment = async () => {
-  const validations = [
-    generalRef.current?.validate?.() ?? true,
-    branchesRef.current?.validate?.() ?? true,
-    visualsRef.current?.validate?.() ?? true,
-    pricingRef.current?.validate?.() ?? true,
-    benefitsRef.current?.validate?.() ?? true,
-    faqRef.current?.validate?.() ?? true,
-    seoRef.current?.validate?.() ?? true,
+   const validators = [
+    generalRef,
+    branchesRef,
+    visualsRef,
+    pricingRef,
+    benefitsRef,
+    faqRef,
+    seoRef,
   ];
-console.log("validations",validations)
-  const hasError = validations.includes(false);
 
-  if (hasError) {
-    toast.error("Please fix validation errors");
-    return; 
+  const results: ValidationResult[] = await Promise.all(
+    validators.map(async (ref) => {
+      try {
+        return (await ref.current?.validate?.()) ?? OK;
+      } catch (err) {
+        console.error("Validation error:", err);
+        return OK;
+      }
+    })
+  );
+
+  const allErrors = results.flatMap((r) => r.errors || []);
+
+  if (allErrors.length > 0) {
+    setValidationErrors(allErrors);
+    setShowValidationPopup(true);
+    return;
   }
 
+  // ✅ API CALL
   try {
     const payload = {
       ...(isEdit ? { id: Number(id) } : {}),
@@ -117,11 +148,12 @@ console.log("validations",validations)
     const res = isEdit
       ? await updateTreatmentMessage(payload)
       : await createTreatmentMessage(payload);
+
     if (res?.status === "success" || res?.data?.status === "success") {
       toast.success(res.message || res.data.message);
       navigate("/treatments-list");
     }
-  } catch (err) {
+  } catch {
     toast.error("Something went wrong");
   }
 };
@@ -186,129 +218,298 @@ const isTitleLoading =
 const [selectedPricingBranch, setSelectedPricingBranch] =
   useState<number | null>(null);
 
-  const renderTabContent = () => {
-    switch (activeSection) {
-      case "general":
-        return (
-        <TreatmentForm
-        ref={generalRef} 
-    initialData={initialTreatmentData}
-    onChange={(general) =>
-      setTreatmentPayload((prev) => ({
-        ...prev,
-        general,
-      }))
-    }
-  />
-        );
-      case "branches":
-        return (
-        <BranchList
-        ref={branchesRef}
-  selectedBranches={selectedBranches}
-  onSelectionChange={(ids) => {
-    setSelectedBranches(ids);
-    setTreatmentPayload((prev) => ({
-      ...prev,
-      Location: ids,
-    }));
-  }}
-/>
-        );
-      case "visuals":
-        return (
-      <VisualsForm
-      ref={visualsRef}
-  initialData={treatmentPayload.visuals}
-  onChange={(visuals) =>
-    setTreatmentPayload((prev) => ({
-      ...prev,
-      visuals,
-    }))
-  }
-/>
-        );
-      case "pricing":
-        return (
-       <Pricing
-       ref={pricingRef}
-  branches={selectedBranchObjects}
-  selectedBranchId={selectedPricingBranch}
-  onSelectBranch={setSelectedPricingBranch}
-  initialData={treatmentPayload.pricing}   // ✅ ADD
-  onChange={(pricing) =>
-    setTreatmentPayload((prev) => ({
-      ...prev,
-      pricing,
-    }))
-  }
-/>
-        );
-    case "benefits":
-  return (
-    <div className="space-y-10">
-      <BenefitsSection
-       ref={benefitsRef}
-        value={benefitsFaq}
-        onChange={(data) => {
-          setBenefitsFaq(data);
-          setTreatmentPayload((prev) => ({
-            ...prev,
-            benifits_faq: {
-            slogan: data.slogan || " ",
-            benifites: data.benifites,
-            faq: data.faq,
-          },
-          }));
-        }}
-      />
+//   const renderTabContent = () => {
+//     switch (activeSection) {
+//       case "general":
+//         return (
+//         <TreatmentForm
+//         ref={generalRef} 
+//     initialData={initialTreatmentData}
+//     onChange={(general) =>
+//       setTreatmentPayload((prev) => ({
+//         ...prev,
+//         general,
+//       }))
+//     }
+//   />
+//         );
+//       case "branches":
+//         return (
+//         <BranchList
+//         ref={branchesRef}
+//   selectedBranches={selectedBranches}
+//   onSelectionChange={(ids) => {
+//     setSelectedBranches(ids);
+//     setTreatmentPayload((prev) => ({
+//       ...prev,
+//       Location: ids,
+//     }));
+//   }}
+// />
+//         );
+//       case "visuals":
+//         return (
+//       <VisualsForm
+//       ref={visualsRef}
+//   initialData={treatmentPayload.visuals}
+//   onChange={(visuals) =>
+//     setTreatmentPayload((prev) => ({
+//       ...prev,
+//       visuals,
+//     }))
+//   }
+// />
+//         );
+//       case "pricing":
+//         return (
+//        <Pricing
+//        ref={pricingRef}
+//   branches={selectedBranchObjects}
+//   selectedBranchId={selectedPricingBranch}
+//   onSelectBranch={setSelectedPricingBranch}
+//   initialData={treatmentPayload.pricing}   // ✅ ADD
+//   onChange={(pricing) =>
+//     setTreatmentPayload((prev) => ({
+//       ...prev,
+//       pricing,
+//     }))
+//   }
+// />
+//         );
+//     case "benefits":
+//   return (
+//     <div className="space-y-10">
+//       <BenefitsSection
+//        ref={benefitsRef}
+//         value={benefitsFaq}
+//         onChange={(data) => {
+//           setBenefitsFaq(data);
+//           setTreatmentPayload((prev) => ({
+//             ...prev,
+//             benifits_faq: {
+//             slogan: data.slogan || " ",
+//             benifites: data.benifites,
+//             faq: data.faq,
+//           },
+//           }));
+//         }}
+//       />
 
-      <FAQSection
-       ref={faqRef} 
-        value={benefitsFaq.faq}
-        onChange={(faq) => {
-          setBenefitsFaq((prev) => {
-            const updated = { ...prev, faq };
-            setTreatmentPayload((p) => ({
-              ...p,
-              benifits_faq: updated,
-            }));
-            return updated;
-          });
-        }}
-      />
-    </div>
-  );
-case "seo":
+//       <FAQSection
+//        ref={faqRef} 
+//         value={benefitsFaq.faq}
+//         onChange={(faq) => {
+//           setBenefitsFaq((prev) => {
+//             const updated = { ...prev, faq };
+//             setTreatmentPayload((p) => ({
+//               ...p,
+//               benifits_faq: updated,
+//             }));
+//             return updated;
+//           });
+//         }}
+//       />
+//     </div>
+//   );
+// case "seo":
+//   return (
+//    <BranchSEOPage
+//    ref={seoRef}
+//   branches={selectedBranchObjects}
+//   selectedBranchId={selectedSeoBranch}
+//   initialData={treatmentPayload.seo}   // ✅ ADD
+//   onSelectBranch={setSelectedSeoBranch}
+//   onChange={(seo) =>
+//     setTreatmentPayload((prev) => ({
+//       ...prev,
+//       seo,
+//     }))
+//   }
+// />
+//   );
+//       default:
+//         return null;
+//     }
+//   };
+const renderTabContent = () => {
   return (
-   <BranchSEOPage
-   ref={seoRef}
-  branches={selectedBranchObjects}
-  selectedBranchId={selectedSeoBranch}
-  initialData={treatmentPayload.seo}   // ✅ ADD
-  onSelectBranch={setSelectedSeoBranch}
-  onChange={(seo) =>
-    setTreatmentPayload((prev) => ({
-      ...prev,
-      seo,
-    }))
-  }
-/>
+    <>
+      {/* GENERAL */}
+      <div className={cn(activeSection !== "general" && "hidden")}>
+        <TreatmentForm
+          ref={generalRef}
+          initialData={initialTreatmentData}
+          onChange={(general) =>
+            setTreatmentPayload((prev) => ({
+              ...prev,
+              general,
+            }))
+          }
+        />
+      </div>
+
+      {/* BRANCHES */}
+      <div className={cn(activeSection !== "branches" && "hidden")}>
+        <BranchList
+          ref={branchesRef}
+          selectedBranches={selectedBranches}
+          onSelectionChange={(ids) => {
+            setSelectedBranches(ids);
+            setTreatmentPayload((prev) => ({
+              ...prev,
+              Location: ids,
+            }));
+          }}
+        />
+      </div>
+
+      {/* VISUALS */}
+      <div className={cn(activeSection !== "visuals" && "hidden")}>
+        <VisualsForm
+          ref={visualsRef}
+          initialData={treatmentPayload.visuals}
+          onChange={(visuals) =>
+            setTreatmentPayload((prev) => ({
+              ...prev,
+              visuals,
+            }))
+          }
+        />
+      </div>
+
+      {/* PRICING */}
+      <div className={cn(activeSection !== "pricing" && "hidden")}>
+        <Pricing
+          ref={pricingRef}
+          branches={selectedBranchObjects}
+          selectedBranchId={selectedPricingBranch}
+          onSelectBranch={setSelectedPricingBranch}
+          initialData={treatmentPayload.pricing}
+          onChange={(pricing) =>
+            setTreatmentPayload((prev) => ({
+              ...prev,
+              pricing,
+            }))
+          }
+        />
+      </div>
+
+      {/* BENEFITS + FAQ */}
+      <div className={cn(activeSection !== "benefits" && "hidden")}>
+        <div className="space-y-10">
+          <BenefitsSection
+            ref={benefitsRef}
+            value={benefitsFaq}
+            onChange={(data) => {
+              setBenefitsFaq(data);
+              setTreatmentPayload((prev) => ({
+                ...prev,
+                benifits_faq: {
+                  slogan: data.slogan || "",
+                  benifites: data.benifites,
+                  faq: data.faq,
+                },
+              }));
+            }}
+          />
+
+          <FAQSection
+            ref={faqRef}
+            value={benefitsFaq.faq}
+            onChange={(faq) => {
+              setBenefitsFaq((prev) => {
+                const updated = { ...prev, faq };
+                setTreatmentPayload((p) => ({
+                  ...p,
+                  benifits_faq: updated,
+                }));
+                return updated;
+              });
+            }}
+          />
+        </div>
+      </div>
+
+      {/* SEO */}
+      <div className={cn(activeSection !== "seo" && "hidden")}>
+        <BranchSEOPage
+          ref={seoRef}
+          branches={selectedBranchObjects}
+          selectedBranchId={selectedSeoBranch}
+          initialData={treatmentPayload.seo}
+          onSelectBranch={setSelectedSeoBranch}
+          onChange={(seo) =>
+            setTreatmentPayload((prev) => ({
+              ...prev,
+              seo,
+            }))
+          }
+        />
+      </div>
+    </>
   );
-      default:
-        return null;
-    }
-  };
+};
 
   return (
     <>
+  {showValidationPopup && (
+  <AlertDialog open onOpenChange={setShowValidationPopup}>
+    <AlertDialogContent className="max-w-[520px] rounded-2xl p-6 scrollbar-thin">
+      {/* HEADER */}
+      <AlertDialogHeader className="pb-3 border-b border-border">
+        <AlertDialogTitle className="text-lg font-semibold text-foreground">
+          Please fix the following issues
+        </AlertDialogTitle>
+        <p className="text-sm text-muted-foreground">
+          Some required fields are missing or invalid
+        </p>
+      </AlertDialogHeader>
+
+      {/* BODY */}
+      <div className="mt-4 max-h-[320px] overflow-y-auto pr-1 space-y-2">
+        {validationErrors.map((e, i) => (
+          <div
+            key={i}
+            className="flex items-start gap-3 rounded-lg border border-destructive/20 bg-destructive/5 px-3 py-2"
+          >
+            {/* DOT */}
+            <span className="mt-[6px] h-2 w-2 rounded-full bg-destructive shrink-0" />
+
+            {/* TEXT */}
+            <div className="text-sm leading-relaxed">
+              <span className="font-medium text-foreground">
+                {e.section}
+              </span>
+              <span className="text-muted-foreground"> → </span>
+              <span className="text-destructive">
+                {e.message}
+              </span>
+            </div>
+          </div>
+        ))}
+      </div>
+
+      {/* FOOTER */}
+      <AlertDialogFooter className="mt-6 flex justify-end">
+        <Button
+          variant="default"
+          className="rounded-full px-6"
+          onClick={() => setShowValidationPopup(false)}
+        >
+          OK
+        </Button>
+      </AlertDialogFooter>
+    </AlertDialogContent>
+  </AlertDialog>
+)}
+
     <div className="bg-background flex overflow-hidden">
       {/* Sidebar */}
       <Sidebar
         collapsed={sidebarCollapsed}
         onToggle={() => setSidebarCollapsed(!sidebarCollapsed)}
       />
-      
+
       <div
         className={cn(
           "flex-1 flex flex-col transition-all h-[calc(95vh-24px)] duration-300 mt-3 px-5",

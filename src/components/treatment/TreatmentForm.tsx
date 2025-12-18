@@ -12,6 +12,12 @@ import DescriptionEditor from "./DescriptionEditor";
 import { forwardRef, useEffect, useImperativeHandle, useRef, useState } from "react";
 import { getTreatmentCategories } from "@/services/treatmentCategoryService";
 
+type ValidationError = {
+  section: string;
+  field: string;
+  message: string;
+};
+
 /* ---------------- SCHEMA ---------------- */
 const treatmentSchema = z.object({
   name: z.string().min(1, "Name is required"),
@@ -27,19 +33,19 @@ interface TreatmentFormProps {
   initialData?: any;
   onChange: (data: any) => void;
 }
+export type ValidationResult = {
+  valid: boolean;
+  errors: ValidationError[];
+};
 
-export const TreatmentForm = forwardRef<
-  { validate: () => Promise<boolean> },
-  TreatmentFormProps
->(function TreatmentForm({ initialData, onChange }, ref) {
+export const TreatmentForm =forwardRef<{ validate: () => Promise<ValidationResult> }, TreatmentFormProps>(function TreatmentForm({ initialData, onChange }, ref) {
 
   const {
     register,
     setValue,
     watch,
     reset,
-    trigger,
-    formState: { errors },
+    getValues,
   } = useForm<TreatmentFormData>({
     resolver: zodResolver(treatmentSchema),
     defaultValues: {
@@ -52,11 +58,51 @@ export const TreatmentForm = forwardRef<
     },
   });
 
-  useImperativeHandle(ref, () => ({
-    async validate() {
-      return await trigger();
-    },
-  }));
+useImperativeHandle(ref, () => ({
+  async validate(): Promise<ValidationResult> {
+    const values = getValues(); // ✅ RHF values
+    const errors: ValidationError[] = [];
+
+    if (!values.name) {
+      errors.push({
+        section: "General",
+        field: "name",
+        message: "Treatment name is required",
+      });
+    }
+
+    if (!values.slug) {
+      errors.push({
+        section: "General",
+        field: "slug",
+        message: "Slug is required",
+      });
+    }
+
+    if (!values.category) {
+      errors.push({
+        section: "General",
+        field: "category",
+        message: "Category is required",
+      });
+    }
+
+    if (!values.content) {
+      errors.push({
+        section: "General",
+        field: "content",
+        message: "Content is required",
+      });
+    }
+
+    return {
+      valid: errors.length === 0,
+      errors,
+    };
+  },
+}));
+
+
 const slugify = (text: string) =>
   text
     .toLowerCase()
@@ -100,24 +146,7 @@ useEffect(() => {
 }, [initialData, reset]);
 
   /* ---------------- LIVE UPDATE TO PARENT ---------------- */
-// useEffect(() => {
-//   if (isInitializing.current) return;
-
-//   // ❌ user manually slug edit kare pachhi auto override na karo
-//   if (slugEditedRef.current) return;
-
-//   if (nameValue) {
-//     setValue("slug", slugify(nameValue), {
-//       shouldDirty: true,
-//       shouldValidate: true,
-//     });
-//   } else {
-//     setValue("slug", "", {
-//       shouldDirty: true,
-//       shouldValidate: true,
-//     });
-//   }
-// }, [nameValue, setValue]);  
+ 
  useEffect(() => {
   getTreatmentCategories()
     .then((data) => {
@@ -179,11 +208,6 @@ useEffect(() => {
   })}
   placeholder="Enter treatment name"
 />
-      {errors.name && (
-        <p className="text-sm text-destructive">
-          {errors.name.message}
-        </p>
-      )}
     </div>
 
     {/* SLUG */}
@@ -203,11 +227,6 @@ useEffect(() => {
           });
         }}
       />
-      {errors.slug && (
-        <p className="text-sm text-destructive">
-          {errors.slug.message}
-        </p>
-      )}
     </div>
 
     {/* STATUS */}
@@ -232,11 +251,6 @@ useEffect(() => {
           <SelectItem value="live">Live</SelectItem>
         </SelectContent>
       </Select>
-      {errors.status && (
-        <p className="text-sm text-destructive">
-          {errors.status.message}
-        </p>
-      )}
     </div>
 
     {/* PRESSURE */}
@@ -290,11 +304,6 @@ useEffect(() => {
           ))}
         </SelectContent>
       </Select>
-      {errors.category && (
-        <p className="text-sm text-destructive">
-          {errors.category.message}
-        </p>
-      )}
     </div>
   </div>
 
@@ -312,11 +321,6 @@ useEffect(() => {
         })
       }
     />
-    {errors.content && (
-      <p className="text-sm text-destructive">
-        {errors.content.message}
-      </p>
-    )}
   </div>
 </div>
   );

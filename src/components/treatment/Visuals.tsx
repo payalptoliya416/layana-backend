@@ -15,9 +15,18 @@ interface VisualsFormProps {
   };
   onChange: (visuals: any) => void;
 }
+type ValidationError = {
+  section: string;
+  field: string;
+  message: string;
+};
 
+type ValidationResult = {
+  valid: boolean;
+ errors: { section: string; field: string; message: string }[];
+};
 export const VisualsForm = forwardRef<
-  { validate: () => boolean },
+  { validate: () => Promise<ValidationResult> },
   VisualsFormProps
 >(function VisualsForm({ onChange, initialData }, ref) {
       const bannerRef = useRef<HTMLInputElement>(null);
@@ -35,7 +44,6 @@ const [btn1, setBtn1] = useState("");
 const [btn1Link, setBtn1Link] = useState("");
 const [btn2, setBtn2] = useState("");
 const [btn2Link, setBtn2Link] = useState("");
-  const [errors, setErrors] = useState<Record<string, string>>({});
 
 const handleBannerSelect = (file: File) => {
   setCropImage(URL.createObjectURL(file));
@@ -85,24 +93,57 @@ useEffect(() => {
     isInitializingRef.current = false;
   }, 0);
 }, [initialData]);
- useImperativeHandle(ref, () => ({
-    validate() {
-      const newErrors: Record<string, string> = {};
 
-      if (!btn1) newErrors.btn1 = "Button 1 text is required";
-      // if (!btn1Link) newErrors.btn1Link = "Button 1 link is required";
-      if (!btn2) newErrors.btn2 = "Button 2 text is required";
-      // if (!btn2Link) newErrors.btn2Link = "Button 2 link is required";
-      if (!banner) newErrors.banner = "Banner image is required";
-      if (!thumbnail)
-        newErrors.thumbnail = "Thumbnail image is required";
-      if (gallery.length === 0)
-      newErrors.gallery = "At least one gallery image is required";
+useImperativeHandle(ref, () => ({
+  async validate(): Promise<ValidationResult> {
+    const errors: ValidationError[] = [];
 
-      setErrors(newErrors);
-      return Object.keys(newErrors).length === 0;
-    },
-  }));
+    if (!btn1?.trim()) {
+      errors.push({
+        section: "Visuals",
+        field: "btn_1",
+        message: "Button 1 text is required",
+      });
+    }
+
+    if (!btn2?.trim()) {
+      errors.push({
+        section: "Visuals",
+        field: "btn_2",
+        message: "Button 2 text is required",
+      });
+    }
+
+    if (!banner) {
+      errors.push({
+        section: "Visuals",
+        field: "banner_image",
+        message: "Banner image is required",
+      });
+    }
+
+    if (!thumbnail) {
+      errors.push({
+        section: "Visuals",
+        field: "thumbnail_image",
+        message: "Thumbnail image is required",
+      });
+    }
+
+    if (!gallery || gallery.length === 0) {
+      errors.push({
+        section: "Visuals",
+        field: "gallery_image",
+        message: "At least one gallery image is required",
+      });
+    }
+
+    return {
+      valid: errors.length === 0,
+      errors,
+    };
+  },
+}));
 
 useEffect(() => {
   if (isInitializingRef.current) return;
@@ -146,12 +187,6 @@ useEffect(() => {
         value={btn1}
         onChange={(e) => setBtn1(e.target.value)}
       />
-
-      {errors.btn1 && (
-        <p className="text-sm text-destructive">
-          {errors.btn1}
-        </p>
-      )}
     </div>
 
     {/* Button 1 Link */}
@@ -171,12 +206,6 @@ useEffect(() => {
         value={btn1Link}
         onChange={(e) => setBtn1Link(e.target.value)}
       />
-
-      {errors.btn1Link && (
-        <p className="text-sm text-destructive">
-          {errors.btn1Link}
-        </p>
-      )}
     </div>
 
     {/* Button 2 */}
@@ -196,12 +225,6 @@ useEffect(() => {
         value={btn2}
         onChange={(e) => setBtn2(e.target.value)}
       />
-
-      {errors.btn2 && (
-        <p className="text-sm text-destructive">
-          {errors.btn2}
-        </p>
-      )}
     </div>
 
     {/* Button 2 Link */}
@@ -221,12 +244,6 @@ useEffect(() => {
         value={btn2Link}
         onChange={(e) => setBtn2Link(e.target.value)}
       />
-
-      {errors.btn2Link && (
-        <p className="text-sm text-destructive">
-          {errors.btn2Link}
-        </p>
-      )}
     </div>
   </div>
 </form>
@@ -315,10 +332,6 @@ useEffect(() => {
           }}
         />
       </div>
-
-      {errors.banner && (
-        <p className="text-sm text-destructive">{errors.banner}</p>
-      )}
     </div>
 
     {/* ================= THUMBNAIL ================= */}
@@ -393,10 +406,6 @@ useEffect(() => {
           }}
         />
       </div>
-
-      {errors.thumbnail && (
-        <p className="text-sm text-destructive">{errors.thumbnail}</p>
-      )}
     </div>
   </div>
 
@@ -448,12 +457,6 @@ useEffect(() => {
         </div>
       ))}
     </div>
-
-    {errors.gallery && (
-      <p className="mt-2 text-sm text-destructive">
-        {errors.gallery}
-      </p>
-    )}
   </div>
 
   {/* Crop Modal stays same */}

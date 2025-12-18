@@ -8,17 +8,20 @@ interface BranchListProps {
   onSelectionChange: (ids: number[]) => void;
 }
 
+type ValidationResult = {
+  valid: boolean;
+  errors: { section: string; field: string; message: string }[];
+};
 export const BranchList = forwardRef<
-  { validate: () => boolean },
+  { validate: () => Promise<ValidationResult> },
   BranchListProps
 >(function BranchList(
   { selectedBranches, onSelectionChange },
   ref
 ) {
-const [error, setError] = useState<string | null>(null);
-
   const [locations, setLocations] = useState<Location[]>([]);
   const [loading, setLoading] = useState(true);
+
 useEffect(() => {
   const fetchLocations = async () => {
     try {
@@ -36,13 +39,24 @@ useEffect(() => {
 }, []);
 
 useImperativeHandle(ref, () => ({
-  validate() {
-    if (selectedBranches.length === 0) {
-      setError("Please select at least one branch");
-      return false;
+  async validate(): Promise<ValidationResult> {
+    if (!selectedBranches || selectedBranches.length === 0) {
+      return {
+        valid: false,
+        errors: [
+          {
+            section: "Branches",
+            field: "branches",
+            message: "Please select at least one branch",
+          },
+        ],
+      };
     }
-    setError(null);
-    return true;
+
+    return {
+      valid: true,
+      errors: [],
+    };
   },
 }));
 
@@ -53,9 +67,9 @@ const toggleBranch = (id: number) => {
 
   onSelectionChange(updated);
 
-  if (updated.length > 0) {
-    setError(null); // ✅ clear error when fixed
-  }
+  // if (updated.length > 0) {
+  //   setError(null); // ✅ clear error when fixed
+  // }
 };
 
   if (loading) {
@@ -94,11 +108,7 @@ const toggleBranch = (id: number) => {
   </button>
 </div>
  */}
-{error && (
-  <p className="text-sm text-destructive mt-2">
-    {error}
-  </p>
-)}
+
   {/* List */}
   <div className="space-y-3">
     {locations.map((location) => {

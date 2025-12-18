@@ -23,45 +23,9 @@ const BranchSEOPage = forwardRef<
   },
   ref
 ) {
-  const [errors, setErrors] = useState<string | null>(null);
 
    const isInitializingRef = useRef(true);
-  // 🔹 branchId -> seo data
   const [seoMap, setSeoMap] = useState<Record<number, any>>({});
-// useImperativeHandle(ref, () => ({
-//   validate() {
-//     const branchIds = Object.keys(seoMap);
-
-//     if (branchIds.length === 0) {
-//       setErrors("Please add SEO details for at least one branch");
-//       return false;
-//     }
-
-//     for (const branchId of branchIds) {
-//       const seo = seoMap[Number(branchId)];
-
-//       if (!seo?.seo_title?.trim()) {
-//         setErrors("SEO Title is required for all branches");
-//         return false;
-//       }
-
-//       if (!seo?.meta_description?.trim()) {
-//         setErrors("Meta Description is required for all branches");
-//         return false;
-//       }
-
-//     if (!seo?.seo_keyword || seo.seo_keyword.length === 0) {
-//   setErrors("SEO Keywords are required for all branches");
-//   return false;
-// }
-//     }
-
-//     setErrors(null);
-//     return true;
-//   },
-// }));
-
-  // 🔹 API → seoMap
   useEffect(() => {
     if (!initialData || initialData.length === 0) {
       isInitializingRef.current = false;

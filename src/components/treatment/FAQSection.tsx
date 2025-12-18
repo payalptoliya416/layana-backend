@@ -20,6 +20,16 @@ import {
 } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
 import { cn } from "@/lib/utils";
+type ValidationError = {
+  section: string;
+  field: string;
+  message: string;
+};
+
+type ValidationResult = {
+  valid: boolean;
+ errors: { section: string; field: string; message: string }[];
+};
 
 /* ================= TYPES ================= */
 interface FAQItem {
@@ -155,15 +165,14 @@ function SortableFAQ({
 
 /* ================= MAIN COMPONENT ================= */
 export const FAQSection = forwardRef<
-  { validate: () => boolean },
+  { validate: () => Promise<ValidationResult> },
   {
     value: FAQItem[];
     onChange: (v: FAQItem[]) => void;
   }
->(function FAQSection({ value, onChange }, ref) {
-const [errors, setErrors] = useState<{
-  faqs?: string;
-}>({})
+>
+(function FAQSection({ value, onChange }, ref) {
+
   const [openId, setOpenId] = useState<string | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [editingIndex, setEditingIndex] = useState<number | null>(null);
@@ -180,31 +189,48 @@ const [errors, setErrors] = useState<{
 
     onChange(arrayMove(value, Number(active.id), Number(over.id)));
   };
+
 useImperativeHandle(ref, () => ({
-  validate() {
-    if (!value || value.length === 0) {
-      setErrors({ faqs: "Please add at least one FAQ" });
-      return false;
+  async validate(): Promise<ValidationResult> {
+    const errors: ValidationError[] = [];
+
+    // 🔴 No FAQ added
+    if (!Array.isArray(value) || value.length === 0) {
+      errors.push({
+        section: "FAQ",
+        field: "faqs",
+        message: "Please add at least one FAQ",
+      });
+
+      return {
+        valid: false,
+        errors,
+      };
     }
 
-    for (let i = 0; i < value.length; i++) {
-      if (!value[i].question?.trim()) {
-        setErrors({
-          faqs: `FAQ ${i + 1}: Question is required`,
+    // 🔴 Validate each FAQ
+    value.forEach((faq, index) => {
+      if (!faq?.question?.trim()) {
+        errors.push({
+          section: "FAQ",
+          field: `faq_${index + 1}_question`,
+          message: `FAQ ${index + 1}: Question is required`,
         });
-        return false;
       }
 
-      if (!value[i].answer?.trim()) {
-        setErrors({
-          faqs: `FAQ ${i + 1}: Answer is required`,
+      if (!faq?.answer?.trim()) {
+        errors.push({
+          section: "FAQ",
+          field: `faq_${index + 1}_answer`,
+          message: `FAQ ${index + 1}: Answer is required`,
         });
-        return false;
       }
-    }
+    });
 
-    setErrors({});
-    return true;
+    return {
+      valid: errors.length === 0,
+      errors,
+    };
   },
 }));
 
@@ -297,11 +323,7 @@ useImperativeHandle(ref, () => ({
           setIsModalOpen(false);
         }}
       />
-      {errors.faqs && (
-  <p className="text-sm text-red-500 mt-0">
-    {errors.faqs}
-  </p>
-)}
+    
     </>
   );
 })

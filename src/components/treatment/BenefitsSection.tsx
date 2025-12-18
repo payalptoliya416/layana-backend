@@ -12,6 +12,16 @@ import { CSS } from "@dnd-kit/utilities";
 
 import { GripVertical, Send, Trash2 } from "lucide-react";
 import { forwardRef, useImperativeHandle, useState } from "react";
+type ValidationError = {
+  section: string;
+  field: string;
+  message: string;
+};
+
+type ValidationResult = {
+  valid: boolean;
+   errors: { section: string; field: string; message: string }[];
+};
 
 /* ---------------- Sortable Item ---------------- */
 function SortableItem({
@@ -89,7 +99,7 @@ function SortableItem({
 
 /* ---------------- Main Component ---------------- */
 export const BenefitsSection = forwardRef<
-  { validate: () => boolean },
+  { validate: () => Promise<ValidationResult> },
   {
     value: {
       slogan: string;
@@ -99,10 +109,7 @@ export const BenefitsSection = forwardRef<
   }
 >(function BenefitsSection({ value, onChange }, ref) {
   const [input, setInput] = useState("");
-const [errors, setErrors] = useState<{
-    slogan?: string;
-    benifites?: string;
-  }>({});
+
  const addBenefit = () => {
   if (!input.trim()) return;
 
@@ -112,7 +119,6 @@ const [errors, setErrors] = useState<{
   });
 
   setInput("");
-  setErrors((e) => ({ ...e, benifites: undefined }));
 };
 
   const removeBenefit = (index: number) => {
@@ -121,26 +127,35 @@ const [errors, setErrors] = useState<{
       benifites: value.benifites.filter((_, i) => i !== index),
     });
   };
-useImperativeHandle(ref, () => ({
-  validate() {
-    const newErrors: {
-      slogan?: string;
-      benifites?: string;
-    } = {};
 
-    if (!value.slogan.trim()) {
-      newErrors.slogan = "Slogan is required";
-    }
+  useImperativeHandle(ref, () => ({
+    async validate(): Promise<ValidationResult> {
+      const errors: ValidationError[] = [];
 
-    if (!value.benifites.length) {
-      newErrors.benifites = "At least one benefit is required";
-    }
+      // 🔴 Slogan required
+      if (!value?.slogan?.trim()) {
+        errors.push({
+          section: "Benefits",
+          field: "slogan",
+          message: "Slogan is required",
+        });
+      }
 
-    setErrors(newErrors);
+      // 🔴 At least one benefit required
+      if (!Array.isArray(value?.benifites) || value.benifites.length === 0) {
+        errors.push({
+          section: "Benefits",
+          field: "benifites",
+          message: "At least one benefit is required",
+        });
+      }
 
-    return Object.keys(newErrors).length === 0;
-  },
-}));
+      return {
+        valid: errors.length === 0,
+        errors,
+      };
+    },
+  }));
 
   const handleDragEnd = (event: any) => {
     const { active, over } = event;
@@ -183,10 +198,6 @@ useImperativeHandle(ref, () => ({
         "
       />
     </div>
-
-    {errors.slogan && (
-      <p className="text-sm text-destructive">{errors.slogan}</p>
-    )}
   </div>
 
   {/* Benefits */}
@@ -226,12 +237,6 @@ useImperativeHandle(ref, () => ({
         <img src="/send.svg" alt="send" className="h-4 w-4" />
       </button>
     </div>
-
-    {errors.benifites && (
-      <p className="text-sm text-destructive m-0">
-        {errors.benifites}
-      </p>
-    )}
 
     {value.benifites.length !== 0 && (
       <div className="border-t border-border" />

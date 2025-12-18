@@ -14,8 +14,18 @@ import {
   useSortable,
   verticalListSortingStrategy,
 } from "@dnd-kit/sortable";
-
 import { CSS } from "@dnd-kit/utilities";
+
+type ValidationError = {
+  section: string;
+  field: string;
+  message: string;
+};
+
+type ValidationResult = {
+  valid: boolean;
+   errors: { section: string; field: string; message: string }[];
+};
 
 function SortableRow({
   item,
@@ -134,7 +144,7 @@ function SortableRow({
 }
 
 export const Pricing = forwardRef<
-  { validate: () => boolean },
+  { validate: () => Promise<ValidationResult> },
   PricingProps
 >(function Pricing(
   {
@@ -152,38 +162,44 @@ export const Pricing = forwardRef<
     const [minute, setMinute] = useState("");
     const [price, setPrice] = useState("");
     const [bold, setBold] = useState(false);
-const [errors, setErrors] = useState<{
-  branch?: string;
-  pricing?: string;
-}>({});
 
     /* ---------- EDIT STATE ---------- */
     const [editingId, setEditingId] = useState<number | null>(null);
-useImperativeHandle(ref, () => ({
-  validate() {
-    const newErrors: {
-      branch?: string;
-      pricing?: string;
-    } = {};
 
-    if (!selectedBranchId) {
-      newErrors.branch = "Please select a branch";
-    }
+  useImperativeHandle(ref, () => ({
+    async validate(): Promise<ValidationResult> {
+      const errors: ValidationError[] = [];
 
-    const hasAnyPricing =
-      Object.values(pricingMap).some(
-        (items) => items.length > 0
-      );
+      // 🔴 No branch selected (while pricing tab active)
+      if (selectedBranchId === null) {
+        errors.push({
+          section: "Pricing",
+          field: "branch",
+          message: "Please select a branch",
+        });
+      }
 
-    if (!hasAnyPricing) {
-      newErrors.pricing = "Please add at least one pricing";
-    }
+      // 🔴 No pricing added for ANY branch
+      const hasAnyPricing =
+        pricingMap &&
+        Object.values(pricingMap).some(
+          (items) => Array.isArray(items) && items.length > 0
+        );
 
-    setErrors(newErrors);
+      if (!hasAnyPricing) {
+        errors.push({
+          section: "Pricing",
+          field: "pricing",
+          message: "Please add at least one pricing",
+        });
+      }
 
-    return Object.keys(newErrors).length === 0;
-  },
-}));
+      return {
+        valid: errors.length === 0,
+        errors,
+      };
+    },
+  }));
 
     /* ---------- BRANCH WISE PRICING ---------- */
     const [pricingMap, setPricingMap] = useState<
@@ -480,12 +496,6 @@ const handleDragEnd = (event: any) => {
     </div>
   </div>
 
-  {errors.branch && (
-    <p className="text-sm text-destructive mt-2">
-      {errors.branch}
-    </p>
-  )}
-
   {/* LIST */}
   <div>
     <h2 className="mb-4 text-lg font-semibold text-foreground">
@@ -514,12 +524,6 @@ const handleDragEnd = (event: any) => {
         </table>
       </SortableContext>
     </DndContext>
-
-    {errors.pricing && (
-      <p className="text-sm text-destructive mb-2">
-        {errors.pricing}
-      </p>
-    )}
   </div>
 </div>
 
