@@ -97,6 +97,7 @@ useEffect(() => {
     document.addEventListener("mousedown", handleClickOutside);
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
+
 const GlobalLoader = () => {
   return createPortal(
     <div
@@ -104,8 +105,7 @@ const GlobalLoader = () => {
       className="
         fixed inset-0
         flex items-center justify-center
-        bg-black/60
-        backdrop-blur-sm
+         modal-overlay backdrop-blur-sm
       "
     >
       <div className="flex items-end gap-2 h-8">
@@ -118,10 +118,9 @@ const GlobalLoader = () => {
     document.body
   );
 }
-
   return (
     <>
- {visibleLoader && <GlobalLoader />}
+     {visibleLoader && <GlobalLoader />}
 
     <header className="relative flex items-center px-6 bg-card py-3 rounded-2xl justify-between md:flex-nowrap flex-wrap gap-4 md:gap-1">
        <button
