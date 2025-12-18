@@ -314,12 +314,12 @@ case "seo":
       {/* Main Content Area */}
       <div
         className={cn(
-          "flex-1 flex flex-col transition-all h-[calc(95vh-24px)] duration-300 mt-3",
-          sidebarCollapsed ? "ml-[96px]" : "ml-[284px]"
+          "flex-1 flex flex-col transition-all h-[calc(95vh-24px)] duration-300 mt-3 px-5",
+          sidebarCollapsed ? "ml-[96px]" : "ml-[272px]"
         )}
       >
         {/* Sticky Header */}
-        <div className="sticky top-3 z-30 px-6 pb-3">
+        <div className="sticky top-3 z-30 pb-3">
         <PageHeader
         title={pageTitle}
           isTitleLoading={isTitleLoading}
@@ -339,10 +339,10 @@ case "seo":
         </div>
 
         {/* Content Wrapper */}
-        <div className="flex-1 mx-4 pl-[15px] pr-6 px-6 flex flex-col h-full bg-card rounded-2xl shadow-card p-5 overflow-y-auto scrollbar-thin">
+        <div className="flex-1 pl-[15px] pr-6 px-6 flex flex-col h-full bg-card rounded-2xl shadow-card p-5 relative overflow-hidden">
           {/* Main Card with equal height tabs and content */}
-            <div className="">
-              <div className="flex w-full gap-5 h-[680px] overflow-y-auto">
+            <div className="flex w-full gap-5 flex-1 overflow-y-auto scrollbar-thin pb-14">
+              <div className="flex w-full gap-5 h-full overflow-y-auto">
                 {/* Secondary Navigation - Sticky left side */}
                 <aside className="w-[270px] flex-shrink-0 border border-border p-4 rounded-[20px] h-full">
                   <SecondaryNav
@@ -356,7 +356,7 @@ case "seo":
                   {renderTabContent()}
                 </section>
               </div>
-             <div className="flex items-center justify-end gap-3 pt-4">
+             <div className="flex items-center justify-end gap-3 pt-4 absolute bottom-4 right-6">
         <Button type="button" variant="cancel" className="w-[105px]">
           Cancel
         </Button>

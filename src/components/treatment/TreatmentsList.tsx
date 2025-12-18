@@ -299,19 +299,19 @@ const filtered = treatments.filter(
       />
       <div
         className={cn(
-          "flex-1 flex flex-col transition-all duration-300 h-[calc(96vh-24px)] mt-3",
-          sidebarCollapsed ? "ml-[96px]" : "ml-[284px]"
+          "flex-1 flex flex-col transition-all duration-300 h-[calc(96vh-24px)] mt-3 px-5",
+          sidebarCollapsed ? "ml-[96px]" : "ml-[272px]"
         )}
       >
         {/* HEADER */}
-        <div className="sticky top-0 z-30 px-6 pb-3">
+        <div className="sticky top-0 z-30 pb-3">
           <PageHeader title="Treatments" />
         </div>
         
-        <div className="flex-1 mx-4 pl-[15px] pr-6 px-6 flex flex-col h-full bg-card rounded-2xl shadow-card p-5 overflow-y-auto scrollbar-thin">
-          <div>
+        <div className="flex-1 pl-[15px] pr-6 px-6 flex flex-col h-full bg-card rounded-2xl shadow-card p-5 overflow-hidden">
+          <div className="flex flex-col flex-1 overflow-hidden">
             {/* TOP BAR */}
-            <div className="mb-5 flex items-center justify-between">
+            <div className="mb-5 flex items-center justify-between  shrink-0">
             <div className="relative w-[256px]">
             <input
               value={search}
@@ -350,10 +350,10 @@ const filtered = treatments.filter(
             </div>
 
             {/* TABLE */}
-          <div className="rounded-2xl border border-border bg-card">
+        <div className="rounded-2xl border border-border bg-card flex flex-col flex-1 overflow-hidden">
 
           {/* TABLE HEADER */}
-          <div className="px-[15px]">
+          <div className="px-[15px] shrink-0">
            <div className="
               flex items-center h-[52px]
               px-[16px]
@@ -401,7 +401,7 @@ const filtered = treatments.filter(
             </div>
           </div>
           </div>
-
+  <div className="flex-1 overflow-y-auto scrollbar-thin">
 <DndContext
   collisionDetection={closestCenter}
   onDragEnd={handleDragEnd}
@@ -456,8 +456,9 @@ const filtered = treatments.filter(
                 ))}
               </SortableContext>
             </DndContext>
+  </div>
         {pagination && (
-  <div className="flex items-center justify-between gap-6 px-4 py-6 text-sm text-muted-foreground">
+  <div className="shrink-0 flex items-center justify-between gap-6 px-4 py-6 text-sm text-muted-foreground">
 <span className="text-foreground font-medium">
   Page {pagination.current_page} of {pagination.last_page}
 </span>
@@ -506,8 +507,6 @@ const filtered = treatments.filter(
 </div>
   </div>
 )}
-
-
           </div>
 
           </div>

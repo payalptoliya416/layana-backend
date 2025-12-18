@@ -19,17 +19,17 @@ const Dashboard = () => {
       {/* Main Content Area */}
       <div
         className={cn(
-          "flex-1 flex flex-col transition-all duration-300 h-[calc(95vh-24px)] mt-3",
-          sidebarCollapsed ? "ml-[96px]" : "ml-[284px]"
+          "flex-1 flex flex-col transition-all duration-300 h-[calc(95vh-24px)] mt-3 px-5",
+          sidebarCollapsed ? "ml-[96px]" : "ml-[272px]"
         )}
       >
         {/* Sticky Header */}
-        <div className="sticky top-3 z-30 px-6 pb-3">
+        <div className="sticky top-3 z-30 pb-3">
           <PageHeader title="Dashboard" />
         </div>
 
         {/* Content */}
-        <div className="flex-1 px-4 overflow-y-auto scrollbar-thin">
+        <div className="flex-1 overflow-y-auto scrollbar-thin">
           <div className="bg-card rounded-2xl shadow-card border border-border/60 p-8 flex justify-center items-center  h-full">
             <div className="">
               <img src="/loader.png" alt="" className="max-w-[300px]" />
