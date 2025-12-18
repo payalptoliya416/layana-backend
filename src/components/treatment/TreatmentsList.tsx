@@ -457,7 +457,7 @@ const filtered = treatments.filter(
             </DndContext>
   </div>
         {pagination && (
-  <div className="shrink-0 flex items-center justify-between gap-6 px-4 py-6 text-sm text-muted-foreground">
+  <div className="shrink-0 flex items-center justify-between gap-6 px-4 py-2 text-sm text-muted-foreground">
 <span className="text-foreground font-medium">
   Page {pagination.current_page} of {pagination.last_page}
 </span>
