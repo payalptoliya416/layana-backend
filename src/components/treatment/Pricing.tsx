@@ -384,12 +384,18 @@ const handleDragEnd = (event: any) => {
                 </span>
                 <input
                   type="number"
-                  min={0}
+                  min={1}
                   step={1}
                   value={minute}
                   onChange={(e) => {
                     const val = e.target.value;
-                    if (/^\d*$/.test(val)) setMinute(val);
+                      if (val === "") {
+                    setMinute("");
+                    return;
+                  }
+                   if (/^\d+$/.test(val) && Number(val) > 0) {
+      setMinute(val);
+    }
                   }}
                   placeholder="00"
                   className="
@@ -412,12 +418,19 @@ const handleDragEnd = (event: any) => {
                 </span>
                 <input
                   type="number"
-                  min={0}
+                  min={1}
                   step={1}
                   value={price}
                   onChange={(e) => {
                     const val = e.target.value;
-                    if (/^\d*$/.test(val)) setPrice(val);
+                    if (val === "") {
+      setPrice("");
+      return;
+    }
+
+    if (/^\d+$/.test(val) && Number(val) > 0) {
+      setPrice(val);
+    }
                   }}
                   placeholder="£00"
                   className="

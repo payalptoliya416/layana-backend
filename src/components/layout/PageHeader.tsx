@@ -113,30 +113,30 @@ useEffect(() => {
 
     <header className="relative flex items-center px-6 bg-card py-3 rounded-2xl">
      {showBack && (
-  <button
-    onClick={onBack}
-    className="
-      absolute left-6
-      flex items-center gap-2
-      rounded-full border  border-primary
-      px-4 py-2
-      text-sm font-medium text-primary
-      hover:bg-primary hover:text-primary-foreground
-      transition
-    "
-  >
-    ← Back
-  </button>
-)}
-{/* Page Title */}
-<h1
-  className="
-    absolute left-1/2 -translate-x-1/2
-    text-[28px] font-semibold text-foreground
-  "
->
-  {title || "\u00A0"}
-</h1>
+      <button
+        onClick={onBack}
+        className="
+          absolute left-6
+          flex items-center gap-2
+          rounded-full border  border-primary
+          px-4 py-2
+          text-sm font-medium text-primary
+          hover:bg-primary hover:text-primary-foreground
+          transition
+        "
+      >
+        ← Back
+      </button>
+    )}
+    {/* Page Title */}
+    <h1
+      className="
+        absolute left-1/2 -translate-x-1/2
+        text-[28px] font-semibold text-foreground
+      "
+    >
+      {title || "\u00A0"}
+    </h1>
 
       {/* Right Actions */}
       <div className="ml-auto flex items-center gap-3">
@@ -195,7 +195,6 @@ useEffect(() => {
             flex items-center justify-center
             boxshadow
             transition-all
-            hover:scale-[1.02]
           "
         >
           <Bell className="w-[18px] h-[18px] text-foreground" strokeWidth={1.5} />
@@ -236,7 +235,7 @@ useEffect(() => {
               setIsNotificationsOpen(false);
             }}
             className={cn(
-              "flex items-center gap-2.5 p-[7px] h-[50px] rounded-full gradient-border-inner hover:bg-muted/50 transition-all duration-200 w-[175px] gradient-border-inner",
+              "flex items-center gap-2.5 p-[7px] h-[50px] rounded-full gradient-border-inner transition-all duration-200 w-[175px] gradient-border-inner",
               isProfileOpen && "bg-muted/50 "
             )}
             style={{boxShadow : '0px 6px 10px 0px rgba(0, 0, 0, 0.1)'}}

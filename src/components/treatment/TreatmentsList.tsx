@@ -146,9 +146,7 @@ const sensors = useSensors(
   }),
   useSensor(KeyboardSensor)
 );
-   const [error, setError] = useState<string | null>(null);
    const [treatments, setTreatments] = useState<Treatment[]>([]);
-const [loading, setLoading] = useState(false);
 
 const [page, setPage] = useState(1);
 const [pagination, setPagination] = useState<any>(null);
@@ -158,7 +156,6 @@ const [sortDirection, setSortDirection] = useState<"asc" | "desc">("asc");
 useEffect(() => {
   const fetchTreatments = async () => {
     try {
-      setLoading(true);
 
       const res = await getTreatments({
         page,
@@ -170,8 +167,6 @@ useEffect(() => {
       setPagination(res.pagination);
     } catch (e) {
       toast.error("Failed to load treatments");
-    } finally {
-      setLoading(false);
     }
   };
 
@@ -311,7 +306,7 @@ const filtered = treatments.filter(
           <div className="flex flex-col flex-1 overflow-hidden">
             {/* TOP BAR */}
             <div className="mb-5 flex items-center justify-between  shrink-0">
-            <div className="relative w-[256px]">
+            <div className="relative w-[256px] rounded-full  p-1">
             <input
               value={search}
               onChange={(e) => setSearch(e.target.value)}
