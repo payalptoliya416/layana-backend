@@ -21,7 +21,7 @@ export default function BranchGrid({
     <>
     {
       branches.length !== 0 && 
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+        <div className="grid grid-cols-1 xl:grid-cols-2 gap-4">
       {branches.map((branch) => {
         const active = selectedId === branch.id;
 
@@ -31,7 +31,7 @@ export default function BranchGrid({
             type="button"
             onClick={() => onSelect(branch.id)}
             className={cn(
-              "w-full rounded-lg border py-[25px] px-5 text-left text-xl font-medium bg-card text-foreground transition",
+              "w-full rounded-lg border py-5 xl:py-[25px] px-5 text-left text-xl font-medium bg-card text-foreground transition",
               active
                 ? "border-primary shadow-[0_0_0_1px_hsl(var(--primary))]"
                 : "border-border hover:border-muted-foreground/40"

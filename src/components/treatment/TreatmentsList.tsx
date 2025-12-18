@@ -286,28 +286,51 @@ const filtered = treatments.filter((t) => {
 
   return name.includes(q) || category.includes(q);
 });
+ const [sidebarOpen, setSidebarOpen] = useState(false);
   return (
     <> 
       <div className="bg-background flex overflow-hidden">
+        <div className="hidden lg:block">
       <Sidebar
         collapsed={sidebarCollapsed}
         onToggle={() => setSidebarCollapsed(!sidebarCollapsed)}
       />
+    </div>
+
+    {/* MOBILE */}
+    <div className="lg:hidden">
+      {sidebarOpen && (
+        <>
+          {/* overlay */}
+          <div
+            className="fixed inset-0 bg-black/40 z-20"
+            onClick={() => setSidebarOpen(false)}
+          />
+
+          <Sidebar
+            collapsed={false}
+            onToggle={() => setSidebarOpen(false)}
+          />
+        </>
+      )}
+    </div>
+      
       <div
         className={cn(
           "flex-1 flex flex-col transition-all duration-300 h-[calc(95vh-24px)] mt-3 px-5",
-          sidebarCollapsed ? "ml-[96px]" : "ml-[272px]"
+          sidebarCollapsed ? "lg:ml-[96px]" : "lg:ml-[272px]"
         )}
       >
         {/* HEADER */}
-        <div className="sticky top-0 z-30 pb-3">
-          <PageHeader title="Treatments" />
+        <div className="sticky top-0 z-10 pb-3">
+          
+          <PageHeader title="Treatments"   onMenuClick={() => setSidebarOpen(true)}/>
         </div>
         
         <div className="flex-1 pl-[15px] pr-6 px-6 flex flex-col h-full bg-card rounded-2xl shadow-card p-5 overflow-hidden">
           <div className="flex flex-col flex-1 overflow-hidden">
             {/* TOP BAR */}
-            <div className="mb-5 flex items-center justify-between  shrink-0">
+            <div className="mb-5 flex items-center justify-between  shrink-0 flex-wrap gap-2">
             <div className="relative w-[256px] rounded-full  p-1">
             <input
               value={search}
@@ -346,7 +369,8 @@ const filtered = treatments.filter((t) => {
             </div>
 
             {/* TABLE */}
-        <div className="rounded-2xl border border-border bg-card flex flex-col flex-1 overflow-hidden">
+            
+        <div className="rounded-2xl border border-border bg-card flex flex-col flex-1 overflow-hidden min-w-[900px]">
 
           {/* TABLE HEADER */}
           <div className="px-[15px] shrink-0">
@@ -397,112 +421,112 @@ const filtered = treatments.filter((t) => {
             </div>
           </div>
           </div>
-  <div className="flex-1 overflow-y-auto scrollbar-thin">
-<DndContext
-  collisionDetection={closestCenter}
-  onDragEnd={handleDragEnd}
-   sensors={sensors}
-  measuring={{
-    droppable: {
-      strategy: MeasuringStrategy.Always,
-    },
-  }}
->
+          <div className="flex-1 overflow-y-auto scrollbar-thin">
+        <DndContext
+          collisionDetection={closestCenter}
+          onDragEnd={handleDragEnd}
+          sensors={sensors}
+          measuring={{
+            droppable: {
+              strategy: MeasuringStrategy.Always,
+            },
+          }}
+        >
 
-          <AlertDialog open={!!deleteId} onOpenChange={() => setDeleteId(null)}>
-  <AlertDialogContent>
-    <AlertDialogHeader>
-      <AlertDialogTitle>Are you sure?</AlertDialogTitle>
-      <AlertDialogDescription>
-        This action cannot be undone. This will permanently delete the
-        treatment.
-      </AlertDialogDescription>
-    </AlertDialogHeader>
+                  <AlertDialog open={!!deleteId} onOpenChange={() => setDeleteId(null)}>
+          <AlertDialogContent>
+            <AlertDialogHeader>
+              <AlertDialogTitle>Are you sure?</AlertDialogTitle>
+              <AlertDialogDescription>
+                This action cannot be undone. This will permanently delete the
+                treatment.
+              </AlertDialogDescription>
+            </AlertDialogHeader>
 
-    <AlertDialogFooter>
-      <AlertDialogCancel
-        onClick={() => setDeleteId(null)}
-        disabled={isDeleting}
-      >
-        Cancel
-      </AlertDialogCancel>
-
-      <AlertDialogAction
-        onClick={handleDelete}
-        disabled={isDeleting}
-        className="bg-red-600 hover:bg-red-700"
-      >
-        {isDeleting ? "Deleting..." : "Delete"}
-      </AlertDialogAction>
-    </AlertDialogFooter>
-  </AlertDialogContent>
-</AlertDialog>
-              <SortableContext
-                items={filtered.map((i) => i.id)}
-                strategy={verticalListSortingStrategy}
+            <AlertDialogFooter>
+              <AlertDialogCancel
+                onClick={() => setDeleteId(null)}
+                disabled={isDeleting}
               >
-                {filtered.map((item, index) => (
-                  <SortableRow
-                    key={item.id}
-                    item={item}
-                    index={index}
-                    onEdit={handleEdit}
-                    onDelete={(id) => setDeleteId(id)}
-                  />
-                ))}
-              </SortableContext>
-            </DndContext>
-  </div>
-        {pagination && (
-  <div className="shrink-0 flex items-center justify-between gap-6 px-4 py-2 text-sm text-muted-foreground">
-<span className="text-foreground font-medium">
-  Page {pagination.current_page} of {pagination.last_page}
-</span>
-<div className="flex gap-6 items-center">
+                Cancel
+              </AlertDialogCancel>
 
-    {/* First */}
-    <button
-      disabled={pagination.current_page === 1}
-      onClick={() => setPage(1)}
-      className="hover:text-foreground disabled:opacity-40 text-2xl"
-    >
-      «
-    </button>
+              <AlertDialogAction
+                onClick={handleDelete}
+                disabled={isDeleting}
+                className="bg-red-600 hover:bg-red-700"
+              >
+                {isDeleting ? "Deleting..." : "Delete"}
+              </AlertDialogAction>
+            </AlertDialogFooter>
+          </AlertDialogContent>
+        </AlertDialog>
+                      <SortableContext
+                        items={filtered.map((i) => i.id)}
+                        strategy={verticalListSortingStrategy}
+                      >
+                        {filtered.map((item, index) => (
+                          <SortableRow
+                            key={item.id}
+                            item={item}
+                            index={index}
+                            onEdit={handleEdit}
+                            onDelete={(id) => setDeleteId(id)}
+                          />
+                        ))}
+                      </SortableContext>
+                    </DndContext>
+          </div>
+                {pagination && (
+          <div className="shrink-0 flex items-center justify-between gap-6 px-4 py-2 text-sm text-muted-foreground">
+        <span className="text-foreground font-medium">
+          Page {pagination.current_page} of {pagination.last_page}
+        </span>
+        <div className="flex gap-6 items-center">
 
-    {/* Prev */}
-    <button
-      disabled={!pagination.prev_page_url}
-      onClick={() => setPage((p) => p - 1)} 
-      className="hover:text-foreground disabled:opacity-40 text-2xl"
-    >
-      ‹
-    </button>
+            {/* First */}
+            <button
+              disabled={pagination.current_page === 1}
+              onClick={() => setPage(1)}
+              className="hover:text-foreground disabled:opacity-40 text-2xl"
+            >
+              «
+            </button>
 
-    {/* Page Info */}
-    <span className="text-foreground font-medium">
-      {pagination.current_page} / {pagination.last_page}
-    </span>
+            {/* Prev */}
+            <button
+              disabled={!pagination.prev_page_url}
+              onClick={() => setPage((p) => p - 1)} 
+              className="hover:text-foreground disabled:opacity-40 text-2xl"
+            >
+              ‹
+            </button>
 
-    {/* Next */}
-    <button
-      disabled={!pagination.next_page_url}
-      onClick={() => setPage((p) => p + 1)}
-      className="hover:text-foreground disabled:opacity-40 text-2xl"
-    >
-      ›
-    </button>
+            {/* Page Info */}
+            <span className="text-foreground font-medium">
+              {pagination.current_page} / {pagination.last_page}
+            </span>
 
-    {/* Last */}
-    <button
-      disabled={pagination.current_page === pagination.last_page}
-      onClick={() => setPage(pagination.last_page)}
-      className="hover:text-foreground disabled:opacity-40 text-2xl"
-    >
-      »
-    </button>
-</div>
-  </div>
-)}
+            {/* Next */}
+            <button
+              disabled={!pagination.next_page_url}
+              onClick={() => setPage((p) => p + 1)}
+              className="hover:text-foreground disabled:opacity-40 text-2xl"
+            >
+              ›
+            </button>
+
+            {/* Last */}
+            <button
+              disabled={pagination.current_page === pagination.last_page}
+              onClick={() => setPage(pagination.last_page)}
+              className="hover:text-foreground disabled:opacity-40 text-2xl"
+            >
+              »
+            </button>
+        </div>
+          </div>
+        )}
           </div>
 
           </div>

@@ -189,7 +189,7 @@ useEffect(() => {
   /* ---------------- UI ---------------- */
   return (
    <div className="space-y-6">
-  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+  <div className="grid grid-cols-1 xl:grid-cols-2 gap-6">
     {/* NAME */}
     <div>
       <label className="text-sm font-medium text-foreground">

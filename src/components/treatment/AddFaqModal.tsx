@@ -29,7 +29,7 @@ export default function AddFaqModal({
   if (!open) return null;
 
   return (
-   <div className="fixed inset-0 z-50 flex items-center justify-center bg-background/60 backdrop-blur-sm !m-0">
+   <div className="fixed inset-0 z-50 flex items-center justify-center bg-background/60 backdrop-blur-sm !m-0 p-2">
   <div className="relative w-full max-w-[720px] rounded-[18px] bg-card px-[30px] pt-[40px] pb-[30px] border border-border shadow-dropdown">
     
     {/* Close button */}

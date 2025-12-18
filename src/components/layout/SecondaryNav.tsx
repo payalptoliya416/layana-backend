@@ -23,9 +23,15 @@ interface SecondaryNavProps {
 
 export function SecondaryNav({ activeItem, onItemChange }: SecondaryNavProps) {
   return (
-    <nav className="h-full">
+    <nav className="h-full w-full overflow-x-auto
+      lg:overflow-visible
+      scrollbar-hide ">
       {/* Outer Card */}
-      <div className="bg-card space-y-2">
+      <div className="bg-card space-y-2   flex
+      lg:flex-col w-full
+      gap-2
+      lg:gap-2  flex-wrap justify-center
+      py-2">
         {navItems.map((item) => {
           const isActive = activeItem === item.id;
           const Icon = item.icon;
@@ -35,7 +41,7 @@ export function SecondaryNav({ activeItem, onItemChange }: SecondaryNavProps) {
               key={item.id}
               onClick={() => onItemChange(item.id)}
               className={cn(
-                "flex items-center gap-3 w-full px-5 py-4 rounded-[16px] text-sm transition-all",
+                "flex items-center gap-3 px-5 py-2 lg:py-4 rounded-md lg:rounded-[16px] text-sm transition-all whitespace-nowrap",
                 isActive
                   ? `
         bg-card

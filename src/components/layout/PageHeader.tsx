@@ -7,8 +7,9 @@ import { removeToken } from "@/services/authService";
 interface PageHeaderProps {
   title: string;
   showBack?: boolean;
-    onBack?: () => void;
-      isTitleLoading?: boolean;
+  onBack?: () => void;
+  isTitleLoading?: boolean;
+  onMenuClick?: () => void;
 }
 
 interface Notification {
@@ -25,8 +26,9 @@ const mockNotifications: Notification[] = [
   { id: "3", title: "Staff update", message: "Sarah Wilson updated her availability", time: "3 hours ago", read: true },
 ];
 
-export function PageHeader({ title , showBack = false, onBack , isTitleLoading }: PageHeaderProps) {
+export function PageHeader({ title , showBack = false, onBack , isTitleLoading ,onMenuClick }: PageHeaderProps) {
   const navigate = useNavigate();
+ 
   const [isProfileOpen, setIsProfileOpen] = useState(false);
   const [isNotificationsOpen, setIsNotificationsOpen] = useState(false);
   const profileRef = useRef<HTMLDivElement>(null);
@@ -98,8 +100,8 @@ useEffect(() => {
   return (
     <>
 {visibleLoader && (
-  <div className="fixed inset-0 z-50 flex items-center justify-center modal-overlay backdrop-blur-sm">
-    <div className="flex flex-col items-center gap-4 relative z-50">
+  <div className="fixed inset-0 z-30 flex items-center justify-center modal-overlay backdrop-blur-sm">
+    <div className="flex flex-col items-center gap-4 relative z-30">
       {/* Dot Wave */}
       <div className="flex items-end gap-2 h-8">
         <span className="dot-wave dot-1" />
@@ -111,12 +113,29 @@ useEffect(() => {
   </div>
 )}
 
-    <header className="relative flex items-center px-6 bg-card py-3 rounded-2xl">
+    <header className="relative flex items-center px-6 bg-card py-3 rounded-2xl justify-between md:flex-nowrap flex-wrap gap-4 md:gap-1">
+       <button
+    onClick={onMenuClick}
+    className="lg:hidden flex items-center justify-center
+      h-10 w-10 rounded-sm border border-border bg-card
+      hover:bg-muted transition mr-3"
+  >
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      className="h-5 w-5 text-foreground"
+      fill="none"
+      viewBox="0 0 24 24"
+      stroke="currentColor"
+      strokeWidth={2}
+    >
+      <path strokeLinecap="round" strokeLinejoin="round" d="M4 6h16M4 12h16M4 18h16" />
+    </svg>
+  </button>
      {showBack && (
       <button
         onClick={onBack}
         className="
-          absolute left-6
+          2xl:absolute left-6
           flex items-center gap-2
           rounded-full border  border-primary
           px-4 py-2
@@ -131,8 +150,8 @@ useEffect(() => {
     {/* Page Title */}
     <h1
       className="
-        absolute left-1/2 -translate-x-1/2
-        text-[28px] font-semibold text-foreground
+       2xl:absolute 2xl:left-1/2 2xl:flex-1 overflow-y-auto scrollbar-thin border-border p-2 lg:p-5 rounded-[20px] scrollbar-thin h-full:-translate-x-1/2 border-0
+      text-base md:text-[28px] font-semibold text-foreground
       "
     >
       {title || "\u00A0"}
@@ -143,7 +162,7 @@ useEffect(() => {
         {/* Theme Toggle */}
      {/* Theme Toggle */}
 <div className="gradient-border boxshadow">
-  <div className="gradient-border-inner flex items-center p-2 h-[50px]">
+  <div className="gradient-border-inner flex items-center p-2 h-10 md:h-[50px]">
     {/* Light */}
     <div  className={cn(
         !isDark
@@ -155,7 +174,7 @@ useEffect(() => {
         if (isDark) toggleTheme();
       }}
       className={cn(
-        "w-[34px] h-[34px] rounded-full flex items-center justify-center transition-all",
+        "w-[30px] md:w-[34px] h-[30px] md:h-[34px] rounded-full flex items-center justify-center transition-all",
         !isDark
           ? "bg-card"
           : "text-muted-foreground"
@@ -191,7 +210,7 @@ useEffect(() => {
           }}
           className="
             gradient-border-inner
-            w-[50px] h-[50px] rounded-full
+            w-10 md:w-[50px] h-10 md:h-[50px] rounded-full
             flex items-center justify-center
             boxshadow
             transition-all
@@ -235,7 +254,7 @@ useEffect(() => {
               setIsNotificationsOpen(false);
             }}
             className={cn(
-              "flex items-center gap-2.5 p-[7px] h-[50px] rounded-full gradient-border-inner transition-all duration-200 w-[175px] gradient-border-inner",
+              "flex items-center gap-2.5 px-[2px] py-[7px] sm:p-[7px] h-10 md:h-[50px] rounded-full gradient-border-inner transition-all duration-200 sm:w-[175px] gradient-border-inner",
               isProfileOpen && "bg-muted/50 "
             )}
             style={{boxShadow : '0px 6px 10px 0px rgba(0, 0, 0, 0.1)'}}
@@ -245,11 +264,8 @@ useEffect(() => {
               alt="Jane Cooper"
               className="w-[36px] h-[36px] rounded-full object-cover"
             />
-            <span className="font-medium text-foreground text-sm">Jane Cooper</span>
-            {/* <ChevronDown className={cn(
-              "w-4 h-4 text-muted-foreground transition-transform duration-200",
-              isProfileOpen && "rotate-180"
-            )} /> */}
+            <span className="font-medium text-foreground text-sm hidden sm:block">Jane Cooper</span>
+            
           </button>
 
           {/* Profile Dropdown Menu */}

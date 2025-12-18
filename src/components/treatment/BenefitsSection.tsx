@@ -178,7 +178,7 @@ export const BenefitsSection = forwardRef<
     Slogan<sup className="text-destructive">*</sup>
   </h2>
 
-  <div className="rounded-[15px] border border-border bg-card p-5 space-y-4">
+  <div className="rounded-[15px] border border-border bg-card p-3 lg:p-5 space-y-4">
     <div className=" ">
       <input
         value={value.slogan}
@@ -205,7 +205,7 @@ export const BenefitsSection = forwardRef<
     Benefits<sup className="text-destructive">*</sup>
   </h2>
 
-  <div className="rounded-[15px] border border-border bg-card p-5 space-y-4">
+  <div className="rounded-[15px] border border-border bg-card p-3 lg:p-5 space-y-4">
     {/* Input */}
     <div className="flex items-center gap-4">
       <input

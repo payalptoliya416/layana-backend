@@ -115,7 +115,7 @@ const toggleBranch = (id: number) => {
     const isSelected = selectedBranches.includes(location.id);
 
       return (
-         <div key={`location-${location.id}`} className="grid grid-cols-2 gap-4">
+         <div key={`location-${location.id}`} className="grid grid-cols-1 xl:grid-cols-2 gap-4">
           {/* LEFT CARD */}
         <button
   onClick={() => toggleBranch(location.id)}

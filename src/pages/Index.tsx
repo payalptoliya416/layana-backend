@@ -103,6 +103,7 @@ const [selectedSeoBranch, setSelectedSeoBranch] =
 
 const navigate = useNavigate();
 const [showValidationPopup, setShowValidationPopup] = useState(false);
+ const [sidebarOpen, setSidebarOpen] = useState(false);
 const [validationErrors, setValidationErrors] = useState<
   { section: string; field: string; message: string }[]
 >([]);
@@ -534,7 +535,7 @@ const renderTabContent = () => {
         {validationErrors.map((e, i) => (
           <div
             key={i}
-            className="flex items-start gap-3 rounded-lg border border-destructive/20 bg-destructive/5 px-3 py-2"
+            className="flex items-start gap-3 rounded-lg border border-destructive/20 bg-destructive/5 px-3 lg:py-2"
           >
             {/* DOT */}
             <span className="mt-[6px] h-2 w-2 rounded-full bg-destructive shrink-0" />
@@ -569,20 +570,41 @@ const renderTabContent = () => {
 
     <div className="bg-background flex overflow-hidden">
       {/* Sidebar */}
+       <div className="hidden lg:block">
       <Sidebar
         collapsed={sidebarCollapsed}
         onToggle={() => setSidebarCollapsed(!sidebarCollapsed)}
       />
+    </div>
+
+    {/* MOBILE */}
+    <div className="lg:hidden">
+      {sidebarOpen && (
+        <>
+          {/* overlay */}
+          <div
+            className="fixed inset-0 bg-black/40 z-20"
+            onClick={() => setSidebarOpen(false)}
+          />
+
+          <Sidebar
+            collapsed={false}
+            onToggle={() => setSidebarOpen(false)}
+          />
+        </>
+      )}
+    </div>
 
       <div
         className={cn(
           "flex-1 flex flex-col transition-all h-[calc(95vh-24px)] duration-300 mt-3 px-5",
-          sidebarCollapsed ? "ml-[96px]" : "ml-[272px]"
+          sidebarCollapsed ? "lg:ml-[96px]" : "lg:ml-[272px]"
         )}
       >
         {/* Sticky Header */}
-        <div className="sticky top-3 z-30 pb-3">
+        <div className="sticky top-3 z-10 pb-3">
         <PageHeader
+        onMenuClick={() => setSidebarOpen(true)}
         title={pageTitle}
           isTitleLoading={isTitleLoading}
         showBack={
@@ -604,9 +626,9 @@ const renderTabContent = () => {
         <div className="flex-1 pl-[15px] pr-6 px-6 flex flex-col h-full bg-card rounded-2xl shadow-card p-5 relative overflow-hidden">
           {/* Main Card with equal height tabs and content */}
             <div className="flex w-full gap-5 flex-1 overflow-y-auto scrollbar-thin pb-14">
-              <div className="flex w-full gap-5 h-full overflow-y-auto">
+              <div className="lg:flex w-full gap-5 h-full overflow-y-auto">
                 {/* Secondary Navigation - Sticky left side */}
-                <aside className="w-[270px] flex-shrink-0 border border-border p-4 rounded-[20px] h-full">
+                <aside className="lg:w-[270px] flex-shrink-0 border border-border lg:p-4 rounded-[20px] lg:h-full overflow-y-auto mb-3 lg:mb-0">
                   <SecondaryNav
                     activeItem={activeSection}
                     onItemChange={setActiveSection}
@@ -614,30 +636,30 @@ const renderTabContent = () => {
                 </aside>
 
                 {/* Tab Content - Scrollable */}
-                <section className="flex-1 overflow-y-auto scrollbar-thin border border-border p-5 rounded-[20px] scrollbar-thin h-full">
+                <section className="flex-1 overflow-y-auto scrollbar-thin border border-border p-3 lg:p-5 rounded-[20px] scrollbar-thin h-full">
                   {renderTabContent()}
                 </section>
               </div>
              <div className="flex items-center justify-end gap-3 pt-4 absolute bottom-4 right-6">
-        <Button type="button" variant="cancel" className="w-[105px]" onClick={handleCancle}>
-          Cancel
-        </Button>
-            <Button
-  type="button"
-  variant="save"
-  onClick={handleSaveTreatment}
-  disabled={saving}
-  className="w-[105px] flex items-center justify-center gap-2"
->
-  {saving ? (
-    <>
-      <span className="h-4 w-4 animate-spin rounded-full border-2 border-white/40 border-t-white" />
-      Saving
-    </>
-  ) : (
-    "Save"
-  )}
-</Button>
+                  <Button type="button" variant="cancel" className="w-[105px]" onClick={handleCancle}>
+                    Cancel
+                  </Button>
+                      <Button
+            type="button"
+            variant="save"
+            onClick={handleSaveTreatment}
+            disabled={saving}
+            className="w-[105px] flex items-center justify-center gap-2"
+          >
+            {saving ? (
+              <>
+                <span className="h-4 w-4 animate-spin rounded-full border-2 border-white/40 border-t-white" />
+                Saving
+              </>
+            ) : (
+              "Save"
+            )}
+          </Button>
               </div>
             </div>
         </div>

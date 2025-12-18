@@ -76,7 +76,7 @@ function SortableFAQ({
     rounded-xl
     border border-border
     bg-card
-    px-4 py-4
+    px-3 lg:px-4 py-3 lg:py-4
     transition
   "
 >
@@ -98,7 +98,7 @@ function SortableFAQ({
     </span>
 
     <div className="flex-1 space-y-3">
-      <div className="flex items-center justify-between gap-4">
+      <div className="flex items-center justify-between gap-4 flex-wrap">
         {/* QUESTION */}
         <div className="flex gap-2 text-sm font-medium text-foreground">
           <span className="font-semibold">Q.</span>
@@ -106,7 +106,7 @@ function SortableFAQ({
         </div>
 
         {/* ACTIONS */}
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-2 ml-auto lg:ml-0">
           <button
             onClick={onToggle}
             className="text-muted-foreground hover:text-foreground transition"
@@ -266,7 +266,7 @@ useImperativeHandle(ref, () => ({
 
   {/* LIST */}
   {uiFaqs.length !== 0 && (
-    <div className="rounded-2xl border border-border bg-card p-4 space-y-3">
+    <div className="rounded-2xl border border-border bg-card p-3 lg:p-4 space-y-3">
       <DndContext
         collisionDetection={closestCenter}
         onDragEnd={handleDragEnd}

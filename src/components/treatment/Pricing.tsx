@@ -387,8 +387,8 @@ const handleDragEnd = (event: any) => {
     </h2>
 
     {/* FORM */}
-    <div className="rounded-[10px] border border-border bg-card p-5 overflow-x-auto">
-      <table className="w-full border-separate">
+    <div className="rounded-[10px] border border-border bg-card p-5 overflow-x-auto ">
+      <table className="w-full border-separate border-spacing-0">
         <tbody>
           <tr className="rounded-[10px]">
             {/* MIN */}

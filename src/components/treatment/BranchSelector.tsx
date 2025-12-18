@@ -19,7 +19,7 @@ export function BranchSelector({
   return (
     <> 
     {branches.length > 0 && (
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
+      <div className="grid grid-cols-1 xl:grid-cols-2 gap-5">
         {branches.map((branch) => {
           const active = selectedId === branch.id;
 
