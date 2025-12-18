@@ -98,7 +98,7 @@ useEffect(() => {
   return (
     <>
 {visibleLoader && (
-  <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 backdrop-blur-sm">
+  <div className="fixed inset-0 z-50 flex items-center justify-center modal-overlay backdrop-blur-sm">
     <div className="flex flex-col items-center gap-4 relative z-50">
       {/* Dot Wave */}
       <div className="flex items-end gap-2 h-8">
