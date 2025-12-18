@@ -9,7 +9,7 @@ const Dashboard = () => {
 
   return (
     <>
-    <div className="min-h-screen bg-background flex">
+    <div className="bg-background flex">
       {/* Sidebar */}
       <Sidebar
         collapsed={sidebarCollapsed}
@@ -19,30 +19,26 @@ const Dashboard = () => {
       {/* Main Content Area */}
       <div
         className={cn(
-          "flex-1 flex flex-col transition-all duration-300",
+          "flex-1 flex flex-col transition-all duration-300 h-[calc(95vh-24px)] mt-3",
           sidebarCollapsed ? "ml-[96px]" : "ml-[284px]"
         )}
       >
         {/* Sticky Header */}
-        <div className="sticky top-0 z-30 bg-background px-6 py-3">
+        <div className="sticky top-3 z-30 px-6 pb-3">
           <PageHeader title="Dashboard" />
         </div>
 
         {/* Content */}
-        <div className="px-6  h-full flex-1 ">
-          <div className="bg-card rounded-2xl shadow-card border border-border/60 p-8 flex justify-center items-center  h-[calc(88vh-24px)]">
-            <div className="flex items-center justify-center h-full text-muted-foreground flex-col">
-              <img src="/loader.png" alt="" />
+        <div className="flex-1 px-4 overflow-y-auto scrollbar-thin">
+          <div className="bg-card rounded-2xl shadow-card border border-border/60 p-8 flex justify-center items-center  h-full">
+            <div className="">
+              <img src="/loader.png" alt="" className="max-w-[300px]" />
             </div>
           </div>
         </div>
-
-     
       </div>
     </div>
-     <div className="px-6 pb-3">
           <Footer/>
-        </div>
     </>
     
   );

@@ -139,7 +139,7 @@ useEffect(() => {
   return (
    <aside
   className={cn(
-    "fixed left-0 top-0 m-3 z-20 flex flex-col",
+    "fixed left-0 top-0 mx-3 mt-3 z-20 flex flex-col shrink-0",
     "h-[calc(95vh-24px)]", // 👈 full height minus margin
     "bg-sidebar rounded-[24px] shadow-sidebar transition-all duration-300",
     collapsed ? "w-[72px]" : "w-[260px]"

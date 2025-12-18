@@ -262,9 +262,6 @@ input[type="number"] {
   -moz-appearance: textfield;
 }
 
-.scrollbar-hide::-webkit-scrollbar {
-  display: none; /* Chrome, Safari */
-}
 .boxshadow {
   box-shadow:   0px 8.82px 14.71px 0px rgba(0, 0, 0, 0.1),
   inset 8px 8px 30px 0px rgba(121, 199, 255, 0.15);;

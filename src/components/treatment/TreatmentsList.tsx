@@ -291,26 +291,25 @@ const filtered = treatments.filter(
 
   return (
     <> 
-    <div className="min-h-screen  overflow-hidden">
-      <div className=" bg-background flex">
+    <div>
+      <div className="bg-background flex">
       <Sidebar
         collapsed={sidebarCollapsed}
         onToggle={() => setSidebarCollapsed(!sidebarCollapsed)}
       />
       <div
         className={cn(
-          "flex-1 flex flex-col transition-all duration-300 h-[calc(96vh-24px)]",
+          "flex-1 flex flex-col transition-all duration-300 h-[calc(96vh-24px)] mt-3",
           sidebarCollapsed ? "ml-[96px]" : "ml-[284px]"
         )}
       >
         {/* HEADER */}
-        <div className="sticky top-0 z-30 px-6 py-3">
+        <div className="sticky top-0 z-30 px-6 pb-3">
           <PageHeader title="Treatments" />
         </div>
         
-     <div className="px-6  h-full flex-1 ">
-        <div className="px-6 py-4 bg-card rounded-2xl border border-border overflow-y-auto shadow-card h-full">
-          <div className="h-full">
+        <div className="flex-1 mx-4 pl-[15px] pr-6 px-6 flex flex-col h-full bg-card rounded-2xl shadow-card p-5 overflow-y-auto scrollbar-thin">
+          <div>
             {/* TOP BAR */}
             <div className="mb-5 flex items-center justify-between">
             <div className="relative w-[256px]">
@@ -351,7 +350,7 @@ const filtered = treatments.filter(
             </div>
 
             {/* TABLE */}
-          <div className="rounded-2xl border border-border bg-card overflow-hidden">
+          <div className="rounded-2xl border border-border bg-card">
 
           {/* TABLE HEADER */}
           <div className="px-[15px]">
@@ -513,12 +512,9 @@ const filtered = treatments.filter(
 
           </div>
         </div>
-     </div>
       </div>
       </div>
-     <div className="px-6 pb-3">
-          <Footer/>
-        </div>
+       <Footer/>
     </div>
     </>
   );

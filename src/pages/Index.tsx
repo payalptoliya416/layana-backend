@@ -302,7 +302,7 @@ case "seo":
 
   return (
     <>
-    <div className="min-h-screen bg-background flex">
+    <div className="bg-background flex overflow-hidden">
       {/* Sidebar */}
       {/* <div className="flex"> */}
 
@@ -314,12 +314,12 @@ case "seo":
       {/* Main Content Area */}
       <div
         className={cn(
-          "flex-1 flex flex-col transition-all h-[calc(95vh-24px)] duration-300",
+          "flex-1 flex flex-col transition-all h-[calc(95vh-24px)] duration-300 mt-3",
           sidebarCollapsed ? "ml-[96px]" : "ml-[284px]"
         )}
       >
         {/* Sticky Header */}
-        <div className="sticky top-0 z-30 bg-background px-6 py-3">
+        <div className="sticky top-3 z-30 px-6 pb-3">
         <PageHeader
         title={pageTitle}
           isTitleLoading={isTitleLoading}
@@ -339,9 +339,9 @@ case "seo":
         </div>
 
         {/* Content Wrapper */}
-        <div className="flex-1 pl-[15px] pr-6 flex flex-col px-6  h-full ">
+        <div className="flex-1 mx-4 pl-[15px] pr-6 px-6 flex flex-col h-full bg-card rounded-2xl shadow-card p-5 overflow-y-auto scrollbar-thin">
           {/* Main Card with equal height tabs and content */}
-            <div className="flex-1 bg-card rounded-2xl shadow-card p-5 overflow-y-auto  scrollbar-hide">
+            <div className="">
               <div className="flex w-full gap-5 h-[680px] overflow-y-auto">
                 {/* Secondary Navigation - Sticky left side */}
                 <aside className="w-[270px] flex-shrink-0 border border-border p-4 rounded-[20px] h-full">
@@ -375,7 +375,7 @@ case "seo":
 
     </div>
       </div>
-         <div className="px-6 pb-3">
+         <div className="px-6">
           <Footer/>
         </div>
     </>
