@@ -333,3 +333,6 @@ input[type="number"] {
     opacity: 1;
   }
 }
+.index{
+  z-index: 22;
+}
