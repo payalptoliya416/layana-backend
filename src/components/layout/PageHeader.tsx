@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { Sun, Moon, Bell, User, LogOut, ChevronDown } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { removeToken } from "@/services/authService";
+import { createPortal } from "react-dom";
 
 interface PageHeaderProps {
   title: string;
@@ -96,22 +97,31 @@ useEffect(() => {
     document.addEventListener("mousedown", handleClickOutside);
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
-
-  return (
-    <>
-{visibleLoader && (
-  <div className="fixed inset-0 loader-index flex items-center justify-center modal-overlay backdrop-blur-sm">
-    <div className="flex flex-col items-center gap-4 relative loader-index">
-      {/* Dot Wave */}
+const GlobalLoader = () => {
+  return createPortal(
+    <div
+      style={{ zIndex: 2147483647 }} // max safe z-index
+      className="
+        fixed inset-0
+        flex items-center justify-center
+        bg-black/60
+        backdrop-blur-sm
+      "
+    >
       <div className="flex items-end gap-2 h-8">
         <span className="dot-wave dot-1" />
         <span className="dot-wave dot-2" />
         <span className="dot-wave dot-3" />
         <span className="dot-wave dot-4" />
       </div>
-    </div>
-  </div>
-)}
+    </div>,
+    document.body
+  );
+}
+
+  return (
+    <>
+ {visibleLoader && <GlobalLoader />}
 
     <header className="relative flex items-center px-6 bg-card py-3 rounded-2xl justify-between md:flex-nowrap flex-wrap gap-4 md:gap-1">
        <button

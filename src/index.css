@@ -336,6 +336,9 @@ input[type="number"] {
 .index{
   z-index: 10;
 }
+.sidebar-index{
+  z-index: 9;
+}
 .loader-index{
-  z-index: 25;
+  z-index: 999 !important;
 }

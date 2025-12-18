@@ -303,7 +303,7 @@ const filtered = treatments.filter((t) => {
         <>
           {/* overlay */}
           <div
-            className="fixed inset-0 bg-black/40 z-20"
+            className="fixed inset-0 bg-black/40 z-10"
             onClick={() => setSidebarOpen(false)}
           />
 
@@ -322,7 +322,7 @@ const filtered = treatments.filter((t) => {
         )}
       >
         {/* HEADER */}
-        <div className="sticky top-0 z-10 pb-3">
+        <div className="sticky top-0 sidebar-index pb-3">
           
           <PageHeader title="Treatments"   onMenuClick={() => setSidebarOpen(true)}/>
         </div>

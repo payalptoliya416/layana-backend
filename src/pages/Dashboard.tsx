@@ -25,7 +25,7 @@ const Dashboard = () => {
               <>
                 {/* overlay */}
                 <div
-                  className="fixed inset-0 bg-black/40 z-20"
+                  className="fixed inset-0 bg-black/40 z-10"
                   onClick={() => setSidebarOpen(false)}
                 />
       
