@@ -514,23 +514,28 @@ const handleDragEnd = (event: any) => {
         items={(pricingMap[selectedBranchId] || []).map(i => i.id)}
         strategy={verticalListSortingStrategy}
       >
-        <table className="w-full border-separate border-spacing-y-3">
-          <tbody>
-            {(pricingMap[selectedBranchId] || []).map((item) => (
-              <SortableRow
-                key={item.id}
-                item={item}
-                onEdit={() => handleEdit(item)}
-                onDelete={() => handleDelete(item.id)}
-              />
-            ))}
-          </tbody>
-        </table>
+          <div className="grid grid-cols-12">
+              <div className="col-span-12">
+                  <div className="w-full overflow-x-auto">
+            <table className="w-full border-separate border-spacing-y-3">
+              <tbody>
+                {(pricingMap[selectedBranchId] || []).map((item) => (
+                  <SortableRow
+                    key={item.id}
+                    item={item}
+                    onEdit={() => handleEdit(item)}
+                    onDelete={() => handleDelete(item.id)}
+                  />
+                ))}
+              </tbody>
+            </table>
+                  </div>
+              </div>
+          </div>
       </SortableContext>
     </DndContext>
   </div>
 </div>
-
         )}
       </>
     );
