@@ -387,7 +387,10 @@ const handleDragEnd = (event: any) => {
     </h2>
 
     {/* FORM */}
-    <div className="rounded-[10px] border border-border bg-card p-5 overflow-x-auto ">
+          <div className="grid grid-cols-12">
+               <div className="col-span-12">
+                 <div className="w-full rounded-[10px] border border-border bg-card p-5 overflow-x-auto">
+
       <table className="w-full border-separate border-spacing-0">
         <tbody>
           <tr className="rounded-[10px]">
@@ -492,7 +495,9 @@ const handleDragEnd = (event: any) => {
           </tr>
         </tbody>
       </table>
-    </div>
+                 </div>
+               </div>
+          </div>
   </div>
 
   {/* LIST */}

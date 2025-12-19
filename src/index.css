@@ -334,7 +334,10 @@ input[type="number"] {
   }
 }
 .index{
-  z-index: 10;
+  z-index: 12;
+}
+.index-11{
+  z-index: 11;
 }
 .sidebar-index{
   z-index: 9;

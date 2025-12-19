@@ -59,81 +59,77 @@ function SortableRow({
   onEdit: (id: number) => void;
   onDelete: (id: number) => void;
 }) {
-  const { attributes, listeners, setNodeRef, transform, transition ,isDragging} =
+  const { attributes, listeners, setNodeRef, transform, transition, isDragging } =
     useSortable({ id: item.id });
- const style = {
-  transform: CSS.Transform.toString(transform),
-  transition: transition ?? "transform 200ms cubic-bezier(0.25, 1, 0.5, 1)",
-  opacity: isDragging ? 0.6 : 1,
-};
+
+  const style = {
+    transform: CSS.Transform.toString(transform),
+    transition: transition ?? "transform 200ms cubic-bezier(0.25, 1, 0.5, 1)",
+    opacity: isDragging ? 0.6 : 1,
+  };
 
   return (
-  <div className="px-[15px]">
-  <div
-    ref={setNodeRef}
-    style={style}
-    className={cn(
-      "rounded-[10px] px-4 py-3 flex items-center gap-4 text-sm transition-all",
-      index % 2 === 0 ? "bg-card" : "bg-muted",
-      "hover:bg-muted/70"
-    )}
-  >
-    {/* DRAG HANDLE */}
-    <div
-      {...attributes}
-      {...listeners}
-      className="w-10 flex justify-center cursor-grab text-muted-foreground hover:text-foreground transition"
+    <tr
+      ref={setNodeRef}
+      style={style}
+      className={cn(
+        "flex items-center gap-4 px-4 py-3 text-sm rounded-[10px] mx-[15px] my-1 transition-all",
+        index % 2 === 0 ? "bg-card" : "bg-muted",
+        "hover:bg-muted/70"
+      )}
     >
-      <GripVertical size={18} />
-    </div>
-
-    {/* CATEGORY */}
-    <div className="w-[30%] font-medium text-foreground">
-      {item.category}
-    </div>
-
-    {/* TREATMENT */}
-    <div className="flex-1 text-muted-foreground">
-      {item.name}
-    </div>
-
-    {/* ACTIONS */}
-    <div className="w-[100px] flex justify-end gap-2">
-      <button
-        onClick={() => onEdit(item.id)}
-        className="
-          h-7 w-7 rounded-full
-          border border-border
-          bg-card
-          flex items-center justify-center
-          text-muted-foreground
-          hover:text-foreground hover:bg-muted
-          transition
-        "
+      {/* DRAG */}
+      <td
+        {...attributes}
+        {...listeners}
+        className="w-10 flex justify-center cursor-grab text-muted-foreground hover:text-foreground whitespace-nowrap"
       >
-        <Pencil size={15} />
-      </button>
+        <GripVertical size={18} />
+      </td>
 
-      <button
-        onClick={() => onDelete(item.id)}
-        className="
-          h-7 w-7 rounded-full
-          border border-border
-          bg-card
-          flex items-center justify-center
-           text-muted-foreground
-          hover:bg-muted
-          transition
-        "
-      >
-        <Trash2 size={15} />
-      </button>
-    </div>
-  </div>
-</div>
+      {/* CATEGORY */}
+      <td className="w-[30%] font-medium text-foreground whitespace-nowrap">
+        {item.category}
+      </td>
+
+      {/* TREATMENT */}
+      <td className="flex-1 text-muted-foreground whitespace-nowrap">
+        {item.name}
+      </td>
+
+      {/* ACTIONS */}
+      <td className="w-[100px] flex justify-end gap-2 whitespace-nowrap">
+        <button
+          onClick={() => onEdit(item.id)}
+          className="
+            h-7 w-7 rounded-full
+            border border-border
+            bg-card
+            flex items-center justify-center
+            text-muted-foreground
+            hover:text-foreground hover:bg-muted
+          "
+        >
+          <Pencil size={15} />
+        </button>
+
+        <button
+          onClick={() => onDelete(item.id)}
+          className="
+            h-7 w-7 rounded-full
+            border border-border
+            bg-card
+            flex items-center justify-center
+            text-muted-foreground
+            hover:bg-muted
+          "
+        >
+          <Trash2 size={15} />
+        </button>
+      </td>
+    </tr>
   );
 }
-
 
 /* ---------------- PAGE ---------------- */
 export default function TreatmentsList() {
@@ -367,73 +363,7 @@ const filtered = treatments.filter((t) => {
                 <Plus size={16} /> Add Treatment
               </button>
             </div>
-
-            {/* TABLE */}
-            
-        <div className="rounded-2xl border border-border bg-card flex flex-col flex-1 overflow-hidden min-w-[900px]">
-
-          {/* TABLE HEADER */}
-          <div className="px-[15px] shrink-0">
-           <div className="
-              flex items-center h-[52px]
-              px-[16px]
-              text-sm font-medium
-              text-primary
-              border-b border-border
-            ">
-            
-            {/* DRAG COLUMN */}
-            <div className="w-10 flex justify-center" />
-
-            {/* CATEGORY */}
-              <div
-          onClick={() => {
-            setSortBy("category");
-            setSortDirection((prev) => (prev === "asc" ? "desc" : "asc"));
-          }}
-          className="w-[30%] pl-4 border-l border-border flex items-center justify-between cursor-pointer"
-      >
-              <span>Category</span>
-              <div className="flex flex-col gap-1 ml-2 text-muted-foreground leading-none mr-2">
-                <span className="text-[10px]"><img src="/top.png" alt="" /></span>
-                <span className="text-[10px] -mt-1"><img src="/down.png" alt="" /></span>
-              </div>
-            </div>
-
-            {/* TREATMENT */}
-                    <div
-              onClick={() => {
-                setSortBy("name");
-                setSortDirection((prev) => (prev === "asc" ? "desc" : "asc"));
-              }}
-                className="flex-1 pl-4 border-l border-border  flex items-center justify-between cursor-pointer"
-              >
-              <span>Treatment</span>
-              <div className="flex flex-col ml-2 gap-1 text-muted-foreground leading-none mr-2">
-                      <span className="text-[10px]"><img src="/top.png" alt="" /></span>
-                <span className="text-[10px] -mt-1"><img src="/down.png" alt="" /></span>
-              </div>
-            </div>
-
-            {/* ACTIONS */}
-            <div className="w-[100px] pl-4 border-l border-border text-right">
-              Actions
-            </div>
-          </div>
-          </div>
-          <div className="flex-1 overflow-y-auto scrollbar-thin">
-        <DndContext
-          collisionDetection={closestCenter}
-          onDragEnd={handleDragEnd}
-          sensors={sensors}
-          measuring={{
-            droppable: {
-              strategy: MeasuringStrategy.Always,
-            },
-          }}
-        >
-
-                  <AlertDialog open={!!deleteId} onOpenChange={() => setDeleteId(null)}>
+                <AlertDialog open={!!deleteId} onOpenChange={() => setDeleteId(null)}>
           <AlertDialogContent>
             <AlertDialogHeader>
               <AlertDialogTitle>Are you sure?</AlertDialogTitle>
@@ -460,75 +390,161 @@ const filtered = treatments.filter((t) => {
               </AlertDialogAction>
             </AlertDialogFooter>
           </AlertDialogContent>
-        </AlertDialog>
-                      <SortableContext
-                        items={filtered.map((i) => i.id)}
-                        strategy={verticalListSortingStrategy}
+               </AlertDialog>
+          <div className="grid grid-cols-12">
+              <div className="col-span-12">
+               <div className="w-full overflow-auto rounded-2xl border border-border bg-card flex flex-col h-[calc(100vh-300px)] scrollbar-thin">
+                  <table className="w-full text-sm text-left">
+                  <thead className="sticky top-0 z-10 bg-card">
+                      <tr
+                        className="
+                          flex items-center h-[52px]
+                          px-[16px]
+                          text-sm font-medium
+                          text-primary
+                          border-b border-border
+                        "
                       >
-                        {filtered.map((item, index) => (
-                          <SortableRow
-                            key={item.id}
-                            item={item}
-                            index={index}
-                            onEdit={handleEdit}
-                            onDelete={(id) => setDeleteId(id)}
-                          />
-                        ))}
-                      </SortableContext>
-                    </DndContext>
-          </div>
-                {pagination && (
-          <div className="shrink-0 flex items-center justify-between gap-6 px-4 py-2 text-sm text-muted-foreground">
-        <span className="text-foreground font-medium">
-          Page {pagination.current_page} of {pagination.last_page}
-        </span>
-        <div className="flex gap-6 items-center">
+                        {/* DRAG COLUMN */}
+                        <th className="w-10 flex justify-center" />
 
-            {/* First */}
-            <button
-              disabled={pagination.current_page === 1}
-              onClick={() => setPage(1)}
-              className="hover:text-foreground disabled:opacity-40 text-2xl"
-            >
-              «
-            </button>
+                        {/* CATEGORY */}
+                        <th
+                          onClick={() => {
+                            setSortBy("category");
+                            setSortDirection((prev) => (prev === "asc" ? "desc" : "asc"));
+                          }}
+                          className="
+                            w-[30%] pl-4
+                            border-l border-border
+                            flex items-center justify-between
+                            cursor-pointer
+                            text-left
+                          "
+                        >
+                          <span>Category</span>
+                          <span className="flex flex-col gap-1 ml-2 text-muted-foreground leading-none mr-2">
+                            <span className="text-[10px]">
+                              <img src="/top.png" alt="" />
+                            </span>
+                            <span className="text-[10px] -mt-1">
+                              <img src="/down.png" alt="" />
+                            </span>
+                          </span>
+                        </th>
 
-            {/* Prev */}
-            <button
-              disabled={!pagination.prev_page_url}
-              onClick={() => setPage((p) => p - 1)} 
-              className="hover:text-foreground disabled:opacity-40 text-2xl"
-            >
-              ‹
-            </button>
+                        {/* TREATMENT */}
+                        <th
+                          onClick={() => {
+                            setSortBy("name");
+                            setSortDirection((prev) => (prev === "asc" ? "desc" : "asc"));
+                          }}
+                          className="
+                            flex-1 pl-4
+                            border-l border-border
+                            flex items-center justify-between
+                            cursor-pointer
+                            text-left
+                          "
+                        >
+                          <span>Treatment</span>
+                          <span className="flex flex-col ml-2 gap-1 text-muted-foreground leading-none mr-2">
+                            <span className="text-[10px]">
+                              <img src="/top.png" alt="" />
+                            </span>
+                            <span className="text-[10px] -mt-1">
+                              <img src="/down.png" alt="" />
+                            </span>
+                          </span>
+                        </th>
 
-            {/* Page Info */}
-            <span className="text-foreground font-medium">
-              {pagination.current_page} / {pagination.last_page}
-            </span>
+                        {/* ACTIONS */}
+                        <th
+                          className="
+                            w-[100px] pl-4
+                            border-l border-border
+                            text-right
+                          "
+                        >
+                          Actions
+                        </th>
+                      </tr>
+                    </thead>
+                    <tbody className="block flex-1 overflow-y-auto scrollbar-thin ">
+                      <DndContext
+                        collisionDetection={closestCenter}
+                        onDragEnd={handleDragEnd}
+                        sensors={sensors}
+                        measuring={{
+                          droppable: {
+                            strategy: MeasuringStrategy.Always,
+                          },
+                        }}
+                      >
+                        <SortableContext
+                          items={filtered.map((i) => i.id)}
+                          strategy={verticalListSortingStrategy}
+                        >
+                          {filtered.map((item, index) => (
+                            <SortableRow
+                              key={item.id}
+                              item={item}
+                              index={index}
+                              onEdit={handleEdit}
+                              onDelete={(id) => setDeleteId(id)}
+                            />
+                          ))}
+                        </SortableContext>
+                      </DndContext>
+                    </tbody>
+                  </table>
+                </div>
+                      {pagination && (
+                  <div className="shrink-0 flex items-center justify-between gap-6 px-4 py-2 text-sm text-muted-foreground">
+                <span className="text-foreground font-medium">
+                  Page {pagination.current_page} of {pagination.last_page}
+                </span>
+                <div className="flex gap-6 items-center">
 
-            {/* Next */}
-            <button
-              disabled={!pagination.next_page_url}
-              onClick={() => setPage((p) => p + 1)}
-              className="hover:text-foreground disabled:opacity-40 text-2xl"
-            >
-              ›
-            </button>
+                    <button
+                      disabled={pagination.current_page === 1}
+                      onClick={() => setPage(1)}
+                      className="hover:text-foreground disabled:opacity-40 text-2xl"
+                    >
+                      «
+                    </button>
 
-            {/* Last */}
-            <button
-              disabled={pagination.current_page === pagination.last_page}
-              onClick={() => setPage(pagination.last_page)}
-              className="hover:text-foreground disabled:opacity-40 text-2xl"
-            >
-              »
-            </button>
-        </div>
-          </div>
-        )}
-          </div>
+                    <button
+                      disabled={!pagination.prev_page_url}
+                      onClick={() => setPage((p) => p - 1)} 
+                      className="hover:text-foreground disabled:opacity-40 text-2xl"
+                    >
+                      ‹
+                    </button>
+                    <span className="text-foreground font-medium">
+                      {pagination.current_page} / {pagination.last_page}
+                    </span>
 
+                    <button
+                      disabled={!pagination.next_page_url}
+                      onClick={() => setPage((p) => p + 1)}
+                      className="hover:text-foreground disabled:opacity-40 text-2xl"
+                    >
+                      ›
+                    </button>
+
+                    <button
+                      disabled={pagination.current_page === pagination.last_page}
+                      onClick={() => setPage(pagination.last_page)}
+                      className="hover:text-foreground disabled:opacity-40 text-2xl"
+                    >
+                      »
+                    </button>
+                </div>
+                  </div>
+                )}
+              </div>
+            </div>
           </div>
         </div>
       </div>
