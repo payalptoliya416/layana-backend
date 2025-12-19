@@ -88,7 +88,7 @@ function SortableRow({
       </td>
 
       {/* CATEGORY */}
-      <td className="w-[30%] font-medium text-foreground whitespace-nowrap">
+      <td className="w-[30%] font-medium text-muted-foreground whitespace-nowrap">
         {item.category}
       </td>
 
@@ -326,18 +326,18 @@ const filtered = treatments.filter((t) => {
         <div className="flex-1 pl-[15px] pr-6 px-6 flex flex-col h-full bg-card rounded-2xl shadow-card p-5 overflow-hidden">
           <div className="flex flex-col flex-1 overflow-hidden">
             {/* TOP BAR */}
-            <div className="mb-2 flex items-center justify-between  shrink-0 flex-wrap gap-2">
-            <div className="relative w-[256px] rounded-full  p-1">
+            <div className="mb-2 flex items-center justify-between  shrink-0 flex-wrap gap-1 sm:gap-2">
+            <div className="relative w-[150px] sm:w-[256px] rounded-full  p-1">
             <input
               value={search}
               onChange={(e) => setSearch(e.target.value)}
               placeholder="Search"
         className="
-          w-full h-[48px]
+          w-full h-[40px] sm:h-[48px]
           rounded-full
           border border-input
           bg-card
-          px-6 pr-14
+          px-2 sm:px-6 pr-14
           text-[16px] text-foreground
           placeholder:text-muted-foreground
           outline-none
@@ -353,8 +353,8 @@ const filtered = treatments.filter((t) => {
         flex items-center gap-2
         rounded-full
         bg-primary
-        px-5 py-3
-        text-sm text-primary-foreground
+        px-3 sm:px-5 py-3
+        text-xs sm:text-sm text-primary-foreground
         shadow-button
         hover:opacity-90
         transition
@@ -497,7 +497,10 @@ const filtered = treatments.filter((t) => {
                         </SortableContext>
                       </DndContext>
                     </tbody>
-                  </table>
+                    <tfoot>
+                      <tr>
+                        <td>
+
                       {pagination && (
                   <div className="shrink-0 flex items-center justify-between gap-6 px-4 py-2 text-sm text-muted-foreground">
                 <span className="text-foreground font-medium">
@@ -542,6 +545,10 @@ const filtered = treatments.filter((t) => {
                 </div>
                   </div>
                 )}
+                        </td>
+                      </tr>
+                    </tfoot>
+                  </table>
                 </div>
               </div>
             </div>
