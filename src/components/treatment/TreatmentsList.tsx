@@ -4,6 +4,7 @@ import {
   Trash2,
   GripVertical,
   Search,
+  X,
 } from "lucide-react";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
@@ -142,11 +143,9 @@ const sensors = useSensors(
   }),
   useSensor(KeyboardSensor)
 );
-   const [treatments, setTreatments] = useState<Treatment[]>([]);
-
+const [treatments, setTreatments] = useState<Treatment[]>([]);
 const [page, setPage] = useState(1);
 const [pagination, setPagination] = useState<any>(null);
-
 const [sortBy, setSortBy] = useState<"name" | "category">("name");
 const [sortDirection, setSortDirection] = useState<"asc" | "desc">("asc");
 
@@ -306,14 +305,6 @@ const handleDelete = async () => {
   }
 };
 
-const filtered = treatments.filter((t) => {
-  const name = t.name?.toLowerCase() || "";
-  const category = t.category?.toLowerCase() || "";
-  const q = search.toLowerCase();
-
-  return name.includes(q) || category.includes(q);
-});
-
  const [sidebarOpen, setSidebarOpen] = useState(false);
   return (
     <> 
@@ -359,25 +350,40 @@ const filtered = treatments.filter((t) => {
           <div className="flex flex-col flex-1 overflow-hidden">
             {/* TOP BAR */}
             <div className="mb-2 flex items-center justify-between  shrink-0 flex-wrap gap-1 sm:gap-2">
-            <div className="relative w-[150px] sm:w-[256px] rounded-full  p-1">
-            <input
-              value={search}
-              onChange={(e) => setSearch(e.target.value)}
-              placeholder="Search"
-        className="
-          w-full h-[40px] sm:h-[48px]
-          rounded-full
-          border border-input
-          bg-card
-          px-2 sm:px-6 pr-14
-          text-[16px] text-foreground
-          placeholder:text-muted-foreground
-          outline-none
-          focus:ring-2 focus:ring-ring/20
-              "
-            />
+         <div className="relative w-[150px] sm:w-[256px] rounded-full p-1">
+  <input
+    value={search}
+    onChange={(e) => setSearch(e.target.value)}
+    placeholder="Search"
+    className="
+      w-full h-[40px] sm:h-[48px]
+      rounded-full
+      border border-input
+      bg-card
+      px-2 sm:px-6 pr-14
+      text-[16px] text-foreground
+      placeholder:text-muted-foreground
+      outline-none
+      focus:ring-2 focus:ring-ring/20
+    "
+  />
+
+  {/* Search icon (jab search empty hoy) */}
+  {!search && (
     <Search className="absolute right-5 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground" />
-          </div>
+  )}
+
+  {/* Clear (X) icon (jab search ma text hoy) */}
+  {search && (
+    <button
+      type="button"
+      onClick={() => setSearch("")}
+      className="absolute right-5 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground"
+    >
+      <X className="h-5 w-5" />
+    </button>
+  )}
+</div>
 
                   <button
       onClick={() => navigate("/treatments")}
