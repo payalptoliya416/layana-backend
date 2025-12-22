@@ -119,15 +119,12 @@ const slugEditedRef = useRef(false);
 
   /* ---------------- INIT GUARD ---------------- */
   const isInitializing = useRef(true);
-const lastIdRef = useRef<number | null>(null);
+  const lastIdRef = useRef<number | null>(null);
   const content = watch("content");
   const status = watch("status");
   const indicativePressure = watch("indicativePressure");
   const category = watch("category");
-   const nameValue = watch("name");
-     const [categories, setCategories] = useState<
-    { id: number; name: string }[]
-  >([]);
+  const [categories, setCategories] = useState<{ id: number; name: string }[]>([]);
 
   /* ---------------- RESET ON EDIT ---------------- */
 useEffect(() => {

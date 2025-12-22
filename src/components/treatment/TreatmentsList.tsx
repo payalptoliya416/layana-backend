@@ -149,12 +149,34 @@ const [pagination, setPagination] = useState<any>(null);
 
 const [sortBy, setSortBy] = useState<"name" | "category">("name");
 const [sortDirection, setSortDirection] = useState<"asc" | "desc">("asc");
+
+// useEffect(() => {
+//   const fetchTreatments = async () => {
+//     try {
+
+//       const res = await getTreatments({
+//         page,
+//         sortBy,
+//         sortDirection,
+//       });
+
+//       setTreatments(res.data);
+//       setPagination(res.pagination);
+//     } catch (e) {
+//       toast.error("Failed to load treatments");
+//     }
+//   };
+
+//   fetchTreatments();
+// }, [page, sortBy, sortDirection]);
+
 useEffect(() => {
   const fetchTreatments = async () => {
     try {
-
       const res = await getTreatments({
         page,
+        perPage: 10,
+        search,
         sortBy,
         sortDirection,
       });
@@ -167,7 +189,16 @@ useEffect(() => {
   };
 
   fetchTreatments();
-}, [page, sortBy, sortDirection]);
+}, [page, sortBy, sortDirection, search]);
+
+useEffect(() => {
+  const delay = setTimeout(() => {
+    setPage(1); // reset page on search
+  }, 400);
+
+  return () => clearTimeout(delay);
+}, [search]);
+
 const isSortingActive = sortBy !== "name" || sortDirection !== "asc";
 const [deleteId, setDeleteId] = useState<number | null>(null);
 const [isDeleting, setIsDeleting] = useState(false);
@@ -282,6 +313,7 @@ const filtered = treatments.filter((t) => {
 
   return name.includes(q) || category.includes(q);
 });
+
  const [sidebarOpen, setSidebarOpen] = useState(false);
   return (
     <> 
@@ -482,10 +514,10 @@ const filtered = treatments.filter((t) => {
                         }}
                       >
                         <SortableContext
-                          items={filtered.map((i) => i.id)}
+                          items={treatments.map((i) => i.id)}
                           strategy={verticalListSortingStrategy}
                         >
-                          {filtered.map((item, index) => (
+                          {treatments.map((item, index) => (
                             <SortableRow
                               key={item.id}
                               item={item}

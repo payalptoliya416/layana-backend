@@ -47,27 +47,55 @@ export interface TreatmentsResponse {
   data: Treatment[];
 }
 
-
-
 export async function getTreatments(params?: {
   page?: number;
+  perPage?: number;
+  search?: string;
   sortBy?: string;
   sortDirection?: "asc" | "desc";
 }) {
+  const formData = new URLSearchParams();
+
+  if (params?.page) formData.append("page", String(params.page));
+  if (params?.perPage) formData.append("per_page", String(params.perPage));
+  if (params?.search) formData.append("search", params.search);
+
   const res = await api.post<TreatmentsResponse>(
     "/treatements/message",
-    {},
+    formData, // ✅ BODY
     {
       params: {
-        page: params?.page,
         sort_by: params?.sortBy,
         sort_direction: params?.sortDirection,
+      },
+      headers: {
+        "Content-Type": "application/x-www-form-urlencoded",
       },
     }
   );
 
   return res.data;
 }
+
+// export async function getTreatments(params?: {
+//   page?: number;
+//   sortBy?: string;
+//   sortDirection?: "asc" | "desc";
+// }) {
+//   const res = await api.post<TreatmentsResponse>(
+//     "/treatements/message",
+//     {},
+//     {
+//       params: {
+//         page: params?.page,
+//         sort_by: params?.sortBy,
+//         sort_direction: params?.sortDirection,
+//       },
+//     }
+//   );
+
+//   return res.data;
+// }
 
 export const reorderTreatment = async (payload: {
   id: number;
