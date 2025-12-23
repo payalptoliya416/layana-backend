@@ -201,7 +201,7 @@ const handleSaveTreatment = async () => {
     const res = await createLocation(payload);
 console.log("res",res)
     toast.success("Location created successfully ✅");
-    // navigate("/location"); 
+    navigate("/location"); 
   } catch (err: any) {
     console.error(err);
     toast.error(

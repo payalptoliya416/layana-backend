@@ -40,3 +40,9 @@ export async function createLocation(payload: CreateLocationPayload) {
   return res.data;
 }
 
+export async function deleteLocation(id: number) {
+  const res = await api.post("/locations/delete", {
+    id,
+  });
+  return res.data;
+}

@@ -10,6 +10,18 @@ import { SortableContext, useSortable, verticalListSortingStrategy } from "@dnd-
 import { CSS } from "@dnd-kit/utilities";
 import { toast } from "sonner";
 import { BranchLocation, getLocations } from "@/services/getLocation";
+import { deleteLocation } from "@/services/locationService";
+import {
+  AlertDialog,
+  AlertDialogContent,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogCancel,
+  AlertDialogAction,
+} from "@/components/ui/alert-dialog";
+import { Button } from "../ui/button";
 
 export type Category = {
   id: number;
@@ -110,26 +122,28 @@ function LocationList() {
   const [pagination, setPagination] = useState<any>(null);
   const [sortBy, setSortBy] = useState<"name" | "category">("name");
   const [sortDirection, setSortDirection] = useState<"asc" | "desc">("asc");
-  const [deleteId, setDeleteId] = useState<number | null>(null);
   const [locations, setLocations] = useState<BranchLocation[]>([]);
+  console.log("locations",locations)
+    const [isDeleting, setIsDeleting] = useState(false);
+    const [deleteId, setDeleteId] = useState<number | null>(null);
 
+const fetchTreatments = async () => {
+  try {
+    const res = await getLocations({
+      page,
+      perPage: 10,
+      search,
+      sortBy,
+      sortDirection,
+    });
+
+      setLocations(res.data);
+    setPagination(res.pagination);
+  } catch (e) {
+    toast.error("Failed to load treatments");
+  }
+};
 useEffect(() => {
-  const fetchTreatments = async () => {
-    try {
-      const res = await getLocations({
-        page,
-        perPage: 10,
-        search,
-        sortBy,
-        sortDirection,
-      });
-
-        setLocations(res.data);
-    //   setPagination(res.pagination);
-    } catch (e) {
-      toast.error("Failed to load treatments");
-    }
-  };
 
   fetchTreatments();
 }, [page, sortBy, sortDirection, search]);
@@ -142,6 +156,24 @@ useEffect(() => {
   return () => clearTimeout(delay);
 }, [search]);
 
+const handleDeleteConfirm = async () => {
+  if (!deleteId) return;
+
+  try {
+    setIsDeleting(true);
+
+    await deleteLocation(deleteId);
+
+    toast.success("Location deleted successfully");
+    await fetchTreatments();
+  } catch (err) {
+    console.error(err);
+    toast.error("Failed to delete location");
+  } finally {
+    setIsDeleting(false);
+    setDeleteId(null);
+  }
+};
 
 const handleEdit = (id: number) => {
 //   navigate(`/treatments/edit/${id}`);
@@ -315,36 +347,70 @@ const handleDelete = async () => {
                         </th>
                       </tr>
                           </thead>
-                           <tbody className="block flex-1 overflow-y-auto scrollbar-thin ">
-                                    <DndContext
-                                                    collisionDetection={closestCenter}
-                                                    // onDragEnd={handleDragEnd}
-                                                    sensors={sensors}
-                                                    // measuring={{
-                                                    //   droppable: {
-                                                    //     strategy: MeasuringStrategy.Always,
-                                                    //   },
-                                                    // }}
-                                                  >
-                                                    <SortableContext
-                                                      items={locations.map((i) => i.id)}
-                                                      strategy={verticalListSortingStrategy}
-                                                    >
-                                                      {locations.map((item, index) => (
-                                                        <SortableRow
-                                                          key={item.id}
-                                                          item={item}
-                                                          index={index}
-                                                          onEdit={handleEdit}
-                                                          onDelete={(id) => setDeleteId(id)}
-                                                        />
-                                                      ))}
-                                                    </SortableContext>
-                                                  </DndContext>
-                           </tbody>
+                          <tbody className="block flex-1 overflow-y-auto scrollbar-thin">
+                        {locations.length === 0 ? (
+                            <tr className="flex items-center justify-center h-[200px]">
+                            <td className="text-muted-foreground text-sm">
+                                No locations found
+                            </td>
+                            </tr>
+                        ) : (
+                            <DndContext
+                            collisionDetection={closestCenter}
+                            sensors={sensors}
+                            >
+                            <SortableContext
+                                items={locations.map((i) => i.id)}
+                                strategy={verticalListSortingStrategy}
+                            >
+                                {locations.map((item, index) => (
+                                <SortableRow
+                                    key={item.id}
+                                    item={item}
+                                    index={index}
+                                    onEdit={handleEdit}
+                                    onDelete={(id) => setDeleteId(id)}
+                                />
+                                ))}
+                            </SortableContext>
+                            </DndContext>
+                        )}
+                        </tbody>
                               <tfoot>
                       <tr>
                         <td>
+<AlertDialog open={!!deleteId} onOpenChange={() => setDeleteId(null)}>
+  <AlertDialogContent className="max-w-[420px] rounded-2xl p-6">
+    <AlertDialogHeader>
+      <AlertDialogTitle className="text-lg">
+        Delete Location?
+      </AlertDialogTitle>
+    </AlertDialogHeader>
+
+    <p className="text-sm text-muted-foreground">
+      Are you sure you want to delete this location?  
+      This action cannot be undone.
+    </p>
+
+    <AlertDialogFooter className="mt-6">
+      <Button
+        variant="cancel"
+        onClick={() => setDeleteId(null)}
+        disabled={isDeleting}
+      >
+        Cancel
+      </Button>
+
+      <Button
+        variant="destructive"
+        onClick={handleDeleteConfirm}
+        disabled={isDeleting}
+      >
+        {isDeleting ? "Deleting..." : "Delete"}
+      </Button>
+    </AlertDialogFooter>
+  </AlertDialogContent>
+</AlertDialog>
 
                       {pagination && (
                   <div className="shrink-0 flex items-center justify-between gap-6 px-4 py-2 text-sm text-muted-foreground">

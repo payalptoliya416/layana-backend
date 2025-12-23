@@ -33,6 +33,14 @@ export interface LocationResponse {
   status: string;
   message: string;
   data: BranchLocation[];
+    pagination: {
+    current_page: number;
+    per_page: number;
+    total: number;
+    last_page: number;
+    next_page_url: string | null;
+    prev_page_url: string | null;
+  };
 }
 
 /* ---------- API CALL (SEARCH / SORT / FILTER READY) ---------- */

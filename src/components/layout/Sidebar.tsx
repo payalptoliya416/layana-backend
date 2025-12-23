@@ -19,7 +19,7 @@ interface NavItem {
 
 const navItems: NavItem[] = [
   { icon: LayoutDashboard, label: "Dashboard", href: "/dashboard" },
-  { icon: ChartColumnStacked, label: "Category", href: "/category" },
+  // { icon: ChartColumnStacked, label: "Category", href: "/category" },
   // { icon: MapPin, label: "Location", href: "/location" },
   // { icon: Users, label: "Team & Clients", children: [{ label: "Clients", href: "/clients" }, { label: "Staff", href: "/staff" }] },
   // { icon: Building2, label: "Operations", children: [{ label: "Schedule", href: "/schedule" }, { label: "Reports", href: "/reports" }] },
