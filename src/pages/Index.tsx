@@ -87,7 +87,7 @@ const initialTreatmentData = useMemo(() => {
     Category: treatmentPayload.general?.Category || "",
     Status:
       treatmentPayload.general?.Status || "draft",
-    indicative_pressure:treatmentPayload.general?.indicative_pressure || "medium",
+      indicative_pressure: treatmentPayload.general?.indicative_pressure ?? "medium",
     Content: treatmentPayload.general?.Content || "",
   };
 }, [isEdit, treatmentPayload.general]);

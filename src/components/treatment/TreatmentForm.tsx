@@ -25,7 +25,7 @@ const treatmentSchema = z.object({
   category: z.string().min(1, "Category is required"),
   status: z.enum(["draft", "live", "archived"]),
   indicativePressure: z
-    .enum(["light", "medium", "firm", "deep"])
+    .enum(["light", "medium", "firm", "deep","none"])
     .nullable()
     .optional(),
   content: z.string().min(1, "Content is required"),
@@ -88,7 +88,7 @@ useImperativeHandle(ref, () => ({
       }
 
      if (!isDraft && !isFacial) {
-        if (!values.indicativePressure) {
+       if (!values.indicativePressure || values.indicativePressure === "none") {
           errors.push({
             section: "General",
             field: "indicativePressure",
@@ -137,13 +137,15 @@ useEffect(() => {
   if (!initialData) return;
   lastIdRef.current = initialData.id;
   isInitializing.current = true;
-
+ const pressureValue = initialData.indicative_pressure === "" || initialData.indicative_pressure === null
+    ? "none"
+    : (initialData.indicative_pressure || "medium");
   reset({
     name: initialData.name || "",
     slug: initialData.Slug || "",
     category: initialData.Category || "",
     status: initialData.Status || "draft",
-   indicativePressure: initialData.indicative_pressure || "medium",
+   indicativePressure: pressureValue,
     content: initialData.Content || "",
   });
 
@@ -174,13 +176,14 @@ useEffect(() => {
 useEffect(() => {
   const subscription = watch((values) => {
     if (isInitializing.current && initialData) return;
-
+  const pressureValue = values.indicativePressure === "none" ? "" : (values.indicativePressure || "medium");
+  console.log("pressureValue",pressureValue)
     onChange({
       name: values.name || "",
       Slug: values.slug || "",
       Category: values.category || "",
       Status: values.status || "draft",
-      indicative_pressure: values.indicativePressure || "medium",
+      indicative_pressure: pressureValue,
       Content: values.content || "",
       type: "message",
     });
@@ -188,27 +191,6 @@ useEffect(() => {
 
   return () => subscription.unsubscribe();
 }, [watch, onChange, initialData]);
-
-useEffect(() => {
-  if (!category) return;
-
-  if (category === "Facial") {
-    setValue("indicativePressure", null, {
-      shouldDirty: true,
-      shouldValidate: true,
-    });
-  } else {
-    // ✅ Non-Facial → default medium
-    const current = getValues("indicativePressure");
-
-    if (!current) {
-      setValue("indicativePressure", "medium", {
-        shouldDirty: true,
-        shouldValidate: true,
-      });
-    }
-  }
-}, [category, setValue, getValues]);
 
   /* ---------------- UI ---------------- */
   return (
@@ -290,16 +272,12 @@ useEffect(() => {
   </label>
 
   <Select
-    value={indicativePressure ?? ""}
-    onValueChange={(v) =>
-      setValue(
-        "indicativePressure",
-        v === "__none__" ? null : (v as any),
-        {
-          shouldDirty: true,
-          shouldValidate: true,
-        }
-      )
+    value={indicativePressure || "medium"}
+     onValueChange={(v) =>
+      setValue("indicativePressure", v as any, {
+        shouldDirty: true,
+        shouldValidate: true,
+      })
     }
   >
     <SelectTrigger className="form-input">
@@ -307,9 +285,9 @@ useEffect(() => {
     </SelectTrigger>
 
     <SelectContent>
-      {category === "Facial" && (
-  <SelectItem value="__none__">— Not Applicable —</SelectItem>
-)}
+                    {isFacial && (
+                <SelectItem value="none">None</SelectItem>
+              )}
       <SelectItem value="light">Light</SelectItem>
       <SelectItem value="medium">Medium</SelectItem>
       <SelectItem value="firm">Firm</SelectItem>
@@ -317,7 +295,6 @@ useEffect(() => {
     </SelectContent>
   </Select>
 </div>
-
 
     {/* CATEGORY */}
     <div>
