@@ -13,6 +13,7 @@ import Catgeory from "./components/category/Catgeory";
 import CategoryAdd from "./components/category/CategoryAdd";
 import LocationList from "./components/location/LocationList";
 import AddLocation from "./components/location/AddLocation";
+import LocationIndex from "./components/location/LocationIndex";
 
 const queryClient = new QueryClient();
 
@@ -74,15 +75,7 @@ const App = () => (
             path="/location/add"
             element={
               <ProtectedRoute>
-                <AddLocation />
-              </ProtectedRoute>
-            }
-          />
-          <Route
-            path="/location/add"
-            element={
-              <ProtectedRoute>
-                <AddLocation />
+                <LocationIndex />
               </ProtectedRoute>
             }
           />

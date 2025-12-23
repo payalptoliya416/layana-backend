@@ -137,15 +137,16 @@ useEffect(() => {
   if (!initialData) return;
   lastIdRef.current = initialData.id;
   isInitializing.current = true;
- const pressureValue = initialData.indicative_pressure === "" || initialData.indicative_pressure === null
-    ? "none"
-    : (initialData.indicative_pressure || "medium");
+
   reset({
     name: initialData.name || "",
     slug: initialData.Slug || "",
     category: initialData.Category || "",
     status: initialData.Status || "draft",
-   indicativePressure: pressureValue,
+   indicativePressure:
+      initialData.indicative_pressure === null
+        ? "none"
+        : initialData.indicative_pressure || "medium",
     content: initialData.Content || "",
   });
 
@@ -176,7 +177,10 @@ useEffect(() => {
 useEffect(() => {
   const subscription = watch((values) => {
     if (isInitializing.current && initialData) return;
-  const pressureValue = values.indicativePressure === "none" ? "" : (values.indicativePressure || "medium");
+const pressureValue =
+      values.indicativePressure === "none"
+        ? null
+        : values.indicativePressure ?? "medium";
   console.log("pressureValue",pressureValue)
     onChange({
       name: values.name || "",
@@ -272,7 +276,7 @@ useEffect(() => {
   </label>
 
   <Select
-    value={indicativePressure || "medium"}
+   value={indicativePressure ?? (isFacial ? "none" : "medium")}
      onValueChange={(v) =>
       setValue("indicativePressure", v as any, {
         shouldDirty: true,

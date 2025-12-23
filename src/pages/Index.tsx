@@ -79,6 +79,7 @@ const [treatmentPayload, setTreatmentPayload] = useState<TreatmentPayload>({
   },
   seo: [],
 });
+console.log("treatmentPayload",treatmentPayload)
 const initialTreatmentData = useMemo(() => {
 
   return {
@@ -111,60 +112,10 @@ const handleCancle = ()=>{
 }
 const [saving, setSaving] = useState(false);
 
-// const handleSaveTreatment = async () => {
-//    const validators = [
-//     generalRef,
-//     branchesRef,
-//     visualsRef,
-//     pricingRef,
-//     benefitsRef,
-//     faqRef,
-//     seoRef,
-//   ];
-
-//   const results: ValidationResult[] = await Promise.all(
-//     validators.map(async (ref) => {
-//       try {
-//         return (await ref.current?.validate?.()) ?? OK;
-//       } catch (err) {
-//         console.error("Validation error:", err);
-//         return OK;
-//       }
-//     })
-//   );
-
-//   const allErrors = results.flatMap((r) => r.errors || []);
-
-//   if (allErrors.length > 0) {
-//     setValidationErrors(allErrors);
-//     setShowValidationPopup(true);
-//     return;
-//   }
-
-//   // ✅ API CALL
-//   try {
-//     const payload = {
-//       ...(isEdit ? { id: Number(id) } : {}),
-//       ...treatmentPayload,
-//       Location: selectedBranches,
-//     };
-
-//     const res = isEdit
-//       ? await updateTreatmentMessage(payload)
-//       : await createTreatmentMessage(payload);
-
-//     if (res?.status === "success" || res?.data?.status === "success") {
-//       toast.success(res.message || res.data.message);
-//       navigate("/treatments-list");
-//     }
-//   } catch {
-//     toast.error("Something went wrong");
-//   }
-// };
 const handleSaveTreatment = async () => {
   if (saving) return;
 
-  setSaving(true); // ✅ 🔥 THIS WAS MISSING
+  setSaving(true); 
 
   const isDraft = treatmentPayload.general?.Status === "draft";
 
@@ -205,7 +156,7 @@ const handleSaveTreatment = async () => {
       ...treatmentPayload,
       Location: selectedBranches,
     };
-
+    console.log(payload)
     const res = isEdit
       ? await updateTreatmentMessage(payload)
       : await createTreatmentMessage(payload);
@@ -275,6 +226,7 @@ const pageTitle = useMemo(() => {
 
   return "Add Treatment";
 }, [activeSection, selectedSeoBranch, isEdit, treatmentPayload.general?.name]);
+
 const isTitleLoading =
   isEdit && loadingTreatment && !treatmentPayload.general?.name;
 
@@ -286,7 +238,6 @@ useEffect(() => {
   if (selectedCategory) {
   }
 }, [selectedCategory]);
-
 
 const renderTabContent = () => {
   return (

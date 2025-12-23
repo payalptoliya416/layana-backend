@@ -144,7 +144,7 @@ useEffect(() => {
 
 
 const handleEdit = (id: number) => {
-  navigate(`/treatments/edit/${id}`);
+//   navigate(`/treatments/edit/${id}`);
 };
 const handleDelete = async () => {
 //   if (!deleteId) return;
