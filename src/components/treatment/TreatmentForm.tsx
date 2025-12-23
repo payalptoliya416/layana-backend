@@ -276,7 +276,7 @@ const pressureValue =
   </label>
 
   <Select
-   value={indicativePressure ?? (isFacial ? "none" : "medium")}
+value={indicativePressure ?? undefined}
      onValueChange={(v) =>
       setValue("indicativePressure", v as any, {
         shouldDirty: true,
