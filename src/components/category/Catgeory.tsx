@@ -376,26 +376,32 @@ const handleDelete = async () => {
                               <tfoot>
                       <tr>
                         <td>
-                        {deleteId && (
-                        <AlertDialog open onOpenChange={() => setDeleteId(null)}>
-                            <AlertDialogContent>
-                            <AlertDialogHeader>
-                                <AlertDialogTitle>
-                                Are you sure you want to delete this category?
-                                </AlertDialogTitle>
-                            </AlertDialogHeader>
-
-                            <div className="flex justify-end gap-3 mt-4">
-                                <Button variant="cancel" onClick={() => setDeleteId(null)}>
-                                Cancel
-                                </Button>
-                                <Button variant="destructive" onClick={handleDelete}>
-                                Delete
-                                </Button>
-                            </div>
-                            </AlertDialogContent>
-                        </AlertDialog>
-                        )}
+                               <AlertDialog open={!!deleteId} onOpenChange={() => setDeleteId(null)}>
+                                      <AlertDialogContent>
+                                        <AlertDialogHeader>
+                                          <AlertDialogTitle>Are you sure?</AlertDialogTitle>
+                                          <AlertDialogDescription>
+                                            This action cannot be undone. This will permanently delete the
+                                            category.
+                                          </AlertDialogDescription>
+                                        </AlertDialogHeader>
+                            
+                                        <AlertDialogFooter>
+                                          <AlertDialogCancel
+                                            onClick={() => setDeleteId(null)}
+                                          >
+                                            Cancel
+                                          </AlertDialogCancel>
+                            
+                                          <AlertDialogAction
+                                            onClick={handleDelete}
+                                            className="bg-red-600 hover:bg-red-700"
+                                          >
+                                            Delete
+                                          </AlertDialogAction>
+                                        </AlertDialogFooter>
+                                      </AlertDialogContent>
+                                           </AlertDialog>
                         {pagination && (
                         <div className="shrink-0 flex items-center justify-between gap-6 px-4 py-2 text-sm text-muted-foreground">
                             <span className="text-foreground font-medium">
