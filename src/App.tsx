@@ -9,6 +9,10 @@ import Dashboard from "./pages/Dashboard";
 import NotFound from "./pages/NotFound";
 import ProtectedRoute from "./components/ProtectedRoute";
 import TreatmentsList from "./components/treatment/TreatmentsList";
+import Catgeory from "./components/category/Catgeory";
+import CategoryAdd from "./components/category/CategoryAdd";
+import LocationList from "./components/location/LocationList";
+import AddLocation from "./components/location/AddLocation";
 
 const queryClient = new QueryClient();
 
@@ -21,7 +25,7 @@ const App = () => (
         <Routes>
           {/* Login Route */}
           <Route path="/login" element={<Login />} />
-          
+
           {/* Protected Dashboard Route */}
           <Route
             path="/dashboard"
@@ -31,7 +35,66 @@ const App = () => (
               </ProtectedRoute>
             }
           />
-          
+
+          <Route
+            path="/category"
+            element={
+              <ProtectedRoute>
+                <Catgeory />
+              </ProtectedRoute>
+            }
+          />
+
+          <Route
+            path="/category/add"
+            element={
+              <ProtectedRoute>
+                <CategoryAdd />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/category/edit/:id"
+            element={
+              <ProtectedRoute>
+                <CategoryAdd />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/location"
+            element={
+              <ProtectedRoute>
+                <LocationList />
+              </ProtectedRoute>
+            }
+          />
+
+          <Route
+            path="/location/add"
+            element={
+              <ProtectedRoute>
+                <AddLocation />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/location/add"
+            element={
+              <ProtectedRoute>
+                <AddLocation />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/location/edit/:id"
+            element={
+              <ProtectedRoute>
+                <AddLocation />
+              </ProtectedRoute>
+            }
+          />
+
           {/* Protected Treatment Editor Route */}
           <Route
             path="/treatments"
@@ -52,14 +115,14 @@ const App = () => (
 
           {/* Redirect root to login */}
           <Route path="/" element={<Navigate to="/login" replace />} />
-         <Route
-  path="/treatments/edit/:id"
-  element={
-    <ProtectedRoute>
-      <Index />
-    </ProtectedRoute>
-  }
-/>
+          <Route
+            path="/treatments/edit/:id"
+            element={
+              <ProtectedRoute>
+                <Index />
+              </ProtectedRoute>
+            }
+          />
           {/* Catch-all */}
           <Route path="*" element={<NotFound />} />
         </Routes>

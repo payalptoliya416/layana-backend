@@ -22,7 +22,7 @@ export const BranchList = forwardRef<
 ) {
   const [locations, setLocations] = useState<Location[]>([]);
   const [loading, setLoading] = useState(true);
-console.log("category",category)
+  
 useEffect(() => {
   const fetchLocations = async () => {
     try {

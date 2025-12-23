@@ -202,45 +202,6 @@ const isSortingActive = sortBy !== "name" || sortDirection !== "asc";
 const [deleteId, setDeleteId] = useState<number | null>(null);
 const [isDeleting, setIsDeleting] = useState(false);
 
-// const handleDragEnd = async (event: any) => {
-//   const { active, over } = event;
-//   if (!over || active.id === over.id) return;
-
-//   if (isSortingActive) {
-//     toast.warning("Disable sorting to reorder");
-//     return;
-//   }
-
-//   const oldIndex = treatments.findIndex((i) => i.id === active.id);
-//   const newIndex = treatments.findIndex((i) => i.id === over.id);
-
-//   const reordered = arrayMove(treatments, oldIndex, newIndex);
-//   setTreatments(reordered);
-
-//   try {
-//     await reorderTreatment({
-//       id: active.id,
-//       index: newIndex,
-//     });
-
-//     toast.success("Order updated");
-
-//     const res = await getTreatments({
-//       page,
-//       sortBy,
-//       sortDirection,
-//     });
-
-//     setTreatments(res.data);
-//     setPagination(res.pagination);
-//   } catch (error) {
-//     toast.error("Reorder failed");
-
-//     // ❌ rollback UI
-//     setTreatments(treatments);
-//   }
-// };
-
 const handleDragEnd = async (event: any) => {
   const { active, over } = event;
   if (!over || active.id === over.id) return;
@@ -351,39 +312,39 @@ const handleDelete = async () => {
             {/* TOP BAR */}
             <div className="mb-2 flex items-center justify-between  shrink-0 flex-wrap gap-1 sm:gap-2">
          <div className="relative w-[150px] sm:w-[256px] rounded-full p-1">
-  <input
-    value={search}
-    onChange={(e) => setSearch(e.target.value)}
-    placeholder="Search"
-    className="
-      w-full h-[40px] sm:h-[48px]
-      rounded-full
-      border border-input
-      bg-card
-      px-2 sm:px-6 pr-14
-      text-[16px] text-foreground
-      placeholder:text-muted-foreground
-      outline-none
-      focus:ring-2 focus:ring-ring/20
-    "
-  />
+                <input
+                  value={search}
+                  onChange={(e) => setSearch(e.target.value)}
+                  placeholder="Search"
+                  className="
+                    w-full h-[40px] sm:h-[48px]
+                    rounded-full
+                    border border-input
+                    bg-card
+                    px-2 sm:px-6 pr-14
+                    text-[16px] text-foreground
+                    placeholder:text-muted-foreground
+                    outline-none
+                    focus:ring-2 focus:ring-ring/20
+                  "
+                />
 
-  {/* Search icon (jab search empty hoy) */}
-  {!search && (
-    <Search className="absolute right-5 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground" />
-  )}
+                {/* Search icon (jab search empty hoy) */}
+                {!search && (
+                  <Search className="absolute right-5 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground" />
+                )}
 
-  {/* Clear (X) icon (jab search ma text hoy) */}
-  {search && (
-    <button
-      type="button"
-      onClick={() => setSearch("")}
-      className="absolute right-5 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground"
-    >
-      <X className="h-5 w-5" />
-    </button>
-  )}
-</div>
+                {/* Clear (X) icon (jab search ma text hoy) */}
+                {search && (
+                  <button
+                    type="button"
+                    onClick={() => setSearch("")}
+                    className="absolute right-5 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground"
+                  >
+                    <X className="h-5 w-5" />
+                  </button>
+                )}
+              </div>
 
                   <button
       onClick={() => navigate("/treatments")}
