@@ -169,10 +169,11 @@ export const FAQSection = forwardRef<
   {
     value: FAQItem[];
     onChange: (v: FAQItem[]) => void;
+    category: string;
   }
 >
-(function FAQSection({ value, onChange }, ref) {
-
+(function FAQSection({ value, onChange ,category}, ref) {
+const isFacial = category === "Facial";
   const [openId, setOpenId] = useState<string | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [editingIndex, setEditingIndex] = useState<number | null>(null);
@@ -194,8 +195,8 @@ useImperativeHandle(ref, () => ({
   async validate(): Promise<ValidationResult> {
     const errors: ValidationError[] = [];
 
-    // 🔴 No FAQ added
-    if (!Array.isArray(value) || value.length === 0) {
+    //  No FAQ added
+    if (!isFacial && (!Array.isArray(value) || value.length === 0)){
       errors.push({
         section: "FAQ",
         field: "faqs",
@@ -208,7 +209,7 @@ useImperativeHandle(ref, () => ({
       };
     }
 
-    // 🔴 Validate each FAQ
+    //  Validate each FAQ
     value.forEach((faq, index) => {
       if (!faq?.question?.trim()) {
         errors.push({
@@ -240,7 +241,7 @@ useImperativeHandle(ref, () => ({
   {/* HEADER */}
   <div className="flex justify-between items-center">
     <h2 className="text-lg font-medium text-foreground">
-      FAQ’s<sup className="text-destructive">*</sup>
+      FAQ’s{!isFacial && (<sup className="text-destructive">*</sup>)}
     </h2>
 
     <button

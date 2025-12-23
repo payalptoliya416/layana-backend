@@ -283,6 +283,13 @@ const isTitleLoading =
 const [selectedPricingBranch, setSelectedPricingBranch] =
   useState<number | null>(null);
 
+const selectedCategory = treatmentPayload.general?.Category;
+useEffect(() => {
+  if (selectedCategory) {
+  }
+}, [selectedCategory]);
+
+
 const renderTabContent = () => {
   return (
     <>
@@ -304,6 +311,7 @@ const renderTabContent = () => {
       <div className={cn(activeSection !== "branches" && "hidden")}>
         <BranchList
           ref={branchesRef}
+           category={selectedCategory}
           selectedBranches={selectedBranches}
           onSelectionChange={(ids) => {
             setSelectedBranches(ids);
@@ -319,6 +327,7 @@ const renderTabContent = () => {
       <div className={cn(activeSection !== "visuals" && "hidden")}>
         <VisualsForm
           ref={visualsRef}
+             category={selectedCategory}
           initialData={treatmentPayload.visuals}
           onChange={(visuals) =>
             setTreatmentPayload((prev) => ({
@@ -333,6 +342,7 @@ const renderTabContent = () => {
       <div className={cn(activeSection !== "pricing" && "hidden")}>
         <Pricing
           ref={pricingRef}
+             category={selectedCategory}
           branches={selectedBranchObjects}
           selectedBranchId={selectedPricingBranch}
           onSelectBranch={setSelectedPricingBranch}
@@ -350,6 +360,7 @@ const renderTabContent = () => {
       <div className={cn(activeSection !== "benefits" && "hidden")}>
         <div className="space-y-10">
           <BenefitsSection
+             category={selectedCategory}
             ref={benefitsRef}
             value={benefitsFaq}
             onChange={(data) => {
@@ -367,6 +378,7 @@ const renderTabContent = () => {
 
           <FAQSection
             ref={faqRef}
+               category={selectedCategory}
             value={benefitsFaq.faq}
             onChange={(faq) => {
               setBenefitsFaq((prev) => {
@@ -386,6 +398,7 @@ const renderTabContent = () => {
       <div className={cn(activeSection !== "seo" && "hidden")}>
         <BranchSEOPage
           ref={seoRef}
+             category={selectedCategory}
           branches={selectedBranchObjects}
           selectedBranchId={selectedSeoBranch}
           initialData={treatmentPayload.seo}

@@ -24,7 +24,10 @@ const treatmentSchema = z.object({
   slug: z.string().min(1, "Treatment slug is required"),
   category: z.string().min(1, "Category is required"),
   status: z.enum(["draft", "live", "archived"]),
-  indicativePressure: z.enum(["light", "medium", "firm", "deep"]),
+  indicativePressure: z
+    .enum(["light", "medium", "firm", "deep"])
+    .nullable()
+    .optional(),
   content: z.string().min(1, "Content is required"),
 });
 type TreatmentFormData = z.infer<typeof treatmentSchema>;
@@ -38,7 +41,7 @@ export type ValidationResult = {
   errors: ValidationError[];
 };
 
-export const TreatmentForm =forwardRef<{ validate: () => Promise<ValidationResult> }, TreatmentFormProps>(function TreatmentForm({ initialData, onChange }, ref) {
+export const TreatmentForm =forwardRef<{ validate: () => Promise<ValidationResult> }, TreatmentFormProps>(function TreatmentForm({ initialData, onChange  }, ref) {
 
   const {
     register,
@@ -84,12 +87,14 @@ useImperativeHandle(ref, () => ({
         });
       }
 
-      if (!values.category) {
-        errors.push({
-          section: "General",
-          field: "category",
-          message: "Category is required",
-        });
+     if (!isDraft && !isFacial) {
+        if (!values.indicativePressure) {
+          errors.push({
+            section: "General",
+            field: "indicativePressure",
+            message: "Indicative pressure is required for Facial treatment",
+          });
+        }
       }
 
       if (!values.content?.trim()) {
@@ -124,6 +129,7 @@ const slugEditedRef = useRef(false);
   const status = watch("status");
   const indicativePressure = watch("indicativePressure");
   const category = watch("category");
+  const isFacial = category === "Facial";
   const [categories, setCategories] = useState<{ id: number; name: string }[]>([]);
 
   /* ---------------- RESET ON EDIT ---------------- */
@@ -131,13 +137,15 @@ useEffect(() => {
   if (!initialData) return;
   lastIdRef.current = initialData.id;
   isInitializing.current = true;
-
+const isFacialInit = initialData.Category === "Facial";
   reset({
     name: initialData.name || "",
     slug: initialData.Slug || "",
     category: initialData.Category || "",
     status: initialData.Status || "draft",
-   indicativePressure: initialData.indicative_pressure || "medium",
+   indicativePressure: isFacialInit
+    ? null
+    : initialData.indicative_pressure || "medium",
     content: initialData.Content || "",
   });
 
@@ -182,6 +190,27 @@ useEffect(() => {
 
   return () => subscription.unsubscribe();
 }, [watch, onChange, initialData]);
+
+useEffect(() => {
+  if (!category) return;
+
+  if (isFacial) {
+    setValue("indicativePressure", null, {
+      shouldDirty: true,
+      shouldValidate: true,
+    });
+  } else {
+    // ✅ Non-Facial → default medium
+    const current = getValues("indicativePressure");
+
+    if (!current) {
+      setValue("indicativePressure", "medium", {
+        shouldDirty: true,
+        shouldValidate: true,
+      });
+    }
+  }
+}, [category, setValue, getValues]);
 
   /* ---------------- UI ---------------- */
   return (
@@ -256,30 +285,41 @@ useEffect(() => {
     </div>
 
     {/* PRESSURE */}
-    <div>
-      <label className="text-sm font-medium text-foreground">
-        Indicative Pressure<sup className="text-destructive">*</sup>
-      </label>
-      <Select
-        value={indicativePressure}
-        onValueChange={(v) =>
-          setValue("indicativePressure", v as any, {
-            shouldDirty: true,
-            shouldValidate: true,
-          })
+  <div>
+  <label className="text-sm font-medium text-foreground">
+    Indicative Pressure
+    {category !== "Facial" && <sup className="text-destructive">*</sup>}
+  </label>
+
+  <Select
+    value={indicativePressure ?? ""}
+    onValueChange={(v) =>
+      setValue(
+        "indicativePressure",
+        v === "__none__" ? null : (v as any),
+        {
+          shouldDirty: true,
+          shouldValidate: true,
         }
-      >
-        <SelectTrigger className="form-input">
-          <SelectValue placeholder="Select pressure level" />
-        </SelectTrigger>
-        <SelectContent>
-          <SelectItem value="light">Light</SelectItem>
-          <SelectItem value="medium">Medium</SelectItem>
-          <SelectItem value="firm">Firm</SelectItem>
-          <SelectItem value="deep">Deep</SelectItem>
-        </SelectContent>
-      </Select>
-    </div>
+      )
+    }
+  >
+    <SelectTrigger className="form-input">
+      <SelectValue placeholder="Select pressure level" />
+    </SelectTrigger>
+
+    <SelectContent>
+      {category === "Facial" && (
+  <SelectItem value="__none__">— Not Applicable —</SelectItem>
+)}
+      <SelectItem value="light">Light</SelectItem>
+      <SelectItem value="medium">Medium</SelectItem>
+      <SelectItem value="firm">Firm</SelectItem>
+      <SelectItem value="deep">Deep</SelectItem>
+    </SelectContent>
+  </Select>
+</div>
+
 
     {/* CATEGORY */}
     <div>

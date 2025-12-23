@@ -141,6 +141,7 @@ function SortableRow({
   onSelectBranch: (id: number | null) => void;
   initialData?: any[]; // ✅ ADD
   onChange: (pricing: any[]) => void;
+  category: string;
 }
 
 export const Pricing = forwardRef<
@@ -153,6 +154,7 @@ export const Pricing = forwardRef<
     onSelectBranch,
     onChange,
     initialData,
+    category
   },
   ref
 ) {

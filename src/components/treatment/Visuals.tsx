@@ -13,6 +13,7 @@ interface VisualsFormProps {
     btn_2?: string;
     btn_2_link?: string;
   };
+  category: string,
   onChange: (visuals: any) => void;
 }
 type ValidationError = {
@@ -28,13 +29,12 @@ type ValidationResult = {
 export const VisualsForm = forwardRef<
   { validate: () => Promise<ValidationResult> },
   VisualsFormProps
->(function VisualsForm({ onChange, initialData }, ref) {
+>(function VisualsForm({ onChange, initialData , category }, ref) {
       const bannerRef = useRef<HTMLInputElement>(null);
       const isInitializingRef = useRef(true);
-
+const isFacial = category === "Facial";
   const thumbRef = useRef<HTMLInputElement>(null);
   const galleryRef = useRef<HTMLInputElement>(null);
-
   const [banner, setBanner] = useState<string | null>(null);
   const [thumbnail, setThumbnail] = useState<string | null>(null);
   const [gallery, setGallery] = useState<string[]>([]);
@@ -106,13 +106,30 @@ useImperativeHandle(ref, () => ({
       });
     }
 
-    if (!btn2?.trim()) {
+     if (!isFacial && !btn1Link?.trim()) {
+      errors.push({
+        section: "Visuals",
+        field: "btn_1_link",
+        message: "Button 1 link is required",
+      });
+    }
+
+    if (!isFacial && !btn2?.trim()) {
       errors.push({
         section: "Visuals",
         field: "btn_2",
         message: "Button 2 text is required",
       });
     }
+
+       if (!isFacial && !btn2Link?.trim()) {
+      errors.push({
+        section: "Visuals",
+        field: "btn_2_link",
+        message: "Button 2 link is required",
+      });
+    }
+
 
     if (!banner) {
       errors.push({
@@ -151,8 +168,8 @@ useEffect(() => {
   onChange({
     btn_1: btn1,
     btn_1_link: btn1Link,
-    btn_2: btn2,
-    btn_2_link: btn2Link,
+    btn_2: isFacial ? "" : btn2,
+    btn_2_link: isFacial ? "" : btn2Link,
     banner_image: banner,
     thumbnail_image: thumbnail,
     gallery_image: gallery,
@@ -176,7 +193,7 @@ useEffect(() => {
         htmlFor="button1"
         className="block text-sm font-medium text-foreground"
       >
-        Button 1<sup className="text-destructive">*</sup>
+        Button 1 {!isFacial && (<sup className="text-destructive">*</sup>)}
       </label>
 
       <input
@@ -195,7 +212,7 @@ useEffect(() => {
         htmlFor="button1Link"
         className="block text-sm font-medium text-foreground"
       >
-        Button 1 Link
+        Button 1 Link {!isFacial && (<sup className="text-destructive">*</sup>)}
       </label>
 
       <input
@@ -209,6 +226,7 @@ useEffect(() => {
     </div>
 
     {/* Button 2 */}
+    {!isFacial && (
     <div className="space-y-2">
       <label
         htmlFor="button2"
@@ -225,15 +243,16 @@ useEffect(() => {
         value={btn2}
         onChange={(e) => setBtn2(e.target.value)}
       />
-    </div>
+    </div>)}
 
     {/* Button 2 Link */}
+    {!isFacial && (
     <div className="space-y-2">
       <label
         htmlFor="button2Link"
         className="block text-sm font-medium text-foreground"
       >
-        Button 2 Link
+        Button 2 Link<sup className="text-destructive">*</sup>
       </label>
 
       <input
@@ -244,7 +263,7 @@ useEffect(() => {
         value={btn2Link}
         onChange={(e) => setBtn2Link(e.target.value)}
       />
-    </div>
+    </div>)}
   </div>
 </form>
 

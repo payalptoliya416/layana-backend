@@ -106,10 +106,11 @@ export const BenefitsSection = forwardRef<
       benifites: string[];
     };
     onChange: (v: any) => void;
+     category: string;
   }
->(function BenefitsSection({ value, onChange }, ref) {
+>(function BenefitsSection({ value, onChange, category  }, ref) {
   const [input, setInput] = useState("");
-
+const isFacial = category === "Facial";
  const addBenefit = () => {
   if (!input.trim()) return;
 
@@ -133,7 +134,7 @@ export const BenefitsSection = forwardRef<
       const errors: ValidationError[] = [];
 
       // 🔴 Slogan required
-      if (!value?.slogan?.trim()) {
+      if (!isFacial && !value?.slogan?.trim()) {
         errors.push({
           section: "Benefits",
           field: "slogan",
@@ -142,7 +143,7 @@ export const BenefitsSection = forwardRef<
       }
 
       // 🔴 At least one benefit required
-      if (!Array.isArray(value?.benifites) || value.benifites.length === 0) {
+     if (!isFacial && (!Array.isArray(value?.benifites) || value.benifites.length === 0)){
         errors.push({
           section: "Benefits",
           field: "benifites",
@@ -202,7 +203,7 @@ export const BenefitsSection = forwardRef<
 
   {/* Benefits */}
   <h2 className="text-lg font-semibold text-foreground">
-    Benefits<sup className="text-destructive">*</sup>
+    Benefits{!isFacial && (<sup className="text-destructive">*</sup>)}
   </h2>
 
   <div className="rounded-[15px] border border-border bg-card p-3 lg:p-5 space-y-4">

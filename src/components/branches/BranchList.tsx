@@ -6,6 +6,7 @@ import check from "@/assets/check.png";
 interface BranchListProps {
   selectedBranches: number[];
   onSelectionChange: (ids: number[]) => void;
+  category: string;
 }
 
 type ValidationResult = {
@@ -16,12 +17,12 @@ export const BranchList = forwardRef<
   { validate: () => Promise<ValidationResult> },
   BranchListProps
 >(function BranchList(
-  { selectedBranches, onSelectionChange },
+  { selectedBranches, onSelectionChange ,category},
   ref
 ) {
   const [locations, setLocations] = useState<Location[]>([]);
   const [loading, setLoading] = useState(true);
-
+console.log("category",category)
 useEffect(() => {
   const fetchLocations = async () => {
     try {

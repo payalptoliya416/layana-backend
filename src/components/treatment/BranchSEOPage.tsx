@@ -1,4 +1,4 @@
-import { forwardRef, useEffect, useImperativeHandle, useRef, useState } from "react";
+import { forwardRef, useEffect, useRef, useState } from "react";
 import { BranchSelector } from "./BranchSelector";
 import { BranchSEO } from "./BranchSEO";
 
@@ -8,6 +8,7 @@ interface BranchSEOPageProps {
   initialData?: any[];          // ✅ ADD
   onSelectBranch: (id: number | null) => void;
   onChange: (seo: any[]) => void;
+  category : string;
 }
 
 const BranchSEOPage = forwardRef<
@@ -20,6 +21,7 @@ const BranchSEOPage = forwardRef<
     initialData,
     onSelectBranch,
     onChange,
+    category
   },
   ref
 ) {
