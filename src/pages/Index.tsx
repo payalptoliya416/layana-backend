@@ -79,7 +79,6 @@ const [treatmentPayload, setTreatmentPayload] = useState<TreatmentPayload>({
   },
   seo: [],
 });
-console.log("treatmentPayload",treatmentPayload)
 const selectedCategory = treatmentPayload.general?.Category;
 useEffect(() => {
   if (selectedCategory) {

@@ -3,7 +3,7 @@ import { Sidebar } from "@/components/layout/Sidebar";
 import { PageHeader } from "@/components/layout/PageHeader";
 import { Footer } from "@/components/layout/Footer";
 import { cn } from "@/lib/utils";
-import { useNavigate, useLocation, useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { Button } from "../ui/button";
 import { toast } from "sonner";
 import {
@@ -16,7 +16,6 @@ function CategoryAdd() {
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const navigate = useNavigate();
-  const location = useLocation();
 
   /* ---------- EDIT MODE ---------- */
 const { id } = useParams();
