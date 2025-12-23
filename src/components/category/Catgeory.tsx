@@ -98,7 +98,7 @@ function SortableRow({
             hover:bg-muted
           "
         >
-          <Trash2 size={15}   onClick={() => onDelete(item.id)}/>
+          <Trash2 size={15}/>
         </button>
       </td>
     </tr>
@@ -135,8 +135,12 @@ useEffect(() => {
         sortDirection,
       });
 
-      setCategory(res);
-    //   setPagination(res.pagination);
+      setCategory(res.data);
+      setPagination(res.pagination);
+
+      if (res.data.length === 0 && search) {
+        toast.info("No categories found for your search");
+      }
     } catch (e) {
       toast.error("Failed to load treatments");
     }
@@ -172,7 +176,7 @@ const handleDelete = async () => {
       sortDirection,
     });
 
-    setCategory(res);
+    setCategory(res.data);
     setDeleteId(null);
   } catch {
     toast.error("Failed to delete category");
@@ -347,15 +351,25 @@ const handleDelete = async () => {
                                                       items={category.map((i) => i.id)}
                                                       strategy={verticalListSortingStrategy}
                                                     >
-                                                      {category.map((item, index) => (
-                                                        <SortableRow
-                                                          key={item.id}
-                                                          item={item}
-                                                          index={index}
-                                                          onEdit={handleEdit}
-                                                          onDelete={(id) => setDeleteId(id)}
-                                                        />
-                                                      ))}
+                                                     {category.length > 0 ? (
+                                                category.map((item, index) => (
+                                                    <SortableRow
+                                                    key={item.id}
+                                                    item={item}
+                                                    index={index}
+                                                    onEdit={handleEdit}
+                                                    onDelete={(id) => setDeleteId(id)}
+                                                    />
+                                                ))
+                                                ) : (
+                                                <tr className="flex items-center justify-center py-10 text-muted-foreground text-sm">
+                                                    <td className="text-center w-full">
+                                                    {search
+                                                        ? "No categories found for your search."
+                                                        : "No categories available."}
+                                                    </td>
+                                                </tr>
+                                                )}
                                                     </SortableContext>
                                                   </DndContext>
                            </tbody>
@@ -382,50 +396,51 @@ const handleDelete = async () => {
                             </AlertDialogContent>
                         </AlertDialog>
                         )}
-                      {pagination && (
-                  <div className="shrink-0 flex items-center justify-between gap-6 px-4 py-2 text-sm text-muted-foreground">
-                <span className="text-foreground font-medium">
-                  Page {pagination.current_page} of {pagination.last_page}
-                </span>
-                <div className="flex gap-6 items-center">
+                        {pagination && (
+                        <div className="shrink-0 flex items-center justify-between gap-6 px-4 py-2 text-sm text-muted-foreground">
+                            <span className="text-foreground font-medium">
+                            Page {pagination.current_page} of {pagination.last_page}
+                            </span>
 
-                    <button
-                      disabled={pagination.current_page === 1}
-                      onClick={() => setPage(1)}
-                      className="hover:text-foreground disabled:opacity-40 text-2xl"
-                    >
-                      «
-                    </button>
+                            <div className="flex gap-6 items-center">
+                            <button
+                                disabled={pagination.current_page === 1}
+                                onClick={() => setPage(1)}
+                                className="hover:text-foreground disabled:opacity-40 text-2xl"
+                            >
+                                «
+                            </button>
 
-                    <button
-                      disabled={!pagination.prev_page_url}
-                      onClick={() => setPage((p) => p - 1)} 
-                      className="hover:text-foreground disabled:opacity-40 text-2xl"
-                    >
-                      ‹
-                    </button>
-                    <span className="text-foreground font-medium">
-                      {pagination.current_page} / {pagination.last_page}
-                    </span>
+                            <button
+                                disabled={!pagination.prev_page_url}
+                                onClick={() => setPage((p) => p - 1)}
+                                className="hover:text-foreground disabled:opacity-40 text-2xl"
+                            >
+                                ‹
+                            </button>
 
-                    <button
-                      disabled={!pagination.next_page_url}
-                      onClick={() => setPage((p) => p + 1)}
-                      className="hover:text-foreground disabled:opacity-40 text-2xl"
-                    >
-                      ›
-                    </button>
+                            <span className="text-foreground font-medium">
+                                {pagination.current_page} / {pagination.last_page}
+                            </span>
 
-                    <button
-                      disabled={pagination.current_page === pagination.last_page}
-                      onClick={() => setPage(pagination.last_page)}
-                      className="hover:text-foreground disabled:opacity-40 text-2xl"
-                    >
-                      »
-                    </button>
-                </div>
-                  </div>
-                )}
+                            <button
+                                disabled={!pagination.next_page_url}
+                                onClick={() => setPage((p) => p + 1)}
+                                className="hover:text-foreground disabled:opacity-40 text-2xl"
+                            >
+                                ›
+                            </button>
+
+                            <button
+                                disabled={pagination.current_page === pagination.last_page}
+                                onClick={() => setPage(pagination.last_page)}
+                                className="hover:text-foreground disabled:opacity-40 text-2xl"
+                            >
+                                »
+                            </button>
+                            </div>
+                        </div>
+                        )}
                         </td>
                       </tr>
                     </tfoot>

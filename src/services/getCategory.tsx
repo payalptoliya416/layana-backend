@@ -27,7 +27,6 @@ export interface TreatmentCategoryResponse {
   data: TreatmentCategory[];
 }
 
-
 export async function getCategory(params?: {
   page?: number;
   perPage?: number;
@@ -40,6 +39,9 @@ export async function getCategory(params?: {
 if (params?.page) formData.append("page", String(params.page));
   if (params?.perPage) formData.append("per_page", String(params.perPage));
   if (params?.search) formData.append("search", params.search);
+  if (params?.sortBy) formData.append("sort_by", params.sortBy);
+  if (params?.sortDirection)
+    formData.append("sort_direction", params.sortDirection);
 
   const res = await api.post<TreatmentCategoryResponse>(
     "/treatment-categories",
@@ -51,7 +53,11 @@ if (params?.page) formData.append("page", String(params.page));
     }
   );
 
-  return res.data.data; // 👈 DIRECT categories array
+ return {
+    data: res.data.data ?? [],      
+    pagination: res.data.pagination ?? null,
+    message: res.data.message,
+  };
 }
 
 export const createCategory = (payload: { name: string }) =>
