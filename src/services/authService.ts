@@ -25,11 +25,23 @@ export const saveToken = (token: string) => {
 // };
 
 export const getToken = (): string | null => {
-  return localStorage.getItem("token");
+  const token = localStorage.getItem(TOKEN_KEY);
+  const expiry = localStorage.getItem(TOKEN_EXPIRY_KEY);
+
+  if (!token || !expiry) return null;
+
+  if (Date.now() > Number(expiry)) {
+    // token expired
+    removeToken();
+    return null;
+  }
+
+  return token;
 };
 
 export const removeToken = () => {
-  localStorage.removeItem("token");
+  localStorage.removeItem(TOKEN_KEY);
+  localStorage.removeItem(TOKEN_EXPIRY_KEY);
 };
 
 export const isAuthenticated = (): boolean => {

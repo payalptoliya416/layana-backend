@@ -7,9 +7,8 @@ import "react-phone-input-2/lib/style.css";
 
 type FormValues = {
   phone: string;
-  business_type: string;
-  business_additional: string;
-  parking_details: string;
+  address_line_1: string;
+  address_line_2: string;
 };
 
 type Props = {
@@ -24,34 +23,47 @@ const LocationContactDetails = forwardRef<any, Props>(
       setValue,
       watch,
       trigger,
-      formState: { errors },
+      getFieldState,
+      formState,
     } = useForm<FormValues>({
+        mode: "onSubmit",
+  criteriaMode: "all",
       defaultValues: {
         phone: "",
-        business_type: "",
-        business_additional: "",
-        parking_details: "",
+        address_line_1: "",
+        address_line_2: "",
         ...initialData,
       },
     });
 
     /* expose validation */
-    useImperativeHandle(ref, () => ({
-      validate: async () => {
-        const valid = await trigger();
-        if (!valid) {
-          return {
-            valid: false,
-            errors: Object.entries(errors).map(([field, err]) => ({
+  useImperativeHandle(ref, () => ({
+  validate: async () => {
+    const isValid = await trigger(undefined, { shouldFocus: false });
+
+    const fields: (keyof FormValues)[] = [
+      "phone",
+      "address_line_1",
+    ];
+
+    const errors = fields
+      .map((field) => {
+        const state = getFieldState(field);
+        return state.error
+          ? {
               section: "Contact Details",
-              field,
-              message: err?.message || "Invalid value",
-            })),
-          };
-        }
-        return { valid: true, errors: [] };
-      },
-    }));
+              message: state.error.message || "Invalid value",
+            }
+          : null;
+      })
+      .filter(Boolean);
+
+    return {
+      valid: isValid && errors.length === 0,
+      errors,
+    };
+  },
+}));
 
     /* propagate changes */
     useEffect(() => {
@@ -62,68 +74,77 @@ const LocationContactDetails = forwardRef<any, Props>(
     return (
       <div className="space-y-6">
         <div className="grid grid-cols-1 xl:grid-cols-2 gap-6">
-          {/* PHONE */}
+
+          {/* PHONE NUMBER */}
           <div>
             <label className="text-sm font-medium text-foreground">
-              Phone Number<sup className="text-destructive">*</sup>
+              Phone Number
             </label>
 
             <PhoneInput
-              country={"gb"}
+              country="gb"
               value={watch("phone")}
               onChange={(value) =>
                 setValue("phone", `+${value}`, {
                   shouldDirty: true,
-                  shouldValidate: true,
+                //   shouldValidate: true,
                 })
               }
-              inputClass="!w-full !h-[44px] !pl-[58px] !border !border-input !rounded-lg"
+              inputClass="
+                !w-full
+                !h-[48px]
+                !pl-[60px]
+                !rounded-lg
+                !border
+                !border-input
+                !text-sm
+              "
               containerClass="!w-full"
-              buttonClass="!border !border-input !rounded-l-lg"
+              buttonClass="
+                !border
+                !border-input
+                !rounded-l-lg
+              "
             />
 
-            {errors.phone && (
+            {formState.errors.phone && (
               <p className="text-xs text-destructive mt-1">
                 Phone number is required
               </p>
             )}
           </div>
 
-          {/* BUSINESS TYPE */}
+          {/* ADDRESS LINE 1 */}
           <div>
             <label className="text-sm font-medium text-foreground">
-              Business Type
+              Address Line 1<sup className="text-destructive">*</sup>
             </label>
             <input
               className="form-input"
-              placeholder="Message"
-              {...register("business_type")}
+              placeholder="Enter address line 1"
+              {...register("address_line_1", {
+                required: "Address line 1 is required",
+              })}
+            />
+            {formState.errors.address_line_1 && (
+              <p className="text-xs text-destructive mt-1">
+                {formState.errors.address_line_1.message}
+              </p>
+            )}
+          </div>
+
+          {/* ADDRESS LINE 2 */}
+          <div className="xl:col-span-1">
+            <label className="text-sm font-medium text-foreground">
+              Address Line 2
+            </label>
+            <input
+              className="form-input"
+              placeholder="Enter address line 2"
+              {...register("address_line_2")}
             />
           </div>
 
-          {/* BUSINESS ADDITIONAL */}
-          <div>
-            <label className="text-sm font-medium text-foreground">
-              Additional Business Info
-            </label>
-            <input
-              className="form-input"
-              placeholder="Additional business info"
-              {...register("business_additional")}
-            />
-          </div>
-
-          {/* PARKING DETAILS */}
-          <div>
-            <label className="text-sm font-medium text-foreground">
-              Parking Details
-            </label>
-            <input
-              className="form-input"
-              placeholder="Free parking available"
-              {...register("parking_details")}
-            />
-          </div>
         </div>
       </div>
     );

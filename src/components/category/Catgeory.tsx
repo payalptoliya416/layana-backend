@@ -313,15 +313,16 @@ const handleSubmit = async () => {
 
           {/* Content */}
           <div className="flex-1 pl-[15px] pr-6 px-6 flex flex-col h-full bg-card rounded-2xl shadow-card p-5 overflow-hidden">
-                 <div className="py-6">
+                 <div className="p-6 rounded-2xl border border-border mb-8">
                         {initialLoading ? (
                           <div className="text-sm text-muted-foreground">
                             Loading category...
                           </div>
                         ) : (
                           <div className="flex flex-col flex-1">
-                            <div className="space-y-6 grid grid-cols-12 items-center">
-                              <div className="col-span-10">
+                            <div className="space-y-6 flex items-center justify-center">
+                                <div className="w-[900px]">
+                              <div className="mb-5">
                                 <label className="text-sm font-medium text-foreground">
                                   Category Name <sup className="text-destructive">*</sup>
                                 </label>
@@ -346,8 +347,8 @@ const handleSubmit = async () => {
                                   </p>
                                 )}
                               </div>
-                              <div className="col-span-2">
-                            <div className="flex justify-end gap-3">
+                              <div>
+                            <div className="flex justify-center  gap-3">
                               <Button
                                 type="button"
                                 variant="cancel"
@@ -372,8 +373,8 @@ const handleSubmit = async () => {
                                 </Button>
                             </div>
                               </div>
+                                </div>
                             </div>
-            
                           </div>
                         )}
                       </div>
@@ -381,7 +382,7 @@ const handleSubmit = async () => {
             <div className="flex flex-col flex-1 overflow-hidden">
               <div className="grid grid-cols-12">
                 <div className="col-span-12">
-                  <div className="w-full overflow-auto rounded-2xl border border-border bg-card flex flex-col scrollbar-thin  h-[calc(90vh-300px)]">
+                  <div className="w-full overflow-auto rounded-2xl border border-border bg-card flex flex-col scrollbar-thin  h-[calc(78vh-300px)]">
                     <table className="w-full text-sm text-left">
                           <thead className="sticky top-0 z-10 bg-card">
                              <tr

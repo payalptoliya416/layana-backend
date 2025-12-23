@@ -6,6 +6,9 @@ import {
   Search,
   PoundSterling,
   Contact,
+  Clock,
+  UserRound,
+  ParkingCircle,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 
@@ -16,8 +19,10 @@ interface SecondaryNavItem {
 }
 
 const navItems: SecondaryNavItem[] = [
-  { icon: Users, label: "General", id: "general" },
-  { icon: Contact, label: "Contact Details", id: "contact" },
+  { icon: UserRound, label: "General", id: "general" },
+  { icon: Users, label: "Contact Details", id: "contact" },
+  { icon: Clock, label: "Working Hours", id: "working" },
+  { icon: ParkingCircle, label: "Parking Details", id: "parking" },
 ];
 
 interface SecondaryNavProps {
