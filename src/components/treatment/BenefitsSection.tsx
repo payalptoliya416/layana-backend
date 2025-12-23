@@ -134,7 +134,7 @@ const isFacial = category === "Facial";
       const errors: ValidationError[] = [];
 
       // 🔴 Slogan required
-      if (!isFacial && !value?.slogan?.trim()) {
+      if (!value?.slogan?.trim()) {
         errors.push({
           section: "Benefits",
           field: "slogan",

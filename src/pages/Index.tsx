@@ -79,7 +79,7 @@ const [treatmentPayload, setTreatmentPayload] = useState<TreatmentPayload>({
   },
   seo: [],
 });
-
+console.log("treatmentPayload",treatmentPayload)
 const initialTreatmentData = useMemo(() => {
 
   return {
@@ -231,7 +231,7 @@ useEffect(() => {
       setLoadingTreatment(true);
 
       const data = await getTreatmentById(Number(id));
-
+console.log("data",data)
       const locationIds = (data.locations || []).map(
         (loc: { id: number }) => loc.id
       );

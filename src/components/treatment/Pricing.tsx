@@ -168,40 +168,75 @@ export const Pricing = forwardRef<
     /* ---------- EDIT STATE ---------- */
     const [editingId, setEditingId] = useState<number | null>(null);
 
-  useImperativeHandle(ref, () => ({
-    async validate(): Promise<ValidationResult> {
-      const errors: ValidationError[] = [];
+  // useImperativeHandle(ref, () => ({
+  //   async validate(): Promise<ValidationResult> {
+  //     const errors: ValidationError[] = [];
 
-      // 🔴 No branch selected (while pricing tab active)
-      if (selectedBranchId === null) {
-        errors.push({
-          section: "Pricing",
-          field: "branch",
-          message: "Please select a branch",
-        });
-      }
+  //     // 🔴 No branch selected (while pricing tab active)
+  //     if (selectedBranchId === null) {
+  //       errors.push({
+  //         section: "Pricing",
+  //         field: "branch",
+  //         message: "Please select a branch",
+  //       });
+  //     }
 
-      // 🔴 No pricing added for ANY branch
-      const hasAnyPricing =
-        pricingMap &&
-        Object.values(pricingMap).some(
-          (items) => Array.isArray(items) && items.length > 0
-        );
+  //     // 🔴 No pricing added for ANY branch
+  //     const hasAnyPricing =
+  //       pricingMap &&
+  //       Object.values(pricingMap).some(
+  //         (items) => Array.isArray(items) && items.length > 0
+  //       );
 
-      if (!hasAnyPricing) {
-        errors.push({
-          section: "Pricing",
-          field: "pricing",
-          message: "Please add at least one pricing",
-        });
-      }
+  //     if (!hasAnyPricing) {
+  //       errors.push({
+  //         section: "Pricing",
+  //         field: "pricing",
+  //         message: "Please add at least one pricing",
+  //       });
+  //     }
 
-      return {
-        valid: errors.length === 0,
-        errors,
-      };
-    },
-  }));
+  //     return {
+  //       valid: errors.length === 0,
+  //       errors,
+  //     };
+  //   },
+  // }));
+useImperativeHandle(ref, () => ({
+  async validate(): Promise<ValidationResult> {
+    const errors: ValidationError[] = [];
+
+    // 🔴 Check if ANY pricing exists
+    const hasAnyPricing =
+      pricingMap &&
+      Object.values(pricingMap).some(
+        (items) => Array.isArray(items) && items.length > 0
+      );
+
+    // 🔴 Branch required ONLY when pricing is empty
+    if (!hasAnyPricing && selectedBranchId === null) {
+      errors.push({
+        section: "Pricing",
+        field: "branch",
+        message: "Please select a branch",
+      });
+    }
+
+    // 🔴 Pricing ALWAYS required
+    if (!hasAnyPricing) {
+      errors.push({
+        section: "Pricing",
+        field: "pricing",
+        message: "Please add at least one pricing",
+      });
+    }
+
+    return {
+      valid: errors.length === 0,
+      errors,
+    };
+  },
+}));
 
     /* ---------- BRANCH WISE PRICING ---------- */
     const [pricingMap, setPricingMap] = useState<

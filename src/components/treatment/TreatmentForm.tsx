@@ -137,15 +137,13 @@ useEffect(() => {
   if (!initialData) return;
   lastIdRef.current = initialData.id;
   isInitializing.current = true;
-const isFacialInit = initialData.Category === "Facial";
+
   reset({
     name: initialData.name || "",
     slug: initialData.Slug || "",
     category: initialData.Category || "",
     status: initialData.Status || "draft",
-   indicativePressure: isFacialInit
-    ? null
-    : initialData.indicative_pressure || "medium",
+   indicativePressure: initialData.indicative_pressure || "medium",
     content: initialData.Content || "",
   });
 
@@ -194,7 +192,7 @@ useEffect(() => {
 useEffect(() => {
   if (!category) return;
 
-  if (isFacial) {
+  if (category === "Facial") {
     setValue("indicativePressure", null, {
       shouldDirty: true,
       shouldValidate: true,
