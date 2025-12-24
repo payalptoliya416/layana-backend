@@ -38,8 +38,11 @@ type ContactData = {
 };
 
 type WorkingData = {
-  opening_time: string;
-  closing_time: string;
+  opening_hours: {
+    day: string;
+    start_time: string;
+    end_time: string;
+  }[];
 };
 
 type ParkingData = {
@@ -97,9 +100,8 @@ const [formData, setFormData] = useState<LocationFormData>({
     address_line_2: "",
   },
   working: {
-    opening_time: "",
-    closing_time: "",
-  },
+  opening_hours: [],
+},
   parking:{
     business_additional: "",
     business_type : "",
@@ -183,18 +185,8 @@ const [formData, setFormData] = useState<LocationFormData>({
     business_additional: formData.parking.business_additional!,
     parking_details: formData.parking.parking_details!,
 
-      opening_hours: [
-        "monday",
-        "tuesday",
-        "wednesday",
-        "thursday",
-        "friday",
-        "saturday",
-      ].map((day) => ({
-        day,
-        start_time: formData.working.opening_time!,
-        end_time: formData.working.closing_time!,
-      })),
+     opening_hours: formData.working.opening_hours,
+
     };
 
     try {
@@ -247,8 +239,7 @@ const [formData, setFormData] = useState<LocationFormData>({
           address_line_2: data.address_line_2,
         },
         working: {
-          opening_time: data.opening_hours?.[0]?.start_time || "",
-          closing_time: data.opening_hours?.[0]?.end_time || "",
+          opening_hours: data.opening_hours || [],
         },
         parking: {
           business_type: data.business_type,
@@ -277,8 +268,7 @@ const [formData, setFormData] = useState<LocationFormData>({
       });
 
       workingRef.current?.setData({
-        opening_time: data.opening_hours?.[0]?.start_time,
-        closing_time: data.opening_hours?.[0]?.end_time,
+        opening_hours: data.opening_hours || [],
       });
 
       parkingRef.current?.setData({
