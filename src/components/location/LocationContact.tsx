@@ -22,6 +22,7 @@ const LocationContactDetails = forwardRef<any, Props>(
       register,
       setValue,
       watch,
+      reset,
       trigger,
       getFieldState,
       formState,
@@ -37,7 +38,7 @@ const LocationContactDetails = forwardRef<any, Props>(
     });
 
     /* expose validation */
-  useImperativeHandle(ref, () => ({
+ useImperativeHandle(ref, () => ({
   validate: async () => {
     const isValid = await trigger(undefined, { shouldFocus: false });
 
@@ -62,6 +63,15 @@ const LocationContactDetails = forwardRef<any, Props>(
       valid: isValid && errors.length === 0,
       errors,
     };
+  },
+
+  // ✅ KEY FIX FOR EDIT MODE
+  setData: (data: Partial<FormValues>) => {
+    reset({
+      phone: data.phone ?? "",
+      address_line_1: data.address_line_1 ?? "",
+      address_line_2: data.address_line_2 ?? "",
+    });
   },
 }));
 

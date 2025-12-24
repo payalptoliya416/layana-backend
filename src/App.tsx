@@ -12,7 +12,6 @@ import TreatmentsList from "./components/treatment/TreatmentsList";
 import Catgeory from "./components/category/Catgeory";
 import CategoryAdd from "./components/category/CategoryAdd";
 import LocationList from "./components/location/LocationList";
-import AddLocation from "./components/location/AddLocation";
 import LocationIndex from "./components/location/LocationIndex";
 
 const queryClient = new QueryClient();

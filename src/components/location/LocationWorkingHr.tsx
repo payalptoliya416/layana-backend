@@ -6,8 +6,6 @@ import { useForm } from "react-hook-form";
 type FormValues = {
   opening_time: string;
   closing_time: string;
-  clock_in_threshold: string;
-  clock_out_threshold: string;
 };
 
 type Props = {
@@ -21,30 +19,27 @@ const LocationWorkingHr = forwardRef<any, Props>(
       register,
       watch,
       trigger,
+      reset,
       getFieldState,
       formState,
     } = useForm<FormValues>({
         mode: "onSubmit",
-  criteriaMode: "all",
+       criteriaMode: "all",
       defaultValues: {
         opening_time: "",
         closing_time: "",
-        clock_in_threshold: "",
-        clock_out_threshold: "",
         ...initialData,
       },
     });
 
     /* expose validation */
- useImperativeHandle(ref, () => ({
+useImperativeHandle(ref, () => ({
   validate: async () => {
     const isValid = await trigger(undefined, { shouldFocus: false });
 
     const fields: (keyof FormValues)[] = [
       "opening_time",
       "closing_time",
-      "clock_in_threshold",
-      "clock_out_threshold",
     ];
 
     const errors = fields
@@ -64,8 +59,15 @@ const LocationWorkingHr = forwardRef<any, Props>(
       errors,
     };
   },
-}));
 
+  // ✅ KEY FIX FOR EDIT MODE
+  setData: (data: Partial<FormValues>) => {
+    reset({
+      opening_time: data.opening_time ?? "",
+      closing_time: data.closing_time ?? "",
+    });
+  },
+}));
 
     /* propagate changes */
     useEffect(() => {
@@ -111,48 +113,6 @@ const LocationWorkingHr = forwardRef<any, Props>(
             {formState.errors.closing_time && (
               <p className="text-xs text-destructive mt-1">
                 {formState.errors.closing_time.message}
-              </p>
-            )}
-          </div>
-
-          {/* CLOCK IN THRESHOLD */}
-          <div>
-            <label className="text-sm font-medium text-foreground">
-              Clock-In Threshold (min)<sup className="text-destructive">*</sup>
-            </label>
-            <input
-              type="number"
-              min={0}
-              className="form-input"
-              placeholder="Enter clock-in threshold"
-              {...register("clock_in_threshold", {
-                required: "Clock-in threshold required",
-              })}
-            />
-            {formState.errors.clock_in_threshold && (
-              <p className="text-xs text-destructive mt-1">
-                {formState.errors.clock_in_threshold.message}
-              </p>
-            )}
-          </div>
-
-          {/* CLOCK OUT THRESHOLD */}
-          <div>
-            <label className="text-sm font-medium text-foreground">
-              Clock-Out Threshold (min)<sup className="text-destructive">*</sup>
-            </label>
-            <input
-              type="number"
-              min={0}
-              className="form-input"
-              placeholder="Enter clock-out threshold"
-              {...register("clock_out_threshold", {
-                required: "Clock-out threshold required",
-              })}
-            />
-            {formState.errors.clock_out_threshold && (
-              <p className="text-xs text-destructive mt-1">
-                {formState.errors.clock_out_threshold.message}
               </p>
             )}
           </div>

@@ -21,6 +21,7 @@ const ParkingDetails = forwardRef<any, Props>(
       register,
       watch,
       trigger,
+      reset,
       setValue,
       formState: { errors },
     } = useForm<FormValues>({
@@ -34,25 +35,34 @@ const ParkingDetails = forwardRef<any, Props>(
     });
 
     /* expose validation */
-    useImperativeHandle(ref, () => ({
-      validate: async () => {
-        const valid = await trigger();
+   useImperativeHandle(ref, () => ({
+  validate: async () => {
+    const valid = await trigger();
 
-        const customErrors = [];
+    const customErrors = [];
 
-        if (!watch("parking_details")) {
-          customErrors.push({
-            section: "Business & Parking",
-            message: "Parking details are required",
-          });
-        }
+    if (!watch("parking_details")) {
+      customErrors.push({
+        section: "Business & Parking",
+        message: "Parking details are required",
+      });
+    }
 
-        return {
-          valid: valid && customErrors.length === 0,
-          errors: customErrors,
-        };
-      },
-    }));
+    return {
+      valid: valid && customErrors.length === 0,
+      errors: customErrors,
+    };
+  },
+
+  // ✅ KEY FIX FOR EDIT MODE
+  setData: (data: Partial<FormValues>) => {
+    reset({
+      business_type: data.business_type ?? "",
+      business_additional: data.business_additional ?? "",
+      parking_details: data.parking_details ?? "",
+    });
+  },
+}));
 
     /* propagate changes */
     useEffect(() => {

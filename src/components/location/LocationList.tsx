@@ -178,7 +178,7 @@ const handleDeleteConfirm = async () => {
 };
 
 const handleEdit = (id: number) => {
-  navigate(`/treatments/edit/${id}`);
+  navigate(`/location/edit/${id}`);
 };
 
 const handleDelete = async () => {

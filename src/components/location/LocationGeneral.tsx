@@ -40,6 +40,7 @@ const LocationGeneral = forwardRef<any, Props>(
       register,
       watch,
       trigger,
+      reset,
       getFieldState,
       setValue,
       formState,
@@ -70,7 +71,7 @@ const slugify = (text: string) =>
     .replace(/^-+|-+$/g, "");
 
     /* ---------- expose validate ---------- */
-  useImperativeHandle(ref, () => ({
+ useImperativeHandle(ref, () => ({
   validate: async () => {
     const isValid = await trigger(undefined, { shouldFocus: false });
 
@@ -78,7 +79,7 @@ const slugify = (text: string) =>
       "name",
       "status",
       "freeText",
-       "slug",
+      "slug",
       "email",
       "country",
       "state",
@@ -102,6 +103,21 @@ const slugify = (text: string) =>
       valid: isValid && errors.length === 0,
       errors,
     };
+  },
+
+  // ✅ THIS IS THE KEY FIX
+  setData: (data: Partial<LocationGeneralForm>) => {
+    reset({
+      name: data.name ?? "",
+      slug: data.slug ?? "",
+      status: data.status ?? "",
+      email: data.email ?? "",
+      freeText: data.freeText ?? "",
+      country: data.country ?? "",
+      state: data.state ?? "",
+      city: data.city ?? "",
+      postcode: data.postcode ?? "",
+    });
   },
 }));
 
@@ -210,18 +226,23 @@ const slugify = (text: string) =>
 </div>
 
           {/* Free Text */}
-          <div>
-            <label className="text-sm font-medium">
-              Free Text<sup className="text-destructive">*</sup>
-            </label>
-            <select className="form-input" {...register("freeText")}>
-              <option value="">Select free text</option>
-              <option value="yes">Yes</option>
-              <option value="no">No</option>
-            </select>
-            {formState.errors.freeText && <p className="text-xs text-destructive mt-1">{formState.errors.freeText.message}</p>}
-          </div>
+                  <div>
+          <label className="text-sm font-medium">
+            Free Text<sup className="text-destructive">*</sup>
+          </label>
 
+          <input
+            className="form-input"
+            placeholder="Enter free text"
+            {...register("freeText")}
+          />
+
+          {formState.errors.freeText && (
+            <p className="text-xs text-destructive mt-1">
+              {formState.errors.freeText.message}
+            </p>
+          )}
+        </div>
           {/* Country */}
           <div>
             <label className="text-sm font-medium">

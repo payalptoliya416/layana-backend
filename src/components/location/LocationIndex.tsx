@@ -1,4 +1,4 @@
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { Sidebar } from "../layout/Sidebar";
 import { cn } from "@/lib/utils";
@@ -16,7 +16,7 @@ import {
   AlertDialogTitle,
   AlertDialogFooter,
 } from "@/components/ui/alert-dialog";
-import { createLocation } from "@/services/locationService";
+import { createLocation, getLocationById, updateLocation } from "@/services/locationService";
 import ParkingDetails from "./ParkingDetails";
 
 type GeneralData = {
@@ -40,8 +40,6 @@ type ContactData = {
 type WorkingData = {
   opening_time: string;
   closing_time: string;
-  clock_in_threshold: string;
-  clock_out_threshold: string;
 };
 
 type ParkingData = {
@@ -61,7 +59,8 @@ type LocationFormData = {
 function LocationIndex() {
   const { id } = useParams();
   const isEdit = Boolean(id);
-  console.log("isEdit",isEdit);
+  console.log("isEdit",id);
+
   const navigate = useNavigate();
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
   const [sidebarOpen, setSidebarOpen] = useState(false);
@@ -100,8 +99,6 @@ const [formData, setFormData] = useState<LocationFormData>({
   working: {
     opening_time: "",
     closing_time: "",
-    clock_in_threshold: "",
-    clock_out_threshold: "",
   },
   parking:{
     business_additional: "",
@@ -142,79 +139,161 @@ const [formData, setFormData] = useState<LocationFormData>({
     </>
   );
 
-const handleSaveTreatment = async () => {
-  setSaving(true);
+  const handleSaveTreatment = async () => {
+    setSaving(true);
 
-  const results = await Promise.all([
-    generalRef.current?.validate(),
-    contactRef.current?.validate(),
-    workingRef.current?.validate(),
-  ]);
+    const results = await Promise.all([
+      generalRef.current?.validate(),
+      contactRef.current?.validate(),
+      workingRef.current?.validate(),
+    ]);
 
-  const allErrors = results
-    .filter((r) => !r.valid)
-    .flatMap((r) => r.errors);
+    const allErrors = results
+      .filter((r) => !r.valid)
+      .flatMap((r) => r.errors);
 
-  if (allErrors.length > 0) {
-    setSaving(false);
-    setValidationErrors(
-      allErrors.map((e) => ({
-        section: e.section,
-        message: e.message,
-      }))
-    );
-    setShowValidationPopup(true);
-    return;
+    if (allErrors.length > 0) {
+      setSaving(false);
+      setValidationErrors(
+        allErrors.map((e) => ({
+          section: e.section,
+          message: e.message,
+        }))
+      );
+      setShowValidationPopup(true);
+      return;
+    }
+
+    const payload = {
+      name: formData.general.name!,
+      status: formData.general.status!,
+        slug: formData.general.slug!,
+        email :formData.general.email!,
+      free_text: formData.general.freeText!,
+      country: formData.general.country!,
+      state: formData.general.state!,
+      city: formData.general.city!,
+      postcode: formData.general.postcode!,
+
+      phone: formData.contact.phone!,
+      address_line_1: formData.contact.address_line_1!,
+      address_line_2: formData.contact.address_line_2,
+
+      business_type: formData.parking.business_type!,
+    business_additional: formData.parking.business_additional!,
+    parking_details: formData.parking.parking_details!,
+
+      opening_hours: [
+        "monday",
+        "tuesday",
+        "wednesday",
+        "thursday",
+        "friday",
+        "saturday",
+      ].map((day) => ({
+        day,
+        start_time: formData.working.opening_time!,
+        end_time: formData.working.closing_time!,
+      })),
+    };
+
+    try {
+     let res;
+
+  if (isEdit && id) {
+    res = await updateLocation(id, payload);
+    toast.success("Location updated successfully");
+  } else {
+    res = await createLocation(payload);
+    console.log("res",res)
+    toast.success("Location created successfully");
   }
 
-  const payload = {
-    name: formData.general.name!,
-    status: formData.general.status!,
-      slug: formData.general.slug!,
-      email :formData.general.email!,
-    free_text: formData.general.freeText!,
-    country: formData.general.country!,
-    state: formData.general.state!,
-    city: formData.general.city!,
-    postcode: formData.general.postcode!,
-
-    phone: formData.contact.phone!,
-    address_line_1: formData.contact.address_line_1!,
-    address_line_2: formData.contact.address_line_2,
-
-     business_type: formData.parking.business_type!,
-  business_additional: formData.parking.business_additional!,
-  parking_details: formData.parking.parking_details!,
-
-    opening_hours: [
-      "monday",
-      "tuesday",
-      "wednesday",
-      "thursday",
-      "friday",
-      "saturday",
-    ].map((day) => ({
-      day,
-      start_time: formData.working.opening_time!,
-      end_time: formData.working.closing_time!,
-    })),
+  console.log("res", res);
+  navigate("/location");
+    } catch (err: any) {
+      console.error(err);
+      toast.error(
+        err?.response?.data?.message || "Failed to create location"
+      );
+    } finally {
+      setSaving(false);
+    }
   };
 
-  try {
-    const res = await createLocation(payload);
-console.log("res",res)
-    toast.success("Location created successfully ✅");
-    navigate("/location"); 
-  } catch (err: any) {
-    console.error(err);
-    toast.error(
-      err?.response?.data?.message || "Failed to create location"
-    );
-  } finally {
-    setSaving(false);
-  }
-};
+  useEffect(() => {
+  if (!isEdit || !id) return;
 
+  const fetchLocation = async () => {
+    try {
+      const data = await getLocationById(id);
+
+      // ⬇️ CENTRAL STATE SET
+      setFormData({
+        general: {
+          name: data.name,
+          slug: data.slug,
+          status: data.status,
+          freeText: data.free_text,
+          email: data.email,
+          country: data.country,
+          state: data.state,
+          city: data.city,
+          postcode: data.postcode,
+        },
+        contact: {
+          phone: data.phone,
+          address_line_1: data.address_line_1,
+          address_line_2: data.address_line_2,
+        },
+        working: {
+          opening_time: data.opening_hours?.[0]?.start_time || "",
+          closing_time: data.opening_hours?.[0]?.end_time || "",
+        },
+        parking: {
+          business_type: data.business_type,
+          business_additional: data.business_additional,
+          parking_details: data.parking_details,
+        },
+      });
+
+      // ⬇️ PUSH DATA INTO CHILD FORMS
+      generalRef.current?.setData({
+        name: data.name,
+        slug: data.slug,
+        status: data.status,
+        freeText: data.free_text,
+        email: data.email,
+        country: data.country,
+        state: data.state,
+        city: data.city,
+        postcode: data.postcode,
+      });
+
+      contactRef.current?.setData({
+        phone: data.phone,
+        address_line_1: data.address_line_1,
+        address_line_2: data.address_line_2,
+      });
+
+      workingRef.current?.setData({
+        opening_time: data.opening_hours?.[0]?.start_time,
+        closing_time: data.opening_hours?.[0]?.end_time,
+      });
+
+      parkingRef.current?.setData({
+        business_type: data.business_type,
+        business_additional: data.business_additional,
+        parking_details: data.parking_details,
+      });
+
+    } catch (err) {
+      toast.error("Failed to load location");
+    }
+  };
+
+  fetchLocation();
+}, [id, isEdit]);
 
   return (
     <>

@@ -46,3 +46,15 @@ export async function deleteLocation(id: number) {
   });
   return res.data;
 }
+
+
+export const getLocationById = async (id: string | number) => {
+  const res = await api.post("/locations/show", { id });
+  return res.data.data;
+};
+
+export const updateLocation = (id: string | number, payload: any) =>
+  api.post("/locations/update", {
+    id,
+    ...payload,
+  });
