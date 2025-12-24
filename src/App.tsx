@@ -109,7 +109,7 @@ const App = () => (
 
           {/* Protected Treatment Editor Route */}
           <Route
-            path="/treatments"
+            path="/treatments-list/treatments"
             element={
               <ProtectedRoute>
                 <Index />
@@ -128,7 +128,7 @@ const App = () => (
           {/* Redirect root to login */}
           <Route path="/" element={<Navigate to="/login" replace />} />
           <Route
-            path="/treatments/edit/:id"
+            path="/treatments-list/treatments/edit/:id"
             element={
               <ProtectedRoute>
                 <Index />

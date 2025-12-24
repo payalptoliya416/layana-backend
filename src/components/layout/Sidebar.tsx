@@ -64,7 +64,7 @@ useEffect(() => {
     );
   };
 
-  const isTreatmentsActive = location.pathname.includes('/treatments');
+  const isTreatmentsActive = location.pathname.includes('/treatments-list/treatments');
 
   const NavItemContent = ({ item }: { item: NavItem }) => {
     const isExpanded = expandedItems.includes(item.label);
@@ -232,7 +232,7 @@ useEffect(() => {
             <Tooltip delayDuration={0}>
               <TooltipTrigger asChild>
                 <button 
-                  onClick={() => navigate('/treatments-list')}
+                  onClick={() => navigate('/treatments-list/treatments-list')}
                   className={cn(
                     "sidebar-nav-item w-full justify-center px-0",
                     isTreatmentsActive && "sidebar-nav-item-active"
@@ -247,7 +247,7 @@ useEffect(() => {
             </Tooltip>
           ) : (
             <button 
-              onClick={() => navigate('/treatments-list')}
+              onClick={() => navigate('/treatments-list/treatments-list')}
               className={cn(
                 "sidebar-nav-item w-full",
                 isTreatmentsActive && "sidebar-nav-item-active"
