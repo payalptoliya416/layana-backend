@@ -136,8 +136,8 @@ const [debouncedSearch, setDebouncedSearch] = useState("");
 
   const [page, setPage] = useState(1);
   const [pagination, setPagination] = useState<any>(null);
-  const [sortBy, setSortBy] = useState<"name" | "category">("name");
-  const [sortDirection, setSortDirection] = useState<"asc" | "desc">("asc");
+  const [sortBy, setSortBy] = useState<"id" | "name">("id");
+  const [sortDirection, setSortDirection] = useState<"asc" | "desc">("desc");
   const [locations, setLocations] = useState<BranchLocation[]>([]);
   console.log("locations",locations)
     const [isDeleting, setIsDeleting] = useState(false);
@@ -193,11 +193,11 @@ const handleDeleteConfirm = async () => {
 };
 
 const handleEdit = (id: number) => {
-  navigate(`/location/edit/${id}`);
+  navigate(`/settings/location/edit/${id}`);
 };
 
 const onView = (id: number) =>{
-   navigate(`/location-view/${id}`);
+   navigate(`/settings/location-view/${id}`);
 }
   return (
     <>
@@ -283,7 +283,7 @@ const onView = (id: number) =>{
                   )}
                 </div>
                 <button
-                  onClick={() => navigate("/location/add")}
+                  onClick={() => navigate("/settings/location/add")}
                   className="
                         flex items-center gap-2
                         rounded-full
@@ -315,10 +315,9 @@ const onView = (id: number) =>{
                         {/* DRAG COLUMN */}
                         <th className="w-10 flex justify-center" />
 
-                        {/* CATEGORY */}
                         <th
                           onClick={() => {
-                            setSortBy("category");
+                            setSortBy("name");
                             setSortDirection((prev) => (prev === "asc" ? "desc" : "asc"));
                           }}
                           className="

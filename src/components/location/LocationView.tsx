@@ -172,24 +172,42 @@ const parkingHtml =
                     </div>
                   </div>
                 </div>
-                 <div className="rounded-[12px] border border-border bg-card p-6">
-                  {/* Header */}
-                  <div className="flex items-start justify-between">
-                    <div>
-                      <h2 className="text-lg font-semibold text-foreground">
-                       Parking Details
-                      </h2>
-                    </div>
-                  </div>
+                 <div className="rounded-[12px] border p-6 shadow-sm">
+  {/* Header */}
+                            <div className="flex items-start justify-between">
+                                <div>
+                                <h2 className="text-lg font-semibold text-foreground">
+                                    Parking details
+                                </h2>
+                                <p className="text-sm text-muted-foreground mt-1">
+                                    These details will appear on the client's sale receipt for
+                                    sales from this location.
+                                </p>
+                                </div>
+                            </div>
 
-                  {/* Company Details Box */}
-                  <div className="mt-6">
-                       <DescriptionEditor
-                        value={parkingDetails}
-                        onChange={(val) => setParkingDetails(val)}
-                        />
-                  </div>
-                </div>
+                            {/* Inner Card */}
+                            <div className="mt-6 rounded-[10px] border p-4">
+                                <h3 className="text-sm font-semibold text-foreground mb-2 border-b pb-3">
+                                Parking information
+                                </h3>
+
+                                <div className="flex items-center justify-between gap-4">
+                                <div>
+                                    <p className="text-sm font-medium text-foreground">
+                                   Belsize Park & Primrose Hill
+                                    </p>
+                                    <p className="text-sm text-muted-foreground">
+                                   18 England Lane, London, England
+                                    </p>
+                                </div>
+
+                                <span className="rounded-full bg-background px-3 py-1 text-sm font-medium text-foreground border">
+                                    Layana
+                                </span>
+                                </div>
+                            </div>
+                            </div>
                 </div>
                 <div className="rounded-[12px] border border-border bg-card p-6">
                   {/* Header */}

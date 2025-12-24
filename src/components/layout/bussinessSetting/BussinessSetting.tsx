@@ -18,14 +18,14 @@ const items = [
     icon: Building2,
     gradient: "from-[#14878E]/10 to-transparent",
     iconBg: "#14878E",
-    path: "/category",
+    path: "/settings/category",
   },
   {
     title: "Location",
     icon: MapPin,
     gradient: "from-[#EF4444]/10 to-transparent",
     iconBg: "#EF4444",
-    path: "/location",
+    path: "/settings/location",
   },
 ];
 

@@ -4,6 +4,7 @@ import { forwardRef, useEffect, useImperativeHandle, useRef } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "../ui/select";
 
 /* ================= SCHEMA ================= */
 
@@ -197,11 +198,24 @@ const slugify = (text: string) =>
             <label className="text-sm font-medium">
               Status<sup className="text-destructive">*</sup>
             </label>
-            <select className="form-input" {...register("status")}>
-              <option value="">Select status</option>
-              <option value="active">Active</option>
-              <option value="inactive">Inactive</option>
-            </select>
+            <Select
+            value={watch("status")}
+            onValueChange={(v) =>
+              setValue("status", v as "active" | "inactive", {
+                shouldDirty: true,
+                shouldValidate: true,
+              })
+            }
+          >
+            <SelectTrigger className="form-input">
+              <SelectValue placeholder="Select status" />
+            </SelectTrigger>
+
+            <SelectContent>
+              <SelectItem value="active">Active</SelectItem>
+              <SelectItem value="inactive">Inactive</SelectItem>
+            </SelectContent>
+          </Select>
             {formState.errors.status && <p className="text-xs text-destructive mt-1">{formState.errors.status.message}</p>}
           </div>
 
@@ -248,11 +262,24 @@ const slugify = (text: string) =>
             <label className="text-sm font-medium">
               Country<sup className="text-destructive">*</sup>
             </label>
-            <select className="form-input" {...register("country")}>
-              <option value="">Select country</option>
-              <option value="India">India</option>
-              <option value="UK">United Kingdom</option>
-            </select>
+            <Select
+          value={watch("country")}
+          onValueChange={(v) =>
+            setValue("country", v, {
+              shouldDirty: true,
+              shouldValidate: true,
+            })
+          }
+        >
+          <SelectTrigger className="form-input">
+            <SelectValue placeholder="Select country" />
+          </SelectTrigger>
+
+          <SelectContent>
+            <SelectItem value="India">India</SelectItem>
+            <SelectItem value="UK">United Kingdom</SelectItem>
+          </SelectContent>
+        </Select>
             {formState.errors.country && <p className="text-xs text-destructive mt-1">{formState.errors.country.message}</p>}
           </div>
 

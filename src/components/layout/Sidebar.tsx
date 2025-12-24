@@ -19,8 +19,8 @@ interface NavItem {
 
 const navItems: NavItem[] = [
   { icon: LayoutDashboard, label: "Dashboard", href: "/dashboard" },
-  // { icon: ChartColumnStacked, label: "Category", href: "/category" },
-  // { icon: MapPin, label: "Location", href: "/location" },
+  // { icon: ChartColumnStacked, label: "Category", href: "/settings/category" },
+  // { icon: MapPin, label: "Location", href: "/settings/location" },
   { icon: Users , label: "Treatments", href: "/treatments-list" },
   // { icon: Bolt , label: "Bussiness Settings", href: "/settings" },
   // { icon: Users, label: "Team & Clients", children: [{ label: "Clients", href: "/clients" }, { label: "Staff", href: "/staff" }] },
@@ -68,7 +68,14 @@ useEffect(() => {
 
   const NavItemContent = ({ item }: { item: NavItem }) => {
     const isExpanded = expandedItems.includes(item.label);
-    const isActive = item.href && location.pathname === item.href;
+   const isActive =
+  item.href
+    ? location.pathname === item.href ||
+      location.pathname.startsWith(item.href + "/")
+    : item.children?.some(child =>
+        location.pathname === child.href ||
+        location.pathname.startsWith(child.href + "/")
+      );
     
     if (collapsed) {
       return (

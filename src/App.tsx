@@ -39,7 +39,7 @@ const App = () => (
           />
 
           <Route
-            path="/category"
+            path="/settings/category"
             element={
               <ProtectedRoute>
                 <Catgeory />
@@ -48,7 +48,7 @@ const App = () => (
           />
 
           <Route
-            path="/category/add"
+            path="/settings/category/add"
             element={
               <ProtectedRoute>
                 <CategoryAdd />
@@ -56,7 +56,7 @@ const App = () => (
             }
           />
           <Route
-            path="/category/edit/:id"
+            path="/settings/category/edit/:id"
             element={
               <ProtectedRoute>
                 <CategoryAdd />
@@ -64,7 +64,7 @@ const App = () => (
             }
           />
           <Route
-            path="/location"
+            path="/settings/location"
             element={
               <ProtectedRoute>
                 <LocationList />
@@ -73,7 +73,7 @@ const App = () => (
           />
 
           <Route
-            path="/location-view/:id"
+            path="/settings/location-view/:id"
             element={
               <ProtectedRoute>
                 <LocationView />
@@ -82,7 +82,7 @@ const App = () => (
           />
 
           <Route
-            path="/location/add"
+            path="/settings/location/add"
             element={
               <ProtectedRoute>
                 <LocationIndex />
@@ -90,7 +90,7 @@ const App = () => (
             }
           />
           <Route
-            path="/location/edit/:id"
+            path="/settings/location/edit/:id"
             element={
               <ProtectedRoute>
                 <LocationIndex />

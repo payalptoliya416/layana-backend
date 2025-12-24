@@ -73,7 +73,7 @@ const [validationErrors, setValidationErrors] = useState<
 >([]);
 
   const handleCancle = () => {
-    navigate("/location");
+    navigate("/settings/location");
   };
   const generalRef = useRef<any>(null);
   const contactRef = useRef<any>(null);
@@ -197,7 +197,7 @@ const [formData, setFormData] = useState<LocationFormData>({
   }
 
   console.log("res", res);
-  navigate("/location");
+  navigate("/settings/location");
     } catch (err: any) {
       console.error(err);
       toast.error(
