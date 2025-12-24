@@ -276,7 +276,7 @@ const GlobalLoader = () => {
               setIsNotificationsOpen(false);
             }}
             className={cn(
-              "flex items-center gap-2.5 px-[2px] py-[7px] sm:p-[7px] h-10 md:h-[50px] rounded-full gradient-border-inner transition-all duration-200 sm:w-[175px] gradient-border-inner",
+              "flex items-center gap-2.5 px-[2px] py-[7px] sm:p-[7px] h-10 md:h-[50px] rounded-full gradient-border-inner transition-all duration-200 gradient-border-inner",
               isProfileOpen && "bg-muted/50 "
             )}
             style={{boxShadow : '0px 6px 10px 0px rgba(0, 0, 0, 0.1)'}}
