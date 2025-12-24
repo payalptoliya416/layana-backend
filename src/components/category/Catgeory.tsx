@@ -73,7 +73,9 @@ function SortableRow({
         {item.name}
       </td>
       <td className="flex-1 text-muted-foreground whitespace-nowrap w-[30%]">
-        {item.status}
+         {item.status
+    ? item.status.charAt(0).toUpperCase() + item.status.slice(1)
+    : ""}
       </td>
 
       {/* ACTIONS */}
