@@ -553,7 +553,7 @@ const handleDragEnd = (event: any) => {
       >
           <div className="grid grid-cols-12">
               <div className="col-span-12">
-                  <div className="w-full overflow-x-auto">
+                  <div className="w-full overflow-x-auto overflow-y-visible relative z-10">
                   <table className="w-full border-separate border-spacing-y-3">
                     <tbody>
                       {(pricingMap[selectedBranchId] || []).map((item) => (
