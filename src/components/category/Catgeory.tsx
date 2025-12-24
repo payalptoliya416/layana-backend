@@ -144,8 +144,8 @@ useEffect(() => {
       setCategory(res.data);
       setPagination(res.pagination);
 
-      if (res.data.length === 0 && search) {
-        toast.info("No categories found for your search");
+      if (res.data.length === 0) {
+        toast.info("No categories found");
       }
     } catch (e) {
       toast.error("Failed to load treatments");
@@ -574,7 +574,7 @@ const handleSubmit = async () => {
                                                 <tr className="flex items-center justify-center py-10 text-muted-foreground text-sm">
                                                     <td className="text-center w-full">
                                                     {search
-                                                        ? "No categories found for your search."
+                                                        ? "No categories available."
                                                         : "No categories available."}
                                                     </td>
                                                 </tr>
