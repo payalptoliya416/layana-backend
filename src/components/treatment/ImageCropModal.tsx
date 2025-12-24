@@ -66,7 +66,7 @@ export function ImageCropModal({
   };
 
   return (
-   <div className="fixed inset-0 z-50 flex items-center justify-center bg-background/70 backdrop-blur-sm">
+   <div className="fixed inset-0 z-50 flex items-center justify-center bg-background/70 backdrop-blur-sm !mt-0">
   <div className="bg-card rounded-xl p-5 w-[90vw] max-w-[600px] border border-border shadow-dropdown">
     
     {/* Crop Area */}

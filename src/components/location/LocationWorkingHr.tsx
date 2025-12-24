@@ -178,7 +178,7 @@ useEffect(() => {
                   >
                     {/* DAY */}
                     <td className="py-[15px] px-[15px] border border-r-0 rounded-tl-[10px] rounded-bl-[10px]">
-                      <div className="min-w-[140px] rounded-[10px]  bg-muted dark:bg-muted/4  text-base leading-[16px] py-[11px] h-[38px] text-center font-semibold text-[#035865] text-green">
+                      <div className="min-w-[140px] rounded-[10px]  bg-muted dark:bg-muted/4  text-base leading-[16px] py-[11px] h-[38px] text-center font-semibold text-primary text-green">
                         {day}
                       </div>
                     </td>
@@ -193,10 +193,9 @@ useEffect(() => {
                         setActiveDay(day);
                         updateTime(day, "start", e.target.value);
                       }}
-                        className="rounded-[10px] bg-[#F3F4F6] 
-    dark:bg-muted/40 py-[11px] h-[38px] px-2 text-[16px] leading-[16px] font-semibold outline-none "
+                        className="rounded-[10px] bg-muted dark:bg-muted/40 text-foreground py-[11px] h-[38px] px-2 text-[16px] leading-[16px] font-semibold outline-none "
                       />
-                      <span className="text-[#B8B9BA]">–</span>
+                      <span className="text-muted-foreground">–</span>
                       <input
                         type="time"
                         value={d.end}
@@ -204,8 +203,7 @@ useEffect(() => {
                         setActiveDay(day);
                         updateTime(day, "end", e.target.value);
                       }}
-                        className="rounded-[10px] bg-[#F3F4F6] 
-    dark:bg-muted/40 py-[11px] h-[38px] px-2 text-[16px] leading-[16px] font-semibold outline-none"
+                        className="rounded-[10px] bg-muted dark:bg-muted/40 text-foreground py-[11px] h-[38px] px-2 text-[16px] leading-[16px] font-semibold outline-none"
                       />
                       </div>
                     </td>
@@ -230,7 +228,7 @@ useEffect(() => {
         </div>
 
         {copyFromDay && (
-          <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40">
+          <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 !mt-0">
             <div className="w-full max-w-md rounded-2xl bg-card p-6">
               <h3 className="text-lg font-semibold mb-4">
                 Copy timing from{" "}

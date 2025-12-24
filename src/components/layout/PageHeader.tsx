@@ -159,8 +159,21 @@ const GlobalLoader = () => {
     {/* Page Title */}
     <h1
       className="
-       2xl:absolute 2xl:left-1/2 2xl:flex-1 overflow-y-auto scrollbar-thin border-border p-2 lg:p-5 rounded-[20px] scrollbar-thin h-full:-translate-x-1/2 border-0
-      text-base md:text-[28px] font-semibold text-foreground
+          2xl:absolute
+    2xl:left-1/2
+    2xl:-translate-x-1/2
+    2xl:text-center
+
+    flex-1
+    overflow-y-auto
+    scrollbar-thin
+    p-2 lg:p-5
+    rounded-[20px]
+
+    text-base md:text-[28px]
+    font-semibold
+    text-foreground
+
       "
     >
       {title || "\u00A0"}

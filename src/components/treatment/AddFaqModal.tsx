@@ -50,7 +50,7 @@ export default function AddFaqModal({
     onSave(question.trim(), answer.trim());
   };
   return (
-  <div className="fixed inset-0 z-50 flex items-center justify-center bg-background/60 backdrop-blur-sm p-2">
+  <div className="fixed inset-0 z-50 flex items-center justify-center bg-background/60 backdrop-blur-sm p-2 !mt-0">
       <div className="relative w-full max-w-[720px] rounded-[18px] bg-card px-[30px] pt-[40px] pb-[30px] border border-border shadow-dropdown">
 
         {/* Close */}

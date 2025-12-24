@@ -347,47 +347,100 @@ input[type="number"] {
 }
 /* ================= Phone Input THEME ================= */
 
-/* LIGHT MODE */
+.phone-input-wrapper .react-tel-input {
+  width: 100%;
+}
+
+/* INPUT */
 .phone-input-wrapper .react-tel-input .form-control {
-  background-color: hsl(var(--card));
-  color: hsl(var(--foreground));
-  border-color: hsl(var(--input));
+  width: 100% !important;
+  height: 48px !important;
+  background-color: hsl(var(--card)) !important;
+  color: hsl(var(--foreground)) !important;
+  border: 1px solid hsl(var(--input)) !important;
+  border-radius: 0.5rem !important;
+  padding-left: 60px !important;
+  font-size: 14px;
 }
 
+/* FLAG BUTTON */
+.phone-input-wrapper .react-tel-input .flag-dropdown {
+  background-color: hsl(var(--card)) !important;
+  border: 1px solid hsl(var(--input)) !important;
+  border-right: none !important;
+  border-radius: 0.5rem 0 0 0.5rem !important;
+}
+
+/* FLAG ICON AREA */
 .phone-input-wrapper .react-tel-input .selected-flag {
-  background-color: hsl(var(--card));
-  border-color: hsl(var(--input));
+  background-color: transparent !important;
 }
 
-.phone-input-wrapper .react-tel-input .country-list {
-  background-color: hsl(var(--card));
-  color: hsl(var(--foreground));
-  border-color: hsl(var(--border));
+/* FIX DOUBLE BORDER */
+.phone-input-wrapper .react-tel-input .form-control {
+  border-left: none !important;
 }
 
-/* DARK MODE */
-.dark .phone-input-wrapper .react-tel-input .form-control {
-  background-color: hsl(var(--card));
-  color: hsl(var(--foreground));
-  border-color: hsl(var(--input));
-}
-
-.dark .phone-input-wrapper .react-tel-input .selected-flag {
-  background-color: hsl(var(--card));
-  border-color: hsl(var(--input));
-}
-
-.dark .phone-input-wrapper .react-tel-input .country-list {
-  background-color: hsl(var(--popover));
-  color: hsl(var(--foreground));
-  border-color: hsl(var(--border));
-}
-
-/* Placeholder */
+/* PLACEHOLDER */
 .phone-input-wrapper .react-tel-input .form-control::placeholder {
-  color: hsl(var(--muted-foreground));
+  color: hsl(var(--muted-foreground)) !important;
 }
+
+/* FOCUS */
 .phone-input-wrapper .react-tel-input .form-control:focus {
   outline: none;
   box-shadow: 0 0 0 2px hsl(var(--ring) / 0.3);
+}
+
+/* =========================
+   DROPDOWN (COUNTRY LIST)
+========================= */
+
+.phone-input-wrapper .react-tel-input .country-list {
+  background-color: hsl(var(--popover)) !important;
+  color: hsl(var(--foreground)) !important;
+  border: 1px solid hsl(var(--border)) !important;
+}
+
+.phone-input-wrapper .react-tel-input .country-list .country:hover {
+  background-color: hsl(var(--accent)) !important;
+}
+
+.phone-input-wrapper .react-tel-input .country-list .country.highlight {
+  background-color: hsl(var(--accent)) !important;
+}
+/* CLOCK ICON COLOR */
+input[type="time"]::-webkit-calendar-picker-indicator {
+  filter: invert(0.4);
+  cursor: pointer;
+}
+
+/* DARK MODE */
+.dark input[type="time"]::-webkit-calendar-picker-indicator {
+  filter: invert(1);
+}
+
+input[type="time"] {
+  background-color: hsl(var(--muted));
+  color: hsl(var(--foreground));
+  border: 1px solid hsl(var(--input));
+}
+
+.dark input[type="time"] {
+  background-color: hsl(var(--muted) / 0.4);
+  color: hsl(var(--foreground));
+}
+/* Popup text color (Chrome only – partial support) */
+input[type="time"]::-webkit-datetime-edit {
+  color: hsl(var(--foreground));
+}
+
+/* Selected part (hour/min/sec) */
+input[type="time"]::-webkit-datetime-edit-fields-wrapper {
+  color: hsl(var(--foreground));
+}
+
+/* AM / PM highlight */
+input[type="time"]::-webkit-datetime-edit-ampm-field {
+  color: hsl(var(--foreground));
 }
