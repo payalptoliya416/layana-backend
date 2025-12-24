@@ -21,10 +21,12 @@ import {
   AlertDialogAction,
 } from "@/components/ui/alert-dialog";
 import { Button } from "../ui/button";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "../ui/select";
 
 export type Category = {
   id: number;
   name: string;
+    status: "draft" | "live";
 };
 
 function SortableRow({
@@ -124,6 +126,7 @@ function Catgeory() {
 const [category, setCategory] = useState<Category[]>([]);
 const [deleteId, setDeleteId] = useState<number | null>(null);
 
+
 useEffect(() => {
   const fetchTreatments = async () => {
     try {
@@ -192,6 +195,8 @@ const [editingId, setEditingId] = useState<number | null>(null);
   const [nameError, setNameError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
   const [initialLoading, setInitialLoading] = useState(false);
+const [status, setStatus] = useState<"draft" | "live">("draft");
+const [statusError, setStatusError] = useState<string | null>(null);
 
   /* ---------- FETCH SINGLE CATEGORY ---------- */
  
@@ -204,6 +209,7 @@ const [editingId, setEditingId] = useState<number | null>(null);
         setInitialLoading(true);
         const data = await getCategoryById(editId);
         setName(data.name); // 👈 API DATA SET
+        setStatus(data.status ?? "draft");
       } catch {
         toast.error("Failed to load category");
       } finally {
@@ -220,7 +226,9 @@ const [editingId, setEditingId] = useState<number | null>(null);
 
   setEditingId(id);
   setName(selected.name); // 👈 form ma value fill
+   setStatus(selected.status); // 👈 form ma value fill
   setNameError(null);
+  setStatusError(null);
 
   window.scrollTo({ top: 0, behavior: "smooth" }); // optional UX
 };
@@ -230,17 +238,21 @@ const handleSubmit = async () => {
     setNameError("Category name is required");
     return;
   }
+   if (!status) {
+    setStatusError("Status is required");
+    return;
+  }
 
   try {
     setLoading(true);
 
     if (editingId) {
       // UPDATE
-      await updateCategory({ id: editingId, name });
+      await updateCategory({ id: editingId, name , status });
       toast.success("Category updated successfully");
     } else {
       // CREATE
-      await createCategory({ name });
+      await createCategory({ name , status});
       toast.success("Category created successfully");
     }
 
@@ -253,11 +265,14 @@ const handleSubmit = async () => {
       sortDirection,
     });
 
-    setCategory(res.data);
+     setCategory(res.data);
 
     // 🔄 RESET FORM
     setName("");
+    setStatus("draft");
     setEditingId(null);
+    setNameError(null);
+    setStatusError(null);;
   } catch {
     toast.error("Failed to save category");
   } finally {
@@ -348,8 +363,40 @@ const handleSubmit = async () => {
                                   </p>
                                 )}
                               </div>
+                                 <div>
+                    <label className="text-sm font-medium text-foreground">
+                      Status <sup className="text-destructive">*</sup>
+                    </label>
+
+                    <Select
+                      value={status}
+                      onValueChange={(v) => {
+                        setStatus(v as "draft" | "live");
+                        if (statusError) setStatusError(null);
+                      }}
+                    >
+                      <SelectTrigger
+                        className={cn(
+                          "form-input",
+                          statusError && "border-destructive focus:ring-destructive"
+                        )}
+                      >
+                        <SelectValue placeholder="Select status" />
+                      </SelectTrigger>
+
+                      <SelectContent>
+                        <SelectItem value="draft">Draft</SelectItem>
+                        <SelectItem value="live">Live</SelectItem>
+                      </SelectContent>
+                    </Select>
+
+                    {statusError && (
+                      <p className="mt-1 text-sm text-destructive">{statusError}</p>
+                    )}
+                  </div>
+
                               <div>
-                            <div className="flex justify-center  gap-3">
+                            <div className="flex justify-center  gap-3 mt-5">
                               <Button
                                 type="button"
                                 variant="cancel"
@@ -358,6 +405,7 @@ const handleSubmit = async () => {
                                     setName("");
                                     setEditingId(null);
                                     setNameError(null);
+                                    setStatusError(null);
                                 }}
                                 >
                                 Cancel

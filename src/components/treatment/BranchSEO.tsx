@@ -31,6 +31,7 @@ export function BranchSEO({
   });
 const [selectedSeoBranch, setSelectedSeoBranch] =
   useState<number | null>(null);
+console.log("branchId",branchId)
 
   useEffect(() => {
     if (value) setForm(value);

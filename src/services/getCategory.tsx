@@ -60,10 +60,10 @@ if (params?.page) formData.append("page", String(params.page));
   };
 }
 
-export const createCategory = (payload: { name: string }) =>
+export const createCategory = (payload: { name: string , status : string }) =>
   api.post("/treatment-categories/create", payload);
 
-export const updateCategory = (payload: { id: number; name: string }) =>
+export const updateCategory = (payload: { id: number; name: string , status : string }) =>
   api.post("/treatment-categories/update", payload);
 
 export const getCategoryById = async (id: number) => {

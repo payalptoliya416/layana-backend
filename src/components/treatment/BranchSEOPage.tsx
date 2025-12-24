@@ -79,6 +79,7 @@ useEffect(() => {
   {selectedBranchId !== null && (
     <div className="rounded-2xl border border-border bg-card p-6">
       <BranchSEO
+        key={selectedBranchId}
         branchId={selectedBranchId}
         value={seoMap[selectedBranchId]}
         onChange={(data) => {

@@ -270,10 +270,10 @@ const GlobalLoader = () => {
           >
             <img
               src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=80&h=80&fit=crop&crop=face"
-              alt="Jane Cooper"
+              alt="Ramesh T"
               className="w-[36px] h-[36px] rounded-full object-cover"
             />
-            <span className="font-medium text-foreground text-sm hidden sm:block">Jane Cooper</span>
+            <span className="font-medium text-foreground text-sm hidden sm:block">Ramesh T</span>
             
           </button>
 

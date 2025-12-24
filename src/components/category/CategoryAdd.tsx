@@ -11,6 +11,7 @@ import {
   updateCategory,
   getCategoryById,
 } from "@/services/getCategory";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "../ui/select";
 
 function CategoryAdd() {
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
@@ -28,6 +29,8 @@ const isEdit = Boolean(editId);
   const [nameError, setNameError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
   const [initialLoading, setInitialLoading] = useState(false);
+const [status, setStatus] = useState<"draft" | "live">("draft");
+const [statusError, setStatusError] = useState<string | null>(null);
 
   /* ---------- FETCH SINGLE CATEGORY ---------- */
   useEffect(() => {
@@ -38,6 +41,7 @@ const isEdit = Boolean(editId);
         setInitialLoading(true);
         const data = await getCategoryById(editId);
         setName(data.name); // 👈 API DATA SET
+        setStatus(data.status ?? "draft");
       } catch {
         toast.error("Failed to load category");
         navigate(-1);
@@ -62,7 +66,7 @@ const isEdit = Boolean(editId);
       setLoading(true);
 
       if (isEdit && editId) {
-        await updateCategory({ id: editId, name });
+        await updateCategory({ id: editId, name ,status  });
         toast.success("Category updated successfully");
       } else {
         await createCategory({ name });
@@ -145,6 +149,38 @@ const isEdit = Boolean(editId);
                       </p>
                     )}
                   </div>
+                  <div>
+  <label className="text-sm font-medium text-foreground">
+    Status <sup className="text-destructive">*</sup>
+  </label>
+
+  <Select
+    value={status}
+    onValueChange={(v) => {
+      setStatus(v as "draft" | "live");
+      if (statusError) setStatusError(null);
+    }}
+  >
+    <SelectTrigger
+      className={cn(
+        "form-input",
+        statusError && "border-destructive focus:ring-destructive"
+      )}
+    >
+      <SelectValue placeholder="Select status" />
+    </SelectTrigger>
+
+    <SelectContent>
+      <SelectItem value="draft">Draft</SelectItem>
+      <SelectItem value="live">Live</SelectItem>
+    </SelectContent>
+  </Select>
+
+  {statusError && (
+    <p className="mt-1 text-sm text-destructive">{statusError}</p>
+  )}
+</div>
+
                 </div>
 
                 <div className="flex justify-end gap-3 pt-6">
