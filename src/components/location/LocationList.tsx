@@ -139,7 +139,6 @@ const [debouncedSearch, setDebouncedSearch] = useState("");
   const [sortBy, setSortBy] = useState<"id" | "name">("id");
   const [sortDirection, setSortDirection] = useState<"asc" | "desc">("desc");
   const [locations, setLocations] = useState<BranchLocation[]>([]);
-  console.log("locations",locations)
     const [isDeleting, setIsDeleting] = useState(false);
     const [deleteId, setDeleteId] = useState<number | null>(null);
 

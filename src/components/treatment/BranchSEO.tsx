@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import DescriptionEditor from "./DescriptionEditor";
 import { SeoKeywordInput } from "./SeoKeywordInput";
 
@@ -29,24 +29,30 @@ export function BranchSEO({
     meta_description: "",
     seo_keyword: [],
   });
-const [selectedSeoBranch, setSelectedSeoBranch] =
-  useState<number | null>(null);
-console.log("branchId",branchId)
+  
+const isInitializedRef = useRef<number | null>(null);
 
-  useEffect(() => {
-    if (value) setForm(value);
-  }, [value]);
+useEffect(() => {
+  if (!value) return;
+
+  if (isInitializedRef.current === branchId) return;
+
+  setForm(value);
+  isInitializedRef.current = branchId;
+}, [value, branchId]);
 
 const update = <K extends keyof typeof form>(
   key: K,
   val: typeof form[K]
 ) => {
-  const updated = { ...form, [key]: val };
-  setForm(updated);
-  onChange(updated);
+  setForm((prev) => {
+    const updated = { ...prev, [key]: val };
+    onChange(updated);
+
+    return updated;
+  });
 };
 
-console.log("form",form)
   return (
    <div className="space-y-4">
   <h2 className="text-lg font-semibold text-foreground">

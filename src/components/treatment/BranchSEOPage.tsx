@@ -27,9 +27,7 @@ const BranchSEOPage = forwardRef<
 ) {
    const isInitializingRef = useRef(true);
   const [seoMap, setSeoMap] = useState<Record<number, any>>({});
-  console.log("initialData",initialData)
 useEffect(() => {
-  console.log("initialData",initialData)
   if (!initialData || initialData.length === 0) {
     isInitializingRef.current = false;
     return;
@@ -79,9 +77,13 @@ useEffect(() => {
   {selectedBranchId !== null && (
     <div className="rounded-2xl border border-border bg-card p-6">
       <BranchSEO
-        key={selectedBranchId}
         branchId={selectedBranchId}
-        value={seoMap[selectedBranchId]}
+      value={seoMap[selectedBranchId] ?? {
+  analitycs: "",
+  seo_title: "",
+  meta_description: "",
+  seo_keyword: [],
+}}
         onChange={(data) => {
           setSeoMap((prev) => {
             const updated = {
@@ -89,7 +91,6 @@ useEffect(() => {
               [selectedBranchId]: data,
             };
 
-            // ⛔ skip initial load
             if (isInitializingRef.current) return updated;
 
             const apiPayload = Object.entries(updated).map(

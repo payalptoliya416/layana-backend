@@ -238,7 +238,6 @@ useEffect(() => {
       setLoadingTreatment(true);
 
       const data = await getTreatmentById(Number(id));
-      console.log("data",data.seo)
       const locationIds = (data.locations || []).map(
         (loc: { id: number }) => loc.id
       );

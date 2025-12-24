@@ -60,7 +60,6 @@ type LocationFormData = {
 function LocationIndex() {
   const { id } = useParams();
   const isEdit = Boolean(id);
-  console.log("isEdit",id);
 
   const navigate = useNavigate();
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
@@ -192,11 +191,9 @@ const [formData, setFormData] = useState<LocationFormData>({
     toast.success("Location updated successfully");
   } else {
     res = await createLocation(payload);
-    console.log("res",res)
     toast.success("Location created successfully");
   }
 
-  console.log("res", res);
   navigate("/settings/location");
     } catch (err: any) {
       console.error(err);
