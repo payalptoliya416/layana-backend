@@ -69,7 +69,7 @@ const [statusError, setStatusError] = useState<string | null>(null);
         await updateCategory({ id: editId, name ,status  });
         toast.success("Category updated successfully");
       } else {
-        await createCategory({ name });
+        await createCategory({ name , status });
         toast.success("Category created successfully");
       }
 

@@ -69,8 +69,11 @@ function SortableRow({
       </td>
 
       {/* TREATMENT */}
-      <td className="flex-1 text-muted-foreground whitespace-nowrap">
+      <td className="text-muted-foreground whitespace-nowrap w-[30%]">
         {item.name}
+      </td>
+      <td className="flex-1 text-muted-foreground whitespace-nowrap w-[30%]">
+        {item.status}
       </td>
 
       {/* ACTIONS */}
@@ -195,7 +198,7 @@ const [editingId, setEditingId] = useState<number | null>(null);
   const [nameError, setNameError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
   const [initialLoading, setInitialLoading] = useState(false);
-const [status, setStatus] = useState<"draft" | "live">("draft");
+const [status, setStatus] = useState<"draft" | "live">("live");
 const [statusError, setStatusError] = useState<string | null>(null);
 
   /* ---------- FETCH SINGLE CATEGORY ---------- */
@@ -209,7 +212,7 @@ const [statusError, setStatusError] = useState<string | null>(null);
         setInitialLoading(true);
         const data = await getCategoryById(editId);
         setName(data.name); // 👈 API DATA SET
-        setStatus(data.status ?? "draft");
+        setStatus(data.status ?? "live");
       } catch {
         toast.error("Failed to load category");
       } finally {
@@ -269,7 +272,7 @@ const handleSubmit = async () => {
 
     // 🔄 RESET FORM
     setName("");
-    setStatus("draft");
+    setStatus("live");
     setEditingId(null);
     setNameError(null);
     setStatusError(null);;
@@ -497,6 +500,29 @@ const handleSubmit = async () => {
                           "
                         >
                           <span>Category</span>
+                          <span className="flex flex-col gap-1 ml-2 text-muted-foreground leading-none mr-2">
+                            <span className="text-[10px]">
+                              <img src="/top.png" alt="" />
+                            </span>
+                            <span className="text-[10px] -mt-1">
+                              <img src="/down.png" alt="" />
+                            </span>
+                          </span>
+                        </th>
+                        <th
+                          onClick={() => {
+                            setSortBy("category");
+                            setSortDirection((prev) => (prev === "asc" ? "desc" : "asc"));
+                          }}
+                          className="
+                            w-[30%] pl-4
+                            border-l border-border
+                            flex items-center justify-between
+                            cursor-pointer
+                            text-left
+                          "
+                        >
+                          <span>Status</span>
                           <span className="flex flex-col gap-1 ml-2 text-muted-foreground leading-none mr-2">
                             <span className="text-[10px]">
                               <img src="/top.png" alt="" />
