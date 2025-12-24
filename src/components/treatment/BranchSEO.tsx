@@ -45,7 +45,7 @@ const update = <K extends keyof typeof form>(
   onChange(updated);
 };
 
-
+console.log("form",form)
   return (
    <div className="space-y-4">
   <h2 className="text-lg font-semibold text-foreground">

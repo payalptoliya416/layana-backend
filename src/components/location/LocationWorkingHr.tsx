@@ -233,41 +233,38 @@ useEffect(() => {
                 Copy timing from{" "}
                 <span className="text-[#0F5D5D]">{copyFromDay}</span>
               </h3>
-<div className="space-y-3 max-h-[300px] overflow-y-auto pr-1">
-  {DAYS.filter((d) => d !== copyFromDay).map((day) => {
-    const checked = copySelection[day] || false;
+          <div className="space-y-3 max-h-[300px] overflow-y-auto pr-1">
+            {DAYS.filter((d) => d !== copyFromDay).map((day) => {
+              const checked = copySelection[day] || false;
 
-    return (
-      <label
-        key={day}
-        className={cn(
-          "flex items-center justify-between rounded-lg border px-4 py-3 cursor-pointer transition",
-          checked
-            ? "border-primary bg-primary/5"
-            : "hover:bg-muted/40"
-        )}
-      >
-        <span className="font-medium text-sm text-foreground">
-          {day}
-        </span>
+              return (
+                <label
+                  key={day}
+                  className={cn(
+                    "flex items-center justify-between rounded-lg border px-4 py-3 cursor-pointer transition",
+                    checked
+                      ? "border-primary bg-primary/5"
+                      : "hover:bg-muted/40"
+                  )}
+                >
+                  <span className="font-medium text-sm text-foreground">
+                    {day}
+                  </span>
 
-        <Checkbox
-          checked={checked}
-          onCheckedChange={() =>
-            setCopySelection((p) => ({
-              ...p,
-              [day]: !p[day],
-            }))
-          }
-          className="rounded-md h-4 w-4 border border-muted-foreground/40"
-        />
-      </label>
-    );
-  })}
-</div>
-
-
-
+                  <Checkbox
+                    checked={checked}
+                    onCheckedChange={() =>
+                      setCopySelection((p) => ({
+                        ...p,
+                        [day]: !p[day],
+                      }))
+                    }
+                    className="rounded-none h-4 w-4 border border-muted-foreground/40"
+                  />
+                </label>
+              );
+            })}
+          </div>
               <div className="mt-6 flex justify-end gap-3">
                 <button
                   onClick={() => setCopyFromDay(null)}

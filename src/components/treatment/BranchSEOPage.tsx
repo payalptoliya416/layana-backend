@@ -25,7 +25,6 @@ const BranchSEOPage = forwardRef<
   },
   ref
 ) {
-
    const isInitializingRef = useRef(true);
   const [seoMap, setSeoMap] = useState<Record<number, any>>({});
   useEffect(() => {

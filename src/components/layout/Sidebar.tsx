@@ -22,7 +22,7 @@ const navItems: NavItem[] = [
   // { icon: ChartColumnStacked, label: "Category", href: "/settings/category" },
   // { icon: MapPin, label: "Location", href: "/settings/location" },
   { icon: Users , label: "Treatments", href: "/treatments-list" },
-  // { icon: Bolt , label: "Bussiness Settings", href: "/settings" },
+  { icon: Bolt , label: "Bussiness Settings", href: "/settings" },
   // { icon: Users, label: "Team & Clients", children: [{ label: "Clients", href: "/clients" }, { label: "Staff", href: "/staff" }] },
   // { icon: Building2, label: "Operations", children: [{ label: "Schedule", href: "/schedule" }, { label: "Reports", href: "/reports" }] },
   // { icon: UserCog, label: "Team Management", children: [{ label: "Roles", href: "/roles" }, { label: "Permissions", href: "/permissions" }] },
