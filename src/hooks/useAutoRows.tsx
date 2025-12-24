@@ -1,27 +1,40 @@
 import { useEffect, useRef, useState } from "react";
 
-const ROW_HEIGHT = 52; // EXACT same as row height
+
+const HEADER_HEIGHT = 52;
 
 export function useAutoRows() {
   const containerRef = useRef<HTMLDivElement | null>(null);
-  const [rowsPerPage, setRowsPerPage] = useState(7);
+  const [rowsPerPage, setRowsPerPage] = useState<number | null>(null);
 
   useEffect(() => {
     if (!containerRef.current) return;
 
+    let raf: number;
+
     const observer = new ResizeObserver(entries => {
-      const height = entries[0].contentRect.height;
+      cancelAnimationFrame(raf);
 
-      // thead height = 52px
-      const available = height - 52;
+      raf = requestAnimationFrame(() => {
+        const height = entries[0].contentRect.height;
+        const rowHeight =
+          document.querySelector("[data-row]")?.getBoundingClientRect().height || 56;
 
-      const rows = Math.floor(available / ROW_HEIGHT);
-      setRowsPerPage(rows > 0 ? rows : 1);
+        const available = height - HEADER_HEIGHT;
+        const rows = Math.floor(available / rowHeight);
+
+        setRowsPerPage(rows > 0 ? rows : 1);
+      });
     });
 
     observer.observe(containerRef.current);
-    return () => observer.disconnect();
+
+    return () => {
+      cancelAnimationFrame(raf);
+      observer.disconnect();
+    };
   }, []);
 
   return { containerRef, rowsPerPage };
 }
+
