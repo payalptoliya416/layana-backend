@@ -206,7 +206,7 @@ const [editingId, setEditingId] = useState<number | null>(null);
   const [nameError, setNameError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
   const [initialLoading, setInitialLoading] = useState(false);
-const [status, setStatus] = useState<"Draft" | "Live">("Draft");
+const [status, setStatus] = useState<"Draft" | "Live">("Live");
 const [statusError, setStatusError] = useState<string | null>(null);
 
   /* ---------- FETCH SINGLE CATEGORY ---------- */
