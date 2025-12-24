@@ -29,6 +29,7 @@ const BranchSEOPage = forwardRef<
   const [seoMap, setSeoMap] = useState<Record<number, any>>({});
   console.log("initialData",initialData)
 useEffect(() => {
+  console.log("initialData",initialData)
   if (!initialData || initialData.length === 0) {
     isInitializingRef.current = false;
     return;
@@ -37,7 +38,6 @@ useEffect(() => {
   isInitializingRef.current = true;
 
   const map: Record<number, any> = {};
-
   initialData.forEach((item: any) => {
     map[item.location.id] = {
       analitycs: item.location.analitycs || "",
