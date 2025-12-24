@@ -258,7 +258,7 @@ const onView = (id: number) =>{
                                         rounded-full
                                         border border-input
                                         bg-card
-                                        px-2 sm:px-6 pr-14
+                                         pl-2 sm:pl-6 pr-[41px]
                                         text-[16px] text-foreground
                                         placeholder:text-muted-foreground
                                         outline-none
