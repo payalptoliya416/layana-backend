@@ -148,7 +148,7 @@ const [treatments, setTreatments] = useState<Treatment[]>([]);
 const [page, setPage] = useState(1);
 const [pagination, setPagination] = useState<any>(null);
 const [sortBy, setSortBy] = useState<"name" | "category">("name");
-const [sortDirection, setSortDirection] = useState<"asc" | "desc">("desc");
+const [sortDirection, setSortDirection] = useState<"asc" | "desc">("asc");
 const { containerRef, rowsPerPage } = useAutoRows();
 
 // useEffect(() => {
@@ -395,114 +395,180 @@ const handleDelete = async () => {
             </AlertDialogFooter>
           </AlertDialogContent>
                </AlertDialog>
-        <div className="grid grid-cols-12">
-  <div className="col-span-12">
-
-    {/* OUTER CARD */}
-    <div
-      className="w-full rounded-2xl border border-border bg-card flex flex-col overflow-hidden"
-      style={{ height: "calc(100vh - 300px)" }}
-    >
-
-      {/* TABLE HEADER (NOT measured) */}
-      <table className="w-full text-sm text-left">
-        <thead className="sticky top-0 z-10 bg-card">
-          <tr
-            className="
-              flex items-center h-[52px]
-              px-[16px]
-              text-sm font-medium
-              text-primary
-              border-b border-border
-            "
-          >
-            <th className="w-10 flex justify-center" />
-
-            <th
-              onClick={() => {
-                setSortBy("category");
-                setSortDirection((p) => (p === "asc" ? "desc" : "asc"));
-              }}
-              className="w-[30%] pl-4 border-l border-border flex justify-between cursor-pointer"
-            >
-              Category
-            </th>
-
-            <th
-              onClick={() => {
-                setSortBy("name");
-                setSortDirection((p) => (p === "asc" ? "desc" : "asc"));
-              }}
-              className="flex-1 pl-4 border-l border-border flex justify-between cursor-pointer"
-            >
-              Treatment
-            </th>
-
-            <th className="w-[100px] pl-4 border-l border-border text-right">
-              Actions
-            </th>
-          </tr>
-        </thead>
-      </table>
-
-      {/* 👇 THIS IS THE ONLY MEASURED AREA */}
-      <div
-        ref={containerRef}
-        className="flex-1 overflow-hidden"
-      >
-        <table className="w-full">
-          <tbody className="block overflow-y-auto">
-
-            {treatments.length === 0 ? (
-              <tr className="flex items-center justify-center h-[120px]">
-                <td className="text-muted-foreground text-sm">
-                  No Treatment found
-                </td>
-              </tr>
-            ) : (
-              <DndContext
-                collisionDetection={closestCenter}
-                onDragEnd={handleDragEnd}
-                sensors={sensors}
-                measuring={{
-                  droppable: { strategy: MeasuringStrategy.Always },
-                }}
+          <div className="grid grid-cols-12">
+              <div className="col-span-12">
+              <div
+                ref={containerRef}
+                className="w-full rounded-2xl border border-border bg-card flex flex-col overflow-hidden scrollbar-thin"
+                style={{ height: "calc(100vh - 300px)" }}
               >
-                <SortableContext
-                  items={treatments.map((i) => i.id)}
-                  strategy={verticalListSortingStrategy}
-                >
-                  {treatments.map((item, index) => (
-                    <SortableRow
-                      key={item.id}
-                      item={item}
-                      index={index}
-                      onEdit={handleEdit}
-                      onDelete={(id) => setDeleteId(id)}
-                    />
-                  ))}
-                </SortableContext>
-              </DndContext>
-            )}
+                  <table className="w-full text-sm text-left">
+                  <thead className="sticky top-0 z-10 bg-card">
+                      <tr
+                        className="
+                          flex items-center h-[52px]
+                          px-[16px]
+                          text-sm font-medium
+                          text-primary
+                          border-b border-border
+                        "
+                      >
+                        {/* DRAG COLUMN */}
+                        <th className="w-10 flex justify-center" />
 
-          </tbody>
-        </table>
-      </div>
-    </div>
+                        {/* CATEGORY */}
+                        <th
+                          onClick={() => {
+                            setSortBy("category");
+                            setSortDirection((prev) => (prev === "asc" ? "desc" : "asc"));
+                          }}
+                          className="
+                            w-[30%] pl-4
+                            border-l border-border
+                            flex items-center justify-between
+                            cursor-pointer
+                            text-left
+                          "
+                        >
+                          <span>Category</span>
+                          <span className="flex flex-col gap-1 ml-2 text-muted-foreground leading-none mr-2">
+                            <span className="text-[10px]">
+                              <img src="/top.png" alt="" />
+                            </span>
+                            <span className="text-[10px] -mt-1">
+                              <img src="/down.png" alt="" />
+                            </span>
+                          </span>
+                        </th>
 
-    {/* PAGINATION */}
-    {pagination && (
-      <div className="flex items-center justify-between px-4 py-2 text-sm text-muted-foreground">
-        <span className="font-medium text-foreground">
-          Page {pagination.current_page} of {pagination.last_page}
-        </span>
-        {/* buttons same as before */}
-      </div>
-    )}
+                        {/* TREATMENT */}
+                        <th
+                          onClick={() => {
+                            setSortBy("name");
+                            setSortDirection((prev) => (prev === "asc" ? "desc" : "asc"));
+                          }}
+                          className="
+                            flex-1 pl-4
+                            border-l border-border
+                            flex items-center justify-between
+                            cursor-pointer
+                            text-left
+                          "
+                        >
+                          <span>Treatment</span>
+                          <span className="flex flex-col ml-2 gap-1 text-muted-foreground leading-none mr-2">
+                            <span className="text-[10px]">
+                              <img src="/top.png" alt="" />
+                            </span>
+                            <span className="text-[10px] -mt-1">
+                              <img src="/down.png" alt="" />
+                            </span>
+                          </span>
+                        </th>
 
-  </div>
-</div>
+                        {/* ACTIONS */}
+                        <th
+                          className="
+                            w-[100px] pl-4
+                            border-l border-border
+                            text-right
+                          "
+                        >
+                          Actions
+                        </th>
+                      </tr>
+                    </thead>
+                    <tbody className="block flex-1">
+  {treatments.length === 0 ? (
+    <tr className="flex items-center justify-center py-5">
+      <td className="text-muted-foreground text-sm">
+        No Treatment found
+      </td>
+    </tr>
+  ) : (
+    <DndContext
+      collisionDetection={closestCenter}
+      onDragEnd={handleDragEnd}
+      sensors={sensors}
+      measuring={{
+        droppable: {
+          strategy: MeasuringStrategy.Always,
+        },
+      }}
+    >
+      <SortableContext
+        items={treatments.map((i) => i.id)}
+        strategy={verticalListSortingStrategy}
+      >
+        {treatments.map((item, index) => (
+          <SortableRow
+            key={item.id}
+            item={item}
+            index={index}
+            onEdit={handleEdit}
+            onDelete={(id) => setDeleteId(id)}
+          />
+        ))}
+      </SortableContext>
+    </DndContext>
+  )}
+</tbody>
 
+                    <tfoot>
+                      <tr>
+                        <td>
+
+                        </td>
+                      </tr>
+                    </tfoot>
+                  </table>
+                </div>
+                      {pagination && (
+                  <div className="shrink-0 flex items-center justify-between gap-6 px-4 py-2 text-sm text-muted-foreground">
+                <span className="text-foreground font-medium">
+                  Page {pagination.current_page} of {pagination.last_page}
+                </span>
+                <div className="flex gap-6 items-center">
+
+                    <button
+                      disabled={pagination.current_page === 1}
+                      onClick={() => setPage(1)}
+                      className="hover:text-foreground disabled:opacity-40 text-2xl"
+                    >
+                      «
+                    </button>
+
+                    <button
+                      disabled={!pagination.prev_page_url}
+                      onClick={() => setPage((p) => p - 1)} 
+                      className="hover:text-foreground disabled:opacity-40 text-2xl"
+                    >
+                      ‹
+                    </button>
+                    <span className="text-foreground font-medium">
+                      {pagination.current_page} / {pagination.last_page}
+                    </span>
+
+                    <button
+                      disabled={!pagination.next_page_url}
+                      onClick={() => setPage((p) => p + 1)}
+                      className="hover:text-foreground disabled:opacity-40 text-2xl"
+                    >
+                      ›
+                    </button>
+
+                    <button
+                      disabled={pagination.current_page === pagination.last_page}
+                      onClick={() => setPage(pagination.last_page)}
+                      className="hover:text-foreground disabled:opacity-40 text-2xl"
+                    >
+                      »
+                    </button>
+                </div>
+                  </div>
+                )}
+              </div>
+            </div>
           </div>
         </div>
       </div>

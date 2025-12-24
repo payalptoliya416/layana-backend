@@ -27,34 +27,42 @@ const BranchSEOPage = forwardRef<
 ) {
    const isInitializingRef = useRef(true);
   const [seoMap, setSeoMap] = useState<Record<number, any>>({});
-  useEffect(() => {
-    if (!initialData || initialData.length === 0) {
-      isInitializingRef.current = false;
-      return;
-    }
-    isInitializingRef.current = true;
+  console.log("initialData",initialData)
+useEffect(() => {
+  if (!initialData || initialData.length === 0) {
+    isInitializingRef.current = false;
+    return;
+  }
 
-    const map: Record<number, any> = {};
+  isInitializingRef.current = true;
 
-    initialData.forEach((item: any) => {
-      map[item.location.id] = {
-        analitycs: item.location.analitycs || "",
-        seo_title: item.location.seo_title || "",
-        meta_description: item.location.meta_description || "",
-         seo_keyword: Array.isArray(item.location.seo_keyword)
+  const map: Record<number, any> = {};
+
+  initialData.forEach((item: any) => {
+    map[item.location.id] = {
+      analitycs: item.location.analitycs || "",
+      seo_title: item.location.seo_title || "",
+      meta_description: item.location.meta_description || "",
+      seo_keyword: Array.isArray(item.location.seo_keyword)
         ? item.location.seo_keyword.map((k: any) =>
             typeof k === "string" ? k : k?.name
           )
         : [],
-      };
-    });
+    };
+  });
 
-    setSeoMap(map);
+  setSeoMap(map);
 
-    setTimeout(() => {
-      isInitializingRef.current = false;
-    }, 0);
-  }, [initialData]);
+  // 🔥 AFTER seoMap is ready → select branch
+  if (selectedBranchId === null) {
+    onSelectBranch(Number(Object.keys(map)[0]));
+  }
+
+  setTimeout(() => {
+    isInitializingRef.current = false;
+  }, 0);
+}, [initialData]);
+
 
    return (
   <div className="space-y-6">
