@@ -148,7 +148,7 @@ useEffect(() => {
 
        if (res.data.length === 0) {
         if (!noDataToastShownRef.current) {
-          toast.info("No categories found");
+          // toast.info("No categories found");
           noDataToastShownRef.current = true;
         }
       } else {
