@@ -110,7 +110,8 @@ function LocationList() {
   const navigate = useNavigate();
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
   const [sidebarOpen, setSidebarOpen] = useState(false);
-  const [search, setSearch] = useState("");
+ const [search, setSearch] = useState("");
+const [debouncedSearch, setDebouncedSearch] = useState("");
   const sensors = useSensors(
     useSensor(PointerSensor, {
       activationConstraint: { distance: 5 }, // 👈 accidental drag avoid
@@ -132,25 +133,26 @@ const fetchTreatments = async () => {
     const res = await getLocations({
       page,
       perPage: 10,
-      search,
+      search: debouncedSearch,
       sortBy,
       sortDirection,
     });
 
-      setLocations(res.data);
-    setPagination(res.pagination);
+  setLocations(res?.data ?? []);
+     setPagination(res?.pagination ?? null);
   } catch (e) {
-    toast.error("Failed to load treatments");
+    setLocations([]);
+    toast.error("Failed to load locations");
   }
 };
 useEffect(() => {
-
   fetchTreatments();
-}, [page, sortBy, sortDirection, search]);
+}, [page, sortBy, sortDirection, debouncedSearch]);
 
 useEffect(() => {
   const delay = setTimeout(() => {
-    setPage(1); // reset page on search
+    setDebouncedSearch(search);
+    setPage(1); // reset page when search changes
   }, 400);
 
   return () => clearTimeout(delay);
@@ -176,8 +178,9 @@ const handleDeleteConfirm = async () => {
 };
 
 const handleEdit = (id: number) => {
-//   navigate(`/treatments/edit/${id}`);
+  navigate(`/treatments/edit/${id}`);
 };
+
 const handleDelete = async () => {
 //   if (!deleteId) return;
 
@@ -348,8 +351,8 @@ const handleDelete = async () => {
                       </tr>
                           </thead>
                           <tbody className="block flex-1 overflow-y-auto scrollbar-thin">
-                        {locations.length === 0 ? (
-                            <tr className="flex items-center justify-center h-[200px]">
+                       {!locations || locations.length === 0 ? (
+                            <tr className="flex items-center justify-center py-4">
                             <td className="text-muted-foreground text-sm">
                                 No locations found
                             </td>
@@ -412,6 +415,11 @@ const handleDelete = async () => {
   </AlertDialogContent>
 </AlertDialog>
 
+                        </td>
+                      </tr>
+                    </tfoot>
+                    </table>
+                  </div>
                       {pagination && (
                   <div className="shrink-0 flex items-center justify-between gap-6 px-4 py-2 text-sm text-muted-foreground">
                 <span className="text-foreground font-medium">
@@ -456,11 +464,6 @@ const handleDelete = async () => {
                 </div>
                   </div>
                 )}
-                        </td>
-                      </tr>
-                    </tfoot>
-                    </table>
-                  </div>
                 </div>
               </div>
             </div>

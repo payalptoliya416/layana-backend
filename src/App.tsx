@@ -83,7 +83,7 @@ const App = () => (
             path="/location/edit/:id"
             element={
               <ProtectedRoute>
-                <AddLocation />
+                <LocationIndex />
               </ProtectedRoute>
             }
           />

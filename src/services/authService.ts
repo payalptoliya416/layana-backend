@@ -15,9 +15,15 @@ const TOKEN_KEY = "token";
 const TOKEN_EXPIRY_KEY = "token_expiry";
 
 export const saveToken = (token: string) => {
-  const expiryTime = Date.now() + 24 * 60 * 60 * 1000; // 24 hours
-  localStorage.setItem(TOKEN_KEY, token);
-  localStorage.setItem(TOKEN_EXPIRY_KEY, expiryTime.toString());
+  const expiryTime = Date.now() + 24 * 60 * 60 * 1000;
+
+  localStorage.setItem("token", token);
+  localStorage.setItem("token_expiry", expiryTime.toString());
+
+  setTimeout(() => {
+    removeToken();
+    window.location.href = "/login";
+  }, expiryTime - Date.now());
 };
 
 // export const saveToken = (token: string) => {

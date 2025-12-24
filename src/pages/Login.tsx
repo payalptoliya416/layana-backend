@@ -37,6 +37,12 @@ const Login: React.FC = () => {
     }
   }, [navigate]);
 
+  useEffect(() => {
+  if (success) {
+    navigate("/treatments-list", { replace: true });
+  }
+}, [success, navigate]);
+
   const onSubmit = async (data: LoginFormData) => {
     await login(data.email, data.password);
   };

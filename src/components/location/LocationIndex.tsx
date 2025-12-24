@@ -1,5 +1,5 @@
 import { useRef, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { Sidebar } from "../layout/Sidebar";
 import { cn } from "@/lib/utils";
 import { PageHeader } from "../layout/PageHeader";
@@ -59,6 +59,9 @@ type LocationFormData = {
 
 
 function LocationIndex() {
+  const { id } = useParams();
+  const isEdit = Boolean(id);
+  console.log("isEdit",isEdit);
   const navigate = useNavigate();
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
   const [sidebarOpen, setSidebarOpen] = useState(false);
