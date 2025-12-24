@@ -90,27 +90,28 @@ const LocationContactDetails = forwardRef<any, Props>(
               Phone Number<sup className="text-destructive">*</sup>
             </label>
 
-            <PhoneInput
-              country="gb"
-              value={watch("phone")}
-              onChange={(value) =>
-                setValue("phone", `+${value}`, {
-                  shouldDirty: true,
-                  shouldValidate: true,
-                })
-              }
-              inputClass="
-                !w-full
-                !h-[48px]
-                !pl-[60px]
-                !rounded-lg
-                !border
-                !border-input
-                !text-sm
-              "
-              containerClass="!w-full"
-              buttonClass="!border !border-input !rounded-l-lg"
-            />
+        <div className="phone-input-wrapper">
+  <PhoneInput
+    country="gb"
+    value={watch("phone")}
+    onChange={(value) =>
+      setValue("phone", `+${value}`, {
+        shouldDirty: true,
+        shouldValidate: true,
+      })
+    }
+    inputClass="
+      !w-full
+      !h-[48px]
+      !pl-[60px]
+      !rounded-lg
+      !border
+      !text-sm
+    "
+    containerClass="!w-full"
+    buttonClass="!border !rounded-l-lg"
+  />
+</div>
 
             {/* hidden input for RHF validation */}
             <input
@@ -123,12 +124,6 @@ const LocationContactDetails = forwardRef<any, Props>(
                 },
               })}
             />
-
-            {formState.errors.phone && (
-              <p className="text-xs text-destructive mt-1">
-                {formState.errors.phone.message}
-              </p>
-            )}
           </div>
 
           {/* ADDRESS LINE 1 */}
@@ -149,11 +144,6 @@ const LocationContactDetails = forwardRef<any, Props>(
               })}
             />
 
-            {formState.errors.address_line_1 && (
-              <p className="text-xs text-destructive mt-1">
-                {formState.errors.address_line_1.message}
-              </p>
-            )}
           </div>
 
           {/* ADDRESS LINE 2 */}
@@ -173,12 +163,6 @@ const LocationContactDetails = forwardRef<any, Props>(
                 },
               })}
             />
-
-            {formState.errors.address_line_2 && (
-              <p className="text-xs text-destructive mt-1">
-                {formState.errors.address_line_2.message}
-              </p>
-            )}
           </div>
         </div>
       </div>

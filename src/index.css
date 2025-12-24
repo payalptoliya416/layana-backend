@@ -345,3 +345,49 @@ input[type="number"] {
 .loader-index{
   z-index: 999 !important;
 }
+/* ================= Phone Input THEME ================= */
+
+/* LIGHT MODE */
+.phone-input-wrapper .react-tel-input .form-control {
+  background-color: hsl(var(--card));
+  color: hsl(var(--foreground));
+  border-color: hsl(var(--input));
+}
+
+.phone-input-wrapper .react-tel-input .selected-flag {
+  background-color: hsl(var(--card));
+  border-color: hsl(var(--input));
+}
+
+.phone-input-wrapper .react-tel-input .country-list {
+  background-color: hsl(var(--card));
+  color: hsl(var(--foreground));
+  border-color: hsl(var(--border));
+}
+
+/* DARK MODE */
+.dark .phone-input-wrapper .react-tel-input .form-control {
+  background-color: hsl(var(--card));
+  color: hsl(var(--foreground));
+  border-color: hsl(var(--input));
+}
+
+.dark .phone-input-wrapper .react-tel-input .selected-flag {
+  background-color: hsl(var(--card));
+  border-color: hsl(var(--input));
+}
+
+.dark .phone-input-wrapper .react-tel-input .country-list {
+  background-color: hsl(var(--popover));
+  color: hsl(var(--foreground));
+  border-color: hsl(var(--border));
+}
+
+/* Placeholder */
+.phone-input-wrapper .react-tel-input .form-control::placeholder {
+  color: hsl(var(--muted-foreground));
+}
+.phone-input-wrapper .react-tel-input .form-control:focus {
+  outline: none;
+  box-shadow: 0 0 0 2px hsl(var(--ring) / 0.3);
+}

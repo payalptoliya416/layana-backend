@@ -158,11 +158,6 @@ const slugify = (text: string) =>
     })}
   />
 
-  {formState.errors.name && (
-    <p className="text-xs text-destructive mt-1">
-      {formState.errors.name.message}
-    </p>
-  )}
 </div>
 
 
@@ -186,11 +181,6 @@ const slugify = (text: string) =>
     })}
   />
 
-  {formState.errors.name && (
-    <p className="text-xs text-destructive mt-1">
-      {formState.errors.name.message}
-    </p>
-  )}
 </div>
 
           {/* Status */}
@@ -216,7 +206,7 @@ const slugify = (text: string) =>
               <SelectItem value="inactive">Inactive</SelectItem>
             </SelectContent>
           </Select>
-            {formState.errors.status && <p className="text-xs text-destructive mt-1">{formState.errors.status.message}</p>}
+        
           </div>
 
 {/* EMAIL */}
@@ -232,11 +222,6 @@ const slugify = (text: string) =>
     {...register("email")}
   />
 
-  {formState.errors.email && (
-    <p className="text-xs text-destructive mt-1">
-      {formState.errors.email.message}
-    </p>
-  )}
 </div>
 
           {/* Free Text */}
@@ -251,11 +236,6 @@ const slugify = (text: string) =>
             {...register("freeText")}
           />
 
-          {formState.errors.freeText && (
-            <p className="text-xs text-destructive mt-1">
-              {formState.errors.freeText.message}
-            </p>
-          )}
         </div>
           {/* Country */}
           <div>
@@ -280,7 +260,7 @@ const slugify = (text: string) =>
             <SelectItem value="UK">United Kingdom</SelectItem>
           </SelectContent>
         </Select>
-            {formState.errors.country && <p className="text-xs text-destructive mt-1">{formState.errors.country.message}</p>}
+         
           </div>
 
           {/* State */}
@@ -289,7 +269,7 @@ const slugify = (text: string) =>
               State<sup className="text-destructive">*</sup>
             </label>
             <input className="form-input" placeholder="Enter state" {...register("state")} />
-            {formState.errors.state && <p className="text-xs text-destructive mt-1">{formState.errors.state.message}</p>}
+           
           </div>
 
           {/* City */}
@@ -298,7 +278,6 @@ const slugify = (text: string) =>
               City<sup className="text-destructive">*</sup>
             </label>
             <input className="form-input" placeholder="Enter city" {...register("city")} />
-            {formState.errors.city && <p className="text-xs text-destructive mt-1">{formState.errors.city.message}</p>}
           </div>
 
           {/* Postcode */}
@@ -311,9 +290,7 @@ const slugify = (text: string) =>
               placeholder="Enter postcode"
               {...register("postcode")}
             />
-            {formState.errors.postcode && (
-              <p className="text-xs text-destructive mt-1">{formState.errors.postcode.message}</p>
-            )}
+          
           </div>
 
         </div>

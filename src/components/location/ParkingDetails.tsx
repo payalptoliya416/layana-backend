@@ -99,11 +99,6 @@ const ParkingDetails = forwardRef<any, Props>(
             })}
           />
 
-          {errors.parking_details && (
-            <p className="text-xs text-destructive mt-1">
-              {errors.parking_details.message}
-            </p>
-          )}
         </div>
       </div>
     );
