@@ -500,6 +500,11 @@ const handleDelete = async () => {
                       <tr>
                         <td>
 
+                        </td>
+                      </tr>
+                    </tfoot>
+                  </table>
+                </div>
                       {pagination && (
                   <div className="shrink-0 flex items-center justify-between gap-6 px-4 py-2 text-sm text-muted-foreground">
                 <span className="text-foreground font-medium">
@@ -544,11 +549,6 @@ const handleDelete = async () => {
                 </div>
                   </div>
                 )}
-                        </td>
-                      </tr>
-                    </tfoot>
-                  </table>
-                </div>
               </div>
             </div>
           </div>

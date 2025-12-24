@@ -50,6 +50,7 @@ const LocationWorkingHr = forwardRef<any, Props>(
     const [copySelection, setCopySelection] = useState<Record<string, boolean>>(
       {}
     );
+const [activeDay, setActiveDay] = useState<string | null>(null);
 
     /* ---------- EDIT MODE HYDRATION ---------- */
 
@@ -142,6 +143,7 @@ useEffect(() => {
       field: "start" | "end",
       value: string
     ) => {
+      setActiveDay(day); 
       setTimes((p) => ({
         ...p,
         [day]: { ...p[day], [field]: value },
@@ -160,8 +162,8 @@ useEffect(() => {
 
     return (
       <div className="grid grid-cols-12">
-      <div className="space-y-6 col-span-7">
-        <div className="rounded-[20px] bg-card overflow-x-auto">
+      <div className="space-y-6 col-span-12 2xl:col-span-6">
+        <div className="rounded-[12px] bg-card overflow-x-auto ">
           <table className="w-full border-separate border-spacing-y-3">
             <tbody>
               {DAYS.map((day) => {
@@ -170,52 +172,50 @@ useEffect(() => {
                 return (
                   <tr
                     key={day}
-                    className="rounded-[20px] border border-[#E5E7EB] bg-card"
+                    className="rounded-[12px] border border-border bg-card"
                   >
                     {/* DAY */}
-                    <td className="px-4 py-3 border border-r-0 rounded-tl-[10px] rounded-bl-[10px]">
-                      <div className="min-w-[140px] rounded-[10px] bg-[#EEF6F6] px-4 py-3 text-sm text-center font-semibold text-[#0F5D5D]">
+                    <td className="py-[15px] px-[15px] border border-r-0 rounded-tl-[10px] rounded-bl-[10px]">
+                      <div className="min-w-[140px] rounded-[10px] bg-[#EBF2F3]  text-base leading-[16px] py-[11px] h-[38px] text-center font-semibold text-[#035865] text-green">
                         {day}
                       </div>
                     </td>
 
                     {/* START TIME */}
-                    <td className="px-3 py-4 text-center border-t border-b">
+                    <td className="py-[15px] px-[15px] text-center border-t border-b">
+                      <div className="flex justify-center items-center gap-[5px]">
                       <input
                         type="time"
                         value={d.start}
+                          onFocus={() => setActiveDay(day)}
                         onChange={(e) =>
                           updateTime(day, "start", e.target.value)
                         }
-                        className="rounded-[10px] bg-[#F3F4F6] px-6 py-3 text-sm font-semibold outline-none"
+                        className="rounded-[10px] bg-[#F3F4F6] py-[11px] h-[38px] px-2 text-[16px] leading-[16px] font-semibold outline-none "
                       />
-                    </td>
-
-                    {/* DASH */}
-                    <td className="px-2 py-4 text-center text-lg text-[#9CA3AF] border-t border-b">
-                      –
-                    </td>
-
-                    {/* END TIME */}
-                    <td className="px-3 py-4 text-center border-t border-b">
+                      <span className="text-[#B8B9BA]">–</span>
                       <input
                         type="time"
                         value={d.end}
+                          onFocus={() => setActiveDay(day)}
                         onChange={(e) =>
                           updateTime(day, "end", e.target.value)
                         }
-                        className="rounded-[10px] bg-[#F3F4F6] px-6 py-3 text-sm font-semibold outline-none"
+                        className="rounded-[10px] bg-[#F3F4F6] py-[11px] h-[38px] px-2 text-[16px] leading-[16px] font-semibold outline-none"
                       />
+                      </div>
                     </td>
 
                     {/* ACTION */}
-                    <td className="px-6 py-3 text-right border border-l-0 rounded-br-[10px] rounded-tr-[10px]">
+                    <td className={`${activeDay === day ? "px-[15px] py-[15px]" : "px-1 py-1"} text-right border border-l-0 rounded-br-[10px] rounded-tr-[10px]`}>
+                      {activeDay === day && (
                       <button
                         onClick={() => openCopyPopup(day)}
                         className="text-[#6B7280] hover:text-[#0F5D5D]"
                       >
                         <Copy size={18} />
                       </button>
+                      )}
                     </td>
                   </tr>
                 );
@@ -224,7 +224,6 @@ useEffect(() => {
           </table>
         </div>
 
-        {/* COPY POPUP */}
         {copyFromDay && (
           <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40">
             <div className="w-full max-w-md rounded-2xl bg-white p-6">

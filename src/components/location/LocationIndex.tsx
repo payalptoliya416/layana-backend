@@ -148,6 +148,7 @@ const [formData, setFormData] = useState<LocationFormData>({
       generalRef.current?.validate(),
       contactRef.current?.validate(),
       workingRef.current?.validate(),
+       parkingRef.current?.validate(),
     ]);
 
     const allErrors = results

@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
-import { ChevronLeft, LayoutDashboard, Users, Building2, UserCog, Settings, ChevronDown, Sparkles, ChartColumnStacked, MapPin } from "lucide-react";
+import { ChevronLeft, LayoutDashboard, Users, Building2, UserCog, Settings, ChevronDown, Sparkles, ChartColumnStacked, MapPin, Bolt } from "lucide-react";
 import { cn } from "@/lib/utils";
 import {
   Tooltip,
@@ -21,6 +21,8 @@ const navItems: NavItem[] = [
   { icon: LayoutDashboard, label: "Dashboard", href: "/dashboard" },
   // { icon: ChartColumnStacked, label: "Category", href: "/category" },
   // { icon: MapPin, label: "Location", href: "/location" },
+  { icon: Users , label: "Treatments", href: "/treatments-list" },
+  // { icon: Bolt , label: "Bussiness Settings", href: "/settings" },
   // { icon: Users, label: "Team & Clients", children: [{ label: "Clients", href: "/clients" }, { label: "Staff", href: "/staff" }] },
   // { icon: Building2, label: "Operations", children: [{ label: "Schedule", href: "/schedule" }, { label: "Reports", href: "/reports" }] },
   // { icon: UserCog, label: "Team Management", children: [{ label: "Roles", href: "/roles" }, { label: "Permissions", href: "/permissions" }] },
@@ -218,7 +220,7 @@ useEffect(() => {
         )} */}
 
         {/* Treatments - Active Item */}
-        <div className="mt-2">
+        {/* <div className="mt-2">
           {collapsed ? (
             <Tooltip delayDuration={0}>
               <TooltipTrigger asChild>
@@ -248,7 +250,7 @@ useEffect(() => {
               <span>Treatments</span>
             </button>
           )}
-        </div>
+        </div> */}
       </div>
       </nav>
 

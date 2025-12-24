@@ -313,15 +313,16 @@ const handleSubmit = async () => {
 
           {/* Content */}
           <div className="flex-1 pl-[15px] pr-6 px-6 flex flex-col h-full bg-card rounded-2xl shadow-card p-5 overflow-hidden">
-                 <div className=" mb-8">
+              <div className="flex flex-col flex-1 overflow-y-auto scrollbar-thin">
+            <div className=" mb-8">
                         {initialLoading ? (
                           <div className="text-sm text-muted-foreground">
                             Loading category...
                           </div>
                         ) : (
-                          <div className="flex flex-col flex-1">
+                          <div className="flex flex-col flex-1 overflow-y-auto scrollbar-thin">
                             <div className="space-y-6 flex items-center justify-center ">
-                                <div className="w-[40%] rounded-2xl border border-border p-6 ">
+                                <div className="w-[80%] xl:w-[40%] rounded-2xl border border-border p-6 ">
                               <div className="mb-5">
                                 <label className="text-sm font-medium text-foreground">
                                   Category Name <sup className="text-destructive">*</sup>
@@ -377,9 +378,9 @@ const handleSubmit = async () => {
                             </div>
                           </div>
                         )}
-                      </div>
+            </div>
 
-            <div className="flex flex-col flex-1 overflow-hidden">
+            <div className="">
               <div className="grid grid-cols-12">
                 <div className="col-span-12">
                   <div className="w-full overflow-auto rounded-2xl border border-border bg-card flex flex-col scrollbar-thin  h-[calc(78vh-300px)]">
@@ -553,6 +554,7 @@ const handleSubmit = async () => {
                 </div>
               </div>
             </div>
+              </div>
           </div>
         </div>
       </div>

@@ -3,7 +3,7 @@ import { Sidebar } from "@/components/layout/Sidebar";
 import { PageHeader } from "@/components/layout/PageHeader";
 import { Footer } from "@/components/layout/Footer";
 import { cn } from "@/lib/utils";
-import { GripVertical, Pencil, Plus, Search, Trash2, X } from "lucide-react";
+import { Eye, GripVertical, Pencil, Plus, Search, Trash2, X } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { closestCenter, DndContext, KeyboardSensor, PointerSensor, useSensor, useSensors } from "@dnd-kit/core";
 import { SortableContext, useSortable, verticalListSortingStrategy } from "@dnd-kit/sortable";
@@ -32,10 +32,12 @@ function SortableRow({
   item,
   index,
   onEdit,
+  onView,
   onDelete,
 }: {
   item: any;
   index: number;
+  onView: (id: number) => void;
   onEdit: (id: number) => void;
   onDelete: (id: number) => void;
 }) {
@@ -73,7 +75,20 @@ function SortableRow({
       </td>
 
       {/* ACTIONS */}
-      <td className="w-[100px] flex justify-end gap-2 whitespace-nowrap">
+      <td className="w-[160px] flex justify-end gap-2 whitespace-nowrap">
+        <button
+          onClick={() => onView(item.id)}
+          className="
+            h-7 w-7 rounded-full
+            border border-border
+            bg-card
+            flex items-center justify-center
+            text-muted-foreground
+            hover:text-foreground hover:bg-muted
+          "
+        >
+          <Eye size={15} />
+        </button>
         <button
           onClick={() => onEdit(item.id)}
           className="
@@ -181,22 +196,9 @@ const handleEdit = (id: number) => {
   navigate(`/location/edit/${id}`);
 };
 
-const handleDelete = async () => {
-//   if (!deleteId) return;
-
-//   try {
-//     setIsDeleting(true);
-//     await deleteTreatmentMessage(deleteId);
-
-//     setTreatments((prev) => prev.filter((t) => t.id !== deleteId));
-//     toast.success("Deleted successfully");
-//   } catch (err) {
-//     toast.error("Delete failed");
-//   } finally {
-//     setIsDeleting(false);
-//     setDeleteId(null);
-//   }
-};
+const onView = (id: number) =>{
+   navigate(`/location-view/${id}`);
+}
   return (
     <>
       <div className="bg-background flex">
@@ -237,7 +239,7 @@ const handleDelete = async () => {
           {/* Sticky Header */}
           <div className="sticky top-3 z-10 pb-3">
             <PageHeader
-              title="Category"
+              title="Location"
               onMenuClick={() => setSidebarOpen(true)}
             />
           </div>
@@ -341,7 +343,7 @@ const handleDelete = async () => {
                         {/* ACTIONS */}
                         <th
                           className="
-                            w-[100px] pl-4
+                            w-[160px] pl-4
                             border-l border-border
                             text-right ml-auto
                           "
@@ -372,6 +374,7 @@ const handleDelete = async () => {
                                     item={item}
                                     index={index}
                                     onEdit={handleEdit}
+                                    onView={onView}
                                     onDelete={(id) => setDeleteId(id)}
                                 />
                                 ))}

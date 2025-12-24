@@ -1,0 +1,294 @@
+import { Mail, Phone, Info, Plus, Smartphone } from "lucide-react";
+import { Sidebar } from "../layout/Sidebar";
+import { useNavigate, useParams } from "react-router-dom";
+import { cn } from "@/lib/utils";
+import { PageHeader } from "../layout/PageHeader";
+import { useEffect, useState } from "react";
+import { getLocationById } from "@/services/locationService";
+import DescriptionEditor from "../treatment/DescriptionEditor";
+
+type OpeningHour = {
+  day: string;
+  start_time: string;
+  end_time: string;
+};
+
+type LocationData = {
+  name: string;
+  email: string;
+  phone: string;
+  business_type: string;
+  business_additional: string;
+  opening_hours: OpeningHour[];
+  parking_details?:  string;
+};
+
+function LocationView() {
+     const { id } = useParams();
+      const isEdit = Boolean(id);
+  const navigate = useNavigate();
+  const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
+  const [sidebarOpen, setSidebarOpen] = useState(false);
+const [location, setLocation] = useState<LocationData | null>(null);
+const [loading, setLoading] = useState(true);
+const [parkingDetails, setParkingDetails] = useState("");
+
+  const DAYS = [
+    "Sunday",
+    "Monday",
+    "Tuesday",
+    "Wednesday",
+    "Thursday",
+    "Friday",
+    "Saturday",
+  ];
+
+ const formatTime = (time?: string) => {
+  // handle empty / null / invalid
+  if (!time || !time.includes(":")) return "";
+
+  const parts = time.split(":");
+  if (parts.length < 2) return "";
+
+  const h = Number(parts[0]);
+  const m = Number(parts[1]);
+
+  if (Number.isNaN(h) || Number.isNaN(m)) return "";
+
+  const ampm = h >= 12 ? "PM" : "AM";
+  const hour = h % 12 || 12;
+
+  return `${hour}:${m.toString().padStart(2, "0")} ${ampm}`;
+};
+
+    useEffect(() => {
+  const fetchData = async () => {
+    try {
+      const data = await getLocationById(id);
+      setLocation(data);
+      setParkingDetails(data.parking_details || "");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  fetchData();
+}, []);
+
+const openingMap: Record<string, OpeningHour> = {};
+
+location?.opening_hours?.forEach((o) => {
+  openingMap[o.day.toLowerCase()] = o;
+});
+
+const parkingHtml =
+  location?.parking_details
+    ?.replace(/<p><\/p>/g, "")
+    .trim() || "";
+
+  return (
+    <div className="bg-background flex">
+      <div className="hidden lg:block">
+        <Sidebar
+          collapsed={sidebarCollapsed}
+          onToggle={() => setSidebarCollapsed(!sidebarCollapsed)}
+        />
+      </div>
+
+      {/* MOBILE */}
+      <div className="lg:hidden">
+        {sidebarOpen && (
+          <>
+            {/* overlay */}
+            <div
+              className="fixed inset-0 bg-black/40 index-11"
+              onClick={() => setSidebarOpen(false)}
+            />
+
+            <Sidebar collapsed={false} onToggle={() => setSidebarOpen(false)} />
+          </>
+        )}
+      </div>
+      {/* Main Content Area */}
+      <div
+        className={cn(
+          "flex-1 flex flex-col transition-all duration-300 h-[calc(95vh-24px)] mt-3 px-5",
+          sidebarCollapsed ? "lg:ml-[96px]" : "lg:ml-[272px]"
+        )}
+      >
+        {/* Sticky Header */}
+        <div className="sticky top-3 z-10 pb-3">
+          <PageHeader
+            title="Location"
+            onMenuClick={() => setSidebarOpen(true)}
+          />
+        </div>
+        <div className="flex-1 pl-[15px] pr-6 px-6 flex flex-col bg-card rounded-[12px] shadow-card p-5 overflow-hidden">
+          <div className="flex flex-col flex-1 overflow-y-auto scrollbar-thin">
+            <div className="">
+              {/* HEADER */}
+              <div className="mb-6">
+                <h1 className="text-xl sm:text-2xl font-semibold text-foreground">
+                  {location?.name}
+                </h1>
+              </div>
+
+              {/* CONTENT */}
+              <div className="grid grid-cols-1 xl:grid-cols-2 gap-4 sm:gap-5">
+                {/* CONTACT DETAILS */}
+                <div>
+                <div className="rounded-[12px] border border-border bg-card p-4 sm:p-5 mb-5">
+                  <div className="flex items-center justify-between mb-4">
+                    <h2 className="text-sm sm:text-base font-semibold text-foreground">
+                      Contact details
+                    </h2>
+                  </div>
+
+                  <div className="space-y-3">
+                    {/* EMAIL */}
+                    <div className="flex gap-3 rounded-xl border border-border p-3 sm:p-4">
+                      <Mail className="h-4 w-4 sm:h-5 sm:w-5 text-muted-foreground mt-0.5" />
+
+                      <div className="min-w-0">
+                        <p className="text-sm font-medium text-foreground truncate">
+                          Location e-mail address
+                        </p>
+                        <p className="text-sm text-muted-foreground truncate">
+                            {location?.email}
+                        </p>
+                      </div>
+                    </div>
+
+                    {/* PHONE */}
+                    <div className="flex gap-3 rounded-xl border border-border p-3 sm:p-4">
+                      <Smartphone className="h-4 w-4 sm:h-5 sm:w-5 text-muted-foreground mt-0.5" />
+
+                      <div className="min-w-0">
+                        <p className="text-sm font-medium text-foreground truncate">
+                          Location contact number
+                        </p>
+                        <p className="text-sm text-muted-foreground truncate">
+                            {location?.phone}
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                 <div className="rounded-[12px] border border-border bg-card p-6">
+                  {/* Header */}
+                  <div className="flex items-start justify-between">
+                    <div>
+                      <h2 className="text-lg font-semibold text-foreground">
+                       Parking Details
+                      </h2>
+                    </div>
+                  </div>
+
+                  {/* Company Details Box */}
+                  <div className="mt-6">
+                       <DescriptionEditor
+                        value={parkingDetails}
+                        onChange={(val) => setParkingDetails(val)}
+                        />
+                  </div>
+                </div>
+                </div>
+
+                {/* BUSINESS TYPES */}
+                {/* <div className="rounded-[12px] border border-border bg-card p-4 sm:p-5">
+                  <div className="flex items-center justify-between mb-4">
+                    <h2 className="text-sm sm:text-base font-semibold text-foreground">
+                      Business types
+                    </h2>
+                  </div>
+
+                  <div className="space-y-3">
+                    <div className="flex gap-3 rounded-xl border border-border p-3 sm:p-4">
+                      <Info className="h-4 w-4 sm:h-5 sm:w-5 text-muted-foreground mt-0.5" />
+
+                      <div className="min-w-0">
+                        <p className="text-sm font-medium text-foreground truncate">
+                          Main
+                        </p>
+                        <p className="text-sm text-muted-foreground truncate">
+                          {location?.business_type}
+                        </p>
+                      </div>
+                    </div>
+
+                    <div className="flex gap-3 rounded-xl border border-border p-3 sm:p-4">
+                      <Plus className="h-4 w-4 sm:h-5 sm:w-5 text-muted-foreground mt-0.5" />
+
+                      <div className="min-w-0">
+                        <p className="text-sm font-medium text-foreground truncate">
+                          Additional
+                        </p>
+                        <p className="text-sm text-muted-foreground truncate">
+                         {location?.business_additional}
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                </div> */}
+                <div className="rounded-[12px] border border-border bg-card p-6">
+                  {/* Header */}
+                  <div className="flex items-start justify-between">
+                    <div>
+                      <h2 className="text-lg font-semibold text-foreground">
+                        Opening hours
+                      </h2>
+                      <p className="mt-1 text-sm text-muted-foreground max-w-xl">
+                        Opening hours for these locations are default working
+                        hours for your team and will be visible to your clients.
+                        You can amend business closed periods for events like
+                        Bank Holidays in{" "}
+                        <span className="text-[#0F5D5D] font-medium cursor-pointer">
+                          Settings.
+                        </span>
+                      </p>
+                    </div>
+                  </div>
+                  <div className="space-y-[15px] mt-5">
+                    {DAYS.map((day) => {
+                        const o = openingMap[day.toLowerCase()];
+
+                        return (
+                        <div
+                            key={day}
+                            className="border border-border p-[15px] rounded-[12px]"
+                        >
+                            <div className="flex items-center gap-[30px]">
+                            {/* DAY */}
+                            <div className="min-w-[140px] rounded-[10px] bg-[#EBF2F3] text-[#035865] text-base leading-[16px] py-[11px] h-[38px] text-center font-semibold">
+                                {day}
+                            </div>
+
+                            {/* TIME */}
+                            <div className="flex justify-center items-center gap-[5px]">
+                                <button className="w-[110px] rounded-[10px] bg-[#F3F4F6] py-[11px] h-[38px] px-1 leading-[16px] text-[16px] font-semibold">
+                                 {o?.start_time ? formatTime(o.start_time) : ""}
+                                </button>
+
+                                <span className="text-[#B8B9BA]">–</span>
+
+                                <button className="w-[110px] rounded-[10px] bg-[#F3F4F6] py-[11px] h-[38px] px-1 leading-[16px] text-[16px] font-semibold">
+                                 {o?.end_time ? formatTime(o.end_time) : ""}
+                                </button>
+                            </div>
+                            </div>
+                        </div>
+                        );
+                    })}
+                    </div>
+                </div>
+               
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+export default LocationView;
