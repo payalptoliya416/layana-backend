@@ -178,7 +178,7 @@ useEffect(() => {
                   >
                     {/* DAY */}
                     <td className="py-[15px] px-[15px] border border-r-0 rounded-tl-[10px] rounded-bl-[10px]">
-                      <div className="min-w-[140px] rounded-[10px] bg-[#EBF2F3]  text-base leading-[16px] py-[11px] h-[38px] text-center font-semibold text-[#035865] text-green">
+                      <div className="min-w-[140px] rounded-[10px]  bg-muted dark:bg-muted/4  text-base leading-[16px] py-[11px] h-[38px] text-center font-semibold text-[#035865] text-green">
                         {day}
                       </div>
                     </td>
@@ -189,21 +189,23 @@ useEffect(() => {
                       <input
                         type="time"
                         value={d.start}
-                          onFocus={() => setActiveDay(day)}
-                        onChange={(e) =>
-                          updateTime(day, "start", e.target.value)
-                        }
-                        className="rounded-[10px] bg-[#F3F4F6] py-[11px] h-[38px] px-2 text-[16px] leading-[16px] font-semibold outline-none "
+                        onChange={(e) => {
+                        setActiveDay(day);
+                        updateTime(day, "start", e.target.value);
+                      }}
+                        className="rounded-[10px] bg-[#F3F4F6] 
+    dark:bg-muted/40 py-[11px] h-[38px] px-2 text-[16px] leading-[16px] font-semibold outline-none "
                       />
                       <span className="text-[#B8B9BA]">–</span>
                       <input
                         type="time"
                         value={d.end}
-                          onFocus={() => setActiveDay(day)}
-                        onChange={(e) =>
-                          updateTime(day, "end", e.target.value)
-                        }
-                        className="rounded-[10px] bg-[#F3F4F6] py-[11px] h-[38px] px-2 text-[16px] leading-[16px] font-semibold outline-none"
+                        onChange={(e) => {
+                        setActiveDay(day);
+                        updateTime(day, "end", e.target.value);
+                      }}
+                        className="rounded-[10px] bg-[#F3F4F6] 
+    dark:bg-muted/40 py-[11px] h-[38px] px-2 text-[16px] leading-[16px] font-semibold outline-none"
                       />
                       </div>
                     </td>
@@ -213,7 +215,8 @@ useEffect(() => {
                       {activeDay === day && (
                       <button
                         onClick={() => openCopyPopup(day)}
-                        className="text-[#6B7280] hover:text-[#0F5D5D]"
+                        className=" text-muted-foreground
+    hover:text-primary"
                       >
                         <Copy size={18} />
                       </button>
@@ -228,10 +231,10 @@ useEffect(() => {
 
         {copyFromDay && (
           <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40">
-            <div className="w-full max-w-md rounded-2xl bg-white p-6">
+            <div className="w-full max-w-md rounded-2xl bg-card p-6">
               <h3 className="text-lg font-semibold mb-4">
                 Copy timing from{" "}
-                <span className="text-[#0F5D5D]">{copyFromDay}</span>
+                <span className="text-primary]">{copyFromDay}</span>
               </h3>
           <div className="space-y-3 max-h-[300px] overflow-y-auto pr-1">
             {DAYS.filter((d) => d !== copyFromDay).map((day) => {
