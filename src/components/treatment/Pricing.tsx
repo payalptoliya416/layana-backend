@@ -168,66 +168,65 @@ export const Pricing = forwardRef<
     /* ---------- EDIT STATE ---------- */
     const [editingId, setEditingId] = useState<number | null>(null);
 
-  // useImperativeHandle(ref, () => ({
-  //   async validate(): Promise<ValidationResult> {
-  //     const errors: ValidationError[] = [];
+// useImperativeHandle(ref, () => ({
+//   async validate(): Promise<ValidationResult> {
+//     const errors: ValidationError[] = [];
 
-  //     // 🔴 No branch selected (while pricing tab active)
-  //     if (selectedBranchId === null) {
-  //       errors.push({
-  //         section: "Pricing",
-  //         field: "branch",
-  //         message: "Please select a branch",
-  //       });
-  //     }
+//     const hasAnyPricing =
+//       pricingMap &&
+//       Object.values(pricingMap).some(
+//         (items) => Array.isArray(items) && items.length > 0
+//       );
 
-  //     // 🔴 No pricing added for ANY branch
-  //     const hasAnyPricing =
-  //       pricingMap &&
-  //       Object.values(pricingMap).some(
-  //         (items) => Array.isArray(items) && items.length > 0
-  //       );
+//     if (!hasAnyPricing && selectedBranchId === null) {
+//       errors.push({
+//         section: "Pricing",
+//         field: "branch",
+//         message: "Please select a branch",
+//       });
+//     }
 
-  //     if (!hasAnyPricing) {
-  //       errors.push({
-  //         section: "Pricing",
-  //         field: "pricing",
-  //         message: "Please add at least one pricing",
-  //       });
-  //     }
+//     // 🔴 Pricing ALWAYS required
+//     if (!hasAnyPricing) {
+//       errors.push({
+//         section: "Pricing",
+//         field: "pricing",
+//         message: "Please add at least one pricing",
+//       });
+//     }
 
-  //     return {
-  //       valid: errors.length === 0,
-  //       errors,
-  //     };
-  //   },
-  // }));
+//     return {
+//       valid: errors.length === 0,
+//       errors,
+//     };
+//   },
+// }));
 useImperativeHandle(ref, () => ({
   async validate(): Promise<ValidationResult> {
     const errors: ValidationError[] = [];
 
-    // 🔴 Check if ANY pricing exists
-    const hasAnyPricing =
-      pricingMap &&
-      Object.values(pricingMap).some(
-        (items) => Array.isArray(items) && items.length > 0
-      );
-
-    // 🔴 Branch required ONLY when pricing is empty
-    if (!hasAnyPricing && selectedBranchId === null) {
+    // 🔴 No branches at all
+    if (!branches || branches.length === 0) {
       errors.push({
         section: "Pricing",
         field: "branch",
-        message: "Please select a branch",
+        message: "No branches available",
       });
     }
 
-    // 🔴 Pricing ALWAYS required
-    if (!hasAnyPricing) {
+    // 🔴 Check EACH branch has pricing
+    const branchesWithoutPricing = branches.filter((branch) => {
+      const items = pricingMap[branch.id];
+      return !items || items.length === 0;
+    });
+
+    if (branchesWithoutPricing.length > 0) {
       errors.push({
         section: "Pricing",
         field: "pricing",
-        message: "Please add at least one pricing",
+        message: `Please add pricing for all branches (${branchesWithoutPricing
+          .map((b) => b.name)
+          .join(", ")})`,
       });
     }
 
@@ -427,111 +426,110 @@ const handleDragEnd = (event: any) => {
           <div className="grid grid-cols-12">
                <div className="col-span-12">
                  <div className="w-full rounded-[10px] border border-border bg-card p-5 overflow-x-auto">
+              <table className="w-full border-separate border-spacing-0">
+                <tbody>
+                  <tr className="rounded-[10px]">
+                    {/* MIN */}
+                    <td className="px-4 py-3 border-y border-input border-l rounded-tl-[10px] rounded-bl-[10px]">
+                      <div className="flex items-center gap-3">
+                        <span className="text-sm whitespace-nowrap text-foreground">
+                          Min
+                        </span>
+                        <input
+                          type="number"
+                          min={1}
+                          step={1}
+                          value={minute}
+                          onChange={(e) => {
+                            const val = e.target.value;
+                              if (val === "") {
+                            setMinute("");
+                            return;
+                          }
+                          if (/^\d+$/.test(val) && Number(val) > 0) {
+              setMinute(val);
+            }
+                          }}
+                          placeholder="00"
+                          className="
+                            h-10 w-[180px] rounded-lg
+                            border border-input
+                            bg-card
+                            px-3 text-sm text-foreground
+                            placeholder:text-muted-foreground
+                            focus:outline-none focus:ring-2 focus:ring-ring/20
+                          "
+                        />
+                      </div>
+                    </td>
 
-      <table className="w-full border-separate border-spacing-0">
-        <tbody>
-          <tr className="rounded-[10px]">
-            {/* MIN */}
-            <td className="px-4 py-3 border-y border-input border-l rounded-tl-[10px] rounded-bl-[10px]">
-              <div className="flex items-center gap-3">
-                <span className="text-sm whitespace-nowrap text-foreground">
-                  Min
-                </span>
-                <input
-                  type="number"
-                  min={1}
-                  step={1}
-                  value={minute}
-                  onChange={(e) => {
-                    const val = e.target.value;
-                      if (val === "") {
-                    setMinute("");
-                    return;
-                  }
-                   if (/^\d+$/.test(val) && Number(val) > 0) {
-      setMinute(val);
-    }
-                  }}
-                  placeholder="00"
-                  className="
-                    h-10 w-[180px] rounded-lg
-                    border border-input
-                    bg-card
-                    px-3 text-sm text-foreground
-                    placeholder:text-muted-foreground
-                    focus:outline-none focus:ring-2 focus:ring-ring/20
-                  "
-                />
-              </div>
-            </td>
+                    {/* PRICE */}
+                    <td className="px-4 py-3 border-y border-input">
+                      <div className="flex items-center gap-3">
+                        <span className="text-sm whitespace-nowrap text-foreground">
+                          Price
+                        </span>
+                        <input
+                          type="number"
+                          min={1}
+                          step={1}
+                          value={price}
+                          onChange={(e) => {
+                            const val = e.target.value;
+                            if (val === "") {
+              setPrice("");
+              return;
+            }
 
-            {/* PRICE */}
-            <td className="px-4 py-3 border-y border-input">
-              <div className="flex items-center gap-3">
-                <span className="text-sm whitespace-nowrap text-foreground">
-                  Price
-                </span>
-                <input
-                  type="number"
-                  min={1}
-                  step={1}
-                  value={price}
-                  onChange={(e) => {
-                    const val = e.target.value;
-                    if (val === "") {
-      setPrice("");
-      return;
-    }
+            if (/^\d+$/.test(val) && Number(val) > 0) {
+              setPrice(val);
+            }
+                          }}
+                          placeholder="£00"
+                          className="
+                            h-10 w-[180px] rounded-lg
+                            border border-input
+                            bg-card
+                            px-3 text-sm text-foreground
+                            placeholder:text-muted-foreground
+                            focus:outline-none focus:ring-2 focus:ring-ring/20
+                          "
+                        />
+                      </div>
+                    </td>
 
-    if (/^\d+$/.test(val) && Number(val) > 0) {
-      setPrice(val);
-    }
-                  }}
-                  placeholder="£00"
-                  className="
-                    h-10 w-[180px] rounded-lg
-                    border border-input
-                    bg-card
-                    px-3 text-sm text-foreground
-                    placeholder:text-muted-foreground
-                    focus:outline-none focus:ring-2 focus:ring-ring/20
-                  "
-                />
-              </div>
-            </td>
+                    {/* BOLD */}
+                    <td className="px-4 py-3 border-y border-input">
+                      <div className="flex items-center gap-3">
+                        <span className="text-sm whitespace-nowrap text-foreground">
+                          Bold
+                        </span>
+                        <SwitchToggle
+                          value={bold}
+                          onChange={() => setBold(!bold)}
+                        />
+                      </div>
+                    </td>
 
-            {/* BOLD */}
-            <td className="px-4 py-3 border-y border-input">
-              <div className="flex items-center gap-3">
-                <span className="text-sm whitespace-nowrap text-foreground">
-                  Bold
-                </span>
-                <SwitchToggle
-                  value={bold}
-                  onChange={() => setBold(!bold)}
-                />
-              </div>
-            </td>
-
-            {/* ACTION */}
-            <td className="px-4 py-3 text-right border-y border-input border-r rounded-tr-[10px] rounded-br-[10px]">
-              <button
-                onClick={handleSave}
-                className="
-                  inline-flex h-9 w-12 items-center justify-center
-                  rounded-full
-                  bg-primary text-primary-foreground
-                  shadow-button
-                  hover:opacity-90
-                  transition
-                "
-              >
-                <img src="/send.svg" alt="send" className="h-4 w-4" />
-              </button>
-            </td>
-          </tr>
-        </tbody>
-      </table>
+                    {/* ACTION */}
+                    <td className="px-4 py-3 text-right border-y border-input border-r rounded-tr-[10px] rounded-br-[10px]">
+                      <button
+                        onClick={handleSave}
+                        className="
+                          inline-flex h-9 w-12 items-center justify-center
+                          rounded-full
+                          bg-primary text-primary-foreground
+                          shadow-button
+                          hover:opacity-90
+                          transition
+                        "
+                      >
+                        <img src="/send.svg" alt="send" className="h-4 w-4" />
+                      </button>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
                  </div>
                </div>
           </div>
