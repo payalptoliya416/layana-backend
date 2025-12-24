@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Sidebar } from "@/components/layout/Sidebar";
 import { PageHeader } from "@/components/layout/PageHeader";
 import { Footer } from "@/components/layout/Footer";
@@ -123,6 +123,7 @@ function Catgeory() {
     }),
     useSensor(KeyboardSensor)
   );
+const noDataToastShownRef = useRef(false);
 
   const [page, setPage] = useState(1);
   const [pagination, setPagination] = useState<any>(null);
@@ -130,7 +131,6 @@ function Catgeory() {
   const [sortDirection, setSortDirection] = useState<"asc" | "desc">("asc");
 const [category, setCategory] = useState<Category[]>([]);
 const [deleteId, setDeleteId] = useState<number | null>(null);
-
 
 useEffect(() => {
   const fetchTreatments = async () => {
@@ -146,8 +146,13 @@ useEffect(() => {
       setCategory(res.data);
       setPagination(res.pagination);
 
-      if (res.data.length === 0) {
-        toast.info("No categories found");
+       if (res.data.length === 0) {
+        if (!noDataToastShownRef.current) {
+          toast.info("No categories found");
+          noDataToastShownRef.current = true;
+        }
+      } else {
+        noDataToastShownRef.current = false;
       }
     } catch (e) {
       toast.error("Failed to load treatments");
@@ -159,7 +164,8 @@ useEffect(() => {
 
 useEffect(() => {
   const delay = setTimeout(() => {
-    setPage(1); // reset page on search
+    setPage(1);
+    noDataToastShownRef.current = false;
   }, 400);
 
   return () => clearTimeout(delay);
@@ -472,7 +478,7 @@ const handleSubmit = async () => {
               </div>
               <div className="grid grid-cols-12">
                 <div className="col-span-12">
-                  <div className="w-full overflow-auto rounded-2xl border border-border bg-card flex flex-col scrollbar-thin  h-[calc(78vh-300px)]">
+                  <div className="w-full overflow-auto rounded-2xl border border-border bg-card flex flex-col scrollbar-thin  max-h-[78vh]">
                     <table className="w-full text-sm text-left">
                           <thead className="sticky top-0 z-10 bg-card">
                              <tr
