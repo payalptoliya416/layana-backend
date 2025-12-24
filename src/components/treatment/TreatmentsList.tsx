@@ -151,6 +151,26 @@ const [sortBy, setSortBy] = useState<"name" | "category">("name");
 const [sortDirection, setSortDirection] = useState<"asc" | "desc">("asc");
 const { containerRef, rowsPerPage } = useAutoRows();
 
+// useEffect(() => {
+//   const fetchTreatments = async () => {
+//     try {
+
+//       const res = await getTreatments({
+//         page,
+//         sortBy,
+//         sortDirection,
+//       });
+
+//       setTreatments(res.data);
+//       setPagination(res.pagination);
+//     } catch (e) {
+//       toast.error("Failed to load treatments");
+//     }
+//   };
+
+//   fetchTreatments();
+// }, [page, sortBy, sortDirection]);
+
 useEffect(() => {
     if (!rowsPerPage) return;
 
@@ -385,7 +405,6 @@ const handleDelete = async () => {
                   <table className="w-full text-sm text-left">
                   <thead className="sticky top-0 z-10 bg-card">
                       <tr
-                       data-row
                         className="
                           flex items-center h-[52px]
                           px-[16px]
