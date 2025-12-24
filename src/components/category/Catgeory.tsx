@@ -26,7 +26,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from ".
 export type Category = {
   id: number;
   name: string;
-    status: "draft" | "live";
+    status: "Live" | "Draft";
 };
 
 function SortableRow({
@@ -206,7 +206,7 @@ const [editingId, setEditingId] = useState<number | null>(null);
   const [nameError, setNameError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
   const [initialLoading, setInitialLoading] = useState(false);
-const [status, setStatus] = useState<"draft" | "live">("live");
+const [status, setStatus] = useState<"Draft" | "Live">("Draft");
 const [statusError, setStatusError] = useState<string | null>(null);
 
   /* ---------- FETCH SINGLE CATEGORY ---------- */
@@ -220,7 +220,7 @@ const [statusError, setStatusError] = useState<string | null>(null);
         setInitialLoading(true);
         const data = await getCategoryById(editId);
         setName(data.name); // 👈 API DATA SET
-        setStatus(data.status ?? "live");
+        setStatus(data.status ?? "Draft");
       } catch {
         toast.error("Failed to load category");
       } finally {
@@ -280,7 +280,7 @@ const handleSubmit = async () => {
 
     // 🔄 RESET FORM
     setName("");
-    setStatus("live");
+    setStatus("Draft");
     setEditingId(null);
     setNameError(null);
     setStatusError(null);;
@@ -382,7 +382,7 @@ const handleSubmit = async () => {
                     <Select
                       value={status}
                       onValueChange={(v) => {
-                        setStatus(v as "draft" | "live");
+                        setStatus(v as "Draft" | "Draft");
                         if (statusError) setStatusError(null);
                       }}
                     >
@@ -396,8 +396,8 @@ const handleSubmit = async () => {
                       </SelectTrigger>
 
                       <SelectContent>
-                        <SelectItem value="draft">Draft</SelectItem>
-                        <SelectItem value="live">Live</SelectItem>
+                        <SelectItem value="Draft">Draft</SelectItem>
+                        <SelectItem value="Live">Live</SelectItem>
                       </SelectContent>
                     </Select>
 
