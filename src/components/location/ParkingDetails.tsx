@@ -5,8 +5,6 @@ import { useForm } from "react-hook-form";
 import DescriptionEditor from "../treatment/DescriptionEditor";
 
 type FormValues = {
-  business_type: string;
-  business_additional: string;
   parking_details: string;
 };
 
@@ -29,8 +27,6 @@ const ParkingDetails = forwardRef<any, Props>(
       mode: "onSubmit",
       criteriaMode: "all",
       defaultValues: {
-        business_type: "",
-        business_additional: "",
         parking_details: "",
         ...initialData,
       },
@@ -42,8 +38,6 @@ const ParkingDetails = forwardRef<any, Props>(
         const isValid = await trigger(undefined, { shouldFocus: false });
 
         const fields: (keyof FormValues)[] = [
-          "business_type",
-          "business_additional",
           "parking_details",
         ];
 
@@ -67,8 +61,6 @@ const ParkingDetails = forwardRef<any, Props>(
 
       setData: (data: Partial<FormValues>) => {
         reset({
-          business_type: data.business_type ?? "",
-          business_additional: data.business_additional ?? "",
           parking_details: data.parking_details ?? "",
         });
       },
@@ -82,50 +74,6 @@ const ParkingDetails = forwardRef<any, Props>(
 
     return (
       <div className="space-y-6">
-        {/* BUSINESS FIELDS */}
-        <div className="grid grid-cols-1 xl:grid-cols-2 gap-6">
-          {/* BUSINESS TYPE */}
-          <div>
-            <label className="text-sm font-medium">
-              Business Type<sup className="text-destructive">*</sup>
-            </label>
-
-            <input
-              className="form-input"
-              placeholder="e.g. Massage"
-              {...register("business_type", {
-                required: "Business type is required",
-              })}
-            />
-
-            {errors.business_type && (
-              <p className="text-xs text-destructive mt-1">
-                {errors.business_type.message}
-              </p>
-            )}
-          </div>
-
-          {/* BUSINESS ADDITIONAL */}
-          <div>
-            <label className="text-sm font-medium">
-              Business Additional Info<sup className="text-destructive">*</sup>
-            </label>
-
-            <input
-              className="form-input"
-              placeholder="Additional business info"
-              {...register("business_additional", {
-                required: "Additional business info is required",
-              })}
-            />
-
-            {errors.business_additional && (
-              <p className="text-xs text-destructive mt-1">
-                {errors.business_additional.message}
-              </p>
-            )}
-          </div>
-        </div>
 
         {/* PARKING DETAILS */}
         <div>

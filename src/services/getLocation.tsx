@@ -20,8 +20,6 @@ export interface BranchLocation {
   slug: string;
   email: string;
   phone: string;
-  business_type: string;
-  business_additional: string;
   parking_details: string;
   created_at: string;
   updated_at: string;

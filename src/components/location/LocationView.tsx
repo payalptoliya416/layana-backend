@@ -17,8 +17,6 @@ type LocationData = {
   name: string;
   email: string;
   phone: string;
-  business_type: string;
-  business_additional: string;
   opening_hours: OpeningHour[];
   parking_details?:  string;
 };
@@ -193,43 +191,6 @@ const parkingHtml =
                   </div>
                 </div>
                 </div>
-
-                {/* BUSINESS TYPES */}
-                {/* <div className="rounded-[12px] border border-border bg-card p-4 sm:p-5">
-                  <div className="flex items-center justify-between mb-4">
-                    <h2 className="text-sm sm:text-base font-semibold text-foreground">
-                      Business types
-                    </h2>
-                  </div>
-
-                  <div className="space-y-3">
-                    <div className="flex gap-3 rounded-xl border border-border p-3 sm:p-4">
-                      <Info className="h-4 w-4 sm:h-5 sm:w-5 text-muted-foreground mt-0.5" />
-
-                      <div className="min-w-0">
-                        <p className="text-sm font-medium text-foreground truncate">
-                          Main
-                        </p>
-                        <p className="text-sm text-muted-foreground truncate">
-                          {location?.business_type}
-                        </p>
-                      </div>
-                    </div>
-
-                    <div className="flex gap-3 rounded-xl border border-border p-3 sm:p-4">
-                      <Plus className="h-4 w-4 sm:h-5 sm:w-5 text-muted-foreground mt-0.5" />
-
-                      <div className="min-w-0">
-                        <p className="text-sm font-medium text-foreground truncate">
-                          Additional
-                        </p>
-                        <p className="text-sm text-muted-foreground truncate">
-                         {location?.business_additional}
-                        </p>
-                      </div>
-                    </div>
-                  </div>
-                </div> */}
                 <div className="rounded-[12px] border border-border bg-card p-6">
                   {/* Header */}
                   <div className="flex items-start justify-between">
@@ -281,7 +242,6 @@ const parkingHtml =
                     })}
                     </div>
                 </div>
-               
               </div>
             </div>
           </div>

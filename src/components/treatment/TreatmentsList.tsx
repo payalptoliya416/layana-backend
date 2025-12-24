@@ -42,6 +42,7 @@ import { CSS } from "@dnd-kit/utilities";
 import { deleteTreatmentMessage } from "@/services/deleteServices";
 import { getTreatments, reorderTreatment } from "@/services/treatmentService";
 import { toast } from "sonner";
+import { useAutoRows } from "@/hooks/useAutoRows";
 
 /* ---------------- TYPES ---------------- */
 type Treatment = {
@@ -74,7 +75,7 @@ function SortableRow({
       ref={setNodeRef}
       style={style}
       className={cn(
-        "flex items-center gap-4 px-4 py-3 text-sm rounded-[10px] mx-[15px] my-1 transition-all",
+        "flex items-center gap-4 h-[52px] text-sm rounded-[10px] mx-[15px] my-1 transition-all",
         index % 2 === 0 ? "bg-card" : "bg-muted",
         "hover:bg-muted/70"
       )}
@@ -144,10 +145,12 @@ const sensors = useSensors(
   useSensor(KeyboardSensor)
 );
 const [treatments, setTreatments] = useState<Treatment[]>([]);
+console.log("treatments",treatments)
 const [page, setPage] = useState(1);
 const [pagination, setPagination] = useState<any>(null);
 const [sortBy, setSortBy] = useState<"name" | "category">("name");
 const [sortDirection, setSortDirection] = useState<"asc" | "desc">("asc");
+const { containerRef, rowsPerPage } = useAutoRows();
 
 // useEffect(() => {
 //   const fetchTreatments = async () => {
@@ -170,25 +173,28 @@ const [sortDirection, setSortDirection] = useState<"asc" | "desc">("asc");
 // }, [page, sortBy, sortDirection]);
 
 useEffect(() => {
+    if (!rowsPerPage) return;
+
   const fetchTreatments = async () => {
     try {
       const res = await getTreatments({
         page,
-        perPage: 10,
+         perPage: rowsPerPage,
         search,
         sortBy,
         sortDirection,
       });
 
-      setTreatments(res.data);
-      setPagination(res.pagination);
+      setTreatments(Array.isArray(res?.data) ? res.data : []);
+      setPagination(res?.pagination ?? null);
     } catch (e) {
+          setTreatments([]); 
       toast.error("Failed to load treatments");
     }
   };
 
   fetchTreatments();
-}, [page, sortBy, sortDirection, search]);
+}, [page, sortBy, sortDirection,rowsPerPage, search]);
 
 useEffect(() => {
   const delay = setTimeout(() => {
@@ -392,7 +398,11 @@ const handleDelete = async () => {
                </AlertDialog>
           <div className="grid grid-cols-12">
               <div className="col-span-12">
-               <div className="w-full overflow-auto rounded-2xl border border-border bg-card flex flex-col h-[calc(100vh-300px)] scrollbar-thin">
+              <div
+  ref={containerRef}
+  className="w-full rounded-2xl border border-border bg-card flex flex-col overflow-hidden scrollbar-thin"
+  style={{ height: "calc(100vh - 300px)" }}
+>
                   <table className="w-full text-sm text-left">
                   <thead className="sticky top-0 z-10 bg-card">
                       <tr
@@ -469,33 +479,42 @@ const handleDelete = async () => {
                         </th>
                       </tr>
                     </thead>
-                    <tbody className="block flex-1 overflow-y-auto scrollbar-thin ">
-                      <DndContext
-                        collisionDetection={closestCenter}
-                        onDragEnd={handleDragEnd}
-                        sensors={sensors}
-                        measuring={{
-                          droppable: {
-                            strategy: MeasuringStrategy.Always,
-                          },
-                        }}
-                      >
-                        <SortableContext
-                          items={treatments.map((i) => i.id)}
-                          strategy={verticalListSortingStrategy}
-                        >
-                          {treatments.map((item, index) => (
-                            <SortableRow
-                              key={item.id}
-                              item={item}
-                              index={index}
-                              onEdit={handleEdit}
-                              onDelete={(id) => setDeleteId(id)}
-                            />
-                          ))}
-                        </SortableContext>
-                      </DndContext>
-                    </tbody>
+                    <tbody className="block flex-1">
+  {treatments.length === 0 ? (
+    <tr className="flex items-center justify-center py-5">
+      <td className="text-muted-foreground text-sm">
+        No Treatment found
+      </td>
+    </tr>
+  ) : (
+    <DndContext
+      collisionDetection={closestCenter}
+      onDragEnd={handleDragEnd}
+      sensors={sensors}
+      measuring={{
+        droppable: {
+          strategy: MeasuringStrategy.Always,
+        },
+      }}
+    >
+      <SortableContext
+        items={treatments.map((i) => i.id)}
+        strategy={verticalListSortingStrategy}
+      >
+        {treatments.map((item, index) => (
+          <SortableRow
+            key={item.id}
+            item={item}
+            index={index}
+            onEdit={handleEdit}
+            onDelete={(id) => setDeleteId(id)}
+          />
+        ))}
+      </SortableContext>
+    </DndContext>
+  )}
+</tbody>
+
                     <tfoot>
                       <tr>
                         <td>

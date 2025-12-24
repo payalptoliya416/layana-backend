@@ -46,8 +46,6 @@ type WorkingData = {
 };
 
 type ParkingData = {
- business_additional : string;
- business_type : string;
  parking_details : string;
 };
 
@@ -89,7 +87,7 @@ const [formData, setFormData] = useState<LocationFormData>({
     status: "",
     slug: "", 
     freeText: "",
-    country: "",
+    country: "UK",
     state: "",
     city: "",
     postcode: "",
@@ -103,8 +101,6 @@ const [formData, setFormData] = useState<LocationFormData>({
   opening_hours: [],
 },
   parking:{
-    business_additional: "",
-    business_type : "",
     parking_details : ""
   }
 });
@@ -182,8 +178,6 @@ const [formData, setFormData] = useState<LocationFormData>({
       address_line_1: formData.contact.address_line_1!,
       address_line_2: formData.contact.address_line_2,
 
-      business_type: formData.parking.business_type!,
-    business_additional: formData.parking.business_additional!,
     parking_details: formData.parking.parking_details!,
 
      opening_hours: formData.working.opening_hours,
@@ -243,8 +237,6 @@ const [formData, setFormData] = useState<LocationFormData>({
           opening_hours: data.opening_hours || [],
         },
         parking: {
-          business_type: data.business_type,
-          business_additional: data.business_additional,
           parking_details: data.parking_details,
         },
       });
@@ -273,8 +265,6 @@ const [formData, setFormData] = useState<LocationFormData>({
       });
 
       parkingRef.current?.setData({
-        business_type: data.business_type,
-        business_additional: data.business_additional,
         parking_details: data.parking_details,
       });
 
@@ -370,7 +360,7 @@ const [formData, setFormData] = useState<LocationFormData>({
           {/* Sticky Header */}
           <div className="sticky top-3 z-10 pb-3">
             <PageHeader
-              title="Category"
+              title="Location"
               onMenuClick={() => setSidebarOpen(true)}
             />
           </div>
