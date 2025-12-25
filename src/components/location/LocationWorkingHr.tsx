@@ -53,6 +53,12 @@ const LocationWorkingHr = forwardRef<any, Props>(
       {}
     );
 const [activeDay, setActiveDay] = useState<string | null>(null);
+const [closedDays, setClosedDays] = useState<Record<string, boolean>>(() =>
+  DAYS.reduce((acc, day) => {
+    acc[day] = false;
+    return acc;
+  }, {} as Record<string, boolean>)
+);
 
     /* ---------- EDIT MODE HYDRATION ---------- */
 
@@ -60,10 +66,16 @@ const [activeDay, setActiveDay] = useState<string | null>(null);
       if (!initialData?.opening_hours) return;
 
       const mapped: Record<string, DayState> = {};
+       const closedMap: Record<string, boolean> = {};
 
       initialData.opening_hours.forEach((o) => {
         const day =
           o.day.charAt(0).toUpperCase() + o.day.slice(1).toLowerCase();
+
+           const isClosed =
+      o.start_time === "closed" || o.end_time === "closed";
+
+    closedMap[day] = isClosed;
 
         mapped[day] = {
           start: o.start_time === "closed" ? "" : o.start_time,
@@ -72,28 +84,62 @@ const [activeDay, setActiveDay] = useState<string | null>(null);
       });
 
       setTimes((prev) => ({ ...prev, ...mapped }));
+       setClosedDays((p) => ({ ...p, ...closedMap }));
     }, [initialData]);
+
+    useEffect(() => {
+  setTimes((prev) => {
+    const updated = { ...prev };
+
+    DAYS.forEach((day) => {
+      if (closedDays[day]) {
+        updated[day] = { start: "", end: "" };
+      }
+    });
+
+    return updated;
+  });
+}, [closedDays]);
 
     /* ---------- EXPOSE VALIDATION ---------- */
 
  useImperativeHandle(ref, () => ({
   validate: async () => {
-    const invalid = Object.values(times).some(
-      (t) => !t.start || !t.end
-    );
+  const invalid = DAYS.some((day) => {
+    if (closedDays[day]) return false;
+    const t = times[day];
+    return !t.start || !t.end;
+  });
 
-    return {
-      valid: !invalid,
-      errors: invalid
-        ? [
-            {
-              section: "Working Hours",
-              message: "All days must have start & end time",
-            },
-          ]
-        : [],
-    };
-  },
+  return {
+    valid: !invalid,
+    errors: invalid
+      ? [
+          {
+            section: "Working Hours",
+            message: "All open days must have start & end time",
+          },
+        ]
+      : [],
+  };
+},
+  // validate: async () => {
+  //   const invalid = Object.values(times).some(
+  //     (t) => !t.start || !t.end
+  //   );
+
+  //   return {
+  //     valid: !invalid,
+  //     errors: invalid
+  //       ? [
+  //           {
+  //             section: "Working Hours",
+  //             message: "All days must have start & end time",
+  //           },
+  //         ]
+  //       : [],
+  //   };
+  // },
 
   // ✅ ADD THIS
   setData: (data: WorkingOutput) => {
@@ -126,16 +172,34 @@ useEffect(() => {
     return;
   }
 
+  // onChange?.({
+  //   opening_hours: DAYS.map((day) => {
+  //     const t = times[day];
+  //     return {
+  //       day: day.toLowerCase(),
+  //       start_time: t.start || "closed",
+  //       end_time: t.end || "closed",
+  //     };
+  //   }),
+  // });
   onChange?.({
-    opening_hours: DAYS.map((day) => {
-      const t = times[day];
+  opening_hours: DAYS.map((day) => {
+    if (closedDays[day]) {
       return {
         day: day.toLowerCase(),
-        start_time: t.start || "closed",
-        end_time: t.end || "closed",
+        start_time: "closed",
+        end_time: "closed",
       };
-    }),
-  });
+    }
+
+    const t = times[day];
+    return {
+      day: day.toLowerCase(),
+      start_time: t.start,
+      end_time: t.end,
+    };
+  }),
+});
 }, [times]);
 
     /* ---------- HELPERS ---------- */
@@ -164,11 +228,32 @@ useEffect(() => {
 
     return (
       <div className="grid grid-cols-12">
+        <div className="mb-4 col-span-2 flex flex-col gap-5 pl-5 mt-3">
+  {DAYS.map((day) => (
+    <label
+      key={day}
+      className="flex items-center gap-2 text-sm cursor-pointer"
+    >
+      <Checkbox
+        checked={closedDays[day]}
+        onCheckedChange={(v) =>
+          setClosedDays((p) => ({
+            ...p,
+            [day]: Boolean(v),
+          }))
+        }
+        className=" h-5 w-5 border border-muted-foreground/40"
+      />
+      <span className="font-medium">{day}</span>
+    </label>
+  ))}
+</div>
+
       <div className="space-y-6 col-span-12 2xl:col-span-6">
         <div className="rounded-[12px] bg-card overflow-x-auto ">
           <table className="w-full border-separate border-spacing-y-3">
             <tbody>
-              {DAYS.map((day) => {
+             {DAYS.filter((day) => !closedDays[day]).map((day) => {
                 const d = times[day];
 
                 return (
@@ -176,8 +261,23 @@ useEffect(() => {
                     key={day}
                     className="rounded-[12px] border border-border bg-card"
                   >
+                    {/* <td className="py-[15px] px-[15px] border border-r-0 rounded-tl-[10px] rounded-bl-[10px]">
+                       <label className="flex items-center gap-2 text-sm cursor-pointer mb-0">
+                        <Checkbox
+                          checked={closedDays[day]}
+                          onCheckedChange={(v) =>
+                            setClosedDays((p) => ({
+                              ...p,
+                              [day]: Boolean(v),
+                            }))
+                          }
+                            className="rounded-none h-4 w-4 border border-muted-foreground/40"
+                        />
+                        Closed
+                      </label>
+                    </td> */}
                     {/* DAY */}
-                    <td className="py-[15px] px-[15px] border border-r-0 rounded-tl-[10px] rounded-bl-[10px]">
+                    <td className="py-[15px] px-[15px]  border border-r-0 rounded-tl-[10px] rounded-bl-[10px]">
                       <div className="min-w-[140px] rounded-[10px]  bg-muted dark:bg-muted/4  text-base leading-[16px] py-[11px] h-[38px] text-center font-semibold text-primary text-green">
                         {day}
                       </div>
@@ -258,7 +358,7 @@ useEffect(() => {
                         [day]: !p[day],
                       }))
                     }
-                    className="rounded-none h-4 w-4 border border-muted-foreground/40"
+                    className="h-5 w-5 border border-muted-foreground/40"
                   />
                 </label>
               );

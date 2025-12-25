@@ -30,7 +30,6 @@ function LocationView() {
 const [location, setLocation] = useState<LocationData | null>(null);
 const [loading, setLoading] = useState(true);
 const [parkingDetails, setParkingDetails] = useState("");
-
   const DAYS = [
     "Sunday",
     "Monday",
@@ -59,7 +58,7 @@ const [parkingDetails, setParkingDetails] = useState("");
   return `${hour}:${m.toString().padStart(2, "0")} ${ampm}`;
 };
 
-    useEffect(() => {
+useEffect(() => {
   const fetchData = async () => {
     try {
       const data = await getLocationById(id);
@@ -78,11 +77,6 @@ const openingMap: Record<string, OpeningHour> = {};
 location?.opening_hours?.forEach((o) => {
   openingMap[o.day.toLowerCase()] = o;
 });
-
-const parkingHtml =
-  location?.parking_details
-    ?.replace(/<p><\/p>/g, "")
-    .trim() || "";
 
   return (
     <div className="bg-background flex">
@@ -194,12 +188,13 @@ const parkingHtml =
 
                                 <div className="flex items-center justify-between gap-4">
                                 <div>
-                                    {/* <p className="text-sm font-medium text-foreground">
-                                  {parkingDetails}
-                                    </p> */}
-                                    <p className="text-sm text-muted-foreground">
+                                  <p
+                                  className="text-sm font-medium text-foreground"
+                                  dangerouslySetInnerHTML={{ __html: parkingDetails }}
+                                />
+                                    {/* <p className="text-sm text-muted-foreground">
                                    18 England Lane, London, England
-                                    </p>
+                                    </p> */}
                                 </div>
 
                                 <span className="rounded-full bg-background px-3 py-1 text-sm font-medium text-foreground border">
