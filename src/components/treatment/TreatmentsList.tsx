@@ -148,28 +148,9 @@ const [treatments, setTreatments] = useState<Treatment[]>([]);
 const [page, setPage] = useState(1);
 const [pagination, setPagination] = useState<any>(null);
 const [sortBy, setSortBy] = useState<"name" | "category">("name");
-const [sortDirection, setSortDirection] = useState<"asc" | "desc">("asc");
+const [sortDirection, setSortDirection] = useState<"asc" | "desc">("desc");
 const { containerRef, rowsPerPage } = useAutoRows();
-
-// useEffect(() => {
-//   const fetchTreatments = async () => {
-//     try {
-
-//       const res = await getTreatments({
-//         page,
-//         sortBy,
-//         sortDirection,
-//       });
-
-//       setTreatments(res.data);
-//       setPagination(res.pagination);
-//     } catch (e) {
-//       toast.error("Failed to load treatments");
-//     }
-//   };
-
-//   fetchTreatments();
-// }, [page, sortBy, sortDirection]);
+const [refreshKey, setRefreshKey] = useState(0);
 
 useEffect(() => {
     if (!rowsPerPage) return;
@@ -193,7 +174,7 @@ useEffect(() => {
   };
 
   fetchTreatments();
-}, [page, sortBy, sortDirection,rowsPerPage, search]);
+}, [page, sortBy, sortDirection,rowsPerPage, search ,refreshKey]);
 
 useEffect(() => {
   const delay = setTimeout(() => {
@@ -263,6 +244,7 @@ const handleDelete = async () => {
 
     setTreatments((prev) => prev.filter((t) => t.id !== deleteId));
     toast.success("Deleted successfully");
+    setRefreshKey((prev) => prev + 1);
   } catch (err) {
     toast.error("Delete failed");
   } finally {

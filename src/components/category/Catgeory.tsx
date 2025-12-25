@@ -128,7 +128,7 @@ const noDataToastShownRef = useRef(false);
   const [page, setPage] = useState(1);
   const [pagination, setPagination] = useState<any>(null);
   const [sortBy, setSortBy] = useState<"name" | "category">("name");
-  const [sortDirection, setSortDirection] = useState<"asc" | "desc">("asc");
+  const [sortDirection, setSortDirection] = useState<"asc" | "desc">("desc");
 const [category, setCategory] = useState<Category[]>([]);
 const [deleteId, setDeleteId] = useState<number | null>(null);
 
