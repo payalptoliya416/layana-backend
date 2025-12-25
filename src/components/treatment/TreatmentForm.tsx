@@ -180,6 +180,7 @@ const pressureValue =
       values.indicativePressure === "none"
         ? null
         : values.indicativePressure ?? "medium";
+        
     onChange({
       name: values.name || "",
       Slug: values.slug || "",

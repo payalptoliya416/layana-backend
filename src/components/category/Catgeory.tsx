@@ -406,7 +406,7 @@ const handleSubmit = async () => {
               </div>
               <div className="grid grid-cols-12">
                 <div className="col-span-12">
-                  <div className="w-full overflow-auto rounded-2xl border border-border bg-card flex flex-col scrollbar-thin h-[calc(100vh-300px)]">
+                  <div className="w-full overflow-auto rounded-2xl border border-border bg-card flex flex-col scrollbar-thin h-[calc(98vh-300px)]">
                     <table className="w-full text-sm text-left">
                           <thead className="sticky top-0 z-10 bg-card">
                              <tr
