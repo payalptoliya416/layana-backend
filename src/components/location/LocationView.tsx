@@ -57,13 +57,14 @@ const [parkingDetails, setParkingDetails] = useState("");
 
   return `${hour}:${m.toString().padStart(2, "0")} ${ampm}`;
 };
-
+const [locationName, setLocationName] = useState<string>("");
 useEffect(() => {
   const fetchData = async () => {
     try {
       const data = await getLocationById(id);
       setLocation(data);
       setParkingDetails(data.parking_details || "");
+       setLocationName(data.name)
     } finally {
       setLoading(false);
     }
@@ -111,7 +112,7 @@ location?.opening_hours?.forEach((o) => {
         {/* Sticky Header */}
         <div className="sticky top-3 z-10 pb-3">
           <PageHeader
-            title="Location"
+                title={locationName || "Location"}
             onMenuClick={() => setSidebarOpen(true)}
               onBack={() => navigate(-1)}
                showBack = {true}
@@ -121,11 +122,11 @@ location?.opening_hours?.forEach((o) => {
           <div className="flex flex-col flex-1 overflow-y-auto scrollbar-thin">
             <div className="">
               {/* HEADER */}
-              <div className="mb-6">
+              {/* <div className="mb-6">
                 <h1 className="text-xl sm:text-2xl font-semibold text-foreground">
                   {location?.name}
                 </h1>
-              </div>
+              </div> */}
 
               {/* CONTENT */}
               <div className="grid grid-cols-1 xl:grid-cols-2 gap-4 sm:gap-5">
