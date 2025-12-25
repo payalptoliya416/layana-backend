@@ -21,13 +21,13 @@ type Props = {
 };
 
 const DAYS = [
-  "Sunday",
   "Monday",
   "Tuesday",
   "Wednesday",
   "Thursday",
   "Friday",
   "Saturday",
+  "Sunday"
 ];
 
 type DayState = {
@@ -59,6 +59,10 @@ const [closedDays, setClosedDays] = useState<Record<string, boolean>>(() =>
     return acc;
   }, {} as Record<string, boolean>)
 );
+const isEndBeforeStart = (start: string, end: string) => {
+  if (!start || !end) return false;
+  return end <= start;
+};
 
     /* ---------- EDIT MODE HYDRATION ---------- */
 
@@ -172,16 +176,6 @@ useEffect(() => {
     return;
   }
 
-  // onChange?.({
-  //   opening_hours: DAYS.map((day) => {
-  //     const t = times[day];
-  //     return {
-  //       day: day.toLowerCase(),
-  //       start_time: t.start || "closed",
-  //       end_time: t.end || "closed",
-  //     };
-  //   }),
-  // });
   onChange?.({
   opening_hours: DAYS.map((day) => {
     if (closedDays[day]) {
@@ -205,16 +199,28 @@ useEffect(() => {
     /* ---------- HELPERS ---------- */
 
     const updateTime = (
-      day: string,
-      field: "start" | "end",
-      value: string
-    ) => {
-      setActiveDay(day); 
-      setTimes((p) => ({
-        ...p,
-        [day]: { ...p[day], [field]: value },
-      }));
+  day: string,
+  field: "start" | "end",
+  value: string
+) => {
+  setActiveDay(day);
+
+  setTimes((prev) => {
+    const current = prev[day];
+
+    if (field === "start" && current.end && current.end <= value) {
+      return {
+        ...prev,
+        [day]: { start: value, end: "" }, // ❗ reset invalid end
+      };
+    }
+
+    return {
+      ...prev,
+      [day]: { ...current, [field]: value },
     };
+  });
+};
 
     const openCopyPopup = (day: string) => {
       setCopyFromDay(day);
@@ -228,32 +234,12 @@ useEffect(() => {
 
     return (
       <div className="grid grid-cols-12">
-        {/* <div className="mb-4 col-span-2 flex flex-col gap-5 pl-5 mt-3">
-  {DAYS.map((day) => (
-    <label
-      key={day}
-      className="flex items-center gap-2 text-sm cursor-pointer"
-    >
-      <Checkbox
-        checked={closedDays[day]}
-        onCheckedChange={(v) =>
-          setClosedDays((p) => ({
-            ...p,
-            [day]: Boolean(v),
-          }))
-        }
-        className=" h-5 w-5 border border-muted-foreground/40"
-      />
-      <span className="font-medium">{day}</span>
-    </label>
-  ))}
-</div> */}
-
-      <div className="space-y-6 col-span-12 2xl:col-span-6">
+    
+      <div className="space-y-6 col-span-12 2xl:col-span-7">
         <div className="rounded-[12px] bg-card overflow-x-auto ">
           <table className="w-full border-separate border-spacing-y-3">
             <tbody>
-             {DAYS.filter((day) => !closedDays[day]).map((day) => {
+            {DAYS.map((day) => {
                 const d = times[day];
 
                 return (
@@ -261,21 +247,6 @@ useEffect(() => {
                     key={day}
                     className="rounded-[12px] border border-border bg-card"
                   >
-                    {/* <td className="py-[15px] px-[15px] border border-r-0 rounded-tl-[10px] rounded-bl-[10px]">
-                       <label className="flex items-center gap-2 text-sm cursor-pointer mb-0">
-                        <Checkbox
-                          checked={closedDays[day]}
-                          onCheckedChange={(v) =>
-                            setClosedDays((p) => ({
-                              ...p,
-                              [day]: Boolean(v),
-                            }))
-                          }
-                            className="rounded-none h-4 w-4 border border-muted-foreground/40"
-                        />
-                        Closed
-                      </label>
-                    </td> */}
                     {/* DAY */}
                     <td className="py-[15px] px-[15px]  border border-r-0 rounded-tl-[10px] rounded-bl-[10px]">
                       <div className="min-w-[140px] rounded-[10px]  bg-muted dark:bg-muted/4  text-base leading-[16px] py-[11px] h-[38px] text-center font-semibold text-primary text-green">
@@ -284,31 +255,52 @@ useEffect(() => {
                     </td>
 
                     {/* START TIME */}
-                    <td className="py-[15px] px-[15px] text-center border-t border-b">
-                      <div className="flex justify-center items-center gap-[5px]">
-                      <input
-                        type="time"
-                        value={d.start}
-                        onChange={(e) => {
-                        setActiveDay(day);
-                        updateTime(day, "start", e.target.value);
-                      }}
-                        className="rounded-[10px] bg-muted dark:bg-muted/40 text-foreground py-[11px] h-[38px] px-2 text-[16px] leading-[16px] font-semibold outline-none "
-                      />
-                      <span className="text-muted-foreground">–</span>
-                      <input
-                        type="time"
-                        value={d.end}
-                        onChange={(e) => {
-                        setActiveDay(day);
-                        updateTime(day, "end", e.target.value);
-                      }}
-                        className="rounded-[10px] bg-muted dark:bg-muted/40 text-foreground py-[11px] h-[38px] px-2 text-[16px] leading-[16px] font-semibold outline-none"
-                      />
-                      </div>
+                   <td className="py-[15px] px-[15px] text-center border-t border-b">
+                      {closedDays[day] ? (
+                        <span className="text-sm text-muted-foreground italic">
+                          
+                        </span>
+                      ) : (
+                        <div className="flex justify-center items-center gap-[5px]">
+                          <input
+                            type="time"
+                            value={d.start}
+                            onChange={(e) => updateTime(day, "start", e.target.value)}
+                            className="rounded-[10px] bg-muted dark:bg-muted/40 text-foreground py-[11px] h-[38px] px-2 text-[16px] font-semibold outline-none"
+                          />
+                          <span className="text-muted-foreground">–</span>
+                          <input
+                          type="time"
+                          value={d.end}
+                          min={d.start || undefined}   // 👈 MAIN MAGIC
+                          onChange={(e) => {
+                            if (isEndBeforeStart(d.start, e.target.value)) {
+                              return; // block invalid selection
+                            }
+                            updateTime(day, "end", e.target.value);
+                          }}
+                          className="rounded-[10px] bg-muted dark:bg-muted/40 text-foreground py-[11px] h-[38px] px-2 text-[16px] font-semibold outline-none"
+                        />
+                        </div>
+                      )}
                     </td>
 
                     {/* ACTION */}
+                    <td className={`px-[15px] py-[15px] text-right border-y`}>
+                      <label className="flex items-center gap-2 text-sm cursor-pointer mb-0">
+                        <Checkbox
+                          checked={closedDays[day]}
+                          onCheckedChange={(v) =>
+                            setClosedDays((p) => ({
+                              ...p,
+                              [day]: Boolean(v),
+                            }))
+                          }
+                            className="h-5 w-5 border border-muted-foreground/40"
+                        />
+                        Closed
+                      </label>
+                    </td>
                     <td className={`${activeDay === day ? "px-[15px] py-[15px]" : "px-1 py-1"} text-right border border-l-0 rounded-br-[10px] rounded-tr-[10px]`}>
                       {activeDay === day && (
                       <button
@@ -321,6 +313,10 @@ useEffect(() => {
                   </tr>
                 );
               })}
+              <tr>
+                <td>
+                </td>
+              </tr>
             </tbody>
           </table>
         </div>
@@ -332,7 +328,7 @@ useEffect(() => {
                 Copy from{" "}
                 <span className="text-primary]">{copyFromDay}</span>
               </h3>
-          <div className="space-y-3 max-h-[300px] overflow-y-auto pr-1">
+          <div className="space-y-3 max-h-[360px] overflow-y-auto pr-1">
             {DAYS.filter((d) => d !== copyFromDay).map((day) => {
               const checked = copySelection[day] || false;
 

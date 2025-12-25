@@ -60,7 +60,7 @@ const items = [
         {/* Sticky Header */}
         <div className="sticky top-3 z-10 pb-3">
           <PageHeader
-            title="Settings"
+            title="Business Settings"
             onMenuClick={() => setSidebarOpen(true)}
           />
         </div>

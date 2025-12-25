@@ -3,7 +3,7 @@ import { Sidebar } from "@/components/layout/Sidebar";
 import { PageHeader } from "@/components/layout/PageHeader";
 import { Footer } from "@/components/layout/Footer";
 import { cn } from "@/lib/utils";
-import { GripVertical, Pencil, Plus, Search, Trash2, X } from "lucide-react";
+import { Check, GripVertical, Pencil, Plus, Search, Trash2, X } from "lucide-react";
 import { useNavigate, useParams } from "react-router-dom";
 import { closestCenter, DndContext, KeyboardSensor, PointerSensor, useSensor, useSensors } from "@dnd-kit/core";
 import { SortableContext, useSortable, verticalListSortingStrategy } from "@dnd-kit/sortable";
@@ -131,6 +131,9 @@ const noDataToastShownRef = useRef(false);
   const [sortDirection, setSortDirection] = useState<"asc" | "desc">("desc");
 const [category, setCategory] = useState<Category[]>([]);
 const [deleteId, setDeleteId] = useState<number | null>(null);
+const [isAdding, setIsAdding] = useState(false);
+const [newName, setNewName] = useState("");
+const [newStatus, setNewStatus] = useState<"Draft" | "Live">("Draft");
 
 useEffect(() => {
   const fetchTreatments = async () => {
@@ -148,7 +151,6 @@ useEffect(() => {
 
        if (res.data.length === 0) {
         if (!noDataToastShownRef.current) {
-          // toast.info("No categories found");
           noDataToastShownRef.current = true;
         }
       } else {
@@ -231,18 +233,20 @@ const [statusError, setStatusError] = useState<string | null>(null);
     fetchCategory();
   }, [isEdit, editId, navigate]);
 
- const handleEdit = (id: number) => {
-  const selected = category.find((c) => c.id === id);
-  if (!selected) return;
+const handleEdit = async (id: number) => {
+  try {
+    setIsAdding(true);      
+    setEditingId(id);        
 
-  setEditingId(id);
-  setName(selected.name); // 👈 form ma value fill
-   setStatus(selected.status); // 👈 form ma value fill
-  setNameError(null);
-  setStatusError(null);
+    const data = await getCategoryById(id);
 
-  window.scrollTo({ top: 0, behavior: "smooth" }); // optional UX
+    setNewName(data.name);   
+    setNewStatus(data.status ?? "Draft");
+  } catch {
+    toast.error("Failed to load category");
+  }
 };
+
   /* ---------- SUBMIT ---------- */
 const handleSubmit = async () => {
   if (!name.trim()) {
@@ -340,104 +344,6 @@ const handleSubmit = async () => {
           {/* Content */}
           <div className="flex-1 pl-[15px] pr-6 px-6 flex flex-col h-full bg-card rounded-2xl shadow-card p-5 overflow-hidden">
               <div className="flex flex-col flex-1 overflow-y-auto scrollbar-thin">
-            <div className=" mb-8">
-                        {initialLoading ? (
-                          <div className="text-sm text-muted-foreground">
-                            Loading category...
-                          </div>
-                        ) : (
-                          <div className="flex flex-col flex-1 overflow-y-auto scrollbar-thin">
-                            <div className="space-y-6 flex items-center justify-center ">
-                                <div className="w-[80%] xl:w-[40%] rounded-2xl border border-border p-6 ">
-                              <div className="mb-5">
-                                <label className="text-sm font-medium text-foreground">
-                                  Category Name <sup className="text-destructive">*</sup>
-                                </label>
-            
-                                <input
-                                  className={cn(
-                                    "form-input mt-1",
-                                    nameError &&
-                                      "border-destructive focus:ring-destructive"
-                                  )}
-                                  placeholder="Enter category name"
-                                  value={name}
-                                  onChange={(e) => {
-                                    setName(e.target.value);
-                                    if (nameError) setNameError(null);
-                                  }}
-                                />
-            
-                                {nameError && (
-                                  <p className="mt-1 text-sm text-destructive">
-                                    {nameError}
-                                  </p>
-                                )}
-                              </div>
-                                 <div>
-                    <label className="text-sm font-medium text-foreground">
-                      Status <sup className="text-destructive">*</sup>
-                    </label>
-
-                    <Select
-                      value={status}
-                      onValueChange={(v) => {
-                        setStatus(v as "Draft" | "Draft");
-                        if (statusError) setStatusError(null);
-                      }}
-                    >
-                      <SelectTrigger
-                        className={cn(
-                          "form-input",
-                          statusError && "border-destructive focus:ring-destructive"
-                        )}
-                      >
-                        <SelectValue placeholder="Select status" />
-                      </SelectTrigger>
-
-                      <SelectContent>
-                        <SelectItem value="Draft">Draft</SelectItem>
-                        <SelectItem value="Live">Live</SelectItem>
-                      </SelectContent>
-                    </Select>
-
-                    {statusError && (
-                      <p className="mt-1 text-sm text-destructive">{statusError}</p>
-                    )}
-                  </div>
-
-                              <div>
-                            <div className="flex justify-center  gap-3 mt-5">
-                              <Button
-                                type="button"
-                                variant="cancel"
-                                className="w-[105px]"
-                                onClick={() => {
-                                    setName("");
-                                    setEditingId(null);
-                                    setNameError(null);
-                                    setStatusError(null);
-                                }}
-                                >
-                                Cancel
-                                </Button>
-                                            
-                                                            <Button
-                                type="button"
-                                variant="save"
-                                className="w-[105px]"
-                                onClick={handleSubmit}
-                                disabled={loading}
-                                >
-                                {loading ? "Saving..." : editingId ? "Update" : "Save"}
-                                </Button>
-                            </div>
-                              </div>
-                                </div>
-                            </div>
-                          </div>
-                        )}
-            </div>
 
             <div className="">
                 <div className="mb-2 flex items-center justify-between  shrink-0 flex-wrap gap-1 sm:gap-2">
@@ -476,6 +382,12 @@ const handleSubmit = async () => {
                   )}
                 </div>
                 <button
+                onClick={() => {
+                setIsAdding(true);
+                setNewName("");
+                setNewStatus("Draft");
+                window.scrollTo({ top: 0, behavior: "smooth" });
+              }}
                   className="
                         flex items-center gap-2
                         rounded-full
@@ -570,13 +482,7 @@ const handleSubmit = async () => {
                            <tbody className="block flex-1 overflow-y-auto scrollbar-thin ">
                                     <DndContext
                                                     collisionDetection={closestCenter}
-                                                    // onDragEnd={handleDragEnd}
                                                     sensors={sensors}
-                                                    // measuring={{
-                                                    //   droppable: {
-                                                    //     strategy: MeasuringStrategy.Always,
-                                                    //   },
-                                                    // }}
                                                   >
                                                     <SortableContext
                                                       items={category.map((i) => i.id)}
@@ -635,6 +541,119 @@ const handleSubmit = async () => {
                                            </AlertDialog>
                         </td>
                       </tr>
+                    {(isAdding || editingId !== null) &&  (
+                                                <tr
+                              className="
+                                flex items-center gap-4
+                                px-4 py-3 text-sm
+                                rounded-[10px]
+                                mx-[15px] my-1
+                                transition-all
+                              "
+                            >
+                              {/* DRAG PLACEHOLDER */}
+                              <td className="w-10 flex justify-center text-muted-foreground">
+                                <GripVertical size={18} className="opacity-30" />
+                              </td>
+
+                              {/* NAME INPUT */}
+                              <td className="w-[30%]">
+                                <input
+                                  value={newName}
+                                  onChange={(e) => setNewName(e.target.value)}
+                                  placeholder="Category name"
+                                     className="form-input"
+                                />
+                              </td>
+
+                              {/* STATUS */}
+                              <td className="w-[30%]">
+                                <Select
+                                  value={newStatus}
+                                  onValueChange={(v) => setNewStatus(v as "Draft" | "Live")}
+                                >
+                                  <SelectTrigger className="form-input">
+                                    <SelectValue />
+                                  </SelectTrigger>
+                                  <SelectContent>
+                                    <SelectItem value="Draft">Draft</SelectItem>
+                                    <SelectItem value="Live">Live</SelectItem>
+                                  </SelectContent>
+                                </Select>
+                              </td>
+
+                              {/* ACTIONS (SAME AS RECORD ROW) */}
+                              <td className="w-[160px] flex justify-end gap-2 whitespace-nowrap ml-auto">
+                                {/* CANCEL */}
+                               <Button
+                            variant="cancel"
+                            className="w-[105px]"
+                            onClick={() => {
+                              setIsAdding(false);
+                              setEditingId(null);
+                              setNewName("");
+                              setNewStatus("Draft");
+                            }}
+                          >
+                            Cancel
+                          </Button>
+
+                                {/* SAVE */}
+                                <Button
+                              type="button"
+                              variant="save"
+                              className="w-[105px]"
+                              onClick={async () => {
+                                if (!newName.trim()) {
+                                  toast.error("Category name required");
+                                  return;
+                                }
+
+                                try {
+                                  if (editingId) {
+                                    // 🔁 UPDATE
+                                    await updateCategory({
+                                      id: editingId,
+                                      name: newName,
+                                      status: newStatus,
+                                    });
+                                    toast.success("Category updated successfully");
+                                  } else {
+                                    // ➕ CREATE
+                                    await createCategory({
+                                      name: newName,
+                                      status: newStatus,
+                                    });
+                                    toast.success("Category created successfully");
+                                  }
+
+                                  // 🔄 Refresh table
+                                  const res = await getCategory({
+                                    page,
+                                    perPage: 10,
+                                    search,
+                                    sortBy,
+                                    sortDirection,
+                                  });
+                                  setCategory(res.data);
+
+                                  // 🔄 Reset
+                                  setIsAdding(false);
+                                  setEditingId(null);
+                                  setNewName("");
+                                  setNewStatus("Draft");
+                                } catch {
+                                  toast.error("Failed to save category");
+                                }
+                              }}
+                            >
+                              Save
+                            </Button>
+
+                              </td>
+                            </tr>
+
+                    )}
                     </tfoot>
                     </table>
                   </div>
