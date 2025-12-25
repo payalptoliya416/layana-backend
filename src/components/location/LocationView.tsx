@@ -30,7 +30,6 @@ const [location, setLocation] = useState<LocationData | null>(null);
 const [loading, setLoading] = useState(true);
 const [parkingDetails, setParkingDetails] = useState("");
   const DAYS = [
-
     "Monday",
     "Tuesday",
     "Wednesday",
@@ -113,6 +112,8 @@ location?.opening_hours?.forEach((o) => {
           <PageHeader
             title="Location"
             onMenuClick={() => setSidebarOpen(true)}
+              onBack={() => navigate(-1)}
+               showBack = {true}
           />
         </div>
         <div className="flex-1 pl-[15px] pr-6 px-6 flex flex-col bg-card rounded-[12px] shadow-card p-5 overflow-hidden">
