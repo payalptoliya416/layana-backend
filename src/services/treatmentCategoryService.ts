@@ -4,7 +4,7 @@ import api from "./apiClient";
 export interface TreatmentCategory {
   id: number;
   name: string;
-  status : string;
+  status: "InActive" | "Active" | string; 
 }
 
 interface TreatmentCategoryResponse {

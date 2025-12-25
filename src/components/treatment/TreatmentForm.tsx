@@ -23,7 +23,7 @@ const treatmentSchema = z.object({
   name: z.string().min(1, "Name is required"),
   slug: z.string().min(1, "Treatment slug is required"),
   category: z.string().min(1, "Category is required"),
-  status: z.enum(["draft", "live", "archived"]),
+  status: z.enum(["InActive", "Active", "archived"]),
   indicativePressure: z
     .enum(["light", "medium", "firm", "deep","none"])
     .nullable()
@@ -55,7 +55,7 @@ export const TreatmentForm =forwardRef<{ validate: () => Promise<ValidationResul
       name: "",
       slug: "",
       category: "",
-      status: "draft",
+      status: "Active",
       indicativePressure: "medium",
       content: "",
     },
@@ -66,7 +66,7 @@ useImperativeHandle(ref, () => ({
     const values = getValues();
     const errors: ValidationError[] = [];
 
-    const isDraft = values.status === "draft";
+    const isDraft = values.status === "Active";
 
     // 🔴 ALWAYS required
     if (!values.name?.trim()) {
@@ -141,7 +141,7 @@ useEffect(() => {
     name: initialData.name || "",
     slug: initialData.Slug || "",
     category: initialData.Category || "",
-    status: initialData.Status || "draft",
+    status: initialData.Status || "Active",
    indicativePressure:
       initialData.indicative_pressure === null
         ? "none"
@@ -185,7 +185,7 @@ const pressureValue =
       name: values.name || "",
       Slug: values.slug || "",
       Category: values.category || "",
-      Status: values.status || "draft",
+      Status: values.status || "Active",
       indicative_pressure: pressureValue,
       Content: values.content || "",
       type: "message",
@@ -261,8 +261,8 @@ const pressureValue =
           <SelectValue placeholder="Select status" />
         </SelectTrigger>
         <SelectContent>
-          <SelectItem value="draft">Draft</SelectItem>
-          <SelectItem value="live">Live</SelectItem>
+          <SelectItem value="Active">Active</SelectItem>
+          <SelectItem value="InActive">InActive</SelectItem>
         </SelectContent>
       </Select>
     </div>
@@ -318,7 +318,7 @@ value={indicativePressure ?? undefined}
         </SelectTrigger>
         <SelectContent>
           {categories.map((c) => (
-            <SelectItem key={c.id} value={c.name}  disabled={c.status === "Draft"}>
+            <SelectItem key={c.id} value={c.name}  disabled={c.status === "Active"}>
               {c.name}
             </SelectItem>
           ))}

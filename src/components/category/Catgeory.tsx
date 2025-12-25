@@ -26,7 +26,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from ".
 export type Category = {
   id: number;
   name: string;
-  status: "Live" | "Draft";
+  status: "InActive" | "Active";
 };
 
 function SortableRow({
@@ -133,7 +133,7 @@ const [category, setCategory] = useState<Category[]>([]);
 const [deleteId, setDeleteId] = useState<number | null>(null);
 const [isAdding, setIsAdding] = useState(false);
 const [newName, setNewName] = useState("");
-const [newStatus, setNewStatus] = useState<"Draft" | "Live">("Draft");
+const [newStatus, setNewStatus] = useState<"InActive" | "Active">("Active");
 
 useEffect(() => {
   const fetchTreatments = async () => {
@@ -208,7 +208,7 @@ const [editingId, setEditingId] = useState<number | null>(null);
   const [nameError, setNameError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
   const [initialLoading, setInitialLoading] = useState(false);
-const [status, setStatus] = useState<"Draft" | "Live">("Draft");
+const [status, setStatus] = useState<"InActive" | "Active">("Active");
 const [statusError, setStatusError] = useState<string | null>(null);
 
   /* ---------- FETCH SINGLE CATEGORY ---------- */
@@ -222,7 +222,7 @@ const [statusError, setStatusError] = useState<string | null>(null);
         setInitialLoading(true);
         const data = await getCategoryById(editId);
         setName(data.name); // 👈 API DATA SET
-        setStatus(data.status ?? "Draft");
+        setStatus(data.status ?? "Active");
       } catch {
         toast.error("Failed to load category");
       } finally {
@@ -241,7 +241,7 @@ const handleEdit = async (id: number) => {
     const data = await getCategoryById(id);
 
     setNewName(data.name);   
-    setNewStatus(data.status ?? "Draft");
+    setNewStatus(data.status ?? "Active");
   } catch {
     toast.error("Failed to load category");
   }
@@ -284,7 +284,7 @@ const handleSubmit = async () => {
 
     // 🔄 RESET FORM
     setName("");
-    setStatus("Draft");
+    setStatus("Active");
     setEditingId(null);
     setNameError(null);
     setStatusError(null);;
@@ -387,7 +387,7 @@ const handleSubmit = async () => {
                 onClick={() => {
                 setIsAdding(true);
                 setNewName("");
-                setNewStatus("Draft");
+                setNewStatus("Active");
                 window.scrollTo({ top: 0, behavior: "smooth" });
               }}
                   className="
@@ -572,14 +572,14 @@ const handleSubmit = async () => {
                               <td className="w-[30%]">
                                 <Select
                                   value={newStatus}
-                                  onValueChange={(v) => setNewStatus(v as "Draft" | "Live")}
+                                  onValueChange={(v) => setNewStatus(v as "Active" | "InActive")}
                                 >
                                   <SelectTrigger className="form-input">
                                     <SelectValue />
                                   </SelectTrigger>
                                   <SelectContent>
-                                    <SelectItem value="Draft">Draft</SelectItem>
-                                    <SelectItem value="Live">Live</SelectItem>
+                                    <SelectItem value="Active">Active</SelectItem>
+                                    <SelectItem value="InActive">InActive</SelectItem>
                                   </SelectContent>
                                 </Select>
                               </td>
@@ -594,7 +594,7 @@ const handleSubmit = async () => {
                               setIsAdding(false);
                               setEditingId(null);
                               setNewName("");
-                              setNewStatus("Draft");
+                              setNewStatus("Active");
                             }}
                           >
                             Cancel
@@ -643,7 +643,7 @@ const handleSubmit = async () => {
                                   setIsAdding(false);
                                   setEditingId(null);
                                   setNewName("");
-                                  setNewStatus("Draft");
+                                  setNewStatus("Active");
                                 } catch {
                                   toast.error("Failed to save category");
                                 }
