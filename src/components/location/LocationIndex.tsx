@@ -201,14 +201,13 @@ const [formData, setFormData] = useState<LocationFormData>({
       setSaving(false);
     }
   };
-
+const [locationName, setLocationName] = useState<string>("");
   useEffect(() => {
   if (!isEdit || !id) return;
 
   const fetchLocation = async () => {
     try {
       const data = await getLocationById(id);
-
       // ⬇️ CENTRAL STATE SET
       setFormData({
         general: {
@@ -234,7 +233,7 @@ const [formData, setFormData] = useState<LocationFormData>({
           parking_details: data.parking_details,
         },
       });
-
+       setLocationName(data.name)
       // ⬇️ PUSH DATA INTO CHILD FORMS
       generalRef.current?.setData({
         name: data.name,
@@ -354,7 +353,7 @@ const [formData, setFormData] = useState<LocationFormData>({
           {/* Sticky Header */}
           <div className="sticky top-3 z-10 pb-3">
             <PageHeader
-              title="Location"
+               title={locationName || "Location"}
               onMenuClick={() => setSidebarOpen(true)}
             />
           </div>

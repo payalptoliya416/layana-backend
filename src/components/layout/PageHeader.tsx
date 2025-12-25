@@ -157,27 +157,24 @@ const GlobalLoader = () => {
       </button>
     )}
     {/* Page Title */}
-    <h1
-      className="
-          2xl:absolute
+   <h1
+  className="
+    2xl:absolute
     2xl:left-1/2
     2xl:-translate-x-1/2
     2xl:text-center
-
     flex-1
     overflow-y-auto
     scrollbar-thin
     p-2 lg:p-5
     rounded-[20px]
-
     text-base md:text-[28px]
     font-semibold
     text-foreground
-
-      "
-    >
-      {title || "\u00A0"}
-    </h1>
+  "
+>
+  {title}
+</h1>
 
       {/* Right Actions */}
       <div className="ml-auto flex items-center gap-3">

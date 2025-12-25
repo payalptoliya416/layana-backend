@@ -26,7 +26,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from ".
 export type Category = {
   id: number;
   name: string;
-    status: "Live" | "Draft";
+  status: "Live" | "Draft";
 };
 
 function SortableRow({
@@ -79,7 +79,7 @@ function SortableRow({
       </td>
 
       {/* ACTIONS */}
-      <td className="w-[100px] flex justify-end gap-2 whitespace-nowrap">
+      <td className="w-[160px] flex justify-end gap-2 whitespace-nowrap">
         <button
           onClick={() => onEdit(item.id)}
           className="
@@ -332,7 +332,7 @@ const handleSubmit = async () => {
           {/* Sticky Header */}
           <div className="sticky top-3 z-10 pb-3">
             <PageHeader
-              title="Category"
+              title="Categories"
               onMenuClick={() => setSidebarOpen(true)}
             />
           </div>
@@ -440,7 +440,7 @@ const handleSubmit = async () => {
             </div>
 
             <div className="">
-               <div className="mb-2 flex items-center justify-between  shrink-0 flex-wrap gap-1 sm:gap-2">
+                <div className="mb-2 flex items-center justify-between  shrink-0 flex-wrap gap-1 sm:gap-2">
                 <div className="relative w-[150px] sm:w-[256px] rounded-full p-1">
                   <input
                     value={search}
@@ -451,7 +451,7 @@ const handleSubmit = async () => {
                                         rounded-full
                                         border border-input
                                         bg-card
-                                        pl-2 sm:pl-6 pr-[41px]
+                                         pl-2 sm:pl-6 pr-[41px]
                                         text-[16px] text-foreground
                                         placeholder:text-muted-foreground
                                         outline-none
@@ -475,6 +475,20 @@ const handleSubmit = async () => {
                     </button>
                   )}
                 </div>
+                <button
+                  className="
+                        flex items-center gap-2
+                        rounded-full
+                        bg-primary
+                        px-3 sm:px-5 py-3
+                        text-xs sm:text-sm text-primary-foreground
+                        shadow-button
+                        hover:opacity-90
+                        transition
+                    "
+                >
+                  <Plus size={16} /> Add Category
+                </button>
               </div>
               <div className="grid grid-cols-12">
                 <div className="col-span-12">
@@ -544,7 +558,7 @@ const handleSubmit = async () => {
                         {/* ACTIONS */}
                         <th
                           className="
-                            w-[100px] pl-4
+                            w-[160px] pl-4
                             border-l border-border
                             text-right ml-auto
                           "

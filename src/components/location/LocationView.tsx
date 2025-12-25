@@ -5,7 +5,6 @@ import { cn } from "@/lib/utils";
 import { PageHeader } from "../layout/PageHeader";
 import { useEffect, useState } from "react";
 import { getLocationById } from "@/services/locationService";
-import DescriptionEditor from "../treatment/DescriptionEditor";
 
 type OpeningHour = {
   day: string;

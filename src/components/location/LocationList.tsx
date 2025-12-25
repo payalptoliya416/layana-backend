@@ -16,16 +16,14 @@ import {
   AlertDialogContent,
   AlertDialogHeader,
   AlertDialogTitle,
-  AlertDialogDescription,
   AlertDialogFooter,
-  AlertDialogCancel,
-  AlertDialogAction,
 } from "@/components/ui/alert-dialog";
 import { Button } from "../ui/button";
 
 export type Category = {
   id: number;
   name: string;
+  status: "Live" | "Draft";
 };
 
 function SortableRow({
@@ -70,10 +68,14 @@ function SortableRow({
       </td>
 
       {/* TREATMENT */}
-      <td className="flex-1 text-muted-foreground whitespace-nowrap">
+      <td className="text-muted-foreground whitespace-nowrap w-[30%]">
         {item.name}
       </td>
-
+<td className="flex-1 text-muted-foreground whitespace-nowrap w-[30%]">
+         {item.status
+    ? item.status.charAt(0).toUpperCase() + item.status.slice(1)
+    : ""}
+      </td>
       {/* ACTIONS */}
       <td className="w-[160px] flex justify-end gap-2 whitespace-nowrap">
         <button
@@ -136,7 +138,7 @@ const [debouncedSearch, setDebouncedSearch] = useState("");
 
   const [page, setPage] = useState(1);
   const [pagination, setPagination] = useState<any>(null);
-  const [sortBy, setSortBy] = useState<"id" | "name">("id");
+  const [sortBy, setSortBy] = useState<"id" | "name" | "status">("id");
   const [sortDirection, setSortDirection] = useState<"asc" | "desc">("desc");
   const [locations, setLocations] = useState<BranchLocation[]>([]);
     const [isDeleting, setIsDeleting] = useState(false);
@@ -337,7 +339,29 @@ const onView = (id: number) =>{
                             </span>
                           </span>
                         </th>
-
+                         <th
+                          onClick={() => {
+                            setSortBy("status");
+                            setSortDirection((prev) => (prev === "asc" ? "desc" : "asc"));
+                          }}
+                          className="
+                            w-[30%] pl-4
+                            border-l border-border
+                            flex items-center justify-between
+                            cursor-pointer
+                            text-left
+                          "
+                        >
+                          <span>Status</span>
+                          <span className="flex flex-col gap-1 ml-2 text-muted-foreground leading-none mr-2">
+                            <span className="text-[10px]">
+                              <img src="/top.png" alt="" />
+                            </span>
+                            <span className="text-[10px] -mt-1">
+                              <img src="/down.png" alt="" />
+                            </span>
+                          </span>
+                        </th>
                         {/* ACTIONS */}
                         <th
                           className="

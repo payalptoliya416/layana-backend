@@ -329,7 +329,7 @@ useEffect(() => {
           <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 !mt-0">
             <div className="w-full max-w-md rounded-2xl bg-card p-6">
               <h3 className="text-lg font-semibold mb-4">
-                Copy timing from{" "}
+                Copy from{" "}
                 <span className="text-primary]">{copyFromDay}</span>
               </h3>
           <div className="space-y-3 max-h-[300px] overflow-y-auto pr-1">
