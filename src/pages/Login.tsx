@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -10,6 +10,7 @@ import { useAuth } from '@/hooks/useAuth';
 import { isAuthenticated } from '@/services/authService';
 import LayanLogo from '@/assets/LayanLogo.png';
 import { cn } from '@/lib/utils';
+import LayanLogoDark from "@/assets/LayanLogo-dark.png";
 
 const loginSchema = z.object({
   email: z.string().min(1, 'Email is required').email('Please enter a valid email'),
@@ -21,7 +22,26 @@ type LoginFormData = z.infer<typeof loginSchema>;
 const Login: React.FC = () => {
   const navigate = useNavigate();
   const { login, loading, error, success } = useAuth();
+  const [isDark, setIsDark] = useState(
+    localStorage.getItem("theme") === "dark"
+  );
+  useEffect(() => {
+    const updateTheme = () => {
+      setIsDark(localStorage.getItem("theme") === "dark");
+    };
   
+    // custom event (same tab)
+    window.addEventListener("theme-change", updateTheme);
+  
+    // storage event (fallback / other tabs)
+    window.addEventListener("storage", updateTheme);
+  
+    return () => {
+      window.removeEventListener("theme-change", updateTheme);
+      window.removeEventListener("storage", updateTheme);
+    };
+  }, []);
+
   const {
     register,
     handleSubmit,
@@ -52,7 +72,7 @@ const Login: React.FC = () => {
   {/* Logo */}
   <div className="mb-8">
     <img
-      src={LayanLogo}
+    src={isDark ? LayanLogoDark : LayanLogo}
       alt="Layana"
       className="h-24 w-auto object-contain"
     />
