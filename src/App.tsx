@@ -15,6 +15,8 @@ import LocationList from "./components/location/LocationList";
 import LocationIndex from "./components/location/LocationIndex";
 import LocationView from "./components/location/LocationView";
 import BussinessSetting from "./components/layout/bussinessSetting/BussinessSetting";
+import "react-time-picker/dist/TimePicker.css";
+import "react-clock/dist/Clock.css";
 
 const queryClient = new QueryClient();
 

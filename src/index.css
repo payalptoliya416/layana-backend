@@ -444,3 +444,46 @@ input[type="time"]::-webkit-datetime-edit-fields-wrapper {
 input[type="time"]::-webkit-datetime-edit-ampm-field {
   color: hsl(var(--foreground));
 }
+/* === TIME PICKER FIX === */
+.time-picker-wrapper {
+  width: 92px;
+}
+
+.time-picker-wrapper .react-time-picker {
+  width: 100%;
+}
+
+.time-picker-wrapper .react-time-picker__wrapper {
+  height: 38px;
+  padding: 0 8px;
+  border-radius: 10px;
+  background: hsl(var(--muted));
+  border: none;
+  display: flex;
+  align-items: center;
+}
+
+.dark .time-picker-wrapper .react-time-picker__wrapper {
+  background: hsl(var(--muted) / 0.4);
+}
+
+.time-picker-wrapper .react-time-picker__inputGroup {
+  min-width: unset;
+  display: flex;
+  align-items: center;
+}
+
+.time-picker-wrapper input {
+  font-size: 16px;
+  font-weight: 600;
+  color: hsl(var(--foreground));
+}
+
+.time-picker-wrapper input:focus {
+  outline: none;
+}
+
+.time-picker-wrapper .react-time-picker__clear-button,
+.time-picker-wrapper .react-time-picker__clock-button {
+  display: none;
+}
