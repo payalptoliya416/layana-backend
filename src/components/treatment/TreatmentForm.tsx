@@ -130,8 +130,7 @@ const slugEditedRef = useRef(false);
   const indicativePressure = watch("indicativePressure");
   const category = watch("category");
   const isFacial = category === "Facial";
-  const [categories, setCategories] = useState<{ id: number; name: string }[]>([]);
-
+  const [categories, setCategories] = useState<{ id: number; name: string ; status : string }[]>([]);
   /* ---------------- RESET ON EDIT ---------------- */
 useEffect(() => {
   if (!initialData) return;
@@ -318,7 +317,7 @@ value={indicativePressure ?? undefined}
         </SelectTrigger>
         <SelectContent>
           {categories.map((c) => (
-            <SelectItem key={c.id} value={c.name}>
+            <SelectItem key={c.id} value={c.name}  disabled={c.status === "Draft"}>
               {c.name}
             </SelectItem>
           ))}
