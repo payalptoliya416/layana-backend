@@ -66,71 +66,70 @@ const items = [
         </div>
         <div className="flex-1 pl-[15px] pr-6 px-6 flex flex-col bg-card rounded-[12px] shadow-card p-5 overflow-hidden">
           <div className="flex flex-col flex-1 overflow-y-auto scrollbar-thin">
-          <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-6">
-  {items.map((item, i) => {
-    const Icon = item.icon;
+          <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-7 gap-5">
+          {items.map((item, i) => {
+            const Icon = item.icon;
 
-    return (
-      <div
-        key={i}
-        onClick={() => navigate(item.path)}
-        className="
-          relative
-          rounded-[28px]
-          border
-          border-[#EEF2F3] dark:border-[#1E293B]
-          bg-white dark:bg-[#0F172A]
-          px-[25px]
-          py-[35px]
-          cursor-pointer
-          transition
-          hover:shadow-lg
-          dark:hover:shadow-[0_10px_40px_rgba(0,0,0,0.6)]
-        "
-      >
-        {/* INNER GLOW */}
-        <div
-          className={`
-            pointer-events-none
-            absolute
-            inset-2
-            rounded-[24px]
-            bg-gradient-to-br
-            ${item.gradient}
-          `}
-        />
+            return (
+              <div
+                key={i}
+                onClick={() => navigate(item.path)}
+                className="
+                  relative
+                  rounded-[28px]
+                  border
+                  border-[#EEF2F3] dark:border-[#1E293B]
+                  bg-white dark:bg-[#0F172A]
+                  px-[25px]
+                  py-[35px]
+                  cursor-pointer
+                  transition
+                  hover:shadow-lg
+                  dark:hover:shadow-[0_10px_40px_rgba(0,0,0,0.6)]
+                "
+              >
+                {/* INNER GLOW */}
+                <div
+                  className={`
+                    pointer-events-none
+                    absolute
+                    inset-2
+                    rounded-[24px]
+                    bg-gradient-to-br
+                    ${item.gradient}
+                  `}
+                />
 
-        {/* CONTENT */}
-        <div className="relative z-10">
-          {/* ICON */}
-          <div
-            className="
-              h-[36px]
-              w-[36px]
-              rounded-[12px]
-              flex
-              items-center
-              justify-center
-              mb-[15px]
-            "
-            style={{
-              backgroundColor: item.iconBg,
-              boxShadow: `0px 16px 32px ${item.iconBg}55`,
-            }}
-          >
-            <Icon size={18} className="text-white" />
-          </div>
+                {/* CONTENT */}
+                <div className="relative z-10 flex flex-col justify-center items-center">
+                  {/* ICON */}
+                  <div
+                    className="
+                      h-[36px]
+                      w-[36px]
+                      rounded-[12px]
+                      flex
+                      items-center
+                      justify-center
+                      mb-[15px]
+                    "
+                    style={{
+                      backgroundColor: item.iconBg,
+                      boxShadow: `0px 16px 32px ${item.iconBg}55`,
+                    }}
+                  >
+                    <Icon size={18} className="text-white" />
+                  </div>
 
-          {/* TITLE */}
-          <p className="text-base font-bold text-[#414347] dark:text-[#E5E7EB]">
-            {item.title}
-          </p>
+                  {/* TITLE */}
+                  <p className="text-base font-bold text-[#414347] dark:text-[#E5E7EB]">
+                    {item.title}
+                  </p>
+                </div>
+              </div>
+            );
+          })}
         </div>
-      </div>
-    );
-  })}
-</div>
-
           </div>
         </div>
       </div>
