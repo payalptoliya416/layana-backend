@@ -4,6 +4,7 @@ export interface Location {
   id: number;
   name: string;
   slug: string;
+  status?: "active" | "inactive";
 }
 
 export interface LocationsResponse {

@@ -62,6 +62,8 @@ useImperativeHandle(ref, () => ({
 }));
 
 const toggleBranch = (id: number) => {
+   if (status === "inactive") return; 
+   
   const updated = selectedBranches.includes(id)
     ? selectedBranches.filter((b) => b !== id)
     : [...selectedBranches, id];
@@ -119,12 +121,15 @@ const toggleBranch = (id: number) => {
          <div key={`location-${location.id}`} className="grid grid-cols-1 xl:grid-cols-2 gap-4">
           {/* LEFT CARD */}
         <button
+         disabled={location.status === "inactive"}
   onClick={() => toggleBranch(location.id)}
   className={cn(
     "flex w-full items-center gap-4 overflow-hidden rounded-[12px] border transition-all",
     isSelected
       ? "border-primary"
-      : "border-border bg-card"
+      : "border-border bg-card",
+       location.status === "inactive" &&
+      "cursor-not-allowed opacity-50 pointer-events-none"
   )}
 >
   {/* LEFT STRIP */}
@@ -140,7 +145,8 @@ const toggleBranch = (id: number) => {
       alt=""
       className={cn(
         "h-5 w-5 transition-opacity ",
-        isSelected ? "opacity-100" : "opacity-30 grayscale"
+        isSelected ? "opacity-100" : "opacity-30 grayscale",
+         location.status === "inactive" && "opacity-20 grayscale"
       )}
     />
   </div>
@@ -149,7 +155,8 @@ const toggleBranch = (id: number) => {
   <span
     className={cn(
       "py-4 text-base font-medium transition-colors ",
-      isSelected ? "text-primary" : "text-foreground"
+      isSelected ? "text-primary" : "text-foreground",
+      location.status === "inactive" && "text-muted-foreground"
     )}
   >
     {location.name}

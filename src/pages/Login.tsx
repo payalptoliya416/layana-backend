@@ -22,25 +22,6 @@ type LoginFormData = z.infer<typeof loginSchema>;
 const Login: React.FC = () => {
   const navigate = useNavigate();
   const { login, loading, error, success } = useAuth();
-  const [isDark, setIsDark] = useState(
-    localStorage.getItem("theme") === "dark"
-  );
-  useEffect(() => {
-    const updateTheme = () => {
-      setIsDark(localStorage.getItem("theme") === "dark");
-    };
-  
-    // custom event (same tab)
-    window.addEventListener("theme-change", updateTheme);
-  
-    // storage event (fallback / other tabs)
-    window.addEventListener("storage", updateTheme);
-  
-    return () => {
-      window.removeEventListener("theme-change", updateTheme);
-      window.removeEventListener("storage", updateTheme);
-    };
-  }, []);
 
   const {
     register,
@@ -72,7 +53,7 @@ const Login: React.FC = () => {
   {/* Logo */}
   <div className="mb-8">
     <img
-    src={isDark ? LayanLogoDark : LayanLogo}
+    src={LayanLogo}
       alt="Layana"
       className="h-24 w-auto object-contain"
     />
