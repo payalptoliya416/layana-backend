@@ -241,8 +241,16 @@ location?.opening_hours?.forEach((o) => {
 
                             {/* TIME */}
                            {isClosed ? (
-                            <div className="italic text-sm text-muted-foreground font-medium">
-                              Closed
+                              <div className="flex justify-center items-center gap-[5px]">
+                              <button className="w-[110px] rounded-[10px] bg-[#F3F4F6] py-[11px] h-[38px] px-1 leading-[16px] text-[16px] font-semibold">
+                                Closed
+                              </button>
+
+                              <span className="text-[#B8B9BA]">–</span>
+
+                              <button className="w-[110px] rounded-[10px] bg-[#F3F4F6] py-[11px] h-[38px] px-1 leading-[16px] text-[16px] font-semibold">
+                                Closed
+                              </button>
                             </div>
                           ) : (
                             <div className="flex justify-center items-center gap-[5px]">
