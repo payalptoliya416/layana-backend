@@ -8,8 +8,9 @@ import { getLocationById } from "@/services/locationService";
 
 type OpeningHour = {
   day: string;
-  start_time: string;
-  end_time: string;
+  start_time: string | null;
+  end_time: string | null;
+    is_closed: 0 | 1;
 };
 
 type LocationData = {
@@ -217,16 +218,16 @@ location?.opening_hours?.forEach((o) => {
                         hours for your team and will be visible to your clients.
                         You can amend business closed periods for events like
                         Bank Holidays in{" "}
-                        <span className="text-[#0F5D5D] font-medium cursor-pointer">
-                          Settings.
-                        </span>
                       </p>
                     </div>
                   </div>
                   <div className="space-y-[15px] mt-5">
                     {DAYS.map((day) => {
                         const o = openingMap[day.toLowerCase()];
-
+                          const isClosed =
+    !o ||
+    o.is_closed === 1 ||
+    (!o.start_time && !o.end_time);
                         return (
                         <div
                             key={day}
@@ -239,17 +240,23 @@ location?.opening_hours?.forEach((o) => {
                             </div>
 
                             {/* TIME */}
-                            <div className="flex justify-center items-center gap-[5px]">
-                                <button className="w-[110px] rounded-[10px] bg-[#F3F4F6] py-[11px] h-[38px] px-1 leading-[16px] text-[16px] font-semibold">
-                                 {o?.start_time ? formatTime(o.start_time) : ""}
-                                </button>
-
-                                <span className="text-[#B8B9BA]">–</span>
-
-                                <button className="w-[110px] rounded-[10px] bg-[#F3F4F6] py-[11px] h-[38px] px-1 leading-[16px] text-[16px] font-semibold">
-                                 {o?.end_time ? formatTime(o.end_time) : ""}
-                                </button>
+                           {isClosed ? (
+                            <div className="italic text-sm text-muted-foreground font-medium">
+                              Closed
                             </div>
+                          ) : (
+                            <div className="flex justify-center items-center gap-[5px]">
+                              <button className="w-[110px] rounded-[10px] bg-[#F3F4F6] py-[11px] h-[38px] px-1 leading-[16px] text-[16px] font-semibold">
+                                {formatTime(o.start_time)}
+                              </button>
+
+                              <span className="text-[#B8B9BA]">–</span>
+
+                              <button className="w-[110px] rounded-[10px] bg-[#F3F4F6] py-[11px] h-[38px] px-1 leading-[16px] text-[16px] font-semibold">
+                                {formatTime(o.end_time)}
+                              </button>
+                            </div>
+                          )}
                             </div>
                         </div>
                         );
