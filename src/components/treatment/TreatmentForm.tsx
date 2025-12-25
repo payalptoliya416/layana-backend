@@ -318,7 +318,7 @@ value={indicativePressure ?? undefined}
         </SelectTrigger>
         <SelectContent>
           {categories.map((c) => (
-            <SelectItem key={c.id} value={c.name}  disabled={c.status === "Draft"}>
+            <SelectItem key={c.id} value={c.name}  disabled={c.status === "InActive"}>
               {c.name}
             </SelectItem>
           ))}
