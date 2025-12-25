@@ -15,15 +15,7 @@ const locationSchema = z.object({
     .string()
     .min(1, "Slug is required")
     .regex(/^[a-z0-9]+(?:-[a-z0-9]+)*$/, "Slug must be lowercase and hyphen separated"),
-     email: z
-    .string()
-    .min(1, "Email is required")
-    .email("Invalid email address"), 
-  freeText: z.string().min(1, "Free text is required"),
-  country: z.string().min(1, "Country is required"),
-  state: z.string().min(1, "State is required"),
-  city: z.string().min(1, "City is required"),
-  postcode: z.string().min(1, "Postcode is required"),
+    freeText: z.string().min(1, "Free text is required"),
 });
 
 export type LocationGeneralForm = z.infer<typeof locationSchema>;
@@ -52,13 +44,8 @@ const LocationGeneral = forwardRef<any, Props>(
       defaultValues: {
         name: "",
         status: "",
-        email :"",
         slug: "", 
         freeText: "",
-        country: "UK",
-        state: "",
-        city: "",
-        postcode: "",
         ...initialData,
       },
     });
@@ -81,11 +68,6 @@ const slugify = (text: string) =>
       "status",
       "freeText",
       "slug",
-      "email",
-      "country",
-      "state",
-      "city",
-      "postcode",
     ];
 
     const errors = fields
@@ -112,12 +94,7 @@ const slugify = (text: string) =>
       name: data.name ?? "",
       slug: data.slug ?? "",
       status: data.status ?? "",
-      email: data.email ?? "",
       freeText: data.freeText ?? "",
-      country: data.country ?? "UK",
-      state: data.state ?? "",
-      city: data.city ?? "",
-      postcode: data.postcode ?? "",
     });
   },
 }));
@@ -209,21 +186,6 @@ const slugify = (text: string) =>
         
           </div>
 
-{/* EMAIL */}
-<div>
-  <label className="text-sm font-medium">
-    Email<sup className="text-destructive">*</sup>
-  </label>
-
-  <input
-    type="email"
-    className="form-input"
-    placeholder="e.g. info@example.com"
-    {...register("email")}
-  />
-
-</div>
-
           {/* Free Text */}
                   <div>
           <label className="text-sm font-medium">
@@ -237,62 +199,6 @@ const slugify = (text: string) =>
           />
 
         </div>
-          {/* Country */}
-          <div>
-            <label className="text-sm font-medium">
-              Country<sup className="text-destructive">*</sup>
-            </label>
-            <Select
-          value={watch("country")}
-          onValueChange={(v) =>
-            setValue("country", v, {
-              shouldDirty: true,
-              shouldValidate: true,
-            })
-          }
-        >
-          <SelectTrigger className="form-input">
-            <SelectValue placeholder="Select country" />
-          </SelectTrigger>
-
-          <SelectContent>
-            <SelectItem value="India">India</SelectItem>
-            <SelectItem value="UK">United Kingdom</SelectItem>
-          </SelectContent>
-        </Select>
-         
-          </div>
-
-          {/* State */}
-          <div>
-            <label className="text-sm font-medium">
-              State<sup className="text-destructive">*</sup>
-            </label>
-            <input className="form-input" placeholder="Enter state" {...register("state")} />
-           
-          </div>
-
-          {/* City */}
-          <div>
-            <label className="text-sm font-medium">
-              City<sup className="text-destructive">*</sup>
-            </label>
-            <input className="form-input" placeholder="Enter city" {...register("city")} />
-          </div>
-
-          {/* Postcode */}
-          <div>
-            <label className="text-sm font-medium">
-              Postcode<sup className="text-destructive">*</sup>
-            </label>
-            <input
-              className="form-input"
-              placeholder="Enter postcode"
-              {...register("postcode")}
-            />
-          
-          </div>
-
         </div>
       </div>
     );

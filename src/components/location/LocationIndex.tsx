@@ -24,17 +24,17 @@ type GeneralData = {
   slug: string;  
   status: string;
   freeText: string;
-  email: string;
-  country: string;
-  state: string;
-  city: string;
-  postcode: string;
 };
 
 type ContactData = {
   phone: string;
   address_line_1: string;
   address_line_2: string;
+   email: string;
+  country: string;
+  state: string;
+  city: string;
+  postcode: string;
 };
 
 type WorkingData = {
@@ -86,15 +86,16 @@ const [formData, setFormData] = useState<LocationFormData>({
     status: "",
     slug: "", 
     freeText: "",
-    country: "UK",
-    state: "",
-    city: "",
-    postcode: "",
   },
   contact: {
     phone: "",
     address_line_1: "",
     address_line_2: "",
+    email: "",
+    country: "UK",
+    state: "",
+    city: "",
+    postcode: "",
   },
   working: {
   opening_hours: [],
@@ -165,22 +166,18 @@ const [formData, setFormData] = useState<LocationFormData>({
     const payload = {
       name: formData.general.name!,
       status: formData.general.status!,
-        slug: formData.general.slug!,
-        email :formData.general.email!,
+      slug: formData.general.slug!,
       free_text: formData.general.freeText!,
-      country: formData.general.country!,
-      state: formData.general.state!,
-      city: formData.general.city!,
-      postcode: formData.general.postcode!,
-
+      email :formData.contact.email!,
+      country: formData.contact.country!,
+      state: formData.contact.state!,
+      city: formData.contact.city!,
+      postcode: formData.contact.postcode!,
       phone: formData.contact.phone!,
       address_line_1: formData.contact.address_line_1!,
       address_line_2: formData.contact.address_line_2,
-
-    parking_details: formData.parking.parking_details!,
-
-     opening_hours: formData.working.opening_hours,
-
+      parking_details: formData.parking.parking_details!,
+      opening_hours: formData.working.opening_hours,
     };
 
     try {
@@ -218,17 +215,17 @@ const [formData, setFormData] = useState<LocationFormData>({
           name: data.name,
           slug: data.slug,
           status: data.status,
-          freeText: data.free_text,
-          email: data.email,
-          country: data.country,
-          state: data.state,
-          city: data.city,
-          postcode: data.postcode,
+          freeText: data.free_text,          
         },
         contact: {
           phone: data.phone,
           address_line_1: data.address_line_1,
           address_line_2: data.address_line_2,
+          email: data.email,
+          country: data.country,
+          state: data.state,
+          city: data.city,
+          postcode: data.postcode,
         },
         working: {
           opening_hours: data.opening_hours || [],
@@ -244,17 +241,17 @@ const [formData, setFormData] = useState<LocationFormData>({
         slug: data.slug,
         status: data.status,
         freeText: data.free_text,
-        email: data.email,
-        country: data.country,
-        state: data.state,
-        city: data.city,
-        postcode: data.postcode,
       });
 
       contactRef.current?.setData({
         phone: data.phone,
         address_line_1: data.address_line_1,
         address_line_2: data.address_line_2,
+         email: data.email,
+        country: data.country,
+        state: data.state,
+        city: data.city,
+        postcode: data.postcode,
       });
 
       workingRef.current?.setData({
