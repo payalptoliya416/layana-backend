@@ -230,55 +230,37 @@ useEffect(() => {
                         </span>
                       ) : (
                         <div className="flex justify-center items-center gap-[5px]">
-                          {/* <input
-                            type="time"
-                            value={d.start}
-                            onChange={(e) => updateTime(day, "start", e.target.value)}
-                            className="rounded-[10px] bg-muted dark:bg-muted/40 text-foreground py-[11px] h-[38px] px-2 text-[16px] font-semibold outline-none"
-                          /> */}
                            <div className="time-picker-wrapper">
 
-                             <TimePicker
-      value={d.start || null}
-      onChange={(value) => {
-        if (!value) return;
-        updateTime(day, "start", value);
-      }}
-      disableClock
-      format="HH:mm"
-      clearIcon={null}
-      clockIcon={null}
-      />
-      </div>
-                          <span className="text-muted-foreground">–</span>
-                          {/* <input
-                          type="time"
-                          value={d.end}
-                          min={d.start || undefined}   // 👈 MAIN MAGIC
-                          onChange={(e) => {
-                            if (isEndBeforeStart(d.start, e.target.value)) {
-                              return;
-                            }
-                            updateTime(day, "end", e.target.value);
+                           <TimePicker
+                          value={d.start || null}
+                          onChange={(value) => {
+                            if (!value) return;
+                            updateTime(day, "start", value);
                           }}
-                          className="rounded-[10px] bg-muted dark:bg-muted/40 text-foreground py-[11px] h-[38px] px-2 text-[16px] font-semibold outline-none"
-                        /> */}
+                          disableClock
+                          format="HH:mm"
+                          clearIcon={null}
+                          clockIcon={null}
+                          />
+                          </div>
+                          <span className="text-muted-foreground">–</span>
                          <div className="time-picker-wrapper">
 
                            <TimePicker
-      value={d.end || null}
-      onChange={(value) => {
-        if (!value) return;
-        if (isEndBeforeStart(d.start, value)) return;
-        updateTime(day, "end", value);
-      }}
-      disableClock
-      format="HH:mm"
-      clearIcon={null}
-      clockIcon={null}
-      minTime={d.start || undefined}
-      />
-      </div>
+                          value={d.end || null}
+                          onChange={(value) => {
+                            if (!value) return;
+                            if (isEndBeforeStart(d.start, value)) return;
+                            updateTime(day, "end", value);
+                          }}
+                          disableClock
+                          format="HH:mm"
+                          clearIcon={null}
+                          clockIcon={null}
+                          minTime={d.start || undefined}
+                          />
+                          </div>
                         </div>
                       )}
                     </td>
