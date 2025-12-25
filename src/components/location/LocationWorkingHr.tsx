@@ -4,8 +4,11 @@ import { cn } from "@/lib/utils";
 import { Copy } from "lucide-react";
 import { forwardRef, useEffect, useImperativeHandle, useRef, useState } from "react";
 import { Checkbox } from "../ui/checkbox";
-import Flatpickr from "react-flatpickr";
 import "flatpickr/dist/themes/material_blue.css";
+import "antd/dist/reset.css";
+import { TimePicker } from "antd";
+import dayjs from "dayjs";
+
 /* ================= TYPES ================= */
 
 type WorkingOutput = {
@@ -252,39 +255,89 @@ useEffect(() => {
                         // />
                         
                         // </div>
-                        <div className="flex justify-center items-center gap-[5px]">
+// -----------------------------
+
+                      //   <div className="flex justify-center items-center gap-[5px]">
+                      //   {/* START TIME */}
+                      //   <Flatpickr
+                      //     value={d.start || ""}
+                      //     options={{
+                      //       enableTime: true,
+                      //       noCalendar: true,
+                      //       dateFormat: "H:i",
+                      //       time_24hr: true,
+                      //     }}
+                      //     onChange={(_, timeStr) => {
+                      //       updateTime(day, "start", timeStr);
+                      //     }}
+                      //     className="rounded-[10px] bg-muted dark:bg-muted/40 text-foreground py-[11px] h-[38px] px-2 text-[16px] font-semibold outline-none w-[120px]"
+                      //   />
+
+                      //   <span className="text-muted-foreground">–</span>
+
+                      //   {/* END TIME */}
+                      //   <Flatpickr
+                      //     value={d.end || ""}
+                      //     options={{
+                      //       enableTime: true,
+                      //       noCalendar: true,
+                      //       dateFormat: "H:i",
+                      //       time_24hr: true,
+                      //       minTime: d.start || undefined, // 🔥 main magic
+                      //     }}
+                      //     onChange={(_, timeStr) => {
+                      //       if (isEndBeforeStart(d.start, timeStr)) return;
+                      //       updateTime(day, "end", timeStr);
+                      //     }}
+                      //     className="rounded-[10px] bg-muted dark:bg-muted/40 text-foreground py-[11px] h-[38px] px-2 text-[16px] font-semibold outline-none w-[120px]"
+                      //   />
+                      // </div>
+
+                      <div className="flex justify-center items-center gap-[5px]">
   {/* START TIME */}
-  <Flatpickr
-    value={d.start || ""}
-    options={{
-      enableTime: true,
-      noCalendar: true,
-      dateFormat: "H:i",
-      time_24hr: true,
+  <TimePicker
+    value={d.start ? dayjs(d.start, "HH:mm") : null}
+    format="HH:mm"
+    minuteStep={5}
+    inputReadOnly
+    onChange={(time) => {
+      if (!time) return;
+      updateTime(day, "start", time.format("HH:mm"));
     }}
-    onChange={(_, timeStr) => {
-      updateTime(day, "start", timeStr);
-    }}
-    className="rounded-[10px] bg-muted dark:bg-muted/40 text-foreground py-[11px] h-[38px] px-2 text-[16px] font-semibold outline-none w-[120px]"
+    className="rounded-[10px] h-[38px] w-[120px]"
   />
 
   <span className="text-muted-foreground">–</span>
 
   {/* END TIME */}
-  <Flatpickr
-    value={d.end || ""}
-    options={{
-      enableTime: true,
-      noCalendar: true,
-      dateFormat: "H:i",
-      time_24hr: true,
-      minTime: d.start || undefined, // 🔥 main magic
+  <TimePicker
+    value={d.end ? dayjs(d.end, "HH:mm") : null}
+    format="HH:mm"
+    minuteStep={5}
+    inputReadOnly
+    disabledTime={() => {
+      if (!d.start) return {};
+
+      const [h, m] = d.start.split(":").map(Number);
+
+      return {
+        disabledHours: () =>
+          Array.from({ length: h }, (_, i) => i),
+        disabledMinutes: (selectedHour) =>
+          selectedHour === h
+            ? Array.from({ length: m + 1 }, (_, i) => i)
+            : [],
+      };
     }}
-    onChange={(_, timeStr) => {
+    onChange={(time) => {
+      if (!time) return;
+
+      const timeStr = time.format("HH:mm");
       if (isEndBeforeStart(d.start, timeStr)) return;
+
       updateTime(day, "end", timeStr);
     }}
-    className="rounded-[10px] bg-muted dark:bg-muted/40 text-foreground py-[11px] h-[38px] px-2 text-[16px] font-semibold outline-none w-[120px]"
+    className="rounded-[10px] h-[38px] w-[120px]"
   />
 </div>
 
