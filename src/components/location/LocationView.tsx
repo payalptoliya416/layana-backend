@@ -194,12 +194,12 @@ const parkingHtml =
 
                                 <div className="flex items-center justify-between gap-4">
                                 <div>
-                                    <p className="text-sm font-medium text-foreground">
+                                    {/* <p className="text-sm font-medium text-foreground">
                                   {parkingDetails}
-                                    </p>
-                                    {/* <p className="text-sm text-muted-foreground">
-                                   18 England Lane, London, England
                                     </p> */}
+                                    <p className="text-sm text-muted-foreground">
+                                   18 England Lane, London, England
+                                    </p>
                                 </div>
 
                                 <span className="rounded-full bg-background px-3 py-1 text-sm font-medium text-foreground border">
