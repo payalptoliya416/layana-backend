@@ -338,6 +338,8 @@ const handleSubmit = async () => {
             <PageHeader
               title="Categories"
               onMenuClick={() => setSidebarOpen(true)}
+              onBack={() => navigate(-1)}
+               showBack = {true}
             />
           </div>
 

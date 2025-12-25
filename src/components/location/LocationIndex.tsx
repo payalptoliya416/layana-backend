@@ -355,6 +355,8 @@ const [locationName, setLocationName] = useState<string>("");
             <PageHeader
                title={locationName || "Location"}
               onMenuClick={() => setSidebarOpen(true)}
+              onBack={() => navigate(-1)}
+               showBack = {true}
             />
           </div>
           <div className="flex-1 pl-[15px] pr-6 px-6 flex flex-col h-full bg-card rounded-2xl shadow-card p-5 relative overflow-hidden">

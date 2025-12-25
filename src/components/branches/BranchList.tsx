@@ -7,6 +7,7 @@ interface BranchListProps {
   selectedBranches: number[];
   onSelectionChange: (ids: number[]) => void;
   category: string;
+   onBack?: () => void;
 }
 
 type ValidationResult = {

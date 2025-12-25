@@ -242,6 +242,8 @@ const onView = (id: number) =>{
             <PageHeader
               title="Location"
               onMenuClick={() => setSidebarOpen(true)}
+               onBack={() => navigate(-1)}
+               showBack = {true}
             />
           </div>
 
