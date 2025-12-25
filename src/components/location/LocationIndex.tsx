@@ -122,7 +122,7 @@ const [formData, setFormData] = useState<LocationFormData>({
       </div>
 
       <div className={cn(activeSection !== "working" && "hidden")}>
-        <LocationWorkingHr
+        <LocationWorkingHr 
           ref={workingRef}
           onChange={(data) => setFormData((p) => ({ ...p, working: data }))}
         />

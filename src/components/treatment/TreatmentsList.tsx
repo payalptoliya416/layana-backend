@@ -185,7 +185,6 @@ useEffect(() => {
 }, [search]);
 
 const isSortingActive = sortBy !== "name" || sortDirection !== "asc";
-console.log("isSortingActive",isSortingActive)
 const [deleteId, setDeleteId] = useState<number | null>(null);
 const [isDeleting, setIsDeleting] = useState(false);
 

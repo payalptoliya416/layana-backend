@@ -14,7 +14,7 @@ function BussinessSetting() {
 const navigate = useNavigate();
 const items = [
   {
-    title: "Category",
+    title: "Categories",
     icon: Building2,
     gradient: "from-[#14878E]/10 to-transparent",
     iconBg: "#14878E",
