@@ -127,7 +127,7 @@ const noDataToastShownRef = useRef(false);
 
   const [page, setPage] = useState(1);
   const [pagination, setPagination] = useState<any>(null);
-  const [sortBy, setSortBy] = useState<"name" | "category">("name");
+  const [sortBy, setSortBy] = useState<"id" | "category" | "status">("id");
   const [sortDirection, setSortDirection] = useState<"asc" | "desc">("desc");
 const [category, setCategory] = useState<Category[]>([]);
 const [deleteId, setDeleteId] = useState<number | null>(null);
@@ -206,7 +206,7 @@ const [editingId, setEditingId] = useState<number | null>(null);
   const [nameError, setNameError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
   const [initialLoading, setInitialLoading] = useState(false);
-const [status, setStatus] = useState<"Draft" | "Live">("Live");
+const [status, setStatus] = useState<"Draft" | "Live">("Draft");
 const [statusError, setStatusError] = useState<string | null>(null);
 
   /* ---------- FETCH SINGLE CATEGORY ---------- */
@@ -519,7 +519,7 @@ const handleSubmit = async () => {
                         </th>
                         <th
                           onClick={() => {
-                            setSortBy("category");
+                            setSortBy("status");
                             setSortDirection((prev) => (prev === "asc" ? "desc" : "asc"));
                           }}
                           className="

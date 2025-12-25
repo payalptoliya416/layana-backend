@@ -147,7 +147,7 @@ const sensors = useSensors(
 const [treatments, setTreatments] = useState<Treatment[]>([]);
 const [page, setPage] = useState(1);
 const [pagination, setPagination] = useState<any>(null);
-const [sortBy, setSortBy] = useState<"name" | "category">("name");
+const [sortBy, setSortBy] = useState<"id" | "category" | "name">("id");
 const [sortDirection, setSortDirection] = useState<"asc" | "desc">("desc");
 const { containerRef, rowsPerPage } = useAutoRows();
 const [refreshKey, setRefreshKey] = useState(0);
@@ -184,7 +184,7 @@ useEffect(() => {
   return () => clearTimeout(delay);
 }, [search]);
 
-const isSortingActive = sortBy !== "name" || sortDirection !== "asc";
+const isSortingActive = sortBy !== "id" || sortDirection !== "asc";
 const [deleteId, setDeleteId] = useState<number | null>(null);
 const [isDeleting, setIsDeleting] = useState(false);
 

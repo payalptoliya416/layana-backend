@@ -213,9 +213,7 @@ useEffect(() => {
                       {activeDay === day && (
                       <button
                         onClick={() => openCopyPopup(day)}
-                        className=" text-muted-foreground
-    hover:text-primary"
-                      >
+                        className=" text-muted-foreground hover:text-primary">
                         <Copy size={18} />
                       </button>
                       )}
