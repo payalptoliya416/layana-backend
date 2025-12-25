@@ -11,7 +11,7 @@ type WorkingOutput = {
     day: string;
     start_time: string;
     end_time: string;
-    is_closed: "0" | "1";
+    is_closed: "0" | "1" | 1;
   }[];
 };
 
@@ -33,6 +33,7 @@ const DAYS = [
 type DayState = {
   start: string;
   end: string;
+   is_closed: boolean;
 };
 
 /* ================= COMPONENT ================= */
@@ -40,9 +41,10 @@ type DayState = {
 const LocationWorkingHr = forwardRef<any, Props>(
   ({ initialData, onChange }, ref) => {
     /* ---------- STATE ---------- */
+console.log("onChange",onChange)
     const [times, setTimes] = useState<Record<string, DayState>>(() =>
       DAYS.reduce((acc, day) => {
-        acc[day] = { start: "", end: "" };
+        acc[day] = { start: "", end: "" ,is_closed: false};
         return acc;
       }, {} as Record<string, DayState>)
     );
@@ -53,12 +55,7 @@ const LocationWorkingHr = forwardRef<any, Props>(
     );
     
   const [activeDay, setActiveDay] = useState<string | null>(null);
-  const [closedDays, setClosedDays] = useState<Record<string, boolean>>(() =>
-    DAYS.reduce((acc, day) => {
-      acc[day] = false;
-      return acc;
-    }, {} as Record<string, boolean>)
-  );
+
   const isEndBeforeStart = (start: string, end: string) => {
     if (!start || !end) return false;
     return end <= start;
@@ -66,145 +63,70 @@ const LocationWorkingHr = forwardRef<any, Props>(
 
     /* ---------- EDIT MODE HYDRATION ---------- */
 
-    useEffect(() => {
-      if (!initialData?.opening_hours) return;
-      const mapped: Record<string, DayState> = {};
-       const closedMap: Record<string, boolean> = {};
+useEffect(() => {
+  if (!initialData?.opening_hours) return;
 
-      initialData.opening_hours.forEach((o) => {
-        const day =
-          o.day.charAt(0).toUpperCase() + o.day.slice(1).toLowerCase();
+  const mapped: Record<string, DayState> = {};
+  const closedMap: Record<string, boolean> = {};
 
-           const isClosed =
-        o.is_closed === "1" ||
-      o.start_time === "closed" ||
-       o.end_time === "closed";
+  initialData.opening_hours.forEach((o) => {
+    const day =
+      o.day.charAt(0).toUpperCase() + o.day.slice(1).toLowerCase();
+
+    const isClosed = o.is_closed === "1" || o.is_closed === 1;
+
+    mapped[day] = {
+      start: isClosed ? "" : o.start_time ?? "",
+      end: isClosed ? "" : o.end_time ?? "",
+      is_closed: isClosed,
+    };
+
     closedMap[day] = isClosed;
-
-        mapped[day] = {
-          start: o.start_time === "" ? "" : o.start_time,
-          end: o.end_time === "" ? "" : o.end_time,
-        };
-      });
-
-      setTimes((prev) => ({ ...prev, ...mapped }));
-       setClosedDays((p) => ({ ...p, ...closedMap }));
-    }, [initialData]);
-
-    useEffect(() => {
-  setTimes((prev) => {
-    const updated = { ...prev };
-    DAYS.forEach((day) => {
-      if (closedDays[day]) {
-        updated[day] = { start: "", end: "" };
-      }
-    });
-
-    return updated;
   });
-}, [closedDays]);
+
+  setTimes((p) => ({ ...p, ...mapped }));
+}, [initialData]);
 
     /* ---------- EXPOSE VALIDATION ---------- */
 
-//  useImperativeHandle(ref, () => ({
-//   validate: async () => {
-//   const invalid = DAYS.some((day) => {
-//     if (closedDays[day]) return false;
-//     const t = times[day];
-//     return !t.start || !t.end;
-//   });
-
-//   return {
-//     valid: !invalid,
-//     errors: invalid
-//       ? [
-//           {
-//             section: "Working Hours",
-//             message: "All open days must have start & end time",
-//           },
-//         ]
-//       : [],
-//   };
-// },
-//   setData: (data: WorkingOutput) => {
-//     console.log("data",data.opening_hours)
-//     if (!data?.opening_hours) return;
-
-//     const mapped: Record<string, DayState> = {};
-
-//     data.opening_hours.forEach((o) => {
-//       const day =
-//         o.day.charAt(0).toUpperCase() + o.day.slice(1).toLowerCase();
-
-//       mapped[day] = {
-//         start: o.start_time === "closed" ? "" : o.start_time,
-//         end: o.end_time === "closed" ? "" : o.end_time,
-//       };
-//     });
-
-//     setTimes((prev) => ({ ...prev, ...mapped }));
-//   },
-// }));
-useImperativeHandle(ref, () => ({
-  /* ---------- VALIDATE ---------- */
+ useImperativeHandle(ref, () => ({
   validate: async () => {
-    const invalid = DAYS.some((day) => {
-      if (closedDays[day]) return false;
+ const invalid = DAYS.some((day) => {
+  const t = times[day];
+  if (t.is_closed) return false;
+  return !t.start || !t.end;
+});
 
-      const t = times[day];
-      return !t.start || !t.end;
-    });
-
-    return {
-      valid: !invalid,
-      errors: invalid
-        ? [
-            {
-              section: "Working Hours",
-              message: "All open days must have start & end time",
-            },
-          ]
-        : [],
-    };
-  },
-
-  /* ---------- SET DATA ---------- */
+  return {
+    valid: !invalid,
+    errors: invalid
+      ? [
+          {
+            section: "Working Hours",
+            message: "All open days must have start & end time",
+          },
+        ]
+      : [],
+  };
+},
   setData: (data: WorkingOutput) => {
     if (!data?.opening_hours) return;
 
-    const mappedTimes: Record<string, DayState> = {};
-    const mappedClosed: Record<string, boolean> = {};
-
+    const mapped: Record<string, DayState> = {};
+console.log("data",data.opening_hours)
     data.opening_hours.forEach((o) => {
       const day =
         o.day.charAt(0).toUpperCase() + o.day.slice(1).toLowerCase();
 
-      const isClosed =
-        o.is_closed === "1" ||
-        o.start_time === "closed" ||
-        o.end_time === "closed";
-
-      mappedClosed[day] = isClosed;
-
-      mappedTimes[day] = {
-        start: isClosed ? "" : o.start_time,
-        end: isClosed ? "" : o.end_time,
+      mapped[day] = {
+        start: o.start_time === "closed" ? "" : o.start_time,
+        end: o.end_time === "closed" ? "" : o.end_time,
+       is_closed: o.is_closed === "1" || o.is_closed === 1
       };
     });
 
-    setTimes((prev) => ({ ...prev, ...mappedTimes }));
-    setClosedDays((prev) => ({ ...prev, ...mappedClosed }));
+    setTimes((prev) => ({ ...prev, ...mapped }));
   },
-
-  /* ---------- GET DATA ---------- */
-  getData: (): WorkingOutput => ({
-    opening_hours: DAYS.map((day) => ({
-      day,
-      start_time: closedDays[day] ? "closed" : times[day].start,
-      end_time: closedDays[day] ? "closed" : times[day].end,
-      is_closed: closedDays[day] ? "1" : "0",
-    })),
-  }),
 }));
 
     /* ---------- SEND DATA TO PARENT ---------- */
@@ -218,30 +140,22 @@ useEffect(() => {
   }
 
   onChange?.({
-  opening_hours: DAYS.map((day) => {
-    if (closedDays[day]) {
+    opening_hours: DAYS.map((day) => {
+      const t = times[day];
+
       return {
         day: day.toLowerCase(),
-        start_time: "",
-        end_time: "",
-        is_closed: "0"
+        start_time: t.is_closed ? null : t.start,
+        end_time: t.is_closed ? null : t.end,
+        is_closed: t.is_closed ? "1" : "0",
       };
-    }
-
-    const t = times[day];
-    return {
-      day: day.toLowerCase(),
-      start_time: t.start,
-      end_time: t.end,
-      is_closed: "1"
-    };
-  }),
-});
+    }),
+  });
 }, [times]);
 
     /* ---------- HELPERS ---------- */
 
-    const updateTime = (
+   const updateTime = (
   day: string,
   field: "start" | "end",
   value: string
@@ -251,19 +165,28 @@ useEffect(() => {
   setTimes((prev) => {
     const current = prev[day];
 
+    // if start changes and end becomes invalid → reset end
     if (field === "start" && current.end && current.end <= value) {
       return {
         ...prev,
-        [day]: { start: value, end: "" }, // ❗ reset invalid end
+        [day]: {
+          ...current,     // ✅ keep is_closed
+          start: value,
+          end: "",
+        },
       };
     }
 
     return {
       ...prev,
-      [day]: { ...current, [field]: value },
+      [day]: {
+        ...current,       // ✅ keep is_closed
+        [field]: value,
+      },
     };
   });
 };
+
 
     const openCopyPopup = (day: string) => {
       setCopyFromDay(day);
@@ -285,7 +208,6 @@ useEffect(() => {
             {DAYS.map((day) => {
                 const d = times[day];
                 console.log("d",d)
-                const isEmpty = !d?.start && !d?.end;
                 return (
                   <tr
                     key={day}
@@ -300,7 +222,7 @@ useEffect(() => {
 
                     {/* START TIME */}
                    <td className="py-[15px] px-[15px] text-center border-t border-b">
-                        {closedDays[day] ? (
+                        {d.is_closed ? (
                         <span className="text-sm text-muted-foreground italic">
                           
                         </span>
@@ -319,7 +241,7 @@ useEffect(() => {
                           min={d.start || undefined}   // 👈 MAIN MAGIC
                           onChange={(e) => {
                             if (isEndBeforeStart(d.start, e.target.value)) {
-                              return; // block invalid selection
+                              return;
                             }
                             updateTime(day, "end", e.target.value);
                           }}
@@ -332,16 +254,25 @@ useEffect(() => {
                     {/* ACTION */}
                     <td className={`px-[15px] py-[15px] text-right border-y`}>
                       <label className="flex items-center gap-2 text-sm cursor-pointer mb-0">
-                        <Checkbox
-                          checked={closedDays[day]}  
-                          onCheckedChange={(v) =>
-                            setClosedDays((p) => ({
-                              ...p,
-                              [day]: Boolean(v),
-                            }))
-                          }
-                            className="h-5 w-5 border border-muted-foreground/40"
-                        />
+        <Checkbox
+  checked={d.is_closed}
+  onCheckedChange={(v) => {
+    const checked = Boolean(v);
+
+    setTimes((p) => ({
+      ...p,
+      [day]: {
+        ...p[day],
+        is_closed: checked,
+        start: checked ? "" : p[day].start,
+        end: checked ? "" : p[day].end,
+      },
+    }));
+  }}
+  className="h-5 w-5 border border-muted-foreground/40"
+/>
+
+
                         Closed
                       </label>
                     </td>
@@ -424,6 +355,7 @@ useEffect(() => {
                             updated[day] = {
                               start: source.start,
                               end: source.end,
+                              is_closed :false
                             };
                           }
                         }
