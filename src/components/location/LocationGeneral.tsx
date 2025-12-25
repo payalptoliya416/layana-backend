@@ -191,7 +191,7 @@ const slugify = (text: string) =>
             <Select
             value={watch("status")}
             onValueChange={(v) =>
-              setValue("status", v as "Draft" | "Live", {
+              setValue("status", v as "active" | "inactive", {
                 shouldDirty: true,
                 shouldValidate: true,
               })
@@ -202,8 +202,8 @@ const slugify = (text: string) =>
             </SelectTrigger>
 
             <SelectContent>
-              <SelectItem value="Draft">Draft</SelectItem>
-              <SelectItem value="Live">Live</SelectItem>
+              <SelectItem value="active">Active</SelectItem>
+              <SelectItem value="inactive">Inactive</SelectItem>
             </SelectContent>
           </Select>
         
