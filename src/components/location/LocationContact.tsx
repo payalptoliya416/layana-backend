@@ -227,8 +227,6 @@ const LocationContactDetails = forwardRef<any, Props>(
            
           </div>
 
-          <div></div>
-
              {/* Country */}
           <div>
                       <label className="text-sm font-medium">
@@ -254,7 +252,6 @@ const LocationContactDetails = forwardRef<any, Props>(
                   </Select>
                    
            </div>
-
 
           {/* Postcode */}
           <div>
