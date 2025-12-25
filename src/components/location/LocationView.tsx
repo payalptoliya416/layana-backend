@@ -30,13 +30,14 @@ const [location, setLocation] = useState<LocationData | null>(null);
 const [loading, setLoading] = useState(true);
 const [parkingDetails, setParkingDetails] = useState("");
   const DAYS = [
-    "Sunday",
+
     "Monday",
     "Tuesday",
     "Wednesday",
     "Thursday",
     "Friday",
     "Saturday",
+     "Sunday",
   ];
 
  const formatTime = (time?: string) => {
