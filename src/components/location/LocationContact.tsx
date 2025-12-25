@@ -218,7 +218,6 @@ const LocationContactDetails = forwardRef<any, Props>(
             <input className="form-input" placeholder="Enter city" {...register("city")} />
           </div>
 
-<div></div>
            {/* State */}
           <div>
             <label className="text-sm font-medium">
@@ -256,7 +255,6 @@ const LocationContactDetails = forwardRef<any, Props>(
                    
            </div>
 
-           <div></div>
 
           {/* Postcode */}
           <div>
