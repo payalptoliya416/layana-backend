@@ -90,7 +90,7 @@ useImperativeHandle(ref, () => ({
           {
             section: "Branches",
             field: "branches",
-            message: "Selected branches are inactive. Please select an active branch with pricing.",
+            message: "Please select an active branch with pricing.",
           },
         ],
       };
