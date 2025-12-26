@@ -158,14 +158,13 @@ const GlobalLoader = () => {
       </button>
     )}
     {/* Page Title */}
-    <div className="ml-auto sm:ml-0">
    <h1
   className=" 
     2xl:absolute
     2xl:left-1/2
     2xl:-translate-x-1/2
     2xl:text-center
-    flex-1
+    sm:flex-1
     p-2 lg:p-5
     rounded-[20px]
     text-base md:text-[28px]
@@ -174,8 +173,7 @@ const GlobalLoader = () => {
   "
 >
   {title}
-</h1>
-    </div>
+</h1> 
 
       {/* Right Actions */}
       <div className="ml-auto flex items-center gap-3">
