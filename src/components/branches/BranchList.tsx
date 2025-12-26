@@ -118,7 +118,8 @@ const toggleBranch = (id: number) => {
   <div className="space-y-3">
     {locations.map((location) => {
     const isSelected = selectedBranches.includes(location.id);
-
+console.log("isSelected",isSelected)
+console.log("selectedBranches",selectedBranches)
       return (
          <div key={`location-${location.id}`} className="grid grid-cols-1 xl:grid-cols-2 gap-4">
           {/* LEFT CARD */}
@@ -127,7 +128,7 @@ const toggleBranch = (id: number) => {
   onClick={() => toggleBranch(location.id)}
   className={cn(
     "flex w-full items-center gap-4 overflow-hidden rounded-[12px] border transition-all",
-    isSelected
+     isSelected && location.status !== "inactive"
       ? "border-primary"
       : "border-border bg-card",
        location.status === "inactive" &&

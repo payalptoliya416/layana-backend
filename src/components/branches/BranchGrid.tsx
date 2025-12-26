@@ -36,6 +36,7 @@ const [locations, setLocations] = useState<Location[]>([]);
   
     fetchLocations();
   }, []);
+  
 const activeBranches = branches.filter((branch) => {
   const loc = locations.find((l) => l.id === branch.id);
   return loc?.status !== "inactive";
