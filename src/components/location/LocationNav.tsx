@@ -1,11 +1,5 @@
 import {
   Users,
-  MapPin,
-  Image,
-  Star,
-  Search,
-  PoundSterling,
-  Contact,
   Clock,
   UserRound,
   ParkingCircle,

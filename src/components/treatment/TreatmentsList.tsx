@@ -346,7 +346,7 @@ const handleDelete = async () => {
         transition mr-1 sm:mr-0
       "
     >
-                <Plus size={16} /> <span className="hidden sm:block">Add Treatment</span>
+                <Plus size={16} /> Add <span className="hidden sm:block"> Treatment</span>
               </button>
             </div>
                 <AlertDialog open={!!deleteId} onOpenChange={() => setDeleteId(null)}>
