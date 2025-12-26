@@ -1,11 +1,12 @@
-
+import React from "react";
+import { Sidebar } from "../layout/Sidebar";
 
 function TeamIndex() {
   return (
-    <div>
-      
+    <div className="bg-background flex overflow-hidden">
+    
     </div>
-  )
+  );
 }
 
-export default TeamIndex
+export default TeamIndex;

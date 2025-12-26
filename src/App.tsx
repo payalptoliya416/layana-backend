@@ -17,6 +17,8 @@ import LocationView from "./components/location/LocationView";
 import BussinessSetting from "./components/layout/bussinessSetting/BussinessSetting";
 import "react-time-picker/dist/TimePicker.css";
 import "react-clock/dist/Clock.css";
+import TeamList from "./components/team/TeamList";
+import TeamIndex from "./components/team/TeamIndex";
 
 const queryClient = new QueryClient();
 
@@ -137,6 +139,32 @@ const App = () => (
               </ProtectedRoute>
             }
           />
+
+          <Route
+            path="/team"
+            element={
+              <ProtectedRoute>
+                <TeamList />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/team/edit/:id"
+            element={
+              <ProtectedRoute>
+                <TeamIndex />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/team/add"
+            element={
+              <ProtectedRoute>
+                <TeamIndex />
+              </ProtectedRoute>
+            }
+          />
+
           {/* Catch-all */}
           <Route path="*" element={<NotFound />} />
         </Routes>
