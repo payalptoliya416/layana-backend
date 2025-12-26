@@ -208,7 +208,7 @@ const isFacial = category === "Facial";
 
   <div className="rounded-[15px] border border-border bg-card p-3 lg:p-5 space-y-4">
     {/* Input */}
-    <div className="flex items-center gap-4">
+    <div className="flex items-center gap-4 flex-wrap">
       <input
         value={input}
         onChange={(e) => setInput(e.target.value)}

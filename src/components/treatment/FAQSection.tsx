@@ -239,7 +239,7 @@ useImperativeHandle(ref, () => ({
     <>
       <div className="space-y-4">
   {/* HEADER */}
-  <div className="flex justify-between items-center">
+  <div className="flex justify-between items-center flex-wrap">
     <h2 className="text-lg font-medium text-foreground">
       FAQ’s{!isFacial && (<sup className="text-destructive">*</sup>)}
     </h2>
