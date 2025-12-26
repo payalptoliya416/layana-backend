@@ -343,10 +343,10 @@ const handleDelete = async () => {
         text-xs sm:text-sm text-primary-foreground
         shadow-button
         hover:opacity-90
-        transition
+        transition mr-1 sm:mr-0
       "
     >
-                <Plus size={16} /> Add Treatment
+                <Plus size={16} /> <span className="hidden sm:visible">Add Treatment</span>
               </button>
             </div>
                 <AlertDialog open={!!deleteId} onOpenChange={() => setDeleteId(null)}>

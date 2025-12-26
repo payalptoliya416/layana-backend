@@ -398,10 +398,10 @@ const handleSubmit = async () => {
                         text-xs sm:text-sm text-primary-foreground
                         shadow-button
                         hover:opacity-90
-                        transition
+                        transition mr-1 sm:mr-0
                     "
                 >
-                  <Plus size={16} /> Add Category
+                  <Plus size={16} /> Add <span className="hidden sm:visible">Category</span>
                 </button>
               </div>
               <div className="grid grid-cols-12">
