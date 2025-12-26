@@ -65,7 +65,7 @@ useEffect(() => {
     return (
       <div className="mt-6">
         <p className="mb-2 text-sm font-medium">
-          Gallery Images<sup className="text-destructive">*</sup>
+          Gallery Images <sup className="text-destructive">*</sup>
         </p>
 
         <div className="flex gap-3 flex-wrap">

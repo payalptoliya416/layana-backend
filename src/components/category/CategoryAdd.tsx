@@ -105,7 +105,7 @@ const [statusError, setStatusError] = useState<string | null>(null);
 
         <div
           className={cn(
-            "flex-1 flex flex-col transition-all duration-300 h-[calc(95vh-24px)] mt-3 px-5",
+            "flex-1 flex flex-col transition-all duration-300 h-[calc(95vh-24px)] mt-3 px-3 sm:px-5",
             sidebarCollapsed ? "lg:ml-[96px]" : "lg:ml-[272px]"
           )}
         >
@@ -126,7 +126,7 @@ const [statusError, setStatusError] = useState<string | null>(null);
                 <div className="space-y-6">
                   <div>
                     <label className="text-sm font-medium text-foreground">
-                      Category Name <sup className="text-destructive">*</sup>
+                      Category Name <sup className="text-destructive"> * </sup>
                     </label>
 
                     <input

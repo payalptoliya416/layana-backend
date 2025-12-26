@@ -106,7 +106,7 @@ const TeamGeneral = forwardRef<any, Props>(
           {/* Name */}
           <div>
             <label className="text-sm font-medium">
-              Name<sup className="text-destructive">*</sup>
+              Name <sup className="text-destructive">*</sup>
             </label>
             <input
               className="form-input"
@@ -118,7 +118,7 @@ const TeamGeneral = forwardRef<any, Props>(
           {/* Designation */}
           <div>
             <label className="text-sm font-medium">
-              Designation<sup className="text-destructive">*</sup>
+              Designation <sup className="text-destructive">*</sup>
             </label>
             <input
               className="form-input"
@@ -145,7 +145,7 @@ const TeamGeneral = forwardRef<any, Props>(
           {/* Description */}
           <div className="xl:col-span-2">
             <label className="text-sm font-medium">
-              Description<sup className="text-destructive">*</sup>
+              Description <sup className="text-destructive">*</sup>
             </label>
             <DescriptionEditor
                 value={watch("description") || ""}

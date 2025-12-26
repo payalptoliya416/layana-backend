@@ -416,8 +416,7 @@ const handleDragEnd = (event: any) => {
     </h3>
 
     <h2 className="mb-4 text-lg font-semibold text-foreground">
-      {editingId ? "Edit Pricing" : "Add Pricing"}
-      <sup className="text-destructive">*</sup>
+      {editingId ? "Edit Pricing" : "Add Pricing"}   <sup className="text-destructive">*</sup>
     </h2>
 
     {/* FORM */}

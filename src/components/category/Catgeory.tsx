@@ -29,6 +29,23 @@ export type Category = {
   status: "Disable" | "Enable";
 };
 
+/* ================= ICON BUTTON ================= */
+const IconButton = ({
+  children,
+  onClick,
+}: {
+  children: React.ReactNode;
+  onClick?: () => void;
+}) => (
+  <button
+    onClick={onClick}
+    className="h-7 w-7 text-muted-foreground rounded-full border bg-card flex items-center justify-center hover:bg-muted"
+  >
+    
+    {children}
+  </button>
+);
+
 function SortableRow({
   item,
   index,
@@ -50,19 +67,15 @@ function SortableRow({
   };
 
   return (
+    <>
     <tr
       ref={setNodeRef}
       style={style}
-      className={cn(
-        "flex items-center gap-4 px-4 py-3 text-sm rounded-[10px] mx-[15px] my-1 transition-all",
-        index % 2 === 0 ? "bg-card" : "bg-muted",
-        "hover:bg-muted/70"
-      )}
+      className="hidden lg:flex items-center gap-4 px-4 py-3 mx-4 my-1 rounded-xl bg-card hover:bg-muted"
     >
       {/* DRAG */}
       <td
-        {...attributes}
-        {...listeners}
+         {...attributes} {...listeners}
         className="w-10 flex justify-center cursor-grab text-muted-foreground hover:text-foreground whitespace-nowrap"
       >
         <GripVertical size={18} />
@@ -109,6 +122,43 @@ function SortableRow({
         </button>
       </td>
     </tr>
+
+     {/* MOBILE CARD */}
+          <div
+            ref={setNodeRef}
+            style={style}
+            className="lg:hidden mx-3 my-2 rounded-xl border bg-card p-4"
+          >
+            <div className="flex gap-3 items-center">
+              <div {...attributes} {...listeners}  className="w-10 flex justify-center cursor-grab text-muted-foreground hover:text-foreground whitespace-nowrap">
+                <GripVertical size={18} />
+              </div>
+    
+              <div className="flex-1">
+                <span
+                  className={cn(
+                    "inline-block mb-2 px-3 py-1 rounded-sm text-xs",
+                    item.status === "Enable"
+                      ? "bg-green-100 text-green-700"
+                      : "bg-muted text-muted-foreground"
+                  )}
+                >
+                  {item.status}
+                </span>
+                <p className="text-muted-foreground whitespace-nowrap">{item.name}</p>
+              </div>
+    
+              <div className="flex gap-2 self-start">
+                <IconButton onClick={() => onEdit(item.id)}>
+                  <Pencil size={16} />
+                </IconButton>
+                <IconButton onClick={() => onDelete(item.id)}>
+                  <Trash2 size={16} />
+                </IconButton>
+              </div>
+            </div>
+          </div>
+    </>
   );
 }
 
@@ -329,7 +379,7 @@ const handleSubmit = async () => {
         {/* Main Content Area */}
         <div
           className={cn(
-            "flex-1 flex flex-col transition-all duration-300 h-[calc(95vh-24px)] mt-3 px-5",
+            "flex-1 flex flex-col transition-all duration-300 h-[calc(95vh-24px)] mt-3 px-3 sm:px-5",
             sidebarCollapsed ? "lg:ml-[96px]" : "lg:ml-[272px]"
           )}
         >
@@ -404,7 +454,262 @@ const handleSubmit = async () => {
                   <Plus size={16} /> Add Category
                 </button>
               </div>
-              <div className="grid grid-cols-12">
+                 <div className="grid grid-cols-12">
+                  <div className="col-span-12">
+
+                    {/* TABLE CONTAINER */}
+                    <div className="w-full rounded-2xl border border-border bg-card flex flex-col h-[calc(98vh-300px)]">
+
+                      {/* ================= HEADER ================= */}
+                      <div className="sticky top-0 z-[9] bg-card border-b hidden lg:flex items-center h-[52px] px-4 text-sm font-medium text-primary">
+
+                        {/* DRAG */}
+                        <div className="w-10" />
+
+                        {/* CATEGORY */}
+                        <button
+                          onClick={() => {
+                            setSortBy("category");
+                            setSortDirection((p) => (p === "asc" ? "desc" : "asc"));
+                          }}
+                          className="w-[30%] pl-4 border-l flex items-center justify-between text-left"
+                        >
+                          <span>Category</span>
+                          <span className="flex flex-col gap-1 ml-2 text-muted-foreground leading-none mr-2">
+                                            <span className="text-[10px]">
+                                              <img src="/top.png" alt="" />
+                                            </span>
+                                            <span className="text-[10px] -mt-1">
+                                              <img src="/down.png" alt="" />
+                                            </span>
+                                          </span>
+                            </button>
+
+                            {/* STATUS */}
+                            <button
+                              onClick={() => {
+                                setSortBy("status");
+                                setSortDirection((p) => (p === "asc" ? "desc" : "asc"));
+                              }}
+                              className="flex-1 pl-4 border-l flex items-center justify-between text-left"
+                            >
+                              <span>Status</span>
+                              <span className="flex flex-col gap-1 ml-2 text-muted-foreground leading-none mr-2">
+                                                <span className="text-[10px]">
+                                                  <img src="/top.png" alt="" />
+                                                </span>
+                                                <span className="text-[10px] -mt-1">
+                                                  <img src="/down.png" alt="" />
+                                                </span>
+                                              </span>
+                            </button>
+
+                            {/* ACTIONS */}
+                            <div className="w-[160px] pl-4 border-l text-right pr-4">
+                              Actions
+                            </div>
+                          </div>
+
+                          {/* ================= BODY ================= */}
+                          <div className="flex-1 overflow-y-auto scrollbar-thin">
+
+                        <DndContext collisionDetection={closestCenter} sensors={sensors}>
+                          <SortableContext
+                            items={category.map((i) => i.id)}
+                            strategy={verticalListSortingStrategy}
+                          >
+                            {category.length ? (
+                              category.map((item, index) => (
+                                <SortableRow
+                                  key={item.id}
+                                  item={item}
+                                  index={index}
+                                  onEdit={handleEdit}
+                                  onDelete={(id) => setDeleteId(id)}
+                                />
+                              ))
+                            ) : (
+                              <div className="py-10 text-center text-muted-foreground text-sm">
+                                No categories available.
+                              </div>
+                            )}
+                          </SortableContext>
+                        </DndContext>
+
+                        {/* ================= ADD / EDIT ROW ================= */}
+                        {(isAdding || editingId !== null) && (
+                          <div className="flex items-center gap-4 px-4 py-3 mx-4 my-2 rounded-[10px] border bg-muted/40 flex-wrap">
+
+                            {/* DRAG */}
+                            <div className="w-10 flex justify-center text-muted-foreground">
+                              <GripVertical size={18} className="opacity-30" />
+                            </div>
+
+                            {/* NAME */}
+                            <div className="w-[30%]">
+                              <input
+                                value={newName}
+                                onChange={(e) => setNewName(e.target.value)}
+                                placeholder="Category name"
+                                className="form-input"
+                              />
+                            </div>
+
+                            {/* STATUS */}
+                            <div className="w-[30%]">
+                              <Select
+                                value={newStatus}
+                                onValueChange={(v) =>
+                                  setNewStatus(v as "Enable" | "Disable")
+                                }
+                              >
+                                <SelectTrigger className="form-input">
+                                  <SelectValue />
+                                </SelectTrigger>
+                                <SelectContent>
+                                  <SelectItem value="Enable">Enable</SelectItem>
+                                  <SelectItem value="Disable">Disable</SelectItem>
+                                </SelectContent>
+                              </Select>
+                            </div>
+
+                            {/* ACTIONS */}
+                            <div className="w-[160px] flex justify-end gap-2 ml-auto">
+                              <div>
+                              <Button
+                                variant="cancel"
+                                className="!w-[105px]"
+                                onClick={() => {
+                                  setIsAdding(false);
+                                  setEditingId(null);
+                                  setNewName("");
+                                  setNewStatus("Disable");
+                                }}
+                              >
+                                Cancel
+                              </Button>
+                              </div>
+                              <div>
+                              <Button
+                                variant="save"
+                                className="!w-[105px]"
+                                onClick={async () => {
+                                  if (!newName.trim()) {
+                                    toast.error("Category name required");
+                                    return;
+                                  }
+
+                                  try {
+                                    if (editingId) {
+                                      await updateCategory({
+                                        id: editingId,
+                                        name: newName,
+                                        status: newStatus,
+                                      });
+                                      toast.success("Category updated");
+                                    } else {
+                                      await createCategory({
+                                        name: newName,
+                                        status: newStatus,
+                                      });
+                                      toast.success("Category created");
+                                    }
+
+                                    const res = await getCategory({
+                                      page,
+                                      perPage: 10,
+                                      search,
+                                      sortBy,
+                                      sortDirection,
+                                    });
+
+                                    setCategory(res.data);
+                                    setIsAdding(false);
+                                    setEditingId(null);
+                                    setNewName("");
+                                    setNewStatus("Disable");
+                                  } catch {
+                                    toast.error("Failed to save category");
+                                  }
+                                }}
+                              >
+                                Save
+                              </Button>
+                              </div>
+                            </div>
+                          </div>
+                        )}
+                      </div>
+                    </div>
+
+                    {/* ================= PAGINATION ================= */}
+                    {pagination && (
+                      <div className="flex items-center justify-center gap-6 px-4 py-2 text-sm text-muted-foreground">
+                        <button
+                          disabled={pagination.current_page === 1}
+                          onClick={() => setPage(1)}
+                          className="disabled:opacity-40 text-2xl"
+                        >
+                          «
+                        </button>
+
+                        <button
+                          disabled={!pagination.prev_page_url}
+                          onClick={() => setPage((p) => p - 1)}
+                          className="disabled:opacity-40 text-2xl"
+                        >
+                          ‹
+                        </button>
+
+                        <span className="text-foreground font-medium">
+                          {pagination.current_page} / {pagination.last_page}
+                        </span>
+
+                        <button
+                          disabled={!pagination.next_page_url}
+                          onClick={() => setPage((p) => p + 1)}
+                          className="disabled:opacity-40 text-2xl"
+                        >
+                          ›
+                        </button>
+
+                        <button
+                          disabled={pagination.current_page === pagination.last_page}
+                          onClick={() => setPage(pagination.last_page)}
+                          className="disabled:opacity-40 text-2xl"
+                        >
+                          »
+                        </button>
+                      </div>
+                    )}
+
+                    {/* ================= DELETE DIALOG ================= */}
+                    <AlertDialog open={!!deleteId} onOpenChange={() => setDeleteId(null)}>
+                      <AlertDialogContent>
+                        <AlertDialogHeader>
+                          <AlertDialogTitle>Are you sure?</AlertDialogTitle>
+                          <AlertDialogDescription>
+                            This action cannot be undone.
+                          </AlertDialogDescription>
+                        </AlertDialogHeader>
+
+                        <AlertDialogFooter>
+                          <AlertDialogCancel onClick={() => setDeleteId(null)}>
+                            Cancel
+                          </AlertDialogCancel>
+                          <AlertDialogAction
+                            onClick={handleDelete}
+                            className="bg-red-600 hover:bg-red-700"
+                          >
+                            Delete
+                          </AlertDialogAction>
+                        </AlertDialogFooter>
+                      </AlertDialogContent>
+                    </AlertDialog>
+
+                  </div>
+                </div>
+              {/* <div className="grid grid-cols-12">
                 <div className="col-span-12">
                   <div className="w-full overflow-auto rounded-2xl border border-border bg-card flex flex-col scrollbar-thin h-[calc(98vh-300px)]">
                     <table className="w-full text-sm text-left">
@@ -418,10 +723,8 @@ const handleSubmit = async () => {
                           border-b border-border
                         "
                       >
-                        {/* DRAG COLUMN */}
                         <th className="w-10 flex justify-center" />
 
-                        {/* CATEGORY */}
                         <th
                           onClick={() => {
                             setSortBy("category");
@@ -469,7 +772,6 @@ const handleSubmit = async () => {
                           </span>
                         </th>
 
-                        {/* ACTIONS */}
                         <th
                           className="
                             w-[160px] pl-4
@@ -553,12 +855,10 @@ const handleSubmit = async () => {
                                 transition-all flex-wrap
                               "
                             >
-                              {/* DRAG PLACEHOLDER */}
                               <td className="w-10 flex justify-center text-muted-foreground">
                                 <GripVertical size={18} className="opacity-30" />
                               </td>
 
-                              {/* NAME INPUT */}
                               <td className="w-[30%]">
                                 <input
                                   value={newName}
@@ -568,7 +868,6 @@ const handleSubmit = async () => {
                                 />
                               </td>
 
-                              {/* STATUS */}
                               <td className="w-[30%]">
                                 <Select
                                   value={newStatus}
@@ -584,9 +883,8 @@ const handleSubmit = async () => {
                                 </Select>
                               </td>
 
-                              {/* ACTIONS (SAME AS RECORD ROW) */}
                               <td className="w-[160px] flex justify-end gap-2 whitespace-nowrap ml-auto">
-                                {/* CANCEL */}
+                               
                                 <div>
                                <Button
                             variant="cancel"
@@ -602,7 +900,6 @@ const handleSubmit = async () => {
                           </Button>
                                 </div>
 
-                                {/* SAVE */}
                                 <div>
                                 <Button
                               type="button"
@@ -616,7 +913,6 @@ const handleSubmit = async () => {
 
                                 try {
                                   if (editingId) {
-                                    // 🔁 UPDATE
                                     await updateCategory({
                                       id: editingId,
                                       name: newName,
@@ -624,7 +920,6 @@ const handleSubmit = async () => {
                                     });
                                     toast.success("Category updated successfully");
                                   } else {
-                                    // ➕ CREATE
                                     await createCategory({
                                       name: newName,
                                       status: newStatus,
@@ -632,7 +927,6 @@ const handleSubmit = async () => {
                                     toast.success("Category created successfully");
                                   }
 
-                                  // 🔄 Refresh table
                                   const res = await getCategory({
                                     page,
                                     perPage: 10,
@@ -642,7 +936,6 @@ const handleSubmit = async () => {
                                   });
                                   setCategory(res.data);
 
-                                  // 🔄 Reset
                                   setIsAdding(false);
                                   setEditingId(null);
                                   setNewName("");
@@ -665,9 +958,6 @@ const handleSubmit = async () => {
                   </div>
                         {pagination && (
                         <div className="shrink-0 flex items-center justify-center gap-6 px-4 py-2 text-sm text-muted-foreground">
-                            {/* <span className="text-foreground font-medium">
-                            Page {pagination.current_page} of {pagination.last_page}
-                            </span> */}
 
                             <div className="flex gap-6 items-center">
                             <button
@@ -709,7 +999,7 @@ const handleSubmit = async () => {
                         </div>
                         )}
                 </div>
-              </div>
+              </div> */}
             </div>
               </div>
           </div>

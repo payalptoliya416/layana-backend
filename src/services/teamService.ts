@@ -3,11 +3,11 @@ import api from "./apiClient";
 /* ---------- TYPES ---------- */
 export interface TeamPayload {
     id?: number,
-  name: string;
-  designation: string;
-  description: string;
+  name?: string;
+  designation?: string;
+  description?: string;
   featured: boolean;
-  images: string[];
+  images?: string[];
 }
 
 export async function createTeam(payload: TeamPayload) {

@@ -82,7 +82,7 @@ const ParkingDetails = forwardRef<any, Props>(
         {/* PARKING DETAILS */}
         <div>
           <label className="text-sm font-medium">
-            Parking Details<sup className="text-destructive">*</sup>
+            Parking Details <sup className="text-destructive">*</sup>
           </label>
 
           <DescriptionEditor

@@ -3,7 +3,7 @@ import { Sidebar } from "@/components/layout/Sidebar";
 import { PageHeader } from "@/components/layout/PageHeader";
 import { Footer } from "@/components/layout/Footer";
 import { cn } from "@/lib/utils";
-import { Eye, GripVertical, Pencil, Plus, Search, Trash2, X } from "lucide-react";
+import { Eye, EyeIcon, GripVertical, Pencil, Plus, Search, Trash2, X } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { closestCenter, DndContext, KeyboardSensor, PointerSensor, useSensor, useSensors } from "@dnd-kit/core";
 import { SortableContext, useSortable, verticalListSortingStrategy } from "@dnd-kit/sortable";
@@ -25,7 +25,118 @@ export type Category = {
   name: string;
   status: "Live" | "Draft";
 };
+/* ================= ICON BUTTON ================= */
+const IconButton = ({
+  children,
+  onClick,
+}: {
+  children: React.ReactNode;
+  onClick?: () => void;
+}) => (
+  <button
+    onClick={onClick}
+     className="h-7 w-7 text-muted-foreground rounded-full border bg-card flex items-center justify-center hover:bg-muted"
+  >
+    {children}
+  </button>
+);
 
+// function SortableRow({
+//   item,
+//   index,
+//   onEdit,
+//   onView,
+//   onDelete,
+// }: {
+//   item: any;
+//   index: number;
+//   onView: (id: number) => void;
+//   onEdit: (id: number) => void;
+//   onDelete: (id: number) => void;
+// }) {
+//   const { attributes, listeners, setNodeRef, transform, transition, isDragging } =
+//     useSortable({ id: item.id });
+
+//   const style = {
+//     transform: CSS.Transform.toString(transform),
+//     transition: transition ?? "transform 200ms cubic-bezier(0.25, 1, 0.5, 1)",
+//     opacity: isDragging ? 0.6 : 1,
+//   };
+
+//   return (
+//     <tr
+//       ref={setNodeRef}
+//       style={style}
+//       className={cn(
+//         "flex items-center gap-4 px-4 py-3 text-sm rounded-[10px] mx-[15px] my-1 transition-all",
+//         index % 2 === 0 ? "bg-card" : "bg-muted",
+//         "hover:bg-muted/70"
+//       )}
+//     >
+//       {/* DRAG */}
+//       <td
+//         {...attributes}
+//         {...listeners}
+//         className="w-10 flex justify-center cursor-grab text-muted-foreground hover:text-foreground whitespace-nowrap"
+//       >
+//         <GripVertical size={18} />
+//       </td>
+
+//       {/* TREATMENT */}
+//       <td className="text-muted-foreground whitespace-nowrap w-[30%]">
+//         {item.name}
+//       </td>
+// <td className="flex-1 text-muted-foreground whitespace-nowrap w-[30%]">
+//          {item.status
+//     ? item.status.charAt(0).toUpperCase() + item.status.slice(1)
+//     : ""}
+//       </td>
+//       {/* ACTIONS */}
+//       <td className="w-[160px] flex justify-end gap-2 whitespace-nowrap">
+//         <button
+//           onClick={() => onView(item.id)}
+//           className="
+//             h-7 w-7 rounded-full
+//             border border-border
+//             bg-card
+//             flex items-center justify-center
+//             text-muted-foreground
+//             hover:text-foreground hover:bg-muted
+//           "
+//         >
+//           <Eye size={15} />
+//         </button>
+//         <button
+//           onClick={() => onEdit(item.id)}
+//           className="
+//             h-7 w-7 rounded-full
+//             border border-border
+//             bg-card
+//             flex items-center justify-center
+//             text-muted-foreground
+//             hover:text-foreground hover:bg-muted
+//           "
+//         >
+//           <Pencil size={15} />
+//         </button>
+
+//         <button
+//           onClick={() => onDelete(item.id)}
+//           className="
+//             h-7 w-7 rounded-full
+//             border border-border
+//             bg-card
+//             flex items-center justify-center
+//             text-muted-foreground
+//             hover:bg-muted
+//           "
+//         >
+//           <Trash2 size={15} />
+//         </button>
+//       </td>
+//     </tr>
+//   );
+// }
 function SortableRow({
   item,
   index,
@@ -39,47 +150,51 @@ function SortableRow({
   onEdit: (id: number) => void;
   onDelete: (id: number) => void;
 }) {
-  const { attributes, listeners, setNodeRef, transform, transition, isDragging } =
-    useSortable({ id: item.id });
+  const {
+    attributes,
+    listeners,
+    setNodeRef,
+    transform,
+    transition,
+    isDragging,
+  } = useSortable({ id: item.id });
 
   const style = {
     transform: CSS.Transform.toString(transform),
-    transition: transition ?? "transform 200ms cubic-bezier(0.25, 1, 0.5, 1)",
+    transition,
     opacity: isDragging ? 0.6 : 1,
   };
 
   return (
-    <tr
-      ref={setNodeRef}
-      style={style}
-      className={cn(
-        "flex items-center gap-4 px-4 py-3 text-sm rounded-[10px] mx-[15px] my-1 transition-all",
-        index % 2 === 0 ? "bg-card" : "bg-muted",
-        "hover:bg-muted/70"
-      )}
-    >
-      {/* DRAG */}
-      <td
-        {...attributes}
-        {...listeners}
-        className="w-10 flex justify-center cursor-grab text-muted-foreground hover:text-foreground whitespace-nowrap"
+    <div ref={setNodeRef} style={style}>
+      {/* ================= DESKTOP ROW ================= */}
+      <div
+        className={cn(
+          "hidden lg:flex items-center gap-4 px-4 py-3 mx-4 my-1 rounded-xl transition-all",
+          index % 2 === 0 ? "bg-card" : "bg-muted",
+          "hover:bg-muted/70"
+        )}
       >
-        <GripVertical size={18} />
-      </td>
+        <div
+          {...attributes}
+          {...listeners}
+          className="w-10 flex justify-center cursor-grab text-muted-foreground hover:text-foreground"
+        >
+          <GripVertical size={18} />
+        </div>
 
-      {/* TREATMENT */}
-      <td className="text-muted-foreground whitespace-nowrap w-[30%]">
-        {item.name}
-      </td>
-<td className="flex-1 text-muted-foreground whitespace-nowrap w-[30%]">
-         {item.status
-    ? item.status.charAt(0).toUpperCase() + item.status.slice(1)
-    : ""}
-      </td>
-      {/* ACTIONS */}
-      <td className="w-[160px] flex justify-end gap-2 whitespace-nowrap">
+        <div className="w-[30%] text-muted-foreground">
+          {item.name}
+        </div>
+
+        <div className="flex-1 text-muted-foreground">
+          {item.status}
+        </div>
+
+        
+          <td className="w-[160px] flex justify-end gap-2 whitespace-nowrap">
         <button
-          onClick={() => onView(item.id)}
+        onClick={() => onView(item.id)}
           className="
             h-7 w-7 rounded-full
             border border-border
@@ -89,10 +204,10 @@ function SortableRow({
             hover:text-foreground hover:bg-muted
           "
         >
-          <Eye size={15} />
+          <EyeIcon size={15} />
         </button>
         <button
-          onClick={() => onEdit(item.id)}
+         onClick={() => onEdit(item.id)}
           className="
             h-7 w-7 rounded-full
             border border-border
@@ -106,7 +221,7 @@ function SortableRow({
         </button>
 
         <button
-          onClick={() => onDelete(item.id)}
+        onClick={() => onDelete(item.id)}
           className="
             h-7 w-7 rounded-full
             border border-border
@@ -116,10 +231,53 @@ function SortableRow({
             hover:bg-muted
           "
         >
-          <Trash2 size={15} />
+          <Trash2 size={15}/>
         </button>
       </td>
-    </tr>
+      </div>
+
+      {/* ================= MOBILE CARD ================= */}
+      <div className="lg:hidden mx-3 my-2 rounded-xl border bg-card p-4">
+        <div className="flex gap-3 items-center">
+          <div
+            {...attributes}
+            {...listeners}
+            className="flex justify-center cursor-grab text-muted-foreground"
+          >
+            <GripVertical size={18} />
+          </div>
+
+          <div className="flex-1">
+            <span
+              className={cn(
+                "inline-block mb-2 px-3 py-1 rounded-sm text-xs",
+                item.status === "active"
+                  ? "bg-green-100 text-green-700"
+                  : "bg-muted text-muted-foreground"
+              )}
+            >
+              {item.status}
+            </span>
+            <p className="font-medium text-foreground">
+              {item.name}
+            </p>
+
+          </div>
+
+          <div className="flex gap-2 self-start">
+            <IconButton onClick={() => onView(item.id)}>
+              <Eye size={16} />
+            </IconButton>
+            <IconButton onClick={() => onEdit(item.id)}>
+              <Pencil size={16} />
+            </IconButton>
+            <IconButton onClick={() => onDelete(item.id)}>
+              <Trash2 size={16} />
+            </IconButton>
+          </div>
+        </div>
+      </div>
+    </div>
   );
 }
 
@@ -233,7 +391,7 @@ const onView = (id: number) =>{
         {/* Main Content Area */}
         <div
           className={cn(
-            "flex-1 flex flex-col transition-all duration-300 h-[calc(95vh-24px)] mt-3 px-5",
+            "flex-1 flex flex-col transition-all duration-300 h-[calc(95vh-24px)] mt-3 px-3 sm:px-5",
             sidebarCollapsed ? "lg:ml-[96px]" : "lg:ml-[272px]"
           )}
         >
@@ -302,6 +460,163 @@ const onView = (id: number) =>{
                 </button>
               </div>
               <div className="grid grid-cols-12">
+                    <div className="col-span-12">
+
+                      <div className="w-full rounded-2xl border border-border bg-card flex flex-col h-[calc(100vh-300px)]">
+
+                        {/* ================= HEADER (DESKTOP ONLY) ================= */}
+                        <div className="sticky top-0 z-[9] bg-card border-b hidden lg:flex items-center h-[52px] px-4 text-sm font-medium text-primary">
+
+                          <div className="w-10" />
+
+                          <button
+                            onClick={() => {
+                              setSortBy("name");
+                              setSortDirection((p) => (p === "asc" ? "desc" : "asc"));
+                            }}
+                            className="w-[30%] pl-4 border-l flex items-center justify-between text-left"
+                          >
+                            <span>Location</span>
+                             <span className="flex flex-col gap-1 ml-2 text-muted-foreground leading-none mr-2">
+                                            <span className="text-[10px]">
+                                              <img src="/top.png" alt="" />
+                                            </span>
+                                            <span className="text-[10px] -mt-1">
+                                              <img src="/down.png" alt="" />
+                                            </span>
+                                          </span>
+                          </button>
+
+                          <button
+                            onClick={() => {
+                              setSortBy("status");
+                              setSortDirection((p) => (p === "asc" ? "desc" : "asc"));
+                            }}
+                            className="flex-1 pl-4 border-l flex items-center justify-between text-left"
+                          >
+                            <span>Status</span>
+                             <span className="flex flex-col gap-1 ml-2 text-muted-foreground leading-none mr-2">
+                                            <span className="text-[10px]">
+                                              <img src="/top.png" alt="" />
+                                            </span>
+                                            <span className="text-[10px] -mt-1">
+                                              <img src="/down.png" alt="" />
+                                            </span>
+                                          </span>
+                          </button>
+
+                          <div className="w-[160px] pl-4 border-l text-right pr-4">
+                            Actions
+                          </div>
+                        </div>
+
+                        {/* ================= BODY ================= */}
+                        <div className="flex-1 overflow-y-auto scrollbar-thin">
+
+                          {!locations || locations.length === 0 ? (
+                            <div className="py-10 text-center text-muted-foreground text-sm">
+                              No locations found
+                            </div>
+                          ) : (
+                            <DndContext collisionDetection={closestCenter} sensors={sensors}>
+                              <SortableContext
+                                items={locations.map((i) => i.id)}
+                                strategy={verticalListSortingStrategy}
+                              >
+                                {locations.map((item, index) => (
+                                  <SortableRow
+                                    key={item.id}
+                                    item={item}
+                                    index={index}
+                                    onEdit={handleEdit}
+                                    onView={onView}
+                                    onDelete={(id) => setDeleteId(id)}
+                                  />
+                                ))}
+                              </SortableContext>
+                            </DndContext>
+                          )}
+                        </div>
+                      </div>
+
+                      {/* ================= PAGINATION ================= */}
+                      {pagination && (
+                        <div className="flex items-center justify-center gap-6 px-4 py-2 text-sm text-muted-foreground">
+                          <button
+                            disabled={pagination.current_page === 1}
+                            onClick={() => setPage(1)}
+                            className="disabled:opacity-40 text-2xl"
+                          >
+                            «
+                          </button>
+
+                          <button
+                            disabled={!pagination.prev_page_url}
+                            onClick={() => setPage((p) => p - 1)}
+                            className="disabled:opacity-40 text-2xl"
+                          >
+                            ‹
+                          </button>
+
+                          <span className="text-foreground font-medium">
+                            {pagination.current_page} / {pagination.last_page}
+                          </span>
+
+                          <button
+                            disabled={!pagination.next_page_url}
+                            onClick={() => setPage((p) => p + 1)}
+                            className="disabled:opacity-40 text-2xl"
+                          >
+                            ›
+                          </button>
+
+                          <button
+                            disabled={pagination.current_page === pagination.last_page}
+                            onClick={() => setPage(pagination.last_page)}
+                            className="disabled:opacity-40 text-2xl"
+                          >
+                            »
+                          </button>
+                        </div>
+                      )}
+                           {/* ================= DELETE DIALOG ================= */}
+                                        <AlertDialog open={!!deleteId} onOpenChange={() => setDeleteId(null)}>
+  <AlertDialogContent className="max-w-[420px] rounded-2xl p-6">
+    <AlertDialogHeader>
+      <AlertDialogTitle className="text-lg">
+        Delete Location?
+      </AlertDialogTitle>
+    </AlertDialogHeader>
+
+    <p className="text-sm text-muted-foreground">
+      Are you sure you want to delete this location?  
+      This action cannot be undone.
+    </p>
+
+    <AlertDialogFooter className="mt-6">
+      <Button
+        variant="cancel"
+        onClick={() => setDeleteId(null)}
+        disabled={isDeleting}
+      >
+        Cancel
+      </Button>
+
+      <Button
+        variant="destructive"
+        onClick={handleDeleteConfirm}
+        disabled={isDeleting}
+      >
+        {isDeleting ? "Deleting..." : "Delete"}
+      </Button>
+    </AlertDialogFooter>
+  </AlertDialogContent>
+</AlertDialog>
+
+                    </div>
+                  </div>
+
+              {/* <div className="grid grid-cols-12">
                 <div className="col-span-12">
                   <div className="w-full overflow-auto rounded-2xl border border-border bg-card flex flex-col h-[calc(100vh-300px)] scrollbar-thin">
                     <table className="w-full text-sm text-left">
@@ -315,7 +630,6 @@ const onView = (id: number) =>{
                           border-b border-border
                         "
                       >
-                        {/* DRAG COLUMN */}
                         <th className="w-10 flex justify-center" />
 
                         <th
@@ -364,7 +678,6 @@ const onView = (id: number) =>{
                             </span>
                           </span>
                         </th>
-                        {/* ACTIONS */}
                         <th
                           className="
                             w-[160px] pl-4
@@ -449,9 +762,7 @@ const onView = (id: number) =>{
                   </div>
                       {pagination && (
                   <div className="shrink-0 flex items-center justify-center gap-6 px-4 py-2 text-sm text-muted-foreground">
-                {/* <span className="text-foreground font-medium">
-                  Page {pagination.current_page} of {pagination.last_page}
-                </span> */}
+               
                 <div className="flex gap-6 items-center">
 
                     <button
@@ -492,7 +803,7 @@ const onView = (id: number) =>{
                   </div>
                 )}
                 </div>
-              </div>
+              </div> */}
             </div>
           </div>
         </div>

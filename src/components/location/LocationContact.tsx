@@ -117,7 +117,7 @@ const LocationContactDetails = forwardRef<any, Props>(
           {/* ADDRESS LINE 1 */}
           <div>
             <label className="text-sm font-medium text-foreground">
-              Address Line 1<sup className="text-destructive">*</sup>
+              Address Line 1 <sup className="text-destructive">*</sup>
             </label>
 
             <input
@@ -137,7 +137,7 @@ const LocationContactDetails = forwardRef<any, Props>(
           {/* EMAIL */}
           <div>
             <label className="text-sm font-medium">
-              Email<sup className="text-destructive">*</sup>
+              Email <sup className="text-destructive">*</sup>
             </label>
 
             <input
@@ -152,7 +152,7 @@ const LocationContactDetails = forwardRef<any, Props>(
           {/* ADDRESS LINE 2 */}
           <div className="xl:col-span-1">
             <label className="text-sm font-medium text-foreground">
-              Address Line 2<sup className="text-destructive">*</sup>
+              Address Line 2 <sup className="text-destructive">*</sup>
             </label>
 
             <input
@@ -171,7 +171,7 @@ const LocationContactDetails = forwardRef<any, Props>(
            {/* PHONE NUMBER */}
           <div>
             <label className="text-sm font-medium text-foreground">
-              Phone Number<sup className="text-destructive">*</sup>
+              Phone Number <sup className="text-destructive">*</sup>
             </label>
 
         <div className="phone-input-wrapper">
@@ -213,7 +213,7 @@ const LocationContactDetails = forwardRef<any, Props>(
           {/* City */}
           <div>
             <label className="text-sm font-medium">
-              City<sup className="text-destructive">*</sup>
+              City <sup className="text-destructive">*</sup>
             </label>
             <input className="form-input" placeholder="Enter city" {...register("city")} />
           </div>
@@ -221,7 +221,7 @@ const LocationContactDetails = forwardRef<any, Props>(
            {/* State */}
           <div>
             <label className="text-sm font-medium">
-              State<sup className="text-destructive">*</sup>
+              State <sup className="text-destructive">*</sup>
             </label>
             <input className="form-input" placeholder="Enter state" {...register("state")} />
            
@@ -230,7 +230,7 @@ const LocationContactDetails = forwardRef<any, Props>(
              {/* Country */}
           <div>
                       <label className="text-sm font-medium">
-                        Country<sup className="text-destructive">*</sup>
+                        Country <sup className="text-destructive">*</sup>
                       </label>
                       <Select
                     value={watch("country")}
@@ -256,7 +256,7 @@ const LocationContactDetails = forwardRef<any, Props>(
           {/* Postcode */}
           <div>
             <label className="text-sm font-medium">
-              Postcode<sup className="text-destructive">*</sup>
+              Postcode <sup className="text-destructive">*</sup>
             </label>
             <input
               className="form-input"

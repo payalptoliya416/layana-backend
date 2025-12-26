@@ -38,7 +38,7 @@ import {
 import { Button } from "../ui/button";
 import { getTeams } from "@/services/getTeam";
 import SwitchToggle from "../treatment/Toggle";
-import { deleteTeam, TeamPayload } from "@/services/teamService";
+import { deleteTeam, TeamPayload, updateTeam } from "@/services/teamService";
 
 export type Category = {
   id: number;
@@ -51,65 +51,55 @@ function SortableRow({
   index,
   onEdit,
   onDelete,
+  onToggleFeatured,
 }: {
   item: any;
   index: number;
   onEdit: (id: number) => void;
   onDelete: (id: number) => void;
+  onToggleFeatured: (id: number, value: boolean) => void;
 }) {
-  const {
-    attributes,
-    listeners,
-    setNodeRef,
-    transform,
-    transition,
-    isDragging,
-  } = useSortable({ id: item.id });
+  const { attributes, listeners, setNodeRef, transform, transition } =
+    useSortable({ id: item.id });
 
   const style = {
     transform: CSS.Transform.toString(transform),
-    transition: transition ?? "transform 200ms cubic-bezier(0.25, 1, 0.5, 1)",
-    opacity: isDragging ? 0.6 : 1,
+    transition,
   };
 
   return (
-    <tr
-      ref={setNodeRef}
-      style={style}
-      className={cn(
-        "flex items-center gap-4 px-4 py-3 text-sm rounded-[10px] mx-[15px] my-1 transition-all",
-        index % 2 === 0 ? "bg-card" : "bg-muted",
-        "hover:bg-muted/70"
-      )}
-    >
-      {/* DRAG */}
-      <td
-        {...attributes}
-        {...listeners}
-        className="w-10 flex justify-center cursor-grab text-muted-foreground hover:text-foreground whitespace-nowrap"
+    <div ref={setNodeRef} style={style}>
+
+      {/* ================= DESKTOP ROW ================= */}
+      <div
+        className={cn(
+          "hidden xl:flex items-center px-4 py-3 mx-4 my-1 rounded-xl",
+          index % 2 === 0 ? "bg-card" : "bg-muted",
+          "hover:bg-muted/70"
+        )}
       >
-        <GripVertical size={18} />
-      </td>
+        <div {...attributes} {...listeners} className="w-10 flex justify-center cursor-grab">
+          <GripVertical size={18} />
+        </div>
 
-      {/* TREATMENT */}
-      <td className="text-muted-foreground whitespace-nowrap w-[30%]">
-        {item.name}
-      </td>
+        <div className="w-[25%] pl-4">{item.name}</div>
+        <div className="w-[25%] pl-4">{item.designation}</div>
 
-      <td className="text-muted-foreground whitespace-nowrap w-[30%]">
-        {item.designation}
-      </td>
-      <td className="text-muted-foreground whitespace-nowrap w-[30%]">
-        <p dangerouslySetInnerHTML={{ __html: item.description }} />
-      </td>
-      <td className="text-muted-foreground whitespace-nowrap w-[30%]">
-       <SwitchToggle
-      value={item.featured}
-      onChange={() => {}}
-    />
-      </td>
-      {/* ACTIONS */}
-      <td className="w-[160px] flex justify-end gap-2 whitespace-nowrap ml-auto">
+        <div className="w-[30%] text-sm text-muted-foreground pl-4"
+          dangerouslySetInnerHTML={{ __html: item.description }}
+        />
+
+        <div className="w-[160px] pl-4">
+          <SwitchToggle
+  value={item.featured}
+  onChange={(val: boolean) =>
+    onToggleFeatured(item.id, val)
+  }
+/>
+        </div>
+
+        <div className="w-[160px] flex justify-end gap-2 pl-4">
+           <td className="w-[160px] flex justify-end gap-2 whitespace-nowrap">
         <button
           onClick={() => onEdit(item.id)}
           className="
@@ -135,12 +125,79 @@ function SortableRow({
             hover:bg-muted
           "
         >
-          <Trash2 size={15} />
+          <Trash2 size={15}/>
         </button>
       </td>
-    </tr>
+        </div>
+      </div>
+
+      {/* ================= MOBILE CARD ================= */}
+      <div className="xl:hidden mx-3 my-2 rounded-xl border bg-card p-4 space-y-2">
+        <div className="flex justify-between">
+
+        <div className="flex gap-3 items-center">
+          <div {...attributes} {...listeners} className="cursor-grab">
+            <GripVertical size={18} />
+          </div>
+
+          <div className="flex-1">
+            <p className="font-medium mb-2">{item.name}</p>
+            <p className="text-sm text-muted-foreground mb-2"><span className="font-semibold">Designation : </span>{item.designation}</p>
+            <div className="flex items-center gap-1 flex-wrap">
+             <span className="font-semibold text-muted-foreground text-sm ">Description :  </span>
+         <div
+          className="text-sm text-muted-foreground"
+          dangerouslySetInnerHTML={{ __html: item.description }}
+        />
+            </div>
+             <div className="flex justify-between items-center pt-2">
+         <SwitchToggle
+  value={item.featured}
+  onChange={(val: boolean) =>
+    onToggleFeatured(item.id, val)
+  }
+/>         
+        </div>
+          </div>
+        </div>
+         <div className="flex gap-2">
+             <button
+        onClick={() => onEdit(item.id)}
+          className="
+            h-7 w-7 rounded-full
+            border border-border
+            bg-card
+            flex items-center justify-center
+            text-muted-foreground
+            hover:text-foreground hover:bg-muted
+          "
+        >
+          <Pencil size={15} />
+            </button>
+
+        <button
+          className="
+            h-7 w-7 rounded-full
+            border border-border
+            bg-card
+            flex items-center justify-center
+            text-muted-foreground
+            hover:bg-muted
+          "
+          onClick={() => onDelete(item.id)}
+        >
+          <Trash2 size={15}/>
+        </button>
+          </div>
+        </div>
+
+
+       
+      </div>
+    </div>
   );
 }
+
 
 function TeamList() {
   const navigate = useNavigate();
@@ -213,6 +270,16 @@ const [sortDirection, setSortDirection] = useState<"asc" | "desc">("desc");
     navigate(`/team/edit/${id}`);
   };
 
+  const handleFeaturedToggle = async (id: number, value: boolean) => {
+  try {
+    await updateTeam(id, { featured: value });
+    toast.success("Team updated");
+    fetchTeams(); // 🔥 REFRESH LIST
+  } catch {
+    toast.error("Failed to update team");
+  }
+};
+
   return (
     <>
       <div className="bg-background flex">
@@ -246,7 +313,7 @@ const [sortDirection, setSortDirection] = useState<"asc" | "desc">("desc");
         {/* Main Content Area */}
         <div
           className={cn(
-            "flex-1 flex flex-col transition-all duration-300 h-[calc(95vh-24px)] mt-3 px-5",
+            "flex-1 flex flex-col transition-all duration-300 h-[calc(95vh-24px)] mt-3 px-3 sm:px-5",
             sidebarCollapsed ? "lg:ml-[96px]" : "lg:ml-[272px]"
           )}
         >
@@ -313,6 +380,102 @@ const [sortDirection, setSortDirection] = useState<"asc" | "desc">("desc");
                 </button>
               </div>
               <div className="grid grid-cols-12">
+  <div className="col-span-12">
+
+    <div className="w-full rounded-2xl border border-border bg-card flex flex-col h-[calc(100vh-300px)]">
+
+      {/* ================= HEADER (DESKTOP) ================= */}
+     <div className="sticky top-0 z-10 bg-card border-b hidden xl:flex items-center h-[52px] px-4 text-sm font-medium text-primary mx-3">
+
+        <div className="w-10" ></div>
+
+        <div className="w-[25%] pl-4 border-l">Team</div>
+        <div className="w-[25%] pl-4 border-l">Designation</div>
+        <div className="w-[30%]  pl-4 border-l">Description</div>
+        <div className="w-[160px] pl-4 border-l">Featured</div>
+        <div className="w-[160px] pl-4 border-l text-right pr-4">Actions</div>
+      </div>
+
+      {/* ================= BODY ================= */}
+      <div className="flex-1 overflow-y-auto scrollbar-thin">
+
+        {!teams || teams.length === 0 ? (
+          <div className="py-10 text-center text-muted-foreground text-sm">
+            No Data found
+          </div>
+        ) : (
+          <DndContext collisionDetection={closestCenter} sensors={sensors}>
+            <SortableContext
+              items={teams.map((i) => i.id)}
+              strategy={verticalListSortingStrategy}
+            >
+              {teams.map((item, index) => (
+                <SortableRow
+                  key={item.id}
+                  item={item}
+                  index={index}
+                  onEdit={handleEdit}
+                  onDelete={(id) => setDeleteId(id)}
+                   onToggleFeatured={handleFeaturedToggle}
+                />
+              ))}
+            </SortableContext>
+          </DndContext>
+        )}
+      </div>
+    </div>
+
+    {/* ================= PAGINATION ================= */}
+    {pagination && (
+      <div className="flex items-center justify-center gap-6 px-4 py-2 text-sm text-muted-foreground">
+        <button disabled={pagination.current_page === 1} onClick={() => setPage(1)} className="text-2xl">«</button>
+        <button disabled={!pagination.prev_page_url} onClick={() => setPage(p => p - 1)} className="text-2xl">‹</button>
+        <span className="text-foreground font-medium">
+          {pagination.current_page} / {pagination.last_page}
+        </span>
+        <button disabled={!pagination.next_page_url} onClick={() => setPage(p => p + 1)} className="text-2xl">›</button>
+        <button disabled={pagination.current_page === pagination.last_page} onClick={() => setPage(pagination.last_page)} className="text-2xl">»</button>
+      </div>
+    )}
+  </div>
+   <AlertDialog
+                              open={!!deleteId}
+                              onOpenChange={() => setDeleteId(null)}
+                            >
+                              <AlertDialogContent className="max-w-[420px] rounded-2xl p-6">
+                                <AlertDialogHeader>
+                                  <AlertDialogTitle className="text-lg">
+                                    Delete Team?
+                                  </AlertDialogTitle>
+                                </AlertDialogHeader>
+
+                                <p className="text-sm text-muted-foreground">
+                                  Are you sure you want to delete this Team?
+                                  This action cannot be undone.
+                                </p>
+
+                                <AlertDialogFooter className="mt-6">
+                                  <Button
+                                    variant="cancel"
+                                    onClick={() => setDeleteId(null)}
+                                    disabled={isDeleting}
+                                  >
+                                    Cancel
+                                  </Button>
+
+                                  <Button
+                                    variant="destructive"
+                                    onClick={handleDeleteConfirm}
+                                    disabled={isDeleting}
+                                  >
+                                    {isDeleting ? "Deleting..." : "Delete"}
+                                  </Button>
+                                </AlertDialogFooter>
+                              </AlertDialogContent>
+                            </AlertDialog>
+</div>
+
+              {/* <div className="grid grid-cols-12">
                 <div className="col-span-12">
                   <div className="w-full overflow-auto rounded-2xl border border-border bg-card flex flex-col h-[calc(100vh-300px)] scrollbar-thin">
                     <table className="w-full text-sm text-left">
@@ -326,7 +489,6 @@ const [sortDirection, setSortDirection] = useState<"asc" | "desc">("desc");
                           border-b border-border
                         "
                         >
-                          {/* DRAG COLUMN */}
                           <th className="w-10 flex justify-center" />
 
                           <th
@@ -412,7 +574,6 @@ const [sortDirection, setSortDirection] = useState<"asc" | "desc">("desc");
                         </span>
                         </th>
 
-                          {/* ACTIONS */}
                           <th
                             className="
                             w-[160px] pl-4
@@ -498,9 +659,6 @@ const [sortDirection, setSortDirection] = useState<"asc" | "desc">("desc");
                   </div>
                   {pagination && (
                     <div className="shrink-0 flex items-center justify-center gap-6 px-4 py-2 text-sm text-muted-foreground">
-                      {/* <span className="text-foreground font-medium">
-                  Page {pagination.current_page} of {pagination.last_page}
-                </span> */}
                       <div className="flex gap-6 items-center">
                         <button
                           disabled={pagination.current_page === 1}
@@ -542,7 +700,7 @@ const [sortDirection, setSortDirection] = useState<"asc" | "desc">("desc");
                     </div>
                   )}
                 </div>
-              </div>
+              </div> */}
             </div>
           </div>
         </div>

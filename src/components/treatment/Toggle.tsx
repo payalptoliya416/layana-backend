@@ -5,12 +5,12 @@ function SwitchToggle({
   onChange,
 }: {
   value: boolean;
-  onChange: () => void;
+   onChange: (value?: boolean) => void; 
 }) {
   return (
     <button
       type="button"
-      onClick={onChange}
+       onClick={() => onChange(!value)}
       className={cn(
         "relative h-[32px] w-[68px] rounded-full p-[2px] transition-colors",
         value

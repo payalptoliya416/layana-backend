@@ -203,7 +203,7 @@ useEffect(() => {
         htmlFor="button1"
         className="block text-sm font-medium text-foreground"
       >
-        Button 1 {!isFacial && (<sup className="text-destructive">*</sup>)}
+        Button 1 {!isFacial && ( <sup className="text-destructive"> * </sup>)}
       </label>
 
       <input
@@ -222,7 +222,7 @@ useEffect(() => {
         htmlFor="button1Link"
         className="block text-sm font-medium text-foreground"
       >
-        Button 1 Link {!isFacial && (<sup className="text-destructive">*</sup>)}
+        Button 1 Link {!isFacial && (<sup className="text-destructive"> * </sup>)}
       </label>
 
       <input
@@ -242,7 +242,7 @@ useEffect(() => {
         htmlFor="button2"
         className="block text-sm font-medium text-foreground"
       >
-        Button 2<sup className="text-destructive">*</sup>
+        Button 2 <sup className="text-destructive">*</sup>
       </label>
 
       <input
@@ -262,7 +262,7 @@ useEffect(() => {
         htmlFor="button2Link"
         className="block text-sm font-medium text-foreground"
       >
-        Button 2 Link<sup className="text-destructive">*</sup>
+        Button 2 Link <sup className="text-destructive">*</sup>
       </label>
 
       <input
@@ -291,7 +291,7 @@ useEffect(() => {
     {/* ================= BANNER ================= */}
     <div>
       <p className="mb-2 text-sm font-medium text-foreground">
-        Banner<sup className="text-destructive">*</sup>{" "}
+        Banner <sup className="text-destructive">*</sup>{" "}
         <span className="text-muted-foreground">(1440 × 400)</span>
       </p>
 
@@ -366,7 +366,7 @@ useEffect(() => {
     {/* ================= THUMBNAIL ================= */}
     <div>
       <p className="mb-2 text-sm font-medium text-foreground">
-        Thumbnail<sup className="text-destructive">*</sup>{" "}
+        Thumbnail <sup className="text-destructive">*</sup>{" "}
         <span className="text-muted-foreground">(358 × 358)</span>
       </p>
 
@@ -441,7 +441,7 @@ useEffect(() => {
   {/* ================= GALLERY ================= */}
   <div className="mt-6">
     <p className="mb-2 text-sm font-medium text-foreground">
-      Gallery Images<sup className="text-destructive">*</sup>{" "}
+      Gallery Images <sup className="text-destructive">*</sup>{" "}
       <span className="text-muted-foreground">(565 × 575)</span>
     </p>
 

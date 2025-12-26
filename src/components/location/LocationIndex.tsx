@@ -348,7 +348,7 @@ const [locationName, setLocationName] = useState<string>("");
         </div>
         <div
           className={cn(
-            "flex-1 flex flex-col transition-all h-[calc(95vh-24px)] duration-300 mt-3 px-5",
+            "flex-1 flex flex-col transition-all h-[calc(95vh-24px)] duration-300 mt-3 px-3 sm:px-5",
             sidebarCollapsed ? "lg:ml-[96px]" : "lg:ml-[272px]"
           )}
         >

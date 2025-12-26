@@ -117,7 +117,7 @@ const slugify = (text: string) =>
           {/* Location Name */}
        <div>
   <label className="text-sm font-medium">
-    Location Name<sup className="text-destructive">*</sup>
+    Location Name <sup className="text-destructive">*</sup>
   </label>
 
   <input
@@ -140,7 +140,7 @@ const slugify = (text: string) =>
 
         <div>
   <label className="text-sm font-medium">
-   Slug<sup className="text-destructive">*</sup>
+   Slug <sup className="text-destructive">*</sup>
   </label>
 
   <input
@@ -163,7 +163,7 @@ const slugify = (text: string) =>
           {/* Status */}
           <div>
             <label className="text-sm font-medium">
-              Status<sup className="text-destructive">*</sup>
+              Status <sup className="text-destructive">*</sup>
             </label>
             <Select
             value={watch("status")}
@@ -189,7 +189,7 @@ const slugify = (text: string) =>
           {/* Free Text */}
                   <div>
           <label className="text-sm font-medium">
-            Free Text<sup className="text-destructive">*</sup>
+            Free Text <sup className="text-destructive">*</sup>
           </label>
 
           <input

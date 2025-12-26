@@ -50,6 +50,7 @@ type Treatment = {
   category: string;
   name: string;
 };
+
 function SortableRow({
   item,
   index,
@@ -61,75 +62,99 @@ function SortableRow({
   onEdit: (id: number) => void;
   onDelete: (id: number) => void;
 }) {
-  const { attributes, listeners, setNodeRef, transform, transition, isDragging } =
+  const { attributes, listeners, setNodeRef, transform, transition } =
     useSortable({ id: item.id });
 
   const style = {
     transform: CSS.Transform.toString(transform),
-    transition: transition ?? "transform 200ms cubic-bezier(0.25, 1, 0.5, 1)",
-    opacity: isDragging ? 0.6 : 1,
+    transition,
   };
 
   return (
-    <tr
-      ref={setNodeRef}
-      style={style}
-      className={cn(
-        "flex items-center gap-4 h-[52px] text-sm rounded-[10px] mx-[15px] my-1 transition-all",
-        index % 2 === 0 ? "bg-card" : "bg-muted",
-        "hover:bg-muted/70"
-      )}
-    >
-      {/* DRAG */}
-      <td
-        {...attributes}
-        {...listeners}
-        className="w-10 flex justify-center cursor-grab text-muted-foreground hover:text-foreground whitespace-nowrap"
+    <div ref={setNodeRef} style={style}>
+
+      {/* ================= DESKTOP ROW ================= */}
+      <div
+      data-row
+        className={cn(
+          "hidden lg:flex items-center gap-4 h-[52px] px-4 mx-4 my-1 rounded-[10px] text-sm transition-all",
+          index % 2 === 0 ? "bg-card" : "bg-muted",
+          "hover:bg-muted/70"
+        )}
       >
-        <GripVertical size={18} />
-      </td>
-
-      {/* CATEGORY */}
-      <td className="w-[27%] sm:w-[29%] font-medium text-muted-foreground whitespace-nowrap">
-        {item.category}
-      </td>
-
-      {/* TREATMENT */}
-      <td className="flex-1 text-muted-foreground whitespace-nowrap w-[300px]">
-        {item.name}
-      </td>
-
-      {/* ACTIONS */}
-      <td className="w-[100px] flex justify-end gap-2 whitespace-nowrap">
-        <button
-          onClick={() => onEdit(item.id)}
-          className="
-            h-7 w-7 rounded-full
-            border border-border
-            bg-card
-            flex items-center justify-center
-            text-muted-foreground
-            hover:text-foreground hover:bg-muted
-          "
+        {/* DRAG */}
+        <div
+          {...attributes}
+          {...listeners}
+          className="w-10 flex justify-center cursor-grab text-muted-foreground"
         >
-          <Pencil size={15} />
-        </button>
+          <GripVertical size={18} />
+        </div>
 
-        <button
-          onClick={() => onDelete(item.id)}
-          className="
-            h-7 w-7 rounded-full
-            border border-border
-            bg-card
-            flex items-center justify-center
-            text-muted-foreground
-            hover:bg-muted
-          "
-        >
-          <Trash2 size={15} />
-        </button>
-      </td>
-    </tr>
+        {/* CATEGORY */}
+        <div className="w-[30%] pl-4 font-medium text-muted-foreground whitespace-nowrap">
+          {item.category}
+        </div>
+
+        {/* TREATMENT */}
+        <div className="flex-1 pl-4 text-muted-foreground whitespace-nowrap">
+          {item.name}
+        </div>
+
+        {/* ACTIONS */}
+        <div className="w-[100px] flex justify-end gap-2 pr-4">
+          <button
+            onClick={() => onEdit(item.id)}
+            className="h-7 w-7 rounded-full border border-border bg-card flex items-center justify-center text-muted-foreground hover:bg-muted"
+          >
+            <Pencil size={15} />
+          </button>
+
+          <button
+            onClick={() => onDelete(item.id)}
+            className="h-7 w-7 rounded-full border border-border bg-card flex items-center justify-center text-muted-foreground hover:bg-muted"
+          >
+            <Trash2 size={15} />
+          </button>
+        </div>
+      </div>
+
+      {/* ================= MOBILE CARD ================= */}
+      <div className="lg:hidden mx-3 my-2 rounded-xl border bg-card p-4 space-y-2">
+        <div className="flex items-start gap-1 justify-between">
+        <div className="flex gap-3 items-center">
+          <div {...attributes} {...listeners} className="cursor-grab">
+            <GripVertical size={18} />
+          </div>
+
+          <div className="flex-1">
+             <p className="text-sm text-muted-foreground  mb-2">
+              {item.category}
+            </p>
+            <p className="font-medium text-foreground">
+              {item.name}
+            </p>
+           
+          </div>
+        </div>
+        <div className="flex justify-end gap-2 self-start">
+          <button
+            onClick={() => onEdit(item.id)}
+            className="h-7 w-7 rounded-full border border-border bg-card flex items-center justify-center text-muted-foreground"
+          >
+            <Pencil size={16} />
+          </button>
+
+          <button
+            onClick={() => onDelete(item.id)}
+            className="h-7 w-7 rounded-full border border-border bg-card flex items-center justify-center text-muted-foreground"
+          >
+            <Trash2 size={16} />
+          </button>
+        </div>
+        </div>
+      </div>
+    </div>
   );
 }
 
@@ -284,7 +309,7 @@ const handleDelete = async () => {
       
       <div
         className={cn(
-          "flex-1 flex flex-col transition-all duration-300 h-[calc(95vh-24px)] mt-3 px-5",
+          "flex-1 flex flex-col transition-all duration-300 h-[calc(95vh-24px)] mt-3 px-3 sm:px-5",
           sidebarCollapsed ? "lg:ml-[96px]" : "lg:ml-[272px]"
         )}
       >
@@ -377,180 +402,94 @@ const handleDelete = async () => {
             </AlertDialogFooter>
           </AlertDialogContent>
                </AlertDialog>
-          <div className="grid grid-cols-12">
-              <div className="col-span-12">
-              <div
-                ref={containerRef}
-                className="w-full rounded-2xl border border-border bg-card flex flex-col overflow-x-auto scrollbar-thin  h-[calc(91dvh-260px)] sm:h-[calc(98dvh-260px)]
-  md:h-[calc(100dvh-300px)]  "
-              >
-                  <table className="w-full text-sm text-left">
-                  <thead className="sticky top-0 z-10 bg-card">
-                      <tr
-                        className="
-                          flex items-center h-[52px]
-                          px-[16px]
-                          text-sm font-medium
-                          text-primary
-                          border-b border-border
-                        "
-                      >
-                        {/* DRAG COLUMN */}
-                        <th className="w-10 flex justify-center" />
+          
+            <div className="grid grid-cols-12">
+  <div className="col-span-12">
 
-                        {/* CATEGORY */}
-                        <th
-                          onClick={() => {
-                            setSortBy("category");
-                            setSortDirection((prev) => (prev === "asc" ? "desc" : "asc"));
-                          }}
-                          className="
-                            w-[30%] pl-4
-                            border-l border-border
-                            flex items-center justify-between
-                            cursor-pointer
-                            text-left
-                          "
-                        >
-                          <span>Category</span>
-                          <span className="flex flex-col gap-1 ml-2 text-muted-foreground leading-none mr-2">
-                            <span className="text-[10px]">
-                              <img src="/top.png" alt="" />
-                            </span>
-                            <span className="text-[10px] -mt-1">
-                              <img src="/down.png" alt="" />
-                            </span>
-                          </span>
-                        </th>
+    <div className="w-full rounded-2xl border border-border bg-card flex flex-col h-[calc(98dvh-300px)]">
+      {/* ================= HEADER (DESKTOP ONLY) ================= */}
+      <div className="sticky top-0 z-[9] bg-card border-b hidden lg:flex items-center h-[52px] px-4 text-sm font-medium text-primary">
 
-                        {/* TREATMENT */}
-                        <th
-                          onClick={() => {
-                            setSortBy("name");
-                            setSortDirection((prev) => (prev === "asc" ? "desc" : "asc"));
-                          }}
-                          className="
-                            flex-1 pl-4
-                            border-l border-border
-                            flex items-center justify-between
-                            cursor-pointer
-                            text-left
-                          "
-                        >
-                          <span>Treatment</span>
-                          <span className="flex flex-col ml-2 gap-1 text-muted-foreground leading-none mr-2">
-                            <span className="text-[10px]">
-                              <img src="/top.png" alt="" />
-                            </span>
-                            <span className="text-[10px] -mt-1">
-                              <img src="/down.png" alt="" />
-                            </span>
-                          </span>
-                        </th>
+        <div className="w-10" />
 
-                        {/* ACTIONS */}
-                        <th
-                          className="
-                            w-[100px] pl-4
-                            border-l border-border
-                            text-right
-                          "
-                        >
-                          Actions
-                        </th>
-                      </tr>
-                    </thead>
-                    <tbody className="block flex-1">
-  {treatments.length === 0 ? (
-    <tr className="flex items-center justify-center py-5">
-      <td className="text-muted-foreground text-sm">
-        No Treatment found
-      </td>
-    </tr>
-  ) : (
-    <DndContext
-      collisionDetection={closestCenter}
-      onDragEnd={handleDragEnd}
-      sensors={sensors}
-      measuring={{
-        droppable: {
-          strategy: MeasuringStrategy.Always,
-        },
-      }}
-    >
-      <SortableContext
-        items={treatments.map((i) => i.id)}
-        strategy={verticalListSortingStrategy}
-      >
-        {treatments.map((item, index) => (
-          <SortableRow
-            key={item.id}
-            item={item}
-            index={index}
-            onEdit={handleEdit}
-            onDelete={(id) => setDeleteId(id)}
-          />
-        ))}
-      </SortableContext>
-    </DndContext>
-  )}
-</tbody>
+        <div
+          onClick={() => {
+            setSortBy("category");
+            setSortDirection((p) => (p === "asc" ? "desc" : "asc"));
+          }}
+          className="w-[30%] pl-4 border-l cursor-pointer"
+        >
+          Category
+        </div>
 
-                    <tfoot>
-                      <tr>
-                        <td>
+        <div
+          onClick={() => {
+            setSortBy("name");
+            setSortDirection((p) => (p === "asc" ? "desc" : "asc"));
+          }}
+          className="flex-1 pl-4 border-l cursor-pointer"
+        >
+          Treatment
+        </div>
 
-                        </td>
-                      </tr>
-                    </tfoot>
-                  </table>
-                </div>
-                      {pagination && (
-                  <div className="shrink-0 flex items-center justify-center gap-6 px-4 py-2 text-sm text-muted-foreground">
-                {/* <span className="text-foreground font-medium">
-                  Page {pagination.current_page} of {pagination.last_page}
-                </span> */}
-                <div className="flex gap-6 items-center">
+        <div className="w-[100px] pl-4 border-l text-right pr-4">
+          Actions
+        </div>
+      </div>
 
-                    <button
-                      disabled={pagination.current_page === 1}
-                      onClick={() => setPage(1)}
-                      className="hover:text-foreground disabled:opacity-40 text-2xl"
-                    >
-                      «
-                    </button>
+      {/* ================= BODY ================= */}
+      <div  ref={containerRef} className="flex-1 overflow-y-auto scrollbar-thin"
+>
 
-                    <button
-                      disabled={!pagination.prev_page_url}
-                      onClick={() => setPage((p) => p - 1)} 
-                      className="hover:text-foreground disabled:opacity-40 text-2xl"
-                    >
-                      ‹
-                    </button>
-                    <span className="text-foreground font-medium">
-                      {pagination.current_page} / {pagination.last_page}
-                    </span>
+        {treatments.length === 0 ? (
+          <div className="py-6 text-center text-muted-foreground">
+            No Treatment found
+          </div>
+        ) : (
+          <DndContext
+            collisionDetection={closestCenter}
+            onDragEnd={handleDragEnd}
+            sensors={sensors}
+            measuring={{
+              droppable: {
+                strategy: MeasuringStrategy.Always,
+              },
+            }}
+          >
+            <SortableContext
+              items={treatments.map((i) => i.id)}
+              strategy={verticalListSortingStrategy}
+            >
+              {treatments.map((item, index) => (
+                <SortableRow
+                  key={item.id}
+                  item={item}
+                  index={index}
+                  onEdit={handleEdit}
+                  onDelete={(id) => setDeleteId(id)}
+                />
+              ))}
+            </SortableContext>
+          </DndContext>
+        )}
+      </div>
+    </div>
 
-                    <button
-                      disabled={!pagination.next_page_url}
-                      onClick={() => setPage((p) => p + 1)}
-                      className="hover:text-foreground disabled:opacity-40 text-2xl"
-                    >
-                      ›
-                    </button>
+    {/* ================= PAGINATION ================= */}
+    {pagination && (
+      <div className="h-[56px] flex items-center justify-center gap-6 px-4 py-2 text-sm text-muted-foreground">
+        <button disabled={pagination.current_page === 1} onClick={() => setPage(1)} className="text-2xl">«</button>
+        <button disabled={!pagination.prev_page_url} onClick={() => setPage(p => p - 1)} className="text-2xl">‹</button>
+        <span className="text-foreground font-medium">
+          {pagination.current_page} / {pagination.last_page}
+        </span>
+        <button disabled={!pagination.next_page_url} onClick={() => setPage(p => p + 1)} className="text-2xl">›</button>
+        <button disabled={pagination.current_page === pagination.last_page} onClick={() => setPage(pagination.last_page)} className="text-2xl">»</button>
+      </div>
+    )}
+  </div>
+</div>
 
-                    <button
-                      disabled={pagination.current_page === pagination.last_page}
-                      onClick={() => setPage(pagination.last_page)}
-                      className="hover:text-foreground disabled:opacity-40 text-2xl"
-                    >
-                      »
-                    </button>
-                </div>
-                  </div>
-                )}
-              </div>
-            </div>
           </div>
         </div>
       </div>

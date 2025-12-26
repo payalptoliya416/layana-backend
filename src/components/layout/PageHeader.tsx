@@ -1,6 +1,6 @@
 import { useState, useRef, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { Sun, Moon, Bell, User, LogOut, ChevronDown, MoveLeft, ArrowLeft } from "lucide-react";
+import { Sun, Moon, Bell, User, LogOut, ChevronDown, MoveLeft, ArrowLeft, Laptop } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { removeToken } from "@/services/authService";
 import { createPortal } from "react-dom";
@@ -34,7 +34,8 @@ export function PageHeader({ title , showBack = false, onBack , isTitleLoading ,
   const [isNotificationsOpen, setIsNotificationsOpen] = useState(false);
   const profileRef = useRef<HTMLDivElement>(null);
   const notificationsRef = useRef<HTMLDivElement>(null);
-
+const [isThemeOpen, setIsThemeOpen] = useState(false);
+const themeRef = useRef<HTMLDivElement>(null);
 const [visibleLoader, setVisibleLoader] = useState(true);
 
 useEffect(() => {
@@ -92,6 +93,9 @@ useEffect(() => {
       if (notificationsRef.current && !notificationsRef.current.contains(event.target as Node)) {
         setIsNotificationsOpen(false);
       }
+      if (themeRef.current && !themeRef.current.contains(event.target as Node)) {
+        setIsThemeOpen(false);
+      }
     };
 
     document.addEventListener("mousedown", handleClickOutside);
@@ -122,12 +126,12 @@ const GlobalLoader = () => {
     <>
      {visibleLoader && <GlobalLoader />}
 
-    <header className="relative flex items-center px-6 bg-card py-3 rounded-2xl justify-between md:flex-nowrap flex-wrap gap-4 md:gap-1">
+    <header className="relative flex items-center px-2 sm:px-6 bg-card py-3 rounded-2xl  md:flex-nowrap flex-wrap gap-1 md:gap-1">
        <button
     onClick={onMenuClick}
     className="lg:hidden flex items-center justify-center
-      h-10 w-10 rounded-sm border border-border bg-card
-      hover:bg-muted transition mr-3"
+      h-8 w-8 rounded-sm border border-border bg-card
+      hover:bg-muted transition"
   >
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -165,7 +169,7 @@ const GlobalLoader = () => {
     2xl:-translate-x-1/2
     2xl:text-center
     sm:flex-1
-    p-2 lg:p-5
+    sm:p-2 lg:p-5
     rounded-[20px]
     text-base md:text-[28px]
     font-semibold
@@ -176,7 +180,7 @@ const GlobalLoader = () => {
 </h1> 
 
       {/* Right Actions */}
-      <div className="ml-auto flex items-center gap-3">
+      <div className="ml-auto flex items-center gap-2 sm:gap-3">
         {/* Theme Toggle */}
           {showBack && (
       <button
@@ -185,7 +189,7 @@ const GlobalLoader = () => {
           2xl:absolute left-6
           flex items-center gap-2
           rounded-full border  border-primary
-          px-2 py-2
+          px-2 py-2  w-9 h-9
           text-sm font-medium text-primary
           hover:bg-primary hover:text-primary-foreground
           transition
@@ -195,9 +199,9 @@ const GlobalLoader = () => {
       </button>
     )}
      {/* Theme Toggle */}
-<div className="gradient-border boxshadow">
+<div className="gradient-border boxshadow hidden sm:block">
   <div className="gradient-border-inner flex items-center p-2 h-10 md:h-[50px]">
-    {/* Light */}
+
     <div  className={cn(
         !isDark
           ? "gradient-border"
@@ -207,7 +211,7 @@ const GlobalLoader = () => {
       onClick={() => {
         if (isDark) toggleTheme();
       }}
-      className={cn(
+      className={cn( 
         "w-[30px] md:w-[34px] h-[30px] md:h-[34px] rounded-full flex items-center justify-center transition-all",
         !isDark
           ? "bg-card"
@@ -218,7 +222,6 @@ const GlobalLoader = () => {
     </button>
     </div>
 
-    {/* Dark */}
     <button
       onClick={() => {
         if (!isDark) toggleTheme();
@@ -235,6 +238,75 @@ const GlobalLoader = () => {
   </div>
 </div>
         {/* Notifications */}
+     <div ref={themeRef} className="relative block sm:hidden gradient-border">
+  {/* THEME BUTTON */}
+  <button
+    onClick={() => setIsThemeOpen((p) => !p)}
+    className="
+      w-9 md:w-[50px] h-9 md:h-[50px]
+      rounded-full
+      flex items-center justify-center
+      gradient-border-inner
+      boxshadow
+      transition-all
+    "
+  >
+    <Sun className="w-4 h-4 text-foreground" />
+  </button>
+
+  {/* THEME MENU */}
+  {isThemeOpen && (
+    <div
+      className="
+        absolute right-0 top-full mt-2 px-[4px]
+        w-44
+        bg-card
+        rounded-xl
+        border border-border
+        shadow-dropdown
+        py-[6px]
+        z-50
+        animate-fade-in
+      "
+    >
+      {/* LIGHT */}
+      <button
+        onClick={() => {
+          if (isDark) toggleTheme();
+          setIsThemeOpen(false);
+        }}
+        className={cn(
+          "w-full flex items-center gap-3 px-4 py-[10px] text-sm rounded-md",
+          !isDark
+            ? "bg-muted text-primary font-medium"
+            : "text-muted-foreground hover:bg-muted"
+        )}
+      >
+        <Sun className="w-4 h-4" />
+        Light
+      </button>
+
+      {/* DARK */}
+      <button
+        onClick={() => {
+          if (!isDark) toggleTheme();
+          setIsThemeOpen(false);
+        }}
+        className={cn(
+          "w-full flex items-center gap-3 px-4 py-[10px] text-sm rounded-md",
+          isDark
+            ? "bg-muted text-primary font-medium"
+            : "text-muted-foreground hover:bg-muted"
+        )}
+      >
+        <Moon className="w-4 h-4" />
+        Dark
+      </button>
+    </div>
+  )}
+</div>
+
+
      {/* Notifications */}
       <div ref={notificationsRef} className="relative gradient-border shadow-[0_6px_10px_rgba(0,0,0,0.1)]">
         <button
@@ -244,7 +316,7 @@ const GlobalLoader = () => {
           }}
           className="
             gradient-border-inner
-            w-10 md:w-[50px] h-10 md:h-[50px] rounded-full
+            w-9 md:w-[50px] h-9 md:h-[50px] rounded-full
             flex items-center justify-center
             boxshadow
             transition-all
@@ -254,30 +326,31 @@ const GlobalLoader = () => {
         </button>
 
         {/* DROPDOWN */}
-        {isNotificationsOpen && (
-          <div className="absolute right-0 top-full mt-2 w-80 rounded-xl bg-card border shadow-dropdown z-50">
-            <div className="px-4 py-3 border-b font-semibold">
-              Notifications
-            </div>
+     {isNotificationsOpen && (
+    <div className="absolute right-0 top-full mt-2 w-56 sm:w-80 bg-card rounded-xl border border-border shadow-dropdown py-1.5 animate-fade-in z-50">
+    <div className="px-4 py-3 border-b font-semibold">
+      Notifications
+    </div>
 
-            <div className="max-h-64 overflow-y-auto">
-              {mockNotifications.map((n) => (
-                <div
-                  key={n.id}
-                  className="px-4 py-3 text-sm hover:bg-muted border-b last:border-0"
-                >
-                  <p className="font-medium">{n.title}</p>
-                  <p className="text-xs text-muted-foreground">
-                    {n.message}
-                  </p>
-                  <p className="text-xs text-muted-foreground mt-1">
-                    {n.time}
-                  </p>
-                </div>
-              ))}
-            </div>
-          </div>
-        )}
+    <div className="max-h-64 overflow-y-auto">
+      {mockNotifications.map((n) => (
+        <div
+          key={n.id}
+          className="px-4 py-3 text-sm hover:bg-muted border-b last:border-0"
+        >
+          <p className="font-medium">{n.title}</p>
+          <p className="text-xs text-muted-foreground">
+            {n.message}
+          </p>
+          <p className="text-xs text-muted-foreground mt-1">
+            {n.time}
+          </p>
+        </div>
+      ))}
+    </div>
+  </div>
+)}
+
       </div>
 
         {/* User Profile Pill with Dropdown */}
@@ -288,7 +361,7 @@ const GlobalLoader = () => {
               setIsNotificationsOpen(false);
             }}
             className={cn(
-              "flex items-center gap-2.5 px-[2px] py-[7px] sm:p-[7px] h-10 md:h-[50px] rounded-full gradient-border-inner transition-all duration-200 gradient-border-inner",
+              "flex items-center gap-2.5 px-[2px] py-[7px] md:p-[7px] h-10 md:h-[50px] rounded-full gradient-border-inner transition-all duration-200 gradient-border-inner",
               isProfileOpen && "bg-muted/50 "
             )}
             style={{boxShadow : '0px 6px 10px 0px rgba(0, 0, 0, 0.1)'}}

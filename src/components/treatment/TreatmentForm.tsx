@@ -202,7 +202,7 @@ const pressureValue =
     {/* NAME */}
     <div>
       <label className="text-sm font-medium text-foreground">
-        Name<sup className="text-destructive">*</sup>
+        Name <sup className="text-destructive">*</sup>
       </label>
     <input
   className="form-input"
@@ -227,7 +227,7 @@ const pressureValue =
     {/* SLUG */}
     <div>
       <label className="text-sm font-medium text-foreground">
-        Slug<sup className="text-destructive">*</sup>
+        Slug <sup className="text-destructive">*</sup>
       </label>
       <input
         className="form-input"
@@ -246,7 +246,7 @@ const pressureValue =
     {/* STATUS */}
     <div>
       <label className="text-sm font-medium text-foreground">
-        Status<sup className="text-destructive">*</sup>
+        Status <sup className="text-destructive">*</sup>
       </label>
       <Select
         value={status}
@@ -271,7 +271,7 @@ const pressureValue =
   <div>
   <label className="text-sm font-medium text-foreground">
     Indicative Pressure
-    {category !== "Facial" && <sup className="text-destructive">*</sup>}
+    {category !== "Facial" &&  <sup className="text-destructive">*</sup>}
   </label>
 
   <Select
@@ -302,7 +302,7 @@ value={indicativePressure ?? undefined}
     {/* CATEGORY */}
     <div>
       <label className="text-sm font-medium text-foreground">
-        Category<sup className="text-destructive">*</sup>
+        Category <sup className="text-destructive">*</sup>
       </label>
       <Select
         value={category}
@@ -330,7 +330,7 @@ value={indicativePressure ?? undefined}
   {/* CONTENT */}
   <div>
     <label className="text-sm font-medium text-foreground">
-      Content<sup className="text-destructive">*</sup>
+      Content <sup className="text-destructive">*</sup>
     </label>
     <DescriptionEditor
       value={content || ""}
