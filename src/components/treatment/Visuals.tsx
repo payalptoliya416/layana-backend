@@ -3,6 +3,7 @@ import { Button } from "@/components/ui/button";
 import { forwardRef, useEffect, useImperativeHandle, useRef, useState } from "react";
 import { ImageCropModal } from "./ImageCropModal";
 import { uploadImages } from "@/services/uploadService";
+import { ImageCropGallry } from "./ImageCropGallry";
 interface VisualsFormProps {
   initialData?: {
     banner_image?: string;
@@ -44,6 +45,8 @@ const [btn1, setBtn1] = useState("");
 const [btn1Link, setBtn1Link] = useState("");
 const [btn2, setBtn2] = useState("");
 const [btn2Link, setBtn2Link] = useState("");
+const [cropQueue, setCropQueue] = useState<string[]>([]);
+const [currentCropIndex, setCurrentCropIndex] = useState(0);
 
 const handleBannerSelect = (file: File) => {
   setCropImage(URL.createObjectURL(file));
@@ -65,8 +68,13 @@ const handleThumbnailSelect = (file: File) => {
   });
 };
 
-const handleGallerySelect = (file: File) => {
-  setCropImage(URL.createObjectURL(file));
+const handleGallerySelect = (files: FileList) => {
+  const urls = Array.from(files).map((f) => URL.createObjectURL(f));
+
+  setCropQueue(urls);
+  setCurrentCropIndex(0);
+  setCropImage(urls[0]);
+
   setCropConfig({
     aspect: 565 / 575,
     width: 565,
@@ -74,6 +82,7 @@ const handleGallerySelect = (file: File) => {
     type: "gallery",
   });
 };
+
 
 useEffect(() => {
   if (!initialData) return;
@@ -449,11 +458,12 @@ useEffect(() => {
           hidden
           multiple
           accept="image/*"
-          onChange={(e) => {
-            if (e.target.files?.[0]) {
-              handleGallerySelect(e.target.files[0]);
-            }
-          }}
+           onChange={(e) => {
+    if (e.target.files?.length) {
+      handleGallerySelect(e.target.files);
+      e.target.value = ""; // reset
+    }
+  }}
         />
       </div>
 
@@ -480,7 +490,7 @@ useEffect(() => {
   </div>
 
   {/* Crop Modal stays same */}
-  <ImageCropModal
+  {/* <ImageCropGallry
     open={!!cropImage}
     image={cropImage!}
     aspect={cropConfig?.aspect}
@@ -502,7 +512,42 @@ useEffect(() => {
       setCropImage(null);
       setCropConfig(null);
     }}
-  />
+  /> */}
+  <ImageCropGallry
+  open={!!cropImage}
+  image={cropQueue[currentCropIndex]}
+  aspect={cropConfig?.aspect}
+  outputWidth={cropConfig?.width}
+  outputHeight={cropConfig?.height}
+  isLast={currentCropIndex === cropQueue.length - 1}
+  onClose={() => {
+    setCropQueue([]);
+    setCurrentCropIndex(0);
+    setCropImage(null);
+    setCropConfig(null);
+  }}
+  onNext={async (file: File) => {
+    const uploaded = await uploadImages([file]);
+
+    if (uploaded?.[0]?.url) {
+      setGallery((prev) => [...prev, uploaded[0].url]);
+    }
+
+    // 🔁 NEXT IMAGE OR FINISH
+    if (currentCropIndex < cropQueue.length - 1) {
+      const nextIndex = currentCropIndex + 1;
+      setCurrentCropIndex(nextIndex);
+      setCropImage(cropQueue[nextIndex]);
+    } else {
+      // ✅ finished all images
+      setCropQueue([]);
+      setCurrentCropIndex(0);
+      setCropImage(null);
+      setCropConfig(null);
+    }
+  }}
+/>
+
 </div>
 
     </div>

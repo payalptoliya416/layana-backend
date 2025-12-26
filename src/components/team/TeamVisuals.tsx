@@ -8,8 +8,8 @@ import {
   useRef,
   useState,
 } from "react";
-import { ImageCropModal } from "../treatment/ImageCropModal";
 import { uploadImages } from "@/services/uploadService";
+import { ImageCropGallry } from "../treatment/ImageCropGallry";
 
 type Props = {
   initialImages?: string[];
@@ -23,12 +23,12 @@ type ValidationResult = {
 
 const TeamVisuals = forwardRef<any, Props>(
   ({ initialImages = [], onChange }, ref) => {
-    console.log("initialImages",initialImages)
-    const isInitializingRef = useRef(true);
     const galleryRef = useRef<HTMLInputElement | null>(null);
     const [gallery, setGallery] = useState<string[]>([]);
     const [cropImage, setCropImage] = useState<string | null>(null);
     const [cropConfig, setCropConfig] = useState<any>(null);
+    const [cropQueue, setCropQueue] = useState<string[]>([]);
+const [currentCropIndex, setCurrentCropIndex] = useState(0);
 
     /* expose validate */
     useImperativeHandle(ref, () => ({
@@ -74,21 +74,34 @@ useEffect(() => {
             className="flex h-[90px] w-[90px] cursor-pointer items-center justify-center rounded-xl border"
           >
             <Plus />
-            <input
-              ref={galleryRef}
-              type="file"
-              hidden
-              accept="image/*"
-               onChange={(e) => {
-                const files = e.target.files;
-                if (!files?.length) return;
+           <input
+                    ref={galleryRef}
+                    type="file"
+                    hidden
+                    multiple
+                    accept="image/*"
+                    onChange={(e) => {
+                        const files = e.target.files;
+                        if (!files?.length) return;
 
-                handleGallerySelect(files[0]);
+                        const previews = Array.from(files).map((file) =>
+                        URL.createObjectURL(file)
+                        );
 
-                // ✅ reset input so same image can be selected again
-                e.target.value = "";
-            }}
-            />
+                        setCropQueue(previews);
+                        setCurrentCropIndex(0);
+                        setCropImage(previews[0]);
+
+                        setCropConfig({
+                        aspect: 565 / 575,
+                        width: 565,
+                        height: 575,
+                        });
+
+                        e.target.value = "";
+                    }}
+                    />
+
           </div>
 
           {gallery.map((img, i) => (
@@ -98,11 +111,11 @@ useEffect(() => {
                  onClick={() =>
                 setGallery((prev) => {
                 const next = prev.filter((_, idx) => idx !== i);
-                onChange?.(next); // ✅ VERY IMPORTANT
+                onChange?.(next); 
                 return next;
                 })
             }
-                className="absolute top-1 right-1"
+                  className="absolute right-2 top-2 z-20 rounded-full bg-card p-1 shadow"
               >
                 <X size={14} />
               </button>
@@ -110,29 +123,43 @@ useEffect(() => {
           ))}
         </div>
 
-        <ImageCropModal
-          open={!!cropImage}
-          image={cropImage!}
-          aspect={cropConfig?.aspect}
-          outputWidth={cropConfig?.width}
-          outputHeight={cropConfig?.height}
-          onClose={() => setCropImage(null)}
-         onComplete={async (file: File) => {
-        const uploaded = await uploadImages([file], {
-            type: "team", // ✅ ONLY HERE
-            });
+       <ImageCropGallry
+  open={!!cropImage}
+  image={cropQueue[currentCropIndex]}
+  aspect={cropConfig?.aspect}
+  outputWidth={cropConfig?.width}
+  outputHeight={cropConfig?.height}
+  isLast={currentCropIndex === cropQueue.length - 1}
+  onClose={() => {
+    setCropQueue([]);
+    setCurrentCropIndex(0);
+    setCropImage(null);
+  }}
+  onNext={async (file: File) => {
+    const uploaded = await uploadImages([file], {
+      type: "team",
+    });
 
-        if (uploaded?.[0]?.url) {
-            setGallery((prev) => {
-            const next = [...prev, uploaded[0].url];
-            onChange?.(next); // ✅ notify parent HERE
-            return next;
-            });
-        }
+    if (uploaded?.[0]?.url) {
+      setGallery((prev) => {
+        const next = [...prev, uploaded[0].url];
+        onChange?.(next);
+        return next;
+      });
+    }
 
-        setCropImage(null);
-        }}
-        />
+    // 🔁 move to next image OR finish
+    if (currentCropIndex < cropQueue.length - 1) {
+      setCurrentCropIndex((i) => i + 1);
+      setCropImage(cropQueue[currentCropIndex + 1]);
+    } else {
+      setCropQueue([]);
+      setCurrentCropIndex(0);
+      setCropImage(null);
+    }
+  }}
+/>
+
       </div>
     );
   }
