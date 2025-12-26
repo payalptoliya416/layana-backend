@@ -348,7 +348,7 @@ const handleSubmit = async () => {
               <div className="flex flex-col flex-1 overflow-y-auto scrollbar-thin">
 
             <div className="">
-                <div className="mb-2 flex items-center justify-between  shrink-0 flex-wrap gap-1 sm:gap-2">
+                <div className="mb-2 flex items-center justify-between  shrink-0 flex-wrap gap-3 sm:gap-2">
                 <div className="relative w-[150px] sm:w-[256px] rounded-full p-1">
                   <input
                     value={search}
