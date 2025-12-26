@@ -193,7 +193,7 @@ const handleDragEnd = async (event: any) => {
   if (!over || active.id === over.id) return;
 
   if (isSortingActive) {
-    toast.warning("Disable sorting to reorder");
+    // toast.warning("Disable sorting to reorder");
     return;
   }
 
