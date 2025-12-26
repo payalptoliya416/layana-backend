@@ -10,7 +10,7 @@ export interface CategoryLocation {
 export interface TreatmentCategory {
   id: number;
   name: string;
-   status: "InActive" | "Active"; 
+   status: "Disable" | "Enable"; 
   locations: CategoryLocation[];
 }
 

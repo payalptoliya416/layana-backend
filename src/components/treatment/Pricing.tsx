@@ -241,7 +241,6 @@ useImperativeHandle(ref, () => ({
     const [pricingMap, setPricingMap] = useState<
       Record<number, PricingItem[]>
     >({});
-
     const selectedBranch = branches.find(
       (b) => b.id === selectedBranchId
     );

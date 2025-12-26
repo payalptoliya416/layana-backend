@@ -26,7 +26,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from ".
 export type Category = {
   id: number;
   name: string;
-  status: "InActive" | "Active";
+  status: "Disable" | "Enable";
 };
 
 function SortableRow({
@@ -69,10 +69,10 @@ function SortableRow({
       </td>
 
       {/* TREATMENT */}
-      <td className="text-muted-foreground whitespace-nowrap w-[30%]">
+      <td className="text-muted-foreground whitespace-nowrap w-[27%] sm:w-[29%] ">
         {item.name}
       </td>
-      <td className="flex-1 text-muted-foreground whitespace-nowrap w-[30%]">
+      <td className="flex-1 text-muted-foreground whitespace-nowrap w-[300px]">
          {item.status
     ? item.status.charAt(0).toUpperCase() + item.status.slice(1)
     : ""}
@@ -133,7 +133,7 @@ const [category, setCategory] = useState<Category[]>([]);
 const [deleteId, setDeleteId] = useState<number | null>(null);
 const [isAdding, setIsAdding] = useState(false);
 const [newName, setNewName] = useState("");
-const [newStatus, setNewStatus] = useState<"InActive" | "Active">("Active");
+const [newStatus, setNewStatus] = useState<"Disable" | "Enable">("Enable");
 
 useEffect(() => {
   const fetchTreatments = async () => {
@@ -208,7 +208,7 @@ const [editingId, setEditingId] = useState<number | null>(null);
   const [nameError, setNameError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
   const [initialLoading, setInitialLoading] = useState(false);
-const [status, setStatus] = useState<"InActive" | "Active">("Active");
+const [status, setStatus] = useState<"Disable" | "Enable">("Disable");
 const [statusError, setStatusError] = useState<string | null>(null);
 
   /* ---------- FETCH SINGLE CATEGORY ---------- */
@@ -222,7 +222,7 @@ const [statusError, setStatusError] = useState<string | null>(null);
         setInitialLoading(true);
         const data = await getCategoryById(editId);
         setName(data.name); // 👈 API DATA SET
-        setStatus(data.status ?? "Active");
+        setStatus(data.status ?? "Disable");
       } catch {
         toast.error("Failed to load category");
       } finally {
@@ -241,7 +241,7 @@ const handleEdit = async (id: number) => {
     const data = await getCategoryById(id);
 
     setNewName(data.name);   
-    setNewStatus(data.status ?? "Active");
+    setNewStatus(data.status ?? "Disable");
   } catch {
     toast.error("Failed to load category");
   }
@@ -284,7 +284,7 @@ const handleSubmit = async () => {
 
     // 🔄 RESET FORM
     setName("");
-    setStatus("Active");
+    setStatus("Disable");
     setEditingId(null);
     setNameError(null);
     setStatusError(null);;
@@ -387,7 +387,7 @@ const handleSubmit = async () => {
                 onClick={() => {
                 setIsAdding(true);
                 setNewName("");
-                setNewStatus("Active");
+                setNewStatus("Disable");
                 window.scrollTo({ top: 0, behavior: "smooth" });
               }}
                   className="
@@ -451,7 +451,7 @@ const handleSubmit = async () => {
                             setSortDirection((prev) => (prev === "asc" ? "desc" : "asc"));
                           }}
                           className="
-                            w-[30%] pl-4
+                           flex-1 pl-4
                             border-l border-border
                             flex items-center justify-between
                             cursor-pointer
@@ -474,7 +474,7 @@ const handleSubmit = async () => {
                           className="
                             w-[160px] pl-4
                             border-l border-border
-                            text-right ml-auto
+                            text-right ml-auto pr-4
                           "
                         >
                           Actions
@@ -572,14 +572,14 @@ const handleSubmit = async () => {
                               <td className="w-[30%]">
                                 <Select
                                   value={newStatus}
-                                  onValueChange={(v) => setNewStatus(v as "Active" | "InActive")}
+                                  onValueChange={(v) => setNewStatus(v as "Enable" | "Disable")}
                                 >
                                   <SelectTrigger className="form-input">
                                     <SelectValue />
                                   </SelectTrigger>
                                   <SelectContent>
-                                    <SelectItem value="Active">Active</SelectItem>
-                                    <SelectItem value="InActive">InActive</SelectItem>
+                                    <SelectItem value="Enable">Enable</SelectItem>
+                                    <SelectItem value="Disable">Disable</SelectItem>
                                   </SelectContent>
                                 </Select>
                               </td>
@@ -587,24 +587,27 @@ const handleSubmit = async () => {
                               {/* ACTIONS (SAME AS RECORD ROW) */}
                               <td className="w-[160px] flex justify-end gap-2 whitespace-nowrap ml-auto">
                                 {/* CANCEL */}
+                                <div>
                                <Button
                             variant="cancel"
-                            className="w-[105px]"
+                            className="!w-[105px]"
                             onClick={() => {
                               setIsAdding(false);
                               setEditingId(null);
                               setNewName("");
-                              setNewStatus("Active");
+                              setNewStatus("Disable");
                             }}
                           >
                             Cancel
                           </Button>
+                                </div>
 
                                 {/* SAVE */}
+                                <div>
                                 <Button
                               type="button"
                               variant="save"
-                              className="w-[105px]"
+                              className="!w-[105px]"
                               onClick={async () => {
                                 if (!newName.trim()) {
                                   toast.error("Category name required");
@@ -643,14 +646,15 @@ const handleSubmit = async () => {
                                   setIsAdding(false);
                                   setEditingId(null);
                                   setNewName("");
-                                  setNewStatus("Active");
+                                  setNewStatus("Disable");
                                 } catch {
                                   toast.error("Failed to save category");
                                 }
                               }}
                             >
                               Save
-                            </Button>
+                               </Button>
+                                </div>
 
                               </td>
                             </tr>

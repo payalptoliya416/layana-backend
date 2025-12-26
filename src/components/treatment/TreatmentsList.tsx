@@ -90,12 +90,12 @@ function SortableRow({
       </td>
 
       {/* CATEGORY */}
-      <td className="w-[30%] font-medium text-muted-foreground whitespace-nowrap">
+      <td className="w-[27%] sm:w-[29%] font-medium text-muted-foreground whitespace-nowrap">
         {item.category}
       </td>
 
       {/* TREATMENT */}
-      <td className="flex-1 text-muted-foreground whitespace-nowrap">
+      <td className="flex-1 text-muted-foreground whitespace-nowrap w-[300px]">
         {item.name}
       </td>
 
@@ -381,7 +381,7 @@ const handleDelete = async () => {
               <div className="col-span-12">
               <div
                 ref={containerRef}
-                className="w-full rounded-2xl border border-border bg-card flex flex-col overflow-hidden scrollbar-thin"
+                className="w-full rounded-2xl border border-border bg-card flex flex-col overflow-x-auto scrollbar-thin"
                 style={{ height: "calc(99.8vh - 300px)" }}
               >
                   <table className="w-full text-sm text-left">

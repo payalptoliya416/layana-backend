@@ -57,6 +57,7 @@ const seoRef = useRef<any>(null);
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
   const [activeSection, setActiveSection] = useState("general");
   const [selectedBranches, setSelectedBranches] = useState<number[]>([]);
+  console.log("selectedBranches",selectedBranches)
 const [loadingTreatment, setLoadingTreatment] = useState(false);
 const selectedBranchObjects = selectedBranches.map((id) => ({
   id,
@@ -67,6 +68,7 @@ const selectedBranchObjects = selectedBranches.map((id) => ({
       ? "Finchley Central"
       : "Muswell Hill",
 }));
+
 const [treatmentPayload, setTreatmentPayload] = useState<TreatmentPayload>({
   general: {},
   Location: [],
@@ -241,7 +243,7 @@ useEffect(() => {
       const locationIds = (data.locations || []).map(
         (loc: { id: number }) => loc.id
       );
-
+console.log("data.locations",data.locations)
       setTreatmentPayload({
         general: data.general,
         Location: locationIds,

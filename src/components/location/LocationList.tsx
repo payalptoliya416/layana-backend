@@ -369,7 +369,7 @@ const onView = (id: number) =>{
                           className="
                             w-[160px] pl-4
                             border-l border-border
-                            text-right ml-auto
+                            text-right ml-auto pr-4
                           "
                         >
                           Actions
