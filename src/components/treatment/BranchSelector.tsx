@@ -1,5 +1,6 @@
 import { cn } from "@/lib/utils";
-
+import { useEffect, useState } from "react";
+import { getLocations, Location } from "@/services/locationService";
 interface Branch {
   id: number;
   name: string;
@@ -16,12 +17,34 @@ export function BranchSelector({
   selectedId,
   onSelect,
 }: BranchSelectorProps) {
+  const [locations, setLocations] = useState<Location[]>([]);
+    useEffect(() => {
+      const fetchLocations = async () => {
+        try {
+          const data = await getLocations();
+          setLocations(data);
+        } catch (error) {
+          console.error("Failed to fetch locations", error);
+        } 
+      };
+    
+      fetchLocations();
+    }, []);
+  
+  const activeBranches = branches.filter((branch) => {
+    const loc = locations.find((l) => l.id === branch.id);
+    return loc?.status !== "inactive";
+  });
+
   return (
     <> 
-    {branches.length > 0 && (
+    {activeBranches.length > 0 && (
       <div className="grid grid-cols-1 xl:grid-cols-2 gap-5">
-        {branches.map((branch) => {
-          const active = selectedId === branch.id;
+        {activeBranches.map((branch) => {
+           const active = selectedId === branch.id;
+ const location = locations.find((l) => l.id === branch.id);
+
+          if (!location) return null; 
 
           return (
             <button
@@ -35,7 +58,7 @@ export function BranchSelector({
                   : "border-border   hover:border-primary/40"
               )}
             >
-              {branch.name}
+              {location.name}
             </button>
           );
         })}

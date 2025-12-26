@@ -117,7 +117,6 @@ useEffect(() => {
     if (!data?.opening_hours) return;
 
     const mapped: Record<string, DayState> = {};
-console.log("data",data.opening_hours)
     data.opening_hours.forEach((o) => {
       const day =
         o.day.charAt(0).toUpperCase() + o.day.slice(1).toLowerCase();
@@ -211,7 +210,6 @@ useEffect(() => {
             <tbody>
             {DAYS.map((day) => {
                 const d = times[day];
-                console.log("d",d)
                 return (
                   <tr
                     key={day}

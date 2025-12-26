@@ -158,7 +158,6 @@ export const Pricing = forwardRef<
   },
   ref
 ) {
-console.log("branches",branches)
     const isInitializingRef = useRef(true);
     /* ---------- ADD FORM STATES ---------- */
     const [minute, setMinute] = useState("");

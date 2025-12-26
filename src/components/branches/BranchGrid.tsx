@@ -20,7 +20,6 @@ export default function BranchGrid({
 }: BranchGridProps) {
 
 const [locations, setLocations] = useState<Location[]>([]);
-  console.log("locations",locations)
   useEffect(() => {
     const fetchLocations = async () => {
       try {
