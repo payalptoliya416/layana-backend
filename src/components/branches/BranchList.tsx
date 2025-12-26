@@ -1,8 +1,9 @@
 import { forwardRef, useEffect, useImperativeHandle, useState } from "react";
-import { Check, Plus } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { getLocations, Location } from "@/services/locationService";
 import check from "@/assets/check.png";
+
+
 interface BranchListProps {
   selectedBranches: number[];
   onSelectionChange: (ids: number[]) => void;

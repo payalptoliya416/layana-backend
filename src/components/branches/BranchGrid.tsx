@@ -1,4 +1,6 @@
 import { cn } from "@/lib/utils";
+import { getLocations, Location } from "@/services/locationService";
+import { useEffect, useState } from "react";
 
 interface Branch {
   id: number;
@@ -16,14 +18,38 @@ export default function BranchGrid({
   selectedId,
   onSelect,
 }: BranchGridProps) {
+
+const [locations, setLocations] = useState<Location[]>([]);
+  const [loading, setLoading] = useState(true);
+  console.log("locations",locations)
+  useEffect(() => {
+    const fetchLocations = async () => {
+      try {
+        const data = await getLocations();
+        setLocations(data);
+      } catch (error) {
+        console.error("Failed to fetch locations", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+  
+    fetchLocations();
+  }, []);
+const activeBranches = branches.filter((branch) => {
+  const loc = locations.find((l) => l.id === branch.id);
+  return loc?.status !== "inactive";
+});
   return (
     <>
     {
-      branches.length !== 0 && 
+      activeBranches.length !== 0 && 
         <div className="grid grid-cols-1 xl:grid-cols-2 gap-4">
-      {branches.map((branch) => {
+      {activeBranches.map((branch) => {
         const active = selectedId === branch.id;
+ const location = locations.find((l) => l.id === branch.id);
 
+          if (!location) return null; 
         return (
           <button
             key={branch.id}
@@ -36,7 +62,7 @@ export default function BranchGrid({
                 : "border-border hover:border-muted-foreground/40"
             )}
           >
-            {branch.name}
+            {location.name}
           </button>
         );
       })}
