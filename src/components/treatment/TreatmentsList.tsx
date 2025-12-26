@@ -381,9 +381,7 @@ const handleDelete = async () => {
               <div className="col-span-12">
               <div
                 ref={containerRef}
-                className="w-full rounded-2xl border border-border bg-card flex flex-col overflow-x-auto scrollbar-thin"
-                style={{ height: "calc(99.8vh - 300px)" }}
-              >
+                className="w-full rounded-2xl border border-border bg-card flex flex-col overflow-x-auto scrollbar-thin h-[calc(96vh - 300px)] sm:h-[calc(99.8vh - 300px)]" >
                   <table className="w-full text-sm text-left">
                   <thead className="sticky top-0 z-10 bg-card">
                       <tr
