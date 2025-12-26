@@ -42,7 +42,7 @@ export function BranchSelector({
       <div className="grid grid-cols-1 xl:grid-cols-2 gap-5">
         {activeBranches.map((branch) => {
            const active = selectedId === branch.id;
- const location = locations.find((l) => l.id === branch.id);
+          const location = locations.find((l) => l.id === branch.id);
 
           if (!location) return null; 
 
