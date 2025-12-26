@@ -401,7 +401,7 @@ const handleSubmit = async () => {
                         transition mr-1 sm:mr-0
                     "
                 >
-                  <Plus size={16} /> Add <span className="hidden sm:visible">Category</span>
+                  <Plus size={16} /> Add <span className="hidden sm:block">Category</span>
                 </button>
               </div>
               <div className="grid grid-cols-12">
