@@ -1,6 +1,6 @@
 import { useState, useRef, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { Sun, Moon, Bell, User, LogOut, ChevronDown } from "lucide-react";
+import { Sun, Moon, Bell, User, LogOut, ChevronDown, MoveLeft, ArrowLeft } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { removeToken } from "@/services/authService";
 import { createPortal } from "react-dom";
@@ -144,9 +144,9 @@ const GlobalLoader = () => {
      {showBack && (
       <button
         onClick={onBack}
-        className="
+        className=" hidden ml-auto
           2xl:absolute left-6
-          flex items-center gap-2
+          sm:flex items-center gap-2
           rounded-full border  border-primary
           px-4 py-2
           text-sm font-medium text-primary
@@ -154,12 +154,13 @@ const GlobalLoader = () => {
           transition
         "
       >
-        ← Back
+       <ArrowLeft className="h-4 w-4" /> Back
       </button>
     )}
     {/* Page Title */}
+    <div className="ml-auto sm:ml-0">
    <h1
-  className="
+  className=" 
     2xl:absolute
     2xl:left-1/2
     2xl:-translate-x-1/2
@@ -174,10 +175,27 @@ const GlobalLoader = () => {
 >
   {title}
 </h1>
+    </div>
 
       {/* Right Actions */}
       <div className="ml-auto flex items-center gap-3">
         {/* Theme Toggle */}
+          {showBack && (
+      <button
+        onClick={onBack}
+        className=" sm:hidden
+          2xl:absolute left-6
+          flex items-center gap-2
+          rounded-full border  border-primary
+          px-2 py-2
+          text-sm font-medium text-primary
+          hover:bg-primary hover:text-primary-foreground
+          transition
+        "
+      >
+       <ArrowLeft className="h-4 w-4" />
+      </button>
+    )}
      {/* Theme Toggle */}
 <div className="gradient-border boxshadow">
   <div className="gradient-border-inner flex items-center p-2 h-10 md:h-[50px]">
