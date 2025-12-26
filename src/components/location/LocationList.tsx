@@ -295,7 +295,7 @@ const onView = (id: number) =>{
                         text-xs sm:text-sm text-primary-foreground
                         shadow-button
                         hover:opacity-90
-                        transition ml-auto
+                        transition w-full sm:w-auto justify-center
                     "
                 >
                   <Plus size={16} /> Add Location

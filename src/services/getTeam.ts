@@ -1,15 +1,8 @@
 /* ---------- API CLIENT ---------- */
 import api from "./apiClient";
+import { TeamPayload } from "./teamService";
 
-/* ---------- TEAM ---------- */
-export interface Team {
-  id: number;
-  name: string;
-  designation: string;
-  description: string;
-  featured: boolean;
-  image: string[];
-}
+/* ---------- TEAM ---------- *
 
 /* ---------- PAGINATION ---------- */
 export interface Pagination {
@@ -28,7 +21,7 @@ export interface Pagination {
 export interface TeamResponse {
   status: string;
   message: string;
-  data: Team[];
+  data: TeamPayload[];
   pagination: Pagination;
 }
 

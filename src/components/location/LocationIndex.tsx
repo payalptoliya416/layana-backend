@@ -67,13 +67,14 @@ function LocationIndex() {
   const [activeSection, setActiveSection] = useState("general");
   const [saving, setSaving] = useState(false);
   const [showValidationPopup, setShowValidationPopup] = useState(false);
-const [validationErrors, setValidationErrors] = useState<
-  { section: string; message: string }[]
->([]);
+  const [validationErrors, setValidationErrors] = useState<
+    { section: string; message: string }[]
+  >([]);
 
   const handleCancle = () => {
     navigate("/settings/location");
   };
+
   const generalRef = useRef<any>(null);
   const contactRef = useRef<any>(null);
   const workingRef = useRef<any>(null);
@@ -202,6 +203,7 @@ const [formData, setFormData] = useState<LocationFormData>({
     }
   };
 const [locationName, setLocationName] = useState<string>("");
+
   useEffect(() => {
   if (!isEdit || !id) return;
 

@@ -28,8 +28,6 @@ import {
 } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
 import { toast } from "sonner";
-import { BranchLocation } from "@/services/getLocation";
-import { Team, deleteTeam } from "@/services/teamService";
 import {
   AlertDialog,
   AlertDialogContent,
@@ -39,6 +37,8 @@ import {
 } from "@/components/ui/alert-dialog";
 import { Button } from "../ui/button";
 import { getTeams } from "@/services/getTeam";
+import SwitchToggle from "../treatment/Toggle";
+import { deleteTeam, TeamPayload } from "@/services/teamService";
 
 export type Category = {
   id: number;
@@ -99,7 +99,15 @@ function SortableRow({
       <td className="text-muted-foreground whitespace-nowrap w-[30%]">
         {item.designation}
       </td>
-
+      <td className="text-muted-foreground whitespace-nowrap w-[30%]">
+        <p dangerouslySetInnerHTML={{ __html: item.description }} />
+      </td>
+      <td className="text-muted-foreground whitespace-nowrap w-[30%]">
+       <SwitchToggle
+      value={item.featured}
+      onChange={() => {}}
+    />
+      </td>
       {/* ACTIONS */}
       <td className="w-[160px] flex justify-end gap-2 whitespace-nowrap ml-auto">
         <button
@@ -134,7 +142,7 @@ function SortableRow({
   );
 }
 
-function LocationList() {
+function TeamList() {
   const navigate = useNavigate();
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
   const [sidebarOpen, setSidebarOpen] = useState(false);
@@ -142,16 +150,16 @@ function LocationList() {
   const [debouncedSearch, setDebouncedSearch] = useState("");
   const sensors = useSensors(
     useSensor(PointerSensor, {
-      activationConstraint: { distance: 5 }, // 👈 accidental drag avoid
+      activationConstraint: { distance: 5 },
     }),
     useSensor(KeyboardSensor)
   );
 
   const [page, setPage] = useState(1);
   const [pagination, setPagination] = useState<any>(null);
-  const [sortBy, setSortBy] = useState<"id" | "name" | "status">("id");
-  const [sortDirection, setSortDirection] = useState<"asc" | "desc">("desc");
-  const [teams, setTeams] = useState<Team[]>([]);
+const [sortBy, setSortBy] = useState<"id" | "name" | "featured">("id");
+const [sortDirection, setSortDirection] = useState<"asc" | "desc">("desc");
+  const [teams, setTeams] = useState<TeamPayload[]>([]);
   const [isDeleting, setIsDeleting] = useState(false);
   const [deleteId, setDeleteId] = useState<number | null>(null);
 
@@ -169,7 +177,7 @@ function LocationList() {
       setPagination(res?.pagination ?? null);
     } catch (e) {
       setTeams([]);
-      toast.error("Failed to load locations");
+      toast.error("Failed to load Team");
     }
   };
   useEffect(() => {
@@ -245,10 +253,8 @@ function LocationList() {
           {/* Sticky Header */}
           <div className="sticky top-3 z-10 pb-3">
             <PageHeader
-              title="Location"
+              title="Team"
               onMenuClick={() => setSidebarOpen(true)}
-              onBack={() => navigate(-1)}
-              showBack={true}
             />
           </div>
 
@@ -288,7 +294,7 @@ function LocationList() {
                     >
                       <X className="h-5 w-5" />
                     </button>
-                  )}
+                  )}    
                 </div>
                 <button
                   onClick={() => navigate("/team/add")}
@@ -300,11 +306,10 @@ function LocationList() {
                         text-xs sm:text-sm text-primary-foreground
                         shadow-button
                         hover:opacity-90
-                        transition mr-1 sm:mr-0
+                        transition w-full sm:w-auto justify-center
                     "
                 >
-                  <Plus size={16} /> Add{" "}
-                  <span className="hidden sm:block">Location</span>
+                  <Plus size={16} /> Add Team
                 </button>
               </div>
               <div className="grid grid-cols-12">
@@ -339,7 +344,7 @@ function LocationList() {
                             text-left
                           "
                           >
-                            <span>Location</span>
+                            <span>Team</span>
                             <span className="flex flex-col gap-1 ml-2 text-muted-foreground leading-none mr-2">
                               <span className="text-[10px]">
                                 <img src="/top.png" alt="" />
@@ -349,31 +354,64 @@ function LocationList() {
                               </span>
                             </span>
                           </th>
-                          <th
-                            onClick={() => {
-                              setSortBy("status");
-                              setSortDirection((prev) =>
-                                prev === "asc" ? "desc" : "asc"
-                              );
-                            }}
-                            className="
+                         <th
+                        onClick={() => {
+                            setSortBy("featured");
+                            setSortDirection((prev) => (prev === "asc" ? "desc" : "asc"));
+                        }}
+                        className="
                             w-[30%] pl-4
                             border-l border-border
                             flex items-center justify-between
                             cursor-pointer
                             text-left
-                          "
-                          >
-                            <span>Status</span>
-                            <span className="flex flex-col gap-1 ml-2 text-muted-foreground leading-none mr-2">
-                              <span className="text-[10px]">
-                                <img src="/top.png" alt="" />
-                              </span>
-                              <span className="text-[10px] -mt-1">
-                                <img src="/down.png" alt="" />
-                              </span>
-                            </span>
-                          </th>
+                        "
+                        >
+                        <span>Designation</span>
+                        <span className="flex flex-col gap-1 ml-2 mr-2">
+                            <img src="/top.png" />
+                            <img src="/down.png" />
+                        </span>
+                        </th>
+                         <th
+                        onClick={() => {
+                            setSortBy("featured");
+                            setSortDirection((prev) => (prev === "asc" ? "desc" : "asc"));
+                        }}
+                        className="
+                            w-[30%] pl-4
+                            border-l border-border
+                            flex items-center justify-between
+                            cursor-pointer
+                            text-left
+                        "
+                        >
+                        <span>Description</span>
+                        <span className="flex flex-col gap-1 ml-2 mr-2">
+                            <img src="/top.png" />
+                            <img src="/down.png" />
+                        </span>
+                        </th>
+                         <th
+                        onClick={() => {
+                            setSortBy("featured");
+                            setSortDirection((prev) => (prev === "asc" ? "desc" : "asc"));
+                        }}
+                        className="
+                            w-[30%] pl-4
+                            border-l border-border
+                            flex items-center justify-between
+                            cursor-pointer
+                            text-left
+                        "
+                        >
+                        <span>Featured</span>
+                        <span className="flex flex-col gap-1 ml-2 mr-2">
+                            <img src="/top.png" />
+                            <img src="/down.png" />
+                        </span>
+                        </th>
+
                           {/* ACTIONS */}
                           <th
                             className="
@@ -390,7 +428,7 @@ function LocationList() {
                         {!teams || teams.length === 0 ? (
                           <tr className="flex items-center justify-center py-4">
                             <td className="text-muted-foreground text-sm">
-                              No locations found
+                              No Data found
                             </td>
                           </tr>
                         ) : (
@@ -425,12 +463,12 @@ function LocationList() {
                               <AlertDialogContent className="max-w-[420px] rounded-2xl p-6">
                                 <AlertDialogHeader>
                                   <AlertDialogTitle className="text-lg">
-                                    Delete Location?
+                                    Delete Team?
                                   </AlertDialogTitle>
                                 </AlertDialogHeader>
 
                                 <p className="text-sm text-muted-foreground">
-                                  Are you sure you want to delete this location?
+                                  Are you sure you want to delete this Team?
                                   This action cannot be undone.
                                 </p>
 
@@ -514,4 +552,4 @@ function LocationList() {
   );
 }
 
-export default LocationList;
+export default TeamList;

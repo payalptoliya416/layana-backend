@@ -74,6 +74,7 @@ const handleGallerySelect = (file: File) => {
     type: "gallery",
   });
 };
+
 useEffect(() => {
   if (!initialData) return;
 
