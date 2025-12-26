@@ -550,7 +550,7 @@ const handleSubmit = async () => {
                                 px-4 py-3 text-sm
                                 rounded-[10px]
                                 mx-[15px] my-1
-                                transition-all
+                                transition-all flex-wrap
                               "
                             >
                               {/* DRAG PLACEHOLDER */}
