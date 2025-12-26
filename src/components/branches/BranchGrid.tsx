@@ -20,7 +20,6 @@ export default function BranchGrid({
 }: BranchGridProps) {
 
 const [locations, setLocations] = useState<Location[]>([]);
-  const [loading, setLoading] = useState(true);
   console.log("locations",locations)
   useEffect(() => {
     const fetchLocations = async () => {
@@ -29,14 +28,12 @@ const [locations, setLocations] = useState<Location[]>([]);
         setLocations(data);
       } catch (error) {
         console.error("Failed to fetch locations", error);
-      } finally {
-        setLoading(false);
-      }
+      } 
     };
   
     fetchLocations();
   }, []);
-  
+
 const activeBranches = branches.filter((branch) => {
   const loc = locations.find((l) => l.id === branch.id);
   return loc?.status !== "inactive";

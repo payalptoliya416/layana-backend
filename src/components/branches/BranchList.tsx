@@ -41,6 +41,27 @@ useEffect(() => {
   fetchLocations();
 }, []);
 
+// useImperativeHandle(ref, () => ({
+//   async validate(): Promise<ValidationResult> {
+//     if (!selectedBranches || selectedBranches.length === 0) {
+//       return {
+//         valid: false,
+//         errors: [
+//           {
+//             section: "Branches",
+//             field: "branches",
+//             message: "Please select at least one branch",
+//           },
+//         ],
+//       };
+//     }
+
+//     return {
+//       valid: true,
+//       errors: [],
+//     };
+//   },
+// }));
 useImperativeHandle(ref, () => ({
   async validate(): Promise<ValidationResult> {
     if (!selectedBranches || selectedBranches.length === 0) {
@@ -51,6 +72,25 @@ useImperativeHandle(ref, () => ({
             section: "Branches",
             field: "branches",
             message: "Please select at least one branch",
+          },
+        ],
+      };
+    }
+
+    // ✅ check if at least one ACTIVE branch is selected
+    const hasActiveBranch = selectedBranches.some((id) => {
+      const branch = locations.find((l) => l.id === id);
+      return branch && branch.status !== "inactive";
+    });
+
+    if (!hasActiveBranch) {
+      return {
+        valid: false,
+        errors: [
+          {
+            section: "Branches",
+            field: "branches",
+            message: "Selected branches are inactive. Please select an active branch with pricing.",
           },
         ],
       };
@@ -118,8 +158,6 @@ const toggleBranch = (id: number) => {
   <div className="space-y-3">
     {locations.map((location) => {
     const isSelected = selectedBranches.includes(location.id);
-console.log("isSelected",isSelected)
-console.log("selectedBranches",selectedBranches)
       return (
          <div key={`location-${location.id}`} className="grid grid-cols-1 xl:grid-cols-2 gap-4">
           {/* LEFT CARD */}
