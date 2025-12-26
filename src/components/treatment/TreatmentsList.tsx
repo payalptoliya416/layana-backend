@@ -298,7 +298,7 @@ const handleDelete = async () => {
           <div className="flex flex-col flex-1 overflow-hidden">
             {/* TOP BAR */}
             <div className="mb-2 flex items-center justify-between  shrink-0 flex-wrap gap-1 sm:gap-2">
-         <div className="relative w-[150px] sm:w-[256px] rounded-full p-1">
+         <div className="relative w-full sm:w-[256px] rounded-full p-1">
                 <input
                   value={search}
                   onChange={(e) => setSearch(e.target.value)}

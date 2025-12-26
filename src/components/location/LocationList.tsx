@@ -251,7 +251,7 @@ const onView = (id: number) =>{
           <div className="flex-1 pl-[15px] pr-6 px-6 flex flex-col h-full bg-card rounded-2xl shadow-card p-5 overflow-hidden">
             <div className="flex flex-col flex-1 overflow-hidden">
               <div className="mb-2 flex items-center justify-between  shrink-0 flex-wrap gap-1 sm:gap-2">
-                <div className="relative w-[150px] sm:w-[256px] rounded-full p-1">
+                <div className="relative w-full sm:w-[256px] rounded-full p-1">
                   <input
                     value={search}
                     onChange={(e) => setSearch(e.target.value)}

@@ -349,7 +349,7 @@ const handleSubmit = async () => {
 
             <div className="">
                 <div className="mb-2 flex items-center justify-between  shrink-0 flex-wrap gap-3 sm:gap-2">
-                <div className="relative w-[150px] sm:w-[256px] rounded-full p-1">
+                <div className="relative w-full sm:w-[256px] rounded-full p-1">
                   <input
                     value={search}
                     onChange={(e) => setSearch(e.target.value)}
