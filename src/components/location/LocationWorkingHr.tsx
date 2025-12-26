@@ -46,7 +46,6 @@ type DayState = {
 const LocationWorkingHr = forwardRef<any, Props>(
   ({ initialData, onChange }, ref) => {
     /* ---------- STATE ---------- */
-console.log("onChange",onChange)
     const [times, setTimes] = useState<Record<string, DayState>>(() =>
       DAYS.reduce((acc, day) => {
         acc[day] = { start: "", end: "" ,is_closed: false};

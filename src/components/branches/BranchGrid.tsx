@@ -16,7 +16,6 @@ export default function BranchGrid({
   selectedId,
   onSelect,
 }: BranchGridProps) {
-  console.log("branches",branches)
   return (
     <>
     {
