@@ -125,7 +125,21 @@ const TeamGeneral = forwardRef<any, Props>(
               {...register("designation")}
             />
           </div>
-
+             {/* Description */}
+          <div className="xl:col-span-2">
+            <label className="text-sm font-medium">
+              Description 
+            </label>
+            <DescriptionEditor
+                value={watch("description") || ""}
+                onChange={(val) =>
+                    setValue("description", val, {
+                    shouldDirty: true,
+                    shouldValidate: true,
+                    })
+                }
+/>
+          </div>
           {/* Featured */}
           <div>
             <label className="text-sm font-medium">Featured</label>
@@ -141,21 +155,7 @@ const TeamGeneral = forwardRef<any, Props>(
             </div>
           </div>
 
-          {/* Description */}
-          <div className="xl:col-span-2">
-            <label className="text-sm font-medium">
-              Description 
-            </label>
-            <DescriptionEditor
-                value={watch("description") || ""}
-                onChange={(val) =>
-                    setValue("description", val, {
-                    shouldDirty: true,
-                    shouldValidate: true,
-                    })
-                }
-/>
-          </div>
+        
 
         </div>
       </div>
