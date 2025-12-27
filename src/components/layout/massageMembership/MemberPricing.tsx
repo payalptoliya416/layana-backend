@@ -325,7 +325,7 @@ const handleDragEnd = (event: any) => {
                   <td className="px-4 py-3 border-y border-input border-l rounded-tl-[10px] rounded-bl-[10px]">
                     <div className="flex items-center gap-3">
                       <span className="text-sm text-foreground">
-                        Min
+                        Duration
                       </span>
                       <input
                         type="number"
@@ -418,7 +418,7 @@ const handleDragEnd = (event: any) => {
 
         {/* ===== HEADER (DESKTOP) ===== */}
         <div className="sticky top-0 z-10 bg-card border-b hidden xl:flex items-center h-[52px] px-4 text-sm font-medium text-primary mx-3">
-          <div className="w-[20%]">Min</div>
+          <div className="w-[20%]">Duration</div>
           <div className="w-[20%]">Offer</div>
           <div className="w-[20%]">Each</div>
           <div className="w-[20%]">Price</div>
