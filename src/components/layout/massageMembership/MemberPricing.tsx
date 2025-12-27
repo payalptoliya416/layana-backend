@@ -331,7 +331,7 @@ const handleDragEnd = (event: any) => {
                         type="number"
                         value={duration}
                         onChange={(e) => setDuration(e.target.value)}
-                        placeholder="Days"
+                        placeholder="Min"
                         className="h-10 w-[150px] rounded-lg border border-input bg-card px-3 text-sm"
                       />
                     </div>
