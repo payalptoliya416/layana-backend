@@ -23,7 +23,7 @@ const navItems: NavItem[] = [
   // { icon: MapPin, label: "Location", href: "/settings/location" },
   { icon: Sparkles , label: "Treatments", href: "/treatments-list" },
   { icon: Users , label: "Team", href: "/team" },
-  { icon: UserCheck , label: "masssage Membership", href: "/massage-membership" },
+  { icon: UserCheck , label: "Membership", href: "/massage-membership" },
   { icon: Bolt , label: "Bussiness Settings", href: "/settings" },
   // { icon: Users, label: "Team & Clients", children: [{ label: "Clients", href: "/clients" }, { label: "Staff", href: "/staff" }] },
   // { icon: Building2, label: "Operations", children: [{ label: "Schedule", href: "/schedule" }, { label: "Reports", href: "/reports" }] },

@@ -418,7 +418,7 @@ const handleDragEnd = (event: any) => {
 
         {/* ===== HEADER (DESKTOP) ===== */}
         <div className="sticky top-0 z-10 bg-card border-b hidden xl:flex items-center h-[52px] px-4 text-sm font-medium text-primary mx-3">
-              <div className="w-10" ></div>
+              {/* <div className="w-10" ></div> */}
           <div className="w-[20%]">Duration</div>
           <div className="w-[20%]">Offer</div>
           <div className="w-[20%]">Each</div>
