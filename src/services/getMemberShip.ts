@@ -1,27 +1,34 @@
 /* ---------- API CLIENT ---------- */
 import api from "./apiClient";
 
-/* ---------- SUB TYPES ---------- */
+/* =======================
+   SUB TYPES
+======================= */
+
 export interface MembershipLocation {
   id: number;
   name: string;
 }
 
 export interface MembershipPricing {
-  id: number;
+  id?: number;
   duration: number;
   offer_price: number;
   each_price: number;
   price: number;
+  location_id: number;
 }
 
 export interface MembershipFaq {
-  id: number;
+  id?: number;
   question: string;
   answer: string;
 }
 
-/* ---------- MAIN PAYLOAD ---------- */
+/* =======================
+   MAIN PAYLOAD (SHOW / LIST)
+======================= */
+
 export interface MembershipPayload {
   id: number;
   name: string;
@@ -35,7 +42,25 @@ export interface MembershipPayload {
   updated_at: string;
 }
 
-/* ---------- PAGINATION ---------- */
+/* =======================
+   CREATE / UPDATE PAYLOAD
+======================= */
+
+export interface MembershipSavePayload {
+  id?: number; // only for update
+  name: string;
+  status: "active" | "inactive";
+  content: string;
+  slogan: string;
+  location_ids: number[];
+  pricing: MembershipPricing[];
+  faq: MembershipFaq[];
+}
+
+/* =======================
+   PAGINATION
+======================= */
+
 export interface Pagination {
   current_page: number;
   per_page: number;
@@ -48,7 +73,10 @@ export interface Pagination {
   search?: string | null;
 }
 
-/* ---------- API RESPONSE ---------- */
+/* =======================
+   LIST RESPONSE
+======================= */
+
 export interface MembershipResponse {
   status: string;
   message: string;
@@ -56,7 +84,10 @@ export interface MembershipResponse {
   pagination: Pagination;
 }
 
-/* ---------- API CALL (SEARCH / SORT / PAGINATION READY) ---------- */
+/* =======================
+   LIST (SEARCH / SORT / PAGINATION)
+======================= */
+
 export async function getMemberships(params?: {
   page?: number;
   perPage?: number;
@@ -87,7 +118,45 @@ export async function getMemberships(params?: {
   return res.data;
 }
 
-export async function deleteMemberShip(id: number) {
+/* =======================
+   CREATE
+======================= */
+
+export async function createMembership(
+  payload: MembershipSavePayload
+) {
+  const res = await api.post("/memberships/create", payload);
+  return res.data;
+}
+
+/* =======================
+   UPDATE
+======================= */
+
+export async function updateMembership(
+  payload: MembershipSavePayload
+) {
+  const res = await api.post("/memberships/update", payload);
+  return res.data;
+}
+
+/* =======================
+   SINGLE (SHOW)
+======================= */
+
+export async function getMembershipById(id: number) {
+  const res = await api.post<{ status: string; data: MembershipPayload }>(
+    "/memberships/show",
+    { id }
+  );
+  return res.data.data;
+}
+
+/* =======================
+   DELETE
+======================= */
+
+export async function deleteMembership(id: number) {
   const res = await api.post("/memberships/delete", { id });
   return res.data;
 }

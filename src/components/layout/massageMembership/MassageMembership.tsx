@@ -36,9 +36,8 @@ import {
   AlertDialogFooter,
 } from "@/components/ui/alert-dialog";
 import { Button } from "@/components/ui/button";
-import { getTeams } from "@/services/getTeam";
 import { deleteTeam, TeamPayload, updateTeam } from "@/services/teamService";
-import { deleteMemberShip, getMemberships, MembershipPayload } from "@/services/getMemberShip";
+import { deleteMembership, getMemberships, MembershipPayload } from "@/services/getMemberShip";
 
 export type Category = {
   id: number;
@@ -57,8 +56,15 @@ function SortableRow({
   onEdit: (id: number) => void;
   onDelete: (id: number) => void;
 }) {
+      const { attributes, listeners, setNodeRef, transform, transition } =
+    useSortable({ id: item.id });
+
+  const style = {
+    transform: CSS.Transform.toString(transform),
+    transition,
+  };
   return (
-    <div>
+    <div ref={setNodeRef} style={style}>
       {/* ================= DESKTOP ROW ================= */}
       <div
         className={cn(
@@ -67,33 +73,41 @@ function SortableRow({
           "hover:bg-muted/70"
         )}
       >
+         {/* DRAG */}
+        <div
+          {...attributes}
+          {...listeners}
+          className="w-10 flex justify-center cursor-grab text-muted-foreground"
+        >
+          <GripVertical size={18} />
+        </div>
+
         {/* NAME */}
-        <div className="w-[25%] pl-4 font-medium">
+       <div className="w-[25%] pl-4">
           {item.name}
         </div>
 
         {/* STATUS */}
-        <div className="w-[15%] pl-4 capitalize">
+        <div className="flex-1 pl-4">
           {item.status}
         </div>
 
-        {/* LOCATIONS */}
-        <div className="w-[20%] pl-4">
+        {/* <div className="w-[20%] pl-4">
           {item.locations?.length ?? 0}
         </div>
 
-        {/* PRICING */}
         <div className="w-[20%] pl-4">
           {item.pricing?.length ?? 0}
         </div>
 
-        {/* FAQ */}
         <div className="w-[10%] pl-4">
           {item.faq?.length ?? 0}
-        </div>
+        </div> */}
 
         {/* ACTIONS */}
-        <div className="w-[10%] flex justify-end gap-2 pr-4">
+        <div className="w-[160px] flex justify-end gap-2 pl-4">
+              <td className="w-[160px] flex justify-end gap-2 whitespace-nowrap">
+      
           <button
             onClick={() => onEdit(item.id)}
             className="h-7 w-7 rounded-full border flex items-center justify-center hover:bg-muted"
@@ -107,12 +121,16 @@ function SortableRow({
           >
             <Trash2 size={14} />
           </button>
+              </td>
         </div>
       </div>
 
       {/* ================= MOBILE CARD ================= */}
       <div className="xl:hidden mx-3 my-2 rounded-xl border bg-card p-4 space-y-2">
         <div className="flex justify-between items-start">
+               <div {...attributes} {...listeners} className="cursor-grab">
+            <GripVertical size={18} />
+          </div>
           <div>
             <p className="font-medium">{item.name}</p>
             <p className="text-sm text-muted-foreground capitalize">
@@ -153,8 +171,7 @@ function SortableRow({
   );
 }
 
-
-function TeamList() {
+function MassageMemberShip() {
   const navigate = useNavigate();
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
   const [sidebarOpen, setSidebarOpen] = useState(false);
@@ -169,7 +186,7 @@ function TeamList() {
 
   const [page, setPage] = useState(1);
   const [pagination, setPagination] = useState<any>(null);
-  const [sortBy, setSortBy] = useState<"id" | "name" | "featured">("id");
+  const [sortBy, setSortBy] = useState<"id" | "name">("id");
   const [sortDirection, setSortDirection] = useState<"asc" | "desc">("desc");
   const [isDeleting, setIsDeleting] = useState(false);
   const [deleteId, setDeleteId] = useState<number | null>(null);
@@ -181,8 +198,8 @@ function TeamList() {
         page,
         perPage: 10,
         search: debouncedSearch,
-        sortBy: "id",
-        sortDirection: "asc",
+         sortBy,
+  sortDirection,
       });
 
       setMemberships(res.data);
@@ -210,11 +227,11 @@ function TeamList() {
 
     try {
       setIsDeleting(true);
-      await deleteMemberShip(deleteId);
-      toast.success("Team deleted successfully");
+      await deleteMembership(deleteId);
+      toast.success("Membership deleted successfully");
      fetchMemberships();
     } catch {
-      toast.error("Failed to delete team");
+      toast.error("Failed to delete Membership");
     } finally {
       setIsDeleting(false);
       setDeleteId(null);
@@ -222,13 +239,13 @@ function TeamList() {
   };
 
   const handleEdit = (id: number) => {
-    navigate(`/team/edit/${id}`);
+    navigate(`/massage-membership/edit/${id}`);
   };
 
   const handleFeaturedToggle = async (id: number, value: boolean) => {
     try {
       await updateTeam(id, { featured: value });
-      toast.success("Team updated");
+      toast.success("Membership updated");
       fetchMemberships(); // 🔥 REFRESH LIST
     } catch {
       toast.error("Failed to update team");
@@ -316,7 +333,7 @@ function TeamList() {
                   )}
                 </div>
                 <button
-                  onClick={() => navigate("/team/add")}
+                  onClick={() => navigate("/massage-membership/add")}
                   className="
                         flex items-center gap-2
                         rounded-full
@@ -328,7 +345,7 @@ function TeamList() {
                         transition w-full sm:w-auto justify-center
                     "
                 >
-                  <Plus size={16} /> Add Team
+                  <Plus size={16} /> Add Membership
                 </button>
               </div>
               <div className="grid grid-cols-12">
@@ -337,10 +354,7 @@ function TeamList() {
                     {/* ================= HEADER (DESKTOP) ================= */}
                    <div className="sticky top-0 z-10 bg-card border-b hidden xl:flex items-center h-[52px] px-4 text-sm font-medium text-primary mx-3">
                         <div className="w-[25%] pl-4">Name</div>
-                        <div className="w-[15%] pl-4 border-l">Status</div>
-                        <div className="w-[20%] pl-4 border-l">Locations</div>
-                        <div className="w-[20%] pl-4 border-l">Pricing</div>
-                        <div className="w-[10%] pl-4 border-l">FAQs</div>
+                        <div className="flex-1 pl-4 border-l">Status</div>
                         <div className="w-[10%] pl-4 border-l text-right pr-4">
                             Actions
                         </div>
@@ -423,7 +437,7 @@ function TeamList() {
                   <AlertDialogContent className="max-w-[420px] rounded-2xl p-6">
                     <AlertDialogHeader>
                       <AlertDialogTitle className="text-lg">
-                        Delete Team?
+                        Delete Membership?
                       </AlertDialogTitle>
                     </AlertDialogHeader>
 
@@ -461,4 +475,4 @@ function TeamList() {
   );
 }
 
-export default TeamList;
+export default MassageMemberShip;

@@ -45,7 +45,7 @@ export default function ActionsDropdown({
   {open && (
     <div
       className="
-         absolute right-0 top-full mt-2 w-40
+         absolute left-0 top-full mt-2 w-40
         rounded-[10px] bg-card
         border border-border
         shadow-dropdown
