@@ -311,7 +311,7 @@ console.log("res",res)
  <div className="flex-1 pl-[15px] pr-6 px-6 flex flex-col h-full bg-card rounded-2xl shadow-card p-5 relative overflow-hidden">
        <div className="flex w-full gap-5 flex-1 overflow-y-auto scrollbar-thin pb-14">
         <div className="lg:flex w-full gap-5 h-full overflow-y-auto">
- <aside className="w-[260px] border rounded-xl p-4">
+ <aside className="lg:w-[270px] flex-shrink-0 border border-border lg:p-4 rounded-[20px] lg:h-full overflow-y-auto mb-3 lg:mb-0">
                 <MemberNav
                   activeItem={activeSection}
                   onItemChange={setActiveSection}

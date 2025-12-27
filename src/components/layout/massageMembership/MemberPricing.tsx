@@ -73,7 +73,7 @@ function PricingSortableRow({
           "hover:bg-muted/70"
         )}
       >
-        <div className="w-[20%]">{item.duration} days</div>
+        <div className="w-[20%]">{item.duration} min</div>
         <div className="w-[20%]">£{item.offer_price}</div>
         <div className="w-[20%]">£{item.each_price}</div>
         <div className="w-[20%]">£{item.price}</div>
@@ -103,7 +103,7 @@ function PricingSortableRow({
 
           <div className="flex-1 ml-3 space-y-1">
             <p className="font-medium">
-              {item.duration} days
+              {item.duration} min
             </p>
             <p className="text-sm text-muted-foreground">
               Offer: £{item.offer_price}
@@ -325,7 +325,7 @@ const handleDragEnd = (event: any) => {
                   <td className="px-4 py-3 border-y border-input border-l rounded-tl-[10px] rounded-bl-[10px]">
                     <div className="flex items-center gap-3">
                       <span className="text-sm text-foreground">
-                        Duration
+                        Min
                       </span>
                       <input
                         type="number"
@@ -418,7 +418,7 @@ const handleDragEnd = (event: any) => {
 
         {/* ===== HEADER (DESKTOP) ===== */}
         <div className="sticky top-0 z-10 bg-card border-b hidden xl:flex items-center h-[52px] px-4 text-sm font-medium text-primary mx-3">
-          <div className="w-[20%]">Duration</div>
+          <div className="w-[20%]">Min</div>
           <div className="w-[20%]">Offer</div>
           <div className="w-[20%]">Each</div>
           <div className="w-[20%]">Price</div>
