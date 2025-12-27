@@ -406,7 +406,7 @@ const handleDelete = async () => {
             <div className="grid grid-cols-12">
   <div className="col-span-12">
 
-    <div className="w-full rounded-2xl border border-border bg-card flex flex-col h-[calc(98dvh-300px)]">
+    <div className="w-full rounded-2xl border border-border bg-card flex flex-col h-[calc(99.5dvh-300px)]">
       {/* ================= HEADER (DESKTOP ONLY) ================= */}
       <div className="sticky top-0 z-[9] bg-card border-b hidden lg:flex items-center h-[52px] px-4 text-sm font-medium text-primary">
 
