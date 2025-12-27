@@ -31,41 +31,47 @@ const TeamVisuals = forwardRef<any, Props>(
 const [currentCropIndex, setCurrentCropIndex] = useState(0);
 
     /* expose validate */
-    useImperativeHandle(ref, () => ({
-      validate(): ValidationResult {
-        if (!gallery.length) {
-          return {
-            valid: false,
-            errors: [
-              {
-                section: "Visuals",
-                field: "images",
-                message: "At least one image is required",
-              },
-            ],
-          };
-        }
-        return { valid: true, errors: [] };
-      },
+    // useImperativeHandle(ref, () => ({
+    //   validate(): ValidationResult {
+    //     if (!gallery.length) {
+    //       return {
+    //         valid: false,
+    //         errors: [
+    //           {
+    //             section: "Visuals",
+    //             field: "images",
+    //             message: "At least one image is required",
+    //           },
+    //         ],
+    //       };
+    //     }
+    //     return { valid: true, errors: [] };
+    //   },
 
-    }));
+    // }));
+    useImperativeHandle(ref, () => ({
+  validate(): ValidationResult {
+    return { valid: true, errors: [] };
+  },
+}));
+
 useEffect(() => {
   setGallery(initialImages || []);
 }, [initialImages]);
 
-    const handleGallerySelect = (file: File) => {
-      setCropImage(URL.createObjectURL(file));
-      setCropConfig({
-        aspect: 565 / 575,
-        width: 565,
-        height: 575,
-      });
-    };
+    // const handleGallerySelect = (file: File) => {
+    //   setCropImage(URL.createObjectURL(file));
+    //   setCropConfig({
+    //     aspect: 565 / 575,
+    //     width: 565,
+    //     height: 575,
+    //   });
+    // };
 
     return (
       <div className="mt-6">
         <p className="mb-2 text-sm font-medium">
-          Gallery Images <sup className="text-destructive">*</sup>
+          Gallery Images
         </p>
 
         <div className="flex gap-3 flex-wrap">
