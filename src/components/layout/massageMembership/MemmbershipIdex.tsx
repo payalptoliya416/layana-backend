@@ -299,7 +299,7 @@ console.log("res",res)
       >
           <div className="sticky top-3 z-10 pb-3">
                             <PageHeader
-                title={isEdit ? "Edit Membership" : "Add Membership"}
+               title={payload.name || "Add Membership"}
                 showBack={activeSection === "pricing" && selectedPricingBranch !== null}
                 onBack={() => {
                     if (activeSection === "pricing") {
