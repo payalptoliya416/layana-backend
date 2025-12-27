@@ -291,7 +291,7 @@ function MassageMemberShip() {
         >
           {/* Sticky Header */}
           <div className="sticky top-3 z-10 pb-3">
-            <PageHeader title="Team" onMenuClick={() => setSidebarOpen(true)} />
+            <PageHeader title="Message Membership" onMenuClick={() => setSidebarOpen(true)} />
           </div>
 
           {/* Content */}
