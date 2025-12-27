@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
-import { ChevronLeft, LayoutDashboard, Users, Building2, UserCog, Settings, ChevronDown, Sparkles, ChartColumnStacked, MapPin, Bolt, ShieldHalf, UsersRound } from "lucide-react";
+import { ChevronLeft, LayoutDashboard, Users, Building2, UserCog, Settings, ChevronDown, Sparkles, ChartColumnStacked, MapPin, Bolt, ShieldHalf, UsersRound, UserCheck } from "lucide-react";
 import { cn } from "@/lib/utils";
 import {
   Tooltip,
@@ -21,9 +21,9 @@ const navItems: NavItem[] = [
   { icon: LayoutDashboard, label: "Dashboard", href: "/dashboard" },
   // { icon: ChartColumnStacked, label: "Category", href: "/settings/category" },
   // { icon: MapPin, label: "Location", href: "/settings/location" },
-  { icon: Users , label: "Treatments", href: "/treatments-list" },
+  { icon: Sparkles , label: "Treatments", href: "/treatments-list" },
   { icon: Users , label: "Team", href: "/team" },
-  { icon: UsersRound , label: "masssage Membership", href: "/massage-membership" },
+  { icon: UserCheck , label: "masssage Membership", href: "/massage-membership" },
   { icon: Bolt , label: "Bussiness Settings", href: "/settings" },
   // { icon: Users, label: "Team & Clients", children: [{ label: "Clients", href: "/clients" }, { label: "Staff", href: "/staff" }] },
   // { icon: Building2, label: "Operations", children: [{ label: "Schedule", href: "/schedule" }, { label: "Reports", href: "/reports" }] },
