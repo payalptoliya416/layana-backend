@@ -316,7 +316,19 @@ const selectedBranchObjects = payload.location_ids.map((id) => ({
         )}
       >
           <div className="sticky top-3 z-10 pb-3">
-            <PageHeader title={payload.name || 'MemberShip'} onMenuClick={() => setSidebarOpen(true)} />
+            {/* <PageHeader title={payload.name || 'MemberShip'} onMenuClick={() => setSidebarOpen(true)} /> */}
+              <PageHeader
+  onMenuClick={() => setSidebarOpen(true)}
+  title={payload.name || "MemberShip"}
+  showBack={
+    activeSection === "pricing" && selectedPricingBranch !== null
+  }
+  onBack={() => {
+    if (activeSection === "pricing") {
+      setSelectedPricingBranch(null);
+    }
+  }}
+/>
           </div>
                 <div className="flex-1 pl-[15px] pr-6 px-6 flex flex-col h-full bg-card rounded-2xl shadow-card p-5 relative overflow-hidden">
                     <div className="flex w-full gap-5 flex-1 overflow-y-auto scrollbar-thin pb-14">
