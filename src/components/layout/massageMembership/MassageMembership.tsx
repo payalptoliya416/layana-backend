@@ -355,6 +355,7 @@ function MassageMemberShip() {
                   <div className="w-full rounded-2xl border border-border bg-card flex flex-col h-[calc(100vh-300px)]">
                     {/* ================= HEADER (DESKTOP) ================= */}
                    <div className="sticky top-0 z-10 bg-card border-b hidden xl:flex items-center h-[52px] px-4 text-sm font-medium text-primary mx-3">
+                     <div className="w-10" ></div>
                         <div className="w-[25%] pl-4">Name</div>
                         <div className="flex-1 pl-4 border-l">Status</div>
                         <div className="w-[10%] pl-4 border-l text-right pr-4">
