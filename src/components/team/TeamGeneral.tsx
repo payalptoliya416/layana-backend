@@ -13,7 +13,7 @@ const teamSchema = z.object({
   name: z.string().min(1, "Name is required"),
   designation: z.string().min(1, "Designation is required"),
   featured: z.boolean(),
-  description: z.string().min(1, "Description is required"),
+description: z.string().optional().or(z.literal("")),
 });
 
 export type TeamGeneralForm = z.infer<typeof teamSchema>;
@@ -57,7 +57,6 @@ const TeamGeneral = forwardRef<any, Props>(
         const fields: (keyof TeamGeneralForm)[] = [
           "name",
           "designation",
-          "description",
         ];
 
         const errors = fields
@@ -145,7 +144,7 @@ const TeamGeneral = forwardRef<any, Props>(
           {/* Description */}
           <div className="xl:col-span-2">
             <label className="text-sm font-medium">
-              Description <sup className="text-destructive">*</sup>
+              Description 
             </label>
             <DescriptionEditor
                 value={watch("description") || ""}
