@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 
 const HEADER_HEIGHT = 52;
-const PAGINATION_HEIGHT = 56;
+// const PAGINATION_HEIGHT = 56;
 
 export function useAutoRows() {
   const containerRef = useRef<HTMLDivElement | null>(null);
@@ -22,7 +22,7 @@ export function useAutoRows() {
           document.querySelector("[data-row]")?.getBoundingClientRect().height || 56;
 
         const available =
-          height - HEADER_HEIGHT - PAGINATION_HEIGHT;
+          height - HEADER_HEIGHT;
 
         const rows = Math.max(1, Math.floor(available / rowHeight));
 
