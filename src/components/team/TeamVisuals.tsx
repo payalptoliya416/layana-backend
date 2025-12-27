@@ -56,7 +56,11 @@ const [currentCropIndex, setCurrentCropIndex] = useState(0);
 }));
 
 useEffect(() => {
-  setGallery(initialImages || []);
+  if (Array.isArray(initialImages)) {
+    setGallery(initialImages);
+  } else {
+    setGallery([]);
+  }
 }, [initialImages]);
 
     // const handleGallerySelect = (file: File) => {
@@ -109,8 +113,8 @@ useEffect(() => {
                     />
 
           </div>
-
-          {gallery.map((img, i) => (
+{Array.isArray(gallery) &&
+          gallery.map((img, i) => (
             <div key={i} className="relative h-[90px] w-[90px]">
               <img src={img} className="h-full w-full object-cover rounded-xl" />
               <button

@@ -172,7 +172,7 @@ const sensors = useSensors(
 const [treatments, setTreatments] = useState<Treatment[]>([]);
 const [page, setPage] = useState(1);
 const [pagination, setPagination] = useState<any>(null);
-const [sortBy, setSortBy] = useState<"id" | "category" | "name">("id");
+const [sortBy, setSortBy] = useState<"id" | "category" | "name" | "index">("id");
 const [sortDirection, setSortDirection] = useState<"asc" | "desc">("desc");
 const { containerRef, rowsPerPage } = useAutoRows();
 const [refreshKey, setRefreshKey] = useState(0);
@@ -209,52 +209,73 @@ useEffect(() => {
   return () => clearTimeout(delay);
 }, [search]);
 
-const isSortingActive = sortBy !== "name" || sortDirection !== "asc";
 const [deleteId, setDeleteId] = useState<number | null>(null);
 const [isDeleting, setIsDeleting] = useState(false);
 
 const handleDragEnd = async (event: any) => {
   const { active, over } = event;
   if (!over || active.id === over.id) return;
-
-  if (isSortingActive) {
-    // toast.warning("Disable sorting to reorder");
-    return;
-  }
-
   const oldIndex = treatments.findIndex((i) => i.id === active.id);
   const newIndex = treatments.findIndex((i) => i.id === over.id);
 
   if (oldIndex === -1 || newIndex === -1) return;
 
-  const previous = [...treatments]; // 🔐 save for rollback
+  const previous = [...treatments];
 
-  // 🔄 optimistic UI update
+  // ✅ UI ma turant reorder
   const reordered = arrayMove(treatments, oldIndex, newIndex);
   setTreatments(reordered);
 
   try {
+    // ✅ existing API params j use thase
     await reorderTreatment({
       id: active.id,
       index: newIndex,
     });
 
-    // 🔄 fetch fresh sorted data
-    const res = await getTreatments({
-      page,
-      sortBy,
-      sortDirection,
-    });
-
-    setTreatments(res.data);
-    setPagination(res.pagination);
-
     toast.success("Order updated");
   } catch (error) {
+    // ❌ fail thay to rollback
+    setTreatments(previous);
     toast.error("Reorder failed");
-    setTreatments(previous); // ⬅ rollback
   }
 };
+
+// const handleDragEnd = async (event: any) => {
+//   const { active, over } = event;
+//   if (!over || active.id === over.id) return;
+
+//   const oldIndex = treatments.findIndex((i) => i.id === active.id);
+//   const newIndex = treatments.findIndex((i) => i.id === over.id);
+// console.log("newIndex",newIndex)
+//   if (oldIndex === -1 || newIndex === -1) return;
+
+//   const previous = [...treatments]; 
+
+//   const reordered = arrayMove(treatments, oldIndex, newIndex);
+//   setTreatments(reordered);
+
+//   try {
+//     await reorderTreatment({
+//       id: active.id,
+//       index: newIndex,
+//     });
+
+//     const res = await getTreatments({
+//       page,
+//       sortBy,
+//       sortDirection,
+//     });
+
+//     setTreatments(res.data);
+//     setPagination(res.pagination);
+
+//     toast.success("Order updated");
+//   } catch (error) {
+//     toast.error("Reorder failed");
+//     setTreatments(previous); 
+//   }
+// };
 
 const handleEdit = (id: number) => {
   navigate(`/treatments-list/treatments/edit/${id}`);

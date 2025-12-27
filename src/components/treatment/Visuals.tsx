@@ -490,7 +490,8 @@ useEffect(() => {
   </div>
 
   {/* Crop Modal stays same */}
-  {/* <ImageCropGallry
+  {cropConfig?.type !== "gallery" && (
+  <ImageCropGallry
     open={!!cropImage}
     image={cropImage!}
     aspect={cropConfig?.aspect}
@@ -512,7 +513,8 @@ useEffect(() => {
       setCropImage(null);
       setCropConfig(null);
     }}
-  /> */}
+  />)}
+  {cropConfig?.type === "gallery" && (
   <ImageCropGallry
   open={!!cropImage}
   image={cropQueue[currentCropIndex]}
@@ -546,7 +548,7 @@ useEffect(() => {
       setCropConfig(null);
     }
   }}
-/>
+/>)}
 
 </div>
 

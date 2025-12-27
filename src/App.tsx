@@ -19,6 +19,8 @@ import "react-time-picker/dist/TimePicker.css";
 import "react-clock/dist/Clock.css";
 import TeamList from "./components/team/TeamList";
 import TeamIndex from "./components/team/TeamIndex";
+import MassageMembership from "./components/layout/massageMembership/MassageMembership";
+import MemmbershipIdex from "./components/layout/massageMembership/MemmbershipIdex";
 
 const queryClient = new QueryClient();
 
@@ -161,6 +163,31 @@ const App = () => (
             element={
               <ProtectedRoute>
                 <TeamIndex />
+              </ProtectedRoute>
+            }
+          />
+
+          <Route
+            path="/massage-membership"
+            element={
+              <ProtectedRoute>
+                <MassageMembership />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/massage-membership/edit/:id"
+            element={
+              <ProtectedRoute>
+                <MemmbershipIdex />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/massage-membership/add"
+            element={
+              <ProtectedRoute>
+                <MemmbershipIdex />
               </ProtectedRoute>
             }
           />
