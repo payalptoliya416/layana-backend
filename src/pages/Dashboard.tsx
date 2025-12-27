@@ -46,7 +46,7 @@ const Dashboard = () => {
       >
         {/* Sticky Header */}
         <div className="sticky top-3 z-10 pb-3">
-        <PageHeader title="Treatments"   onMenuClick={() => setSidebarOpen(true)}/>
+        <PageHeader title="Dashboard"   onMenuClick={() => setSidebarOpen(true)}/>
         </div>
 
         {/* Content */}
