@@ -89,7 +89,9 @@ function SortableRow({
 
         {/* STATUS */}
         <div className="flex-1 pl-4">
-          {item.status}
+          {item.status
+    ? item.status.charAt(0).toUpperCase() + item.status.slice(1)
+    : ""}
         </div>
 
         {/* <div className="w-[20%] pl-4">
