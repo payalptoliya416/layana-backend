@@ -36,7 +36,7 @@ import {
   AlertDialogFooter,
 } from "@/components/ui/alert-dialog";
 import { Button } from "@/components/ui/button";
-import { deleteTeam, TeamPayload, updateTeam } from "@/services/teamService";
+import { updateTeam } from "@/services/teamService";
 import { deleteMembership, getMemberships, MembershipPayload } from "@/services/getMemberShip";
 
 export type Category = {
@@ -129,7 +129,7 @@ function SortableRow({
 
       {/* ================= MOBILE CARD ================= */}
       <div className="xl:hidden mx-3 my-2 rounded-xl border bg-card p-4 space-y-2">
-        <div className="flex justify-between items-start">
+        <div className="flex justify-between items-center">
                <div {...attributes} {...listeners} className="cursor-grab">
             <GripVertical size={18} />
           </div>
@@ -152,7 +152,7 @@ function SortableRow({
             </p>
           </div>
 
-          <div className="flex gap-2">
+          <div className="flex gap-2 self-start">
             <button
               onClick={() => onEdit(item.id)}
               className="h-7 w-7 rounded-full border flex items-center justify-center"
@@ -244,21 +244,11 @@ function MassageMemberShip() {
     navigate(`/massage-membership/edit/${id}`);
   };
 
-  const handleFeaturedToggle = async (id: number, value: boolean) => {
-    try {
-      await updateTeam(id, { featured: value });
-      toast.success("Membership updated");
-      fetchMemberships(); // 🔥 REFRESH LIST
-    } catch {
-      toast.error("Failed to update team");
-    }
-  };
-
   return (
     <>
       <div className="bg-background flex">
         {/* Sidebar */}
-
+     
         <div className="hidden lg:block">
           <Sidebar
             collapsed={sidebarCollapsed}
@@ -352,7 +342,7 @@ function MassageMemberShip() {
               </div>
               <div className="grid grid-cols-12">
                 <div className="col-span-12">
-                  <div className="w-full rounded-2xl border border-border bg-card flex flex-col h-[calc(100vh-300px)]">
+                  <div className="w-full rounded-2xl border border-border bg-card flex flex-col h-[calc(93vh-300px)] sm:h-[calc(99vh-300px)]">
                     {/* ================= HEADER (DESKTOP) ================= */}
                    <div className="sticky top-0 z-10 bg-card border-b hidden xl:flex items-center h-[52px] px-4 text-sm font-medium text-primary mx-3">
                      <div className="w-10" ></div>

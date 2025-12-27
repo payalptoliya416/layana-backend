@@ -241,42 +241,6 @@ const handleDragEnd = async (event: any) => {
   }
 };
 
-// const handleDragEnd = async (event: any) => {
-//   const { active, over } = event;
-//   if (!over || active.id === over.id) return;
-
-//   const oldIndex = treatments.findIndex((i) => i.id === active.id);
-//   const newIndex = treatments.findIndex((i) => i.id === over.id);
-// console.log("newIndex",newIndex)
-//   if (oldIndex === -1 || newIndex === -1) return;
-
-//   const previous = [...treatments]; 
-
-//   const reordered = arrayMove(treatments, oldIndex, newIndex);
-//   setTreatments(reordered);
-
-//   try {
-//     await reorderTreatment({
-//       id: active.id,
-//       index: newIndex,
-//     });
-
-//     const res = await getTreatments({
-//       page,
-//       sortBy,
-//       sortDirection,
-//     });
-
-//     setTreatments(res.data);
-//     setPagination(res.pagination);
-
-//     toast.success("Order updated");
-//   } catch (error) {
-//     toast.error("Reorder failed");
-//     setTreatments(previous); 
-//   }
-// };
-
 const handleEdit = (id: number) => {
   navigate(`/treatments-list/treatments/edit/${id}`);
 };

@@ -59,9 +59,7 @@ function AddLocation() {
           {/* Content */}
           <div className="flex-1 pl-[15px] pr-6 px-6 flex flex-col h-full bg-card rounded-2xl shadow-card p-5 overflow-hidden">
             <div className="flex flex-col flex-1 overflow-hidden">
-                <form action="">
-
-                </form>
+             
               <div className="flex items-center justify-end gap-3 pt-4">
                 <Button type="button" variant="cancel" className="w-[105px]">
                   Cancel
