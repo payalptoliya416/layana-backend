@@ -208,14 +208,14 @@ const isFacial = category === "Facial";
 
   <div className="rounded-[15px] border border-border bg-card p-3 lg:p-5 space-y-4">
     {/* Input */}
-    {/* <div className="flex items-center xl:gap-4 flex-wrap">
+    <div className="flex items-center xl:gap-4 flex-wrap">
       <input
         value={input}
         onChange={(e) => setInput(e.target.value)}
         onKeyDown={(e) => e.key === "Enter" && addBenefit()}
         placeholder="Enter benefits"
         className="
-          xl:flex-1 text-sm outline-none
+          flex-1 min-w-0 w-full text-sm outline-none
           text-foreground
           placeholder:text-muted-foreground
          bg-transparent py-4
@@ -237,7 +237,7 @@ const isFacial = category === "Facial";
       >
         <img src="/send.svg" alt="send" className="h-4 w-4" />
       </button>
-    </div> */}
+    </div>
 
     {value.benifites.length !== 0 && (
       <div className="border-t border-border" />
