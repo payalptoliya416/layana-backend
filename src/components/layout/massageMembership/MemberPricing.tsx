@@ -375,7 +375,7 @@ const handleDragEnd = (event: any) => {
         </td>
 
         <td className="xl:table-cell border-y border-input xl:border-r xl:rounded-tr-[10px] xl:rounded-br-[10px] p-3 col-span-2 xl:col-span-1">
-          <div className="flex justify-end xl:justify-center h-full items-end">
+          <div className="flex justify-end xl:justify-center h-full items-end mt-[17px]sas">
             <button
               onClick={handleSave}
               className="inline-flex h-10 w-full xl:w-12 items-center justify-center rounded-full bg-primary text-primary-foreground"
