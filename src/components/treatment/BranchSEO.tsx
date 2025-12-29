@@ -64,10 +64,10 @@ const update = <K extends keyof typeof form>(
     <label className="text-sm font-medium text-foreground">
       Analytics (optional)
     </label>
-    {/* <DescriptionEditor
+    <DescriptionEditor
       value={form.analitycs}
       onChange={(v) => update("analitycs", v)}
-    /> */}
+    />
   </div>
 
   {/* SEO TITLE */}
@@ -82,7 +82,7 @@ const update = <K extends keyof typeof form>(
       }
       placeholder="Enter SEO title (e.g. Best Spa in Ahmedabad)"
       className="
-        w-full h-11 rounded-lg min-w-0
+        xl:w-full h-11 rounded-lg min-w-0
         border border-input
         bg-card 
         px-4 text-sm
