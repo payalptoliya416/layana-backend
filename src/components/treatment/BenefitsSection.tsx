@@ -226,7 +226,7 @@ const isFacial = category === "Facial";
       <button
         onClick={addBenefit}
         className="
-          flex h-[34px] w-[50px] items-center justify-center
+          flex h-[34px] w-full xl:w-[50px] items-center justify-center
           rounded-full
           bg-primary
           text-primary-foreground
