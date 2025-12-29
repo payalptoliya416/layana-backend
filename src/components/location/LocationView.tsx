@@ -251,7 +251,7 @@ location?.opening_hours?.forEach((o) => {
 
     {/* TIME / CLOSED */}
     {isClosed ? (
-      <div className="flex justify-center sm:justify-start">
+      <div className="flex justify-center sm:justify-start ml-16">
         <button
           className="
             w-full sm:w-[110px]
