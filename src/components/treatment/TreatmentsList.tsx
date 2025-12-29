@@ -121,7 +121,7 @@ function SortableRow({
       </div>
 
       {/* ================= MOBILE CARD ================= */}
-      <div className="lg:hidden mx-3 my-2 rounded-xl border bg-card p-4 space-y-2">
+      <div className="lg:hidden mx-3 my-2 rounded-xl border bg-card p-2 sm:p-4 space-y-2">
         <div className="flex items-start gap-1 justify-between">
         <div className="flex gap-3 items-center">
           <div {...attributes} {...listeners} className="cursor-grab">
@@ -443,9 +443,7 @@ const handleDelete = async () => {
       </div>
 
       {/* ================= BODY ================= */}
-      <div  ref={containerRef} className="flex-1 overflow-y-auto scrollbar-thin"
->
-
+      <div  ref={containerRef} className="flex-1">
         {treatments.length === 0 ? (
           <div className="py-6 text-center text-muted-foreground">
             No Treatment found

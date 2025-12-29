@@ -487,3 +487,25 @@ input[type="time"]::-webkit-datetime-edit-ampm-field {
 .time-picker-wrapper .react-time-picker__clock-button {
   display: none;
 }
+@layer utilities {
+  .scrollbar-hide {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+  .scrollbar-hide::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+
+@media(max-width:1024px){
+ .width-scroll{
+  width: 100%;
+  max-width: 300px;
+}
+}
+@media(max-width:425px){
+   .width-scroll{
+  max-width: 250px;
+}
+}
