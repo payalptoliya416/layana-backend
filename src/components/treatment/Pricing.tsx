@@ -420,13 +420,12 @@ const handleDragEnd = (event: any) => {
     </h2>
 
     {/* FORM */}
-          <div className="grid grid-cols-12">
+          {/* <div className="grid grid-cols-12">
                <div className="col-span-12">
                  <div className="w-full rounded-[10px] border border-border bg-card p-5 overflow-x-auto">
               <table className="w-full border-separate border-spacing-0">
                 <tbody>
                   <tr className="rounded-[10px]">
-                    {/* MIN */}
                     <td className="px-4 py-3 border-y border-input border-l rounded-tl-[10px] rounded-bl-[10px]">
                       <div className="flex items-center gap-3">
                         <span className="text-sm whitespace-nowrap text-foreground">
@@ -460,7 +459,6 @@ const handleDragEnd = (event: any) => {
                       </div>
                     </td>
 
-                    {/* PRICE */}
                     <td className="px-4 py-3 border-y border-input">
                       <div className="flex items-center gap-3">
                         <span className="text-sm whitespace-nowrap text-foreground">
@@ -495,7 +493,6 @@ const handleDragEnd = (event: any) => {
                       </div>
                     </td>
 
-                    {/* BOLD */}
                     <td className="px-4 py-3 border-y border-input">
                       <div className="flex items-center gap-3">
                         <span className="text-sm whitespace-nowrap text-foreground">
@@ -508,7 +505,6 @@ const handleDragEnd = (event: any) => {
                       </div>
                     </td>
 
-                    {/* ACTION */}
                     <td className="px-4 py-3 text-right border-y border-input border-r rounded-tr-[10px] rounded-br-[10px]">
                       <button
                         onClick={handleSave}
@@ -529,7 +525,102 @@ const handleDragEnd = (event: any) => {
               </table>
                  </div>
                </div>
-          </div>
+          </div> */}
+          <div className="grid grid-cols-12">
+  <div className="col-span-12">
+    <div className="w-full rounded-[10px] border border-border bg-card p-5 overflow-hidden">
+      <table className="w-full border-separate border-spacing-0">
+        <tbody>
+          <tr className="grid grid-cols-1 gap-4 xl:table-row">
+
+            {/* MIN */}
+            <td className="px-4 py-3  border-input border-y 
+              xl:rounded-tl-[10px] xl:rounded-bl-[10px]">
+              <div className="flex flex-col xl:flex-row xl:items-center gap-2 xl:gap-3">
+                <span className="text-sm text-foreground">Min</span>
+                <input
+                  type="number"
+                  min={1}
+                  step={1}
+                  value={minute}
+                  onChange={(e) => {
+                    const val = e.target.value;
+                    if (val === "") {
+                      setMinute("");
+                      return;
+                    }
+                    if (/^\d+$/.test(val) && Number(val) > 0) {
+                      setMinute(val);
+                    }
+                  }}
+                  placeholder="00"
+                  className="h-10 w-full xl:w-[180px] rounded-lg
+                    border border-input bg-card px-3 text-sm
+                    focus:outline-none focus:ring-2 focus:ring-ring/20"
+                />
+              </div>
+            </td>
+
+            {/* PRICE */}
+            <td className="px-4 py-3 border-input border-y">
+              <div className="flex flex-col xl:flex-row xl:items-center gap-2 xl:gap-3">
+                <span className="text-sm text-foreground">Price</span>
+                <input
+                  type="number"
+                  min={1}
+                  step={1}
+                  value={price}
+                  onChange={(e) => {
+                    const val = e.target.value;
+                    if (val === "") {
+                      setPrice("");
+                      return;
+                    }
+                    if (/^\d+$/.test(val) && Number(val) > 0) {
+                      setPrice(val);
+                    }
+                  }}
+                  placeholder="£00"
+                  className="h-10 w-full xl:w-[180px] rounded-lg
+                    border border-input bg-card px-3 text-sm
+                    focus:outline-none focus:ring-2 focus:ring-ring/20"
+                />
+              </div>
+            </td>
+
+            {/* BOLD */}
+            <td className="px-4 py-3 border-input border-y">
+              <div className="flex items-center justify-between xl:justify-start gap-3">
+                <span className="text-sm text-foreground">Bold</span>
+                <SwitchToggle
+                  value={bold}
+                  onChange={() => setBold(!bold)}
+                />
+              </div>
+            </td>
+
+            {/* ACTION */}
+            <td className="px-4 py-3 border-input border-y xl:border-r
+              xl:rounded-tr-[10px] xl:rounded-br-[10px]">
+              <div className="flex justify-end xl:justify-center">
+                <button
+                  onClick={handleSave}
+                  className="inline-flex h-9 w-full xl:w-12 items-center justify-center
+                    rounded-full bg-primary text-primary-foreground
+                    shadow-button hover:opacity-90 transition"
+                >
+                  <img src="/send.svg" alt="send" className="h-4 w-4" />
+                </button>
+              </div>
+            </td>
+
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
   </div>
 
   {/* LIST */}

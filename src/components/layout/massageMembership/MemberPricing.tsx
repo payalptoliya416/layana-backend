@@ -322,7 +322,6 @@ const handleDragEnd = (event: any) => {
     <tbody>
       <tr className="grid grid-cols-2 gap-3 xl:table-row">
 
-        {/* DURATION */}
         <td className="xl:table-cell border-y border-input xl:border-l xl:rounded-tl-[10px] xl:rounded-bl-[10px] p-3">
           <div className="flex flex-col gap-2">
             <span className="text-sm text-foreground">Duration</span>
@@ -336,7 +335,6 @@ const handleDragEnd = (event: any) => {
           </div>
         </td>
 
-        {/* OFFER */}
         <td className="xl:table-cell border-y border-input p-3">
           <div className="flex flex-col gap-2">
             <span className="text-sm text-foreground">Offer</span>
@@ -350,7 +348,6 @@ const handleDragEnd = (event: any) => {
           </div>
         </td>
 
-        {/* EACH */}
         <td className="xl:table-cell border-y border-input p-3">
           <div className="flex flex-col gap-2">
             <span className="text-sm text-foreground">Each</span>
@@ -364,7 +361,6 @@ const handleDragEnd = (event: any) => {
           </div>
         </td>
 
-        {/* PRICE */}
         <td className="xl:table-cell border-y border-input p-3">
           <div className="flex flex-col gap-2">
             <span className="text-sm text-foreground">Price</span>
@@ -378,7 +374,6 @@ const handleDragEnd = (event: any) => {
           </div>
         </td>
 
-        {/* ACTION */}
         <td className="xl:table-cell border-y border-input xl:border-r xl:rounded-tr-[10px] xl:rounded-br-[10px] p-3 col-span-2 xl:col-span-1">
           <div className="flex justify-end xl:justify-center h-full items-end">
             <button

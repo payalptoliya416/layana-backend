@@ -174,8 +174,8 @@ const GlobalLoader = () => {
     text-base md:text-[28px]
     font-semibold
     text-foreground
-     max-w-[30%]  md:max-w-[60%]  lg:max-w-full     
-    truncate ml-2
+     max-w-[26%]  md:max-w-[60%]  lg:max-w-full     
+    truncate
   "
 >
   {title}

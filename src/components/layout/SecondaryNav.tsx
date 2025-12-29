@@ -41,7 +41,7 @@ export function SecondaryNav({ activeItem, onItemChange }: SecondaryNavProps) {
               key={item.id}
               onClick={() => onItemChange(item.id)}
               className={cn(
-                "flex items-center gap-3 px-5 py-2 lg:py-4 rounded-md lg:rounded-[16px] text-sm transition-all whitespace-nowrap",
+                "flex items-center gap-3 px-2 sm:px-5 py-2 lg:py-4 rounded-md lg:rounded-[16px] text-sm transition-all whitespace-nowrap",
                 isActive
                   ? `
         bg-card
