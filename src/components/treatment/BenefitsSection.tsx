@@ -215,7 +215,7 @@ const isFacial = category === "Facial";
         onKeyDown={(e) => e.key === "Enter" && addBenefit()}
         placeholder="Enter benefits"
         className="
-          flex-1 text-sm outline-none
+          xl:flex-1 text-sm outline-none
           text-foreground
           placeholder:text-muted-foreground
          bg-transparent py-4
