@@ -241,33 +241,63 @@ function TeamList() {
     return () => clearTimeout(delay);
   }, [search]);
 
-  const handleDragEnd = async (event: any) => {
-    const { active, over } = event;
-    if (!over || active.id === over.id) return;
-    const oldIndex = teams.findIndex((i) => i.id === active.id);
-    const newIndex = teams.findIndex((i) => i.id === over.id);
+  // const handleDragEnd = async (event: any) => {
+  //   const { active, over } = event;
+  //   if (!over || active.id === over.id) return;
+  //   const oldIndex = teams.findIndex((i) => i.id === active.id);
+  //   const newIndex = teams.findIndex((i) => i.id === over.id);
 
-    if (oldIndex === -1 || newIndex === -1) return;
+  //   if (oldIndex === -1 || newIndex === -1) return;
 
-    const previous = [...teams];
+  //   const previous = [...teams];
 
-    // ✅ UI ma turant reorder
-    const reordered = arrayMove(teams, oldIndex, newIndex);
-    setTeams(reordered);
-    console.log(reordered);
-    try {
-      // ✅ existing API params j use thase
-      await reorderteam({
-        id: active.id,
-        index: newIndex + 1,
-      });
+  //   // ✅ UI ma turant reorder
+  //   const reordered = arrayMove(teams, oldIndex, newIndex);
+  //   setTeams(reordered);
+  //   console.log(reordered);
+  //   try {
+  //     // ✅ existing API params j use thase
+  //     await reorderteam({
+  //       id: active.id,
+  //       index: newIndex + 1,
+  //     });
 
-    } catch (error) {
-      // ❌ fail thay to rollback
-      setTeams(previous);
-      // toast.error("Reorder failed");
-    }
-  };
+  //   } catch (error) {
+  //     // ❌ fail thay to rollback
+  //     setTeams(previous);
+  //     // toast.error("Reorder failed");
+  //   }
+  // };
+const handleDragEnd = async (event: any) => {
+  const { active, over } = event;
+  if (!over || active.id === over.id) return;
+
+  const oldIndex = teams.findIndex((i) => i.id === active.id);
+  const newIndex = teams.findIndex((i) => i.id === over.id);
+  if (oldIndex === -1 || newIndex === -1) return;
+
+  const previous = [...teams];
+
+  // ✅ UI reorder instantly
+  const reordered = arrayMove(teams, oldIndex, newIndex);
+  setTeams(reordered);
+
+  try {
+    // ✅ build FULL index payload
+    const payload = reordered.map((item, index) => ({
+      id: item.id,
+      index: index + 1,
+    }));
+
+    // 🔥 ONE API CALL — FAST
+    await reorderteam(payload);
+
+  } catch (error) {
+    // ❌ rollback if fail
+    setTeams(previous);
+    toast.error("Reorder failed");
+  }
+};
 
   const handleDeleteConfirm = async () => {
     if (!deleteId) return;

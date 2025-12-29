@@ -56,14 +56,12 @@ export async function getTeams(params?: {
   return res.data;
 }
 
-export const reorderteam = async (payload: {
-  id: number;
-  index: number;
-}) => {
-  const res = await api.post(
-    "/teams/reorder",
-    payload
-  );
+export const reorderteam = async (
+  payload: { id: number; index: number }[]
+) => {
+  const res = await api.post("/teams/reorder", {
+    teams: payload,
+  });
 
   return res.data;
 };
