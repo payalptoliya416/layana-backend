@@ -140,7 +140,7 @@ function SortableRow({
               <GripVertical size={18} />
             </div>
 
-            <div className="flex-1">
+            <div className="flex-1 overflow-y-auto scrollbar-thin">
               <p className="font-medium mb-2">{item.name}</p>
               <p className="text-sm text-muted-foreground mb-2">
                 <span className="font-semibold">Designation : </span>
