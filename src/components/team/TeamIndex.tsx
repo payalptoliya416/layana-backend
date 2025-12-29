@@ -148,7 +148,7 @@ console.log("formData",formData)
         toast.success("Team created successfully");
       }
 
-      // navigate("/team");
+      navigate("/team");
     } catch (err: any) {
       toast.error(err?.response?.data?.message || "Failed to save team");
     } finally {
