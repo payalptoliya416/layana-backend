@@ -265,7 +265,7 @@ function TeamList() {
     } catch (error) {
       // ❌ fail thay to rollback
       setTeams(previous);
-      toast.error("Reorder failed");
+      // toast.error("Reorder failed");
     }
   };
 
