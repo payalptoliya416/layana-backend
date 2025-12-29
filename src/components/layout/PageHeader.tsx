@@ -174,7 +174,7 @@ const GlobalLoader = () => {
     text-base md:text-[28px]
     font-semibold
     text-foreground
-     max-w-[15%]  md:max-w-[60%]  lg:max-w-full     
+     max-w-[30%]  md:max-w-[60%]  lg:max-w-full     
     truncate ml-2
   "
 >
@@ -182,7 +182,7 @@ const GlobalLoader = () => {
 </h1> 
 
       {/* Right Actions */}
-      <div className="ml-auto flex items-center gap-2 sm:gap-3">
+      <div className="self-end lg:ml-auto flex items-center gap-2 sm:gap-3">
         {/* Theme Toggle */}
           {showBack && (
       <button
