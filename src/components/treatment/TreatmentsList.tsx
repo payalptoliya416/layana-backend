@@ -231,7 +231,7 @@ const handleDragEnd = async (event: any) => {
     // ✅ existing API params j use thase
     await reorderTreatment({
       id: active.id,
-      index: newIndex,
+      index: newIndex + 1,
     });
 
   } catch (error) {

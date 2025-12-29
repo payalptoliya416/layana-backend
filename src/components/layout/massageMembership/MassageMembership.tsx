@@ -202,8 +202,8 @@ function MassageMemberShip() {
 
   const [page, setPage] = useState(1);
   const [pagination, setPagination] = useState<any>(null);
-  const [sortBy, setSortBy] = useState<"id" | "name" | "status">("id");
-  const [sortDirection, setSortDirection] = useState<"asc" | "desc">("desc");
+  const [sortBy, setSortBy] = useState<"id" | "name" | "status" | 'index'>("index");
+  const [sortDirection, setSortDirection] = useState<"asc" | "desc">("asc");
   const { containerRef, rowsPerPage } = useAutoRows();
   const [isDeleting, setIsDeleting] = useState(false);
   const [deleteId, setDeleteId] = useState<number | null>(null);
@@ -259,7 +259,7 @@ console.log(reordered)
     // ✅ existing API params j use thase
     await reorderMembership({
       id: active.id,
-      index: newIndex,
+      index: newIndex + 1,
     });
 
   } catch (error) {

@@ -204,8 +204,8 @@ function TeamList() {
 
   const [page, setPage] = useState(1);
   const [pagination, setPagination] = useState<any>(null);
-  const [sortBy, setSortBy] = useState<"id" | "name" | "designation">("id");
-  const [sortDirection, setSortDirection] = useState<"asc" | "desc">("desc");
+  const [sortBy, setSortBy] = useState<"id" | "name" | "designation"| "index">("index");
+  const [sortDirection, setSortDirection] = useState<"asc" | "desc">("asc");
   const [teams, setTeams] = useState<TeamPayload[]>([]);
   const [isDeleting, setIsDeleting] = useState(false);
   const [deleteId, setDeleteId] = useState<number | null>(null);
@@ -259,7 +259,7 @@ function TeamList() {
       // ✅ existing API params j use thase
       await reorderteam({
         id: active.id,
-        index: newIndex,
+        index: newIndex + 1,
       });
 
     } catch (error) {
