@@ -126,7 +126,7 @@ const GlobalLoader = () => {
     <>
      {visibleLoader && <GlobalLoader />}
 
-    <header className="relative flex items-center px-2 justify-between sm:px-6 bg-card py-3 rounded-2xl gap-[2px] sm:gap-1">
+    <header className="relative flex items-center px-2 justify-between sm:px-6 bg-card py-3 rounded-2xl gap-[1px] sm:gap-1">
        <button
     onClick={onMenuClick}
     className="lg:hidden flex items-center justify-center
@@ -174,7 +174,7 @@ const GlobalLoader = () => {
     text-base md:text-[28px]
     font-semibold
     text-foreground
-     max-w-[26%]  md:max-w-[60%]  lg:max-w-full     
+     max-w-[20%]  md:max-w-[60%]  lg:max-w-full     
     truncate
   "
 >
