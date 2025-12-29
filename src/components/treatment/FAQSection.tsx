@@ -241,7 +241,7 @@ useImperativeHandle(ref, () => ({
     <>
       <div className="space-y-4">
   {/* HEADER */}
-  <div className="flex justify-between items-center flex-wrap">
+  {/* <div className="flex justify-between items-center flex-wrap">
     <h2 className="text-lg font-medium text-foreground">
       FAQ’s{!isFacial && (<sup className="text-destructive">*</sup>)}
     </h2>
@@ -265,10 +265,10 @@ useImperativeHandle(ref, () => ({
     >
       <Plus size={18} /> Add FAQ’s
     </button>
-  </div>
+  </div> */}
 
   {/* LIST */}
-  {uiFaqs.length !== 0 && (
+  {/* {uiFaqs.length !== 0 && (
     <div className="rounded-2xl border border-border bg-card p-3 lg:p-4 space-y-3">
       <DndContext
         collisionDetection={closestCenter}
@@ -299,7 +299,7 @@ useImperativeHandle(ref, () => ({
         </SortableContext>
       </DndContext>
     </div>
-  )}
+  )} */}
       </div>
 
       <AddFaqModal
