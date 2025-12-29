@@ -146,12 +146,12 @@ function SortableRow({
                 <span className="font-semibold">Designation : </span>
                 {item.designation}
               </p>
-              <div className="flex justify-between items-center pt-2">
+              {/* <div className="flex justify-between items-center pt-2">
                 <SwitchToggle
                   value={item.featured}
                   onChange={(val: boolean) => onToggleFeatured(item.id, val)}
                 />
-              </div>
+              </div> */}
             </div>
           </div>
           <div className="flex gap-2">
