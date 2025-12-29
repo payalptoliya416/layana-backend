@@ -77,26 +77,6 @@ export async function getTreatments(params?: {
   return res.data;
 }
 
-// export async function getTreatments(params?: {
-//   page?: number;
-//   sortBy?: string;
-//   sortDirection?: "asc" | "desc";
-// }) {
-//   const res = await api.post<TreatmentsResponse>(
-//     "/treatements/message",
-//     {},
-//     {
-//       params: {
-//         page: params?.page,
-//         sort_by: params?.sortBy,
-//         sort_direction: params?.sortDirection,
-//       },
-//     }
-//   );
-
-//   return res.data;
-// }
-
 export const reorderTreatment = async (payload: {
   id: number;
   index: number;
@@ -108,3 +88,4 @@ export const reorderTreatment = async (payload: {
 
   return res.data;
 };
+

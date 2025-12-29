@@ -55,3 +55,15 @@ export async function getTeams(params?: {
 
   return res.data;
 }
+
+export const reorderteam = async (payload: {
+  id: number;
+  index: number;
+}) => {
+  const res = await api.post(
+    "/teams/reorder",
+    payload
+  );
+
+  return res.data;
+};

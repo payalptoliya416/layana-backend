@@ -163,3 +163,17 @@ export async function deleteMembership(id: number) {
   const res = await api.post("/memberships/delete", { id });
   return res.data;
 }
+
+
+export const reorderMembership = async (payload: {
+  id: number;
+  index: number;
+}) => {
+  const res = await api.post(
+    "/memberships/reorder",
+    payload
+  );
+
+  return res.data;
+};
+

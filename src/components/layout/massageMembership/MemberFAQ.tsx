@@ -40,24 +40,28 @@ interface UIFaq extends FAQItem {
 
 function SortableFAQ({
   faq,
+   index,
   isOpen,
   onToggle,
   onDelete,
   onEdit,
 }: {
-  faq: UIFaq;
+  faq: UIFaq; index: number; 
   isOpen: boolean;
   onToggle: () => void;
   onDelete: () => void;
   onEdit: () => void;
 }) {
   const { setNodeRef, attributes, listeners, transform, transition } =
-    useSortable({ id: faq.id });
+    useSortable({ id: faq.id ,transition: {
+    duration: 250,
+    easing: "cubic-bezier(0.25, 1, 0.5, 1)", 
+  }, });
 
   const style = {
-    transform: CSS.Transform.toString(transform),
-    transition,
-  };
+  transform: CSS.Transform.toString(transform),
+  transition,
+};
 
   return (
     <div
@@ -78,7 +82,7 @@ function SortableFAQ({
         <div className="flex-1 space-y-3">
           <div className="flex justify-between gap-4 flex-wrap">
             <div className="flex gap-2 text-sm font-medium">
-              <span className="font-semibold">Q.</span>
+              <span className="font-semibold">Q.{index + 1}</span>
               {faq.question}
             </div>
 
@@ -143,6 +147,8 @@ const MemberFAQ = forwardRef<
   }));
 
   /* ---------- REORDER ---------- */
+
+
   const handleDragEnd = (event: any) => {
     const { active, over } = event;
     if (!over || active.id === over.id) return;
@@ -224,6 +230,7 @@ const MemberFAQ = forwardRef<
                 {uiFaqs.map((faq, index) => (
                   <SortableFAQ
                     key={faq.id}
+                    index={index}
                     faq={faq}
                     isOpen={openId === faq.id}
                     onToggle={() =>

@@ -17,11 +17,13 @@ import {
   closestCenter,
   DndContext,
   KeyboardSensor,
+  MeasuringStrategy,
   PointerSensor,
   useSensor,
   useSensors,
 } from "@dnd-kit/core";
 import {
+  arrayMove,
   SortableContext,
   useSortable,
   verticalListSortingStrategy,
@@ -36,9 +38,10 @@ import {
   AlertDialogFooter,
 } from "@/components/ui/alert-dialog";
 import { Button } from "../ui/button";
-import { getTeams } from "@/services/getTeam";
+import { getTeams, reorderteam } from "@/services/getTeam";
 import SwitchToggle from "../treatment/Toggle";
 import { deleteTeam, TeamPayload, updateTeam } from "@/services/teamService";
+import { useAutoRows } from "@/hooks/useAutoRows";
 
 export type Category = {
   id: number;
@@ -71,8 +74,9 @@ function SortableRow({
     <div ref={setNodeRef} style={style}>
       {/* ================= DESKTOP ROW ================= */}
       <div
+        data-row
         className={cn(
-          "hidden xl:flex items-center px-4 py-3 mx-4 my-1 rounded-xl",
+          " hidden xl:flex items-center px-4 py-3 mx-4 my-1 rounded-xl",
           index % 2 === 0 ? "bg-card" : "bg-muted",
           "hover:bg-muted/70"
         )}
@@ -191,6 +195,7 @@ function TeamList() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [search, setSearch] = useState("");
   const [debouncedSearch, setDebouncedSearch] = useState("");
+  const { containerRef, rowsPerPage } = useAutoRows();
   const sensors = useSensors(
     useSensor(PointerSensor, {
       activationConstraint: { distance: 5 },
@@ -207,10 +212,11 @@ function TeamList() {
   const [deleteId, setDeleteId] = useState<number | null>(null);
 
   const fetchTeams = async () => {
+    if (!rowsPerPage) return;
     try {
       const res = await getTeams({
         page,
-        perPage: 10,
+        perPage: rowsPerPage,
         search: debouncedSearch,
         sortBy,
         sortDirection,
@@ -225,7 +231,7 @@ function TeamList() {
   };
   useEffect(() => {
     fetchTeams();
-  }, [page, sortBy, sortDirection, debouncedSearch]);
+  }, [page, sortBy, sortDirection, rowsPerPage, debouncedSearch]);
 
   useEffect(() => {
     const delay = setTimeout(() => {
@@ -235,6 +241,35 @@ function TeamList() {
 
     return () => clearTimeout(delay);
   }, [search]);
+
+  const handleDragEnd = async (event: any) => {
+    const { active, over } = event;
+    if (!over || active.id === over.id) return;
+    const oldIndex = teams.findIndex((i) => i.id === active.id);
+    const newIndex = teams.findIndex((i) => i.id === over.id);
+
+    if (oldIndex === -1 || newIndex === -1) return;
+
+    const previous = [...teams];
+
+    // ✅ UI ma turant reorder
+    const reordered = arrayMove(teams, oldIndex, newIndex);
+    setTeams(reordered);
+    console.log(reordered);
+    try {
+      // ✅ existing API params j use thase
+      await reorderteam({
+        id: active.id,
+        index: newIndex,
+      });
+
+      toast.success("Order updated");
+    } catch (error) {
+      // ❌ fail thay to rollback
+      setTeams(previous);
+      toast.error("Reorder failed");
+    }
+  };
 
   const handleDeleteConfirm = async () => {
     if (!deleteId) return;
@@ -309,7 +344,15 @@ function TeamList() {
           </div>
 
           {/* Content */}
-          <div className="flex-1 pl-[15px] pr-6 px-6 flex flex-col h-full bg-card rounded-2xl shadow-card p-5 overflow-hidden">
+          <div
+            className="flex-1
+    pl-[15px] pr-6 px-6
+    flex flex-col
+    bg-card rounded-2xl shadow-card p-5
+    relative
+    overflow-hidden
+    h-[calc(100dvh-160px)] lg:h-[calc(100vh-220px)]"
+          >
             <div className="flex flex-col flex-1 overflow-hidden">
               <div className="mb-2 flex items-center justify-between  shrink-0 flex-wrap gap-1 sm:gap-2">
                 <div className="relative w-full sm:w-[256px] rounded-full p-1">
@@ -412,15 +455,21 @@ function TeamList() {
                     </div>
 
                     {/* ================= BODY ================= */}
-                    <div className="flex-1 overflow-y-auto scrollbar-thin">
+                    <div ref={containerRef} className="flex-1 overflow-hidden">
                       {!teams || teams.length === 0 ? (
                         <div className="py-10 text-center text-muted-foreground text-sm">
                           No Data found
                         </div>
                       ) : (
                         <DndContext
+                          onDragEnd={handleDragEnd}
                           collisionDetection={closestCenter}
                           sensors={sensors}
+                          measuring={{
+                            droppable: {
+                              strategy: MeasuringStrategy.Always,
+                            },
+                          }}
                         >
                           <SortableContext
                             items={teams.map((i) => i.id)}
@@ -444,7 +493,10 @@ function TeamList() {
 
                   {/* ================= PAGINATION ================= */}
                   {pagination && (
-                    <div className="flex items-center justify-center gap-6 px-4 py-2 text-sm text-muted-foreground">
+                    <div
+                      data-pagination
+                      className="flex items-center justify-center gap-6 px-4 py-2 text-sm text-muted-foreground"
+                    >
                       <button
                         disabled={pagination.current_page === 1}
                         onClick={() => setPage(1)}

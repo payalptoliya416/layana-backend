@@ -17,11 +17,13 @@ import {
   closestCenter,
   DndContext,
   KeyboardSensor,
+  MeasuringStrategy,
   PointerSensor,
   useSensor,
   useSensors,
 } from "@dnd-kit/core";
 import {
+  arrayMove,
   SortableContext,
   useSortable,
   verticalListSortingStrategy,
@@ -40,7 +42,9 @@ import {
   deleteMembership,
   getMemberships,
   MembershipPayload,
+  reorderMembership,
 } from "@/services/getMemberShip";
+import { useAutoRows } from "@/hooks/useAutoRows";
 
 export type Category = {
   id: number;
@@ -70,6 +74,7 @@ function SortableRow({
     <div ref={setNodeRef} style={style}>
       {/* ================= DESKTOP ROW ================= */}
       <div
+      data-row
         className={cn(
           "hidden xl:flex items-center px-4 py-3 mx-4 my-1 rounded-xl",
           index % 2 === 0 ? "bg-card" : "bg-muted",
@@ -190,15 +195,17 @@ function MassageMemberShip() {
   const [pagination, setPagination] = useState<any>(null);
   const [sortBy, setSortBy] = useState<"id" | "name" | "status">("id");
   const [sortDirection, setSortDirection] = useState<"asc" | "desc">("desc");
+  const { containerRef, rowsPerPage } = useAutoRows();
   const [isDeleting, setIsDeleting] = useState(false);
   const [deleteId, setDeleteId] = useState<number | null>(null);
   const [memberships, setMemberships] = useState<MembershipPayload[]>([]);
 
   const fetchMemberships = async () => {
+       if (!rowsPerPage) return;
     try {
       const res = await getMemberships({
         page,
-        perPage: 10,
+        perPage: rowsPerPage,
         search: debouncedSearch,
         sortBy,
         sortDirection,
@@ -213,8 +220,9 @@ function MassageMemberShip() {
 
   useEffect(() => {
     fetchMemberships();
-  }, [page, debouncedSearch, sortBy, sortDirection,]);
+  }, [page, debouncedSearch, sortBy, sortDirection,rowsPerPage]);
 
+  
   useEffect(() => {
     const t = setTimeout(() => {
       setDebouncedSearch(search);
@@ -223,7 +231,35 @@ function MassageMemberShip() {
 
     return () => clearTimeout(t);
   }, [search]);
+  
+  const handleDragEnd = async (event: any) => {
+  const { active, over } = event;
+  if (!over || active.id === over.id) return;
+  const oldIndex = memberships.findIndex((i) => i.id === active.id);
+  const newIndex = memberships.findIndex((i) => i.id === over.id);
 
+  if (oldIndex === -1 || newIndex === -1) return;
+
+  const previous = [...memberships];
+
+  // ✅ UI ma turant reorder
+  const reordered = arrayMove(memberships, oldIndex, newIndex);
+  setMemberships(reordered);
+console.log(reordered)
+  try {
+    // ✅ existing API params j use thase
+    await reorderMembership({
+      id: active.id,
+      index: newIndex,
+    });
+
+    toast.success("Order updated");
+  } catch (error) {
+    // ❌ fail thay to rollback
+    setMemberships(previous);
+    toast.error("Reorder failed");
+  }
+};
   const handleDeleteConfirm = async () => {
     if (!deleteId) return;
 
@@ -393,15 +429,22 @@ function MassageMemberShip() {
                     </div>
 
                     {/* ================= BODY ================= */}
-                    <div className="flex-1 overflow-y-auto scrollbar-thin">
+                    <div ref={containerRef} className="flex-1 overflow-y-auto scrollbar-thin">
                       {!memberships || memberships.length === 0 ? (
                         <div className="py-10 text-center text-muted-foreground text-sm">
                           No Data found
                         </div>
                       ) : (
                         <DndContext
+                        
+                          onDragEnd={handleDragEnd}
                           collisionDetection={closestCenter}
                           sensors={sensors}
+                           measuring={{
+                                        droppable: {
+                                          strategy: MeasuringStrategy.Always,
+                                        },
+                                      }}
                         >
                           <SortableContext
                             items={memberships.map((i) => i.id)}

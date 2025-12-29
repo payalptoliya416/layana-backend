@@ -45,11 +45,13 @@ interface UIFaq extends FAQItem {
 function SortableFAQ({
   faq,
   isOpen,
+   index,
   onToggle,
   onDelete,
   onEdit,
 }: {
   faq: UIFaq;
+   index: number; 
   isOpen: boolean;
   onToggle: () => void;
   onDelete: () => void;
@@ -101,7 +103,7 @@ function SortableFAQ({
       <div className="flex items-center justify-between gap-4 flex-wrap">
         {/* QUESTION */}
         <div className="flex gap-2 text-sm font-medium text-foreground">
-          <span className="font-semibold">Q.</span>
+          <span className="font-semibold">Q.{index + 1}</span>
           {faq.question}
         </div>
 
@@ -280,6 +282,7 @@ useImperativeHandle(ref, () => ({
             <SortableFAQ
               key={faq.id}
               faq={faq}
+               index={index}
               isOpen={openId === faq.id}
               onToggle={() =>
                 setOpenId(openId === faq.id ? null : faq.id)
