@@ -378,7 +378,7 @@ const handleDragEnd = (event: any) => {
           <div className="flex justify-end xl:justify-center h-full items-end">
             <button
               onClick={handleSave}
-              className="inline-flex h-10 w-12 items-center justify-center rounded-full bg-primary text-primary-foreground"
+              className="inline-flex h-10 w-full xl:w-12 items-center justify-center rounded-full bg-primary text-primary-foreground"
             >
               <img src="/send.svg" className="h-4 w-4" />
             </button>
