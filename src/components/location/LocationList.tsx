@@ -191,7 +191,7 @@ function SortableRow({
   {item.status?.charAt(0).toUpperCase() + item.status?.slice(1)}
 </div>
         
-          <td className="w-[160px] flex justify-end gap-2 whitespace-nowrap">
+          <td className="w-[160px] flex justify-start gap-2 whitespace-nowrap pl-4">
         <button
         onClick={() => onView(item.id)}
           className="
@@ -504,7 +504,7 @@ const onView = (id: number) =>{
                                           </span>
                           </button>
 
-                          <div className="w-[160px] pl-4 border-l text-right">
+                          <div className="w-[160px] pl-4 border-l text-left">
                             Actions
                           </div>
                         </div>
