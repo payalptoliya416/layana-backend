@@ -315,12 +315,9 @@ const handleDragEnd = async (event: any) => {
     fetchTeams();
 
   } catch (error) {
-    toast.error("Reorder failed");
     fetchTeams();
   }
 };
-
-
 
   const handleDeleteConfirm = async () => {
     if (!deleteId) return;

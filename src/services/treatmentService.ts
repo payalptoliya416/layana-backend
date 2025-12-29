@@ -77,15 +77,35 @@ export async function getTreatments(params?: {
   return res.data;
 }
 
-export const reorderTreatment = async (payload: {
-  id: number;
-  index: number;
-}) => {
-  const res = await api.post(
-    "/treatements/message/reorder",
-    payload
-  );
-
+export const reorderTreatment = async (
+  payload: { id: number; index: number }[]
+) => {
+  const res = await api.post("/treatements/message/reorder", {
+    treatments: payload,
+  });
   return res.data;
 };
 
+export async function getAllTreatments(
+  count: number
+): Promise<Treatment[]> {
+  const formData = new URLSearchParams();
+  formData.append("page", "1");
+  formData.append("per_page", String(count));
+
+  const res = await api.post<TreatmentsResponse>(
+    "/treatements/message",
+    formData,
+    {
+      params: {
+        sort_by: "index",
+        sort_direction: "asc",
+      },
+      headers: {
+        "Content-Type": "application/x-www-form-urlencoded",
+      },
+    }
+  );
+
+  return res.data.data; // ✅ now typed as Treatment[]
+}

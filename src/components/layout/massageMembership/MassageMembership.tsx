@@ -265,7 +265,6 @@ console.log(reordered)
   } catch (error) {
     // ❌ fail thay to rollback
     setMemberships(previous);
-    toast.error("Reorder failed");
   }
 };
   const handleDeleteConfirm = async () => {
