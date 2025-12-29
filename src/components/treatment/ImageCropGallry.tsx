@@ -112,7 +112,7 @@ const createCroppedImage = async () => {
           </Button>
 
           <Button onClick={createCroppedImage}>
-            {onNext ? (isLast ? "Save" : "Next") : "Crop & Save"}
+            {onNext ? (isLast ? "Crop & Sav" : "Next") : "Crop & Save"}
           </Button>
         </div>
       </div>
