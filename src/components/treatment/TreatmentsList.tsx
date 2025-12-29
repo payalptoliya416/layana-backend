@@ -74,10 +74,10 @@ function SortableRow({
     <div ref={setNodeRef} style={style}>
 
       {/* ================= DESKTOP ROW ================= */}
-      <div
-      data-row
+         <div
+          data-row
         className={cn(
-          "hidden lg:flex items-center gap-4 h-[52px] px-4 mx-4 my-1 rounded-[10px] text-sm transition-all",
+          "hidden lg:flex items-center px-4 py-3 mx-4 my-1 rounded-xl gap-2",
           index % 2 === 0 ? "bg-card" : "bg-muted",
           "hover:bg-muted/70"
         )}
@@ -92,12 +92,12 @@ function SortableRow({
         </div>
 
         {/* CATEGORY */}
-        <div className="w-[30%] pl-4 font-medium text-muted-foreground whitespace-nowrap">
+        <div className="w-[30%]  font-medium text-muted-foreground whitespace-nowrap">
           {item.category}
         </div>
 
         {/* TREATMENT */}
-        <div className="flex-1 pl-4 text-muted-foreground whitespace-nowrap">
+        <div className="flex-1  text-muted-foreground whitespace-nowrap">
           {item.name}
         </div>
 
@@ -393,7 +393,7 @@ const handleDelete = async () => {
 
     <div className="w-full rounded-2xl border border-border bg-card flex flex-col h-[calc(98dvh-300px)] sm:h-[calc(99.5dvh-300px)]">
       {/* ================= HEADER (DESKTOP ONLY) ================= */}
-      <div className="sticky top-0 z-[9] bg-card border-b hidden lg:flex items-center h-[52px] px-4 text-sm font-medium text-primary">
+      <div className="sticky top-0 z-[9] bg-card border-b hidden xl:flex items-center h-[52px] px-4 text-sm font-medium text-primary mx-3">
 
         <div className="w-10" />
 
@@ -402,9 +402,17 @@ const handleDelete = async () => {
             setSortBy("category");
             setSortDirection((p) => (p === "asc" ? "desc" : "asc"));
           }}
-          className="w-[30%] pl-4 border-l cursor-pointer"
+          className="w-[30%] pl-4 border-l cursor-pointer flex items-center justify-between text-left"
         >
           Category
+          <span className="flex flex-col gap-1 ml-2 text-muted-foreground leading-none mr-2">
+                          <span className="text-[10px]">
+                            <img src="/top.png" alt="" />
+                          </span>
+                          <span className="text-[10px] -mt-1">
+                            <img src="/down.png" alt="" />
+                          </span>
+                        </span>
         </div>
 
         <div
@@ -412,12 +420,21 @@ const handleDelete = async () => {
             setSortBy("name");
             setSortDirection((p) => (p === "asc" ? "desc" : "asc"));
           }}
-          className="flex-1 pl-4 border-l cursor-pointer"
+          className="flex-1 pl-4 border-l cursor-pointer flex items-center justify-between text-left"
         >
           Treatment
+
+          <span className="flex flex-col gap-1 ml-2 text-muted-foreground leading-none mr-2">
+                          <span className="text-[10px]">
+                            <img src="/top.png" alt="" />
+                          </span>
+                          <span className="text-[10px] -mt-1">
+                            <img src="/down.png" alt="" />
+                          </span>
+                        </span>
         </div>
 
-        <div className="w-[100px] pl-4 border-l text-right pr-4">
+        <div className="w-[100px] pl-4 border-l text-left pr-4">
           Actions
         </div>
       </div>

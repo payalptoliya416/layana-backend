@@ -10,7 +10,6 @@ import NotFound from "./pages/NotFound";
 import ProtectedRoute from "./components/ProtectedRoute";
 import TreatmentsList from "./components/treatment/TreatmentsList";
 import Catgeory from "./components/category/Catgeory";
-import CategoryAdd from "./components/category/CategoryAdd";
 import LocationList from "./components/location/LocationList";
 import LocationIndex from "./components/location/LocationIndex";
 import LocationView from "./components/location/LocationView";
@@ -49,23 +48,6 @@ const App = () => (
             element={
               <ProtectedRoute>
                 <Catgeory />
-              </ProtectedRoute>
-            }
-          />
-
-          <Route
-            path="/settings/category/add"
-            element={
-              <ProtectedRoute>
-                <CategoryAdd />
-              </ProtectedRoute>
-            }
-          />
-          <Route
-            path="/settings/category/edit/:id"
-            element={
-              <ProtectedRoute>
-                <CategoryAdd />
               </ProtectedRoute>
             }
           />

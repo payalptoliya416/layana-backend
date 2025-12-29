@@ -29,26 +29,6 @@ const TeamVisuals = forwardRef<any, Props>(
     const [cropConfig, setCropConfig] = useState<any>(null);
     const [cropQueue, setCropQueue] = useState<string[]>([]);
 const [currentCropIndex, setCurrentCropIndex] = useState(0);
-
-    /* expose validate */
-    // useImperativeHandle(ref, () => ({
-    //   validate(): ValidationResult {
-    //     if (!gallery.length) {
-    //       return {
-    //         valid: false,
-    //         errors: [
-    //           {
-    //             section: "Visuals",
-    //             field: "images",
-    //             message: "At least one image is required",
-    //           },
-    //         ],
-    //       };
-    //     }
-    //     return { valid: true, errors: [] };
-    //   },
-
-    // }));
     useImperativeHandle(ref, () => ({
   validate(): ValidationResult {
     return { valid: true, errors: [] };
@@ -63,19 +43,10 @@ useEffect(() => {
   }
 }, [initialImages]);
 
-    // const handleGallerySelect = (file: File) => {
-    //   setCropImage(URL.createObjectURL(file));
-    //   setCropConfig({
-    //     aspect: 565 / 575,
-    //     width: 565,
-    //     height: 575,
-    //   });
-    // };
-
     return (
       <div className="mt-6">
         <p className="mb-2 text-sm font-medium">
-          Gallery Images
+         Images 
         </p>
 
         <div className="flex gap-3 flex-wrap">
@@ -115,7 +86,7 @@ useEffect(() => {
           </div>
 {Array.isArray(gallery) &&
           gallery.map((img, i) => (
-            <div key={i} className="relative h-[90px] w-[90px]">
+            <div key={i} className="relative h-[90px] w-[90px] bg-card">
               <img src={img} className="h-full w-full object-cover rounded-xl" />
               <button
                  onClick={() =>
@@ -158,7 +129,7 @@ useEffect(() => {
       });
     }
 
-    // 🔁 move to next image OR finish
+    // 🔁 move to next image OR Save
     if (currentCropIndex < cropQueue.length - 1) {
       setCurrentCropIndex((i) => i + 1);
       setCropImage(cropQueue[currentCropIndex + 1]);

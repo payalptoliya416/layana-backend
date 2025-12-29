@@ -7,6 +7,7 @@ import {
   MapPin,
 } from "lucide-react";
 import { useNavigate } from "react-router-dom";
+import { Footer } from "../Footer";
 
 function BussinessSetting() {
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
@@ -30,6 +31,7 @@ const items = [
 ];
 
   return (
+    <>
     <div className="bg-background flex">
       <div className="hidden lg:block">
         <Sidebar
@@ -101,7 +103,7 @@ const items = [
                 />
 
                 {/* CONTENT */}
-                <div className="relative z-10 flex flex-col justify-center items-center">
+                <div className="relative z-[9] flex flex-col justify-center items-center">
                   {/* ICON */}
                   <div
                     className="
@@ -134,6 +136,8 @@ const items = [
         </div>
       </div>
     </div>
+    <Footer/>
+    </>
   );
 }
 

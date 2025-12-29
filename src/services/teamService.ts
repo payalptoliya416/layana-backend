@@ -11,6 +11,7 @@ export interface TeamPayload {
 }
 
 export async function createTeam(payload: TeamPayload) {
+  console.log("asas",payload)
   const res = await api.post("/teams/create", payload);
   return res.data;
 }

@@ -104,7 +104,7 @@ export function ImageCropGallry({
           </Button>
 
           <Button onClick={createCroppedImage}>
-            {onNext ? (isLast ? "Finish" : "Next") : "Crop & Save"}
+            {onNext ? (isLast ? "Save" : "Next") : "Crop & Save"}
           </Button>
         </div>
       </div>

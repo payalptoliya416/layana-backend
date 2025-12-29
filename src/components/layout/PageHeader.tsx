@@ -126,7 +126,7 @@ const GlobalLoader = () => {
     <>
      {visibleLoader && <GlobalLoader />}
 
-    <header className="relative flex items-center px-2 sm:px-6 bg-card py-3 rounded-2xl gap-1 flex-wrap">
+    <header className="relative flex items-center px-2 justify-between sm:px-6 bg-card py-3 rounded-2xl gap-[2px] sm:gap-1">
        <button
     onClick={onMenuClick}
     className="lg:hidden flex items-center justify-center
@@ -174,7 +174,7 @@ const GlobalLoader = () => {
     text-base md:text-[28px]
     font-semibold
     text-foreground
-     max-w-[30%]  md:max-w-[60%]  lg:max-w-full     
+     max-w-[15%]  md:max-w-[60%]  lg:max-w-full     
     truncate ml-2
   "
 >
@@ -200,50 +200,10 @@ const GlobalLoader = () => {
        <ArrowLeft className="h-4 w-4" />
       </button>
     )}
-     {/* Theme Toggle */}
-<div className="gradient-border boxshadow hidden sm:block">
-  <div className="gradient-border-inner flex items-center p-2 h-10 md:h-[50px]">
-
-    <div  className={cn(
-        !isDark
-          ? "gradient-border"
-          : ""
-      )}>
-    <button
-      onClick={() => {
-        if (isDark) toggleTheme();
-      }}
-      className={cn( 
-        "w-[30px] md:w-[34px] h-[30px] md:h-[34px] rounded-full flex items-center justify-center transition-all",
-        !isDark
-          ? "bg-card"
-          : "text-muted-foreground"
-      )}
-    >
-      <Sun className="w-4 h-4 text-foreground" />
-    </button>
-    </div>
-
-    <button
-      onClick={() => {
-        if (!isDark) toggleTheme();
-      }}
-      className={cn(
-        "w-[34px] h-[34px] rounded-full flex items-center justify-center transition-all",
-        isDark
-          ? "bg-card shadow-[inset_0_0_20px_hsl(var(--primary)/0.15)]"
-          : "text-muted-foreground"
-      )}
-    >
-      <Moon className="w-4 h-4 transform rotate-[280deg]" />
-    </button>
-  </div>
-</div>
         {/* Notifications */}
-     <div ref={themeRef} className="relative block sm:hidden gradient-border">
-  {/* THEME BUTTON */}
+   <div ref={themeRef} className="relative block gradient-border">
   <button
-    onClick={() => setIsThemeOpen((p) => !p)}
+    onClick={() => toggleTheme()}
     className="
       w-9 md:w-[50px] h-9 md:h-[50px]
       rounded-full
@@ -252,63 +212,15 @@ const GlobalLoader = () => {
       boxshadow
       transition-all
     "
+    aria-label="Toggle theme"
   >
-    <Sun className="w-4 h-4 text-foreground" />
+    {isDark ? (
+      <Moon className="w-4 h-4 text-foreground transition-transform duration-200" />
+    ) : (
+      <Sun className="w-4 h-4 text-foreground transition-transform duration-200" />
+    )}
   </button>
-
-  {/* THEME MENU */}
-  {isThemeOpen && (
-    <div
-      className="
-        absolute right-0 top-full mt-2 px-[4px]
-        w-44
-        bg-card
-        rounded-xl
-        border border-border
-        shadow-dropdown
-        py-[6px]
-        z-50
-        animate-fade-in
-      "
-    >
-      {/* LIGHT */}
-      <button
-        onClick={() => {
-          if (isDark) toggleTheme();
-          setIsThemeOpen(false);
-        }}
-        className={cn(
-          "w-full flex items-center gap-3 px-4 py-[10px] text-sm rounded-md",
-          !isDark
-            ? "bg-muted text-primary font-medium"
-            : "text-muted-foreground hover:bg-muted"
-        )}
-      >
-        <Sun className="w-4 h-4" />
-        Light
-      </button>
-
-      {/* DARK */}
-      <button
-        onClick={() => {
-          if (!isDark) toggleTheme();
-          setIsThemeOpen(false);
-        }}
-        className={cn(
-          "w-full flex items-center gap-3 px-4 py-[10px] text-sm rounded-md",
-          isDark
-            ? "bg-muted text-primary font-medium"
-            : "text-muted-foreground hover:bg-muted"
-        )}
-      >
-        <Moon className="w-4 h-4" />
-        Dark
-      </button>
-    </div>
-  )}
 </div>
-
-
      {/* Notifications */}
       <div ref={notificationsRef} className="relative gradient-border shadow-[0_6px_10px_rgba(0,0,0,0.1)]">
         <button
@@ -329,7 +241,16 @@ const GlobalLoader = () => {
 
         {/* DROPDOWN */}
      {isNotificationsOpen && (
-    <div className="absolute right-0 top-full mt-2 w-56 sm:w-80 bg-card rounded-xl border border-border shadow-dropdown py-1.5 animate-fade-in z-50">
+    <div className="fixed sm:absolute
+    inset-x-0 sm:inset-auto
+    top-20 sm:top-full mt-2
+    mx-3 sm:mx-0 
+    sm:right-0
+    w-[calc(100%-1.5rem)] sm:w-80
+    bg-card rounded-xl border border-border
+    shadow-dropdown py-1.5
+    animate-fade-in z-50">
+    {/* <div className="absolute right-0 top-full mt-2 w-56 sm:w-80 bg-card rounded-xl border border-border shadow-dropdown py-1.5 animate-fade-in !z-50"> */}
     <div className="px-4 py-3 border-b font-semibold">
       Notifications
     </div>
@@ -379,7 +300,7 @@ const GlobalLoader = () => {
 
           {/* Profile Dropdown Menu */}
           {isProfileOpen && (
-            <div className="absolute right-0 top-full mt-2 w-48 bg-card rounded-xl border border-border shadow-dropdown py-1.5 animate-fade-in z-50">
+            <div className="absolute right-0 top-full mt-2 w-36 bg-card rounded-xl border border-border shadow-dropdown py-1.5 animate-fade-in z-50">
               <button
                 className="w-full flex items-center gap-3 px-4 py-2.5 text-sm text-foreground hover:bg-muted transition-colors rounded-lg mx-1 mr-2"
                 style={{ width: 'calc(100% - 8px)' }}

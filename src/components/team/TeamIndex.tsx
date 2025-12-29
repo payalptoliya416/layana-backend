@@ -16,6 +16,7 @@ import {
   AlertDialogTitle,
   AlertDialogFooter,
 } from "@/components/ui/alert-dialog";
+import { Footer } from "../layout/Footer";
 
 export type TeamGeneralForm = {
   name: string;
@@ -49,7 +50,7 @@ function TeamIndex() {
     const [validationErrors, setValidationErrors] = useState<
     { section: string; message: string }[]
   >([]);
-
+const [teamName, setTeamName] = useState<string>("");
   /* ---------- refs ---------- */
   const generalRef = useRef<any>(null);
   const visualRef = useRef<any>(null);
@@ -66,11 +67,7 @@ function TeamIndex() {
       images: [],
     },
   });
-
-  /* ---------- cancel ---------- */
-  const handleCancel = () => {
-    navigate("/team");
-  };
+console.log("formData",formData)
 
   /* ---------- render tabs ---------- */
   const renderTabContent = () => (
@@ -94,12 +91,15 @@ function TeamIndex() {
         <TeamVisuals
           ref={visualRef}
           initialImages={formData.visuals.images}
-          onChange={(images) =>
-            setFormData((p) => ({
-              ...p,
-              visuals: { images },
-            }))
-          }
+         onChange={(images) =>
+      setFormData((p) => ({
+        ...p,
+        visuals: {
+          ...p.visuals,   // ✅ IMPORTANT
+          images,
+        },
+      }))
+    }
         />
       </div>
     </>
@@ -119,7 +119,6 @@ function TeamIndex() {
       .flatMap((r) => r.errors);
 
     if (allErrors.length) {
-      toast.error(allErrors[0].message);
       setSaving(false);
        setValidationErrors(
         allErrors.map((e) => ({
@@ -138,6 +137,7 @@ function TeamIndex() {
       description: formData.general.description,
       images: formData.visuals.images,
     };
+    console.log("payload",payload)
 
     try {
       if (isEdit && id) {
@@ -148,7 +148,7 @@ function TeamIndex() {
         toast.success("Team created successfully");
       }
 
-      navigate("/team");
+      // navigate("/team");
     } catch (err: any) {
       toast.error(err?.response?.data?.message || "Failed to save team");
     } finally {
@@ -187,6 +187,7 @@ function TeamIndex() {
         visualRef.current?.setData?.({
           images: data.images || [],
         });
+         setTeamName(data.name)
       } catch {
         toast.error("Failed to load team");
       }
@@ -280,7 +281,7 @@ function TeamIndex() {
         {/* Sticky Header */}
         <div className="sticky top-3 z-10 pb-3">
           <PageHeader
-            title={"Team"}
+            title={teamName || "Team"}
             onMenuClick={() => setSidebarOpen(true)}
                onBack={() => navigate(-1)}
                showBack = {true}
@@ -331,6 +332,7 @@ function TeamIndex() {
         </div>
       </div>
     </div>
+    <Footer/>
     </>
   );
 }

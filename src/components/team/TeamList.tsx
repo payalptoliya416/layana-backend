@@ -69,7 +69,6 @@ function SortableRow({
 
   return (
     <div ref={setNodeRef} style={style}>
-
       {/* ================= DESKTOP ROW ================= */}
       <div
         className={cn(
@@ -78,31 +77,29 @@ function SortableRow({
           "hover:bg-muted/70"
         )}
       >
-        <div {...attributes} {...listeners} className="w-10 flex justify-center cursor-grab">
+        <div
+          {...attributes}
+          {...listeners}
+          className="w-10 flex justify-center cursor-grab"
+        >
           <GripVertical size={18} />
         </div>
 
         <div className="w-[25%] pl-4">{item.name}</div>
-        <div className="w-[25%] pl-4">{item.designation}</div>
+        <div className="w-[25%] pl-4 flex-1">{item.designation}</div>
 
-        <div className="w-[30%] text-sm text-muted-foreground pl-4"
-          dangerouslySetInnerHTML={{ __html: item.description }}
-        />
-
-        <div className="w-[160px] pl-4">
+        <div className="w-[160px] pl-8">
           <SwitchToggle
-  value={item.featured}
-  onChange={(val: boolean) =>
-    onToggleFeatured(item.id, val)
-  }
-/>
+            value={item.featured}
+            onChange={(val: boolean) => onToggleFeatured(item.id, val)}
+          />
         </div>
 
-        <div className="w-[160px] flex justify-end gap-2 pl-4">
-           <td className="w-[160px] flex justify-end gap-2 whitespace-nowrap">
-        <button
-          onClick={() => onEdit(item.id)}
-          className="
+        <div className="w-[100px] flex justify-end gap-2 ">
+          <td className="w-[100px] flex gap-2 whitespace-nowrap pl-4 justify-center">
+            <button
+              onClick={() => onEdit(item.id)}
+              className="
             h-7 w-7 rounded-full
             border border-border
             bg-card
@@ -110,13 +107,13 @@ function SortableRow({
             text-muted-foreground
             hover:text-foreground hover:bg-muted
           "
-        >
-          <Pencil size={15} />
-        </button>
+            >
+              <Pencil size={15} />
+            </button>
 
-        <button
-          onClick={() => onDelete(item.id)}
-          className="
+            <button
+              onClick={() => onDelete(item.id)}
+              className="
             h-7 w-7 rounded-full
             border border-border
             bg-card
@@ -124,46 +121,39 @@ function SortableRow({
             text-muted-foreground
             hover:bg-muted
           "
-        >
-          <Trash2 size={15}/>
-        </button>
-      </td>
+            >
+              <Trash2 size={15} />
+            </button>
+          </td>
         </div>
       </div>
 
       {/* ================= MOBILE CARD ================= */}
       <div className="xl:hidden mx-3 my-2 rounded-xl border bg-card p-4 space-y-2">
         <div className="flex justify-between">
-
-        <div className="flex gap-3 items-center">
-          <div {...attributes} {...listeners} className="cursor-grab">
-            <GripVertical size={18} />
-          </div>
-
-          <div className="flex-1">
-            <p className="font-medium mb-2">{item.name}</p>
-            <p className="text-sm text-muted-foreground mb-2"><span className="font-semibold">Designation : </span>{item.designation}</p>
-            <div className="flex items-center gap-1 flex-wrap">
-             <span className="font-semibold text-muted-foreground text-sm ">Description :  </span>
-         <div
-          className="text-sm text-muted-foreground"
-          dangerouslySetInnerHTML={{ __html: item.description }}
-        />
+          <div className="flex gap-3 items-center">
+            <div {...attributes} {...listeners} className="cursor-grab">
+              <GripVertical size={18} />
             </div>
-             <div className="flex justify-between items-center pt-2">
-         <SwitchToggle
-  value={item.featured}
-  onChange={(val: boolean) =>
-    onToggleFeatured(item.id, val)
-  }
-/>         
-        </div>
+
+            <div className="flex-1">
+              <p className="font-medium mb-2">{item.name}</p>
+              <p className="text-sm text-muted-foreground mb-2">
+                <span className="font-semibold">Designation : </span>
+                {item.designation}
+              </p>
+              <div className="flex justify-between items-center pt-2">
+                <SwitchToggle
+                  value={item.featured}
+                  onChange={(val: boolean) => onToggleFeatured(item.id, val)}
+                />
+              </div>
+            </div>
           </div>
-        </div>
-         <div className="flex gap-2">
-             <button
-        onClick={() => onEdit(item.id)}
-          className="
+          <div className="flex gap-2">
+            <button
+              onClick={() => onEdit(item.id)}
+              className="
             h-7 w-7 rounded-full
             border border-border
             bg-card
@@ -171,12 +161,12 @@ function SortableRow({
             text-muted-foreground
             hover:text-foreground hover:bg-muted
           "
-        >
-          <Pencil size={15} />
+            >
+              <Pencil size={15} />
             </button>
 
-        <button
-          className="
+            <button
+              className="
             h-7 w-7 rounded-full
             border border-border
             bg-card
@@ -184,20 +174,16 @@ function SortableRow({
             text-muted-foreground
             hover:bg-muted
           "
-          onClick={() => onDelete(item.id)}
-        >
-          <Trash2 size={15}/>
-        </button>
+              onClick={() => onDelete(item.id)}
+            >
+              <Trash2 size={15} />
+            </button>
           </div>
         </div>
-
-
-       
       </div>
     </div>
   );
 }
-
 
 function TeamList() {
   const navigate = useNavigate();
@@ -214,8 +200,8 @@ function TeamList() {
 
   const [page, setPage] = useState(1);
   const [pagination, setPagination] = useState<any>(null);
-const [sortBy, setSortBy] = useState<"id" | "name" | "featured">("id");
-const [sortDirection, setSortDirection] = useState<"asc" | "desc">("desc");
+  const [sortBy, setSortBy] = useState<"id" | "name" | "designation">("id");
+  const [sortDirection, setSortDirection] = useState<"asc" | "desc">("desc");
   const [teams, setTeams] = useState<TeamPayload[]>([]);
   const [isDeleting, setIsDeleting] = useState(false);
   const [deleteId, setDeleteId] = useState<number | null>(null);
@@ -271,14 +257,14 @@ const [sortDirection, setSortDirection] = useState<"asc" | "desc">("desc");
   };
 
   const handleFeaturedToggle = async (id: number, value: boolean) => {
-  try {
-    await updateTeam(id, { featured: value });
-    toast.success("Team updated");
-    fetchTeams(); // 🔥 REFRESH LIST
-  } catch {
-    toast.error("Failed to update team");
-  }
-};
+    try {
+      await updateTeam(id, { featured: value });
+      toast.success("Team updated");
+      fetchTeams(); // 🔥 REFRESH LIST
+    } catch {
+      toast.error("Failed to update team");
+    }
+  };
 
   return (
     <>
@@ -319,10 +305,7 @@ const [sortDirection, setSortDirection] = useState<"asc" | "desc">("desc");
         >
           {/* Sticky Header */}
           <div className="sticky top-3 z-10 pb-3">
-            <PageHeader
-              title="Team"
-              onMenuClick={() => setSidebarOpen(true)}
-            />
+            <PageHeader title="Team" onMenuClick={() => setSidebarOpen(true)} />
           </div>
 
           {/* Content */}
@@ -361,7 +344,7 @@ const [sortDirection, setSortDirection] = useState<"asc" | "desc">("desc");
                     >
                       <X className="h-5 w-5" />
                     </button>
-                  )}    
+                  )}
                 </div>
                 <button
                   onClick={() => navigate("/team/add")}
@@ -380,100 +363,162 @@ const [sortDirection, setSortDirection] = useState<"asc" | "desc">("desc");
                 </button>
               </div>
               <div className="grid grid-cols-12">
-  <div className="col-span-12">
+                <div className="col-span-12">
+                  <div className="w-full rounded-2xl border border-border bg-card flex flex-col h-[calc(100vh-300px)]">
+                    {/* ================= HEADER (DESKTOP) ================= */}
+                    <div className="sticky top-0 z-[9] bg-card border-b hidden xl:flex items-center h-[52px] px-4 text-sm font-medium text-primary mx-3">
+                      <div className="w-10"></div>
 
-    <div className="w-full rounded-2xl border border-border bg-card flex flex-col h-[calc(100vh-300px)]">
+                      <div
+                        className="w-[25%] pl-4 border-l cursor-pointer flex items-center justify-between text-left"
+                        onClick={() => {
+                          setSortBy("name");
+                          setSortDirection((p) =>
+                            p === "asc" ? "desc" : "asc"
+                          );
+                        }}
+                      >
+                        Team{" "}
+                        <span className="flex flex-col gap-1 ml-2 text-muted-foreground leading-none mr-2">
+                          <span className="text-[10px]">
+                            <img src="/top.png" alt="" />
+                          </span>
+                          <span className="text-[10px] -mt-1">
+                            <img src="/down.png" alt="" />
+                          </span>
+                        </span>
+                      </div>
+                      <div
+                        className="w-[25%] pl-4 border-l flex-1 cursor-pointer flex items-center justify-between text-left"
+                        onClick={() => {
+                          setSortBy("designation");
+                          setSortDirection((p) =>
+                            p === "asc" ? "desc" : "asc"
+                          );
+                        }}
+                      >
+                        Designation{" "}
+                        <span className="flex flex-col gap-1 ml-2 text-muted-foreground leading-none mr-2">
+                          <span className="text-[10px]">
+                            <img src="/top.png" alt="" />
+                          </span>
+                          <span className="text-[10px] -mt-1">
+                            <img src="/down.png" alt="" />
+                          </span>
+                        </span>
+                      </div>
+                      <div className="w-[160px] pl-4 border-l">Featured</div>
+                      <div className="w-[100px] pl-4 border-l">Actions</div>
+                    </div>
 
-      {/* ================= HEADER (DESKTOP) ================= */}
-     <div className="sticky top-0 z-10 bg-card border-b hidden xl:flex items-center h-[52px] px-4 text-sm font-medium text-primary mx-3">
+                    {/* ================= BODY ================= */}
+                    <div className="flex-1 overflow-y-auto scrollbar-thin">
+                      {!teams || teams.length === 0 ? (
+                        <div className="py-10 text-center text-muted-foreground text-sm">
+                          No Data found
+                        </div>
+                      ) : (
+                        <DndContext
+                          collisionDetection={closestCenter}
+                          sensors={sensors}
+                        >
+                          <SortableContext
+                            items={teams.map((i) => i.id)}
+                            strategy={verticalListSortingStrategy}
+                          >
+                            {teams.map((item, index) => (
+                              <SortableRow
+                                key={item.id}
+                                item={item}
+                                index={index}
+                                onEdit={handleEdit}
+                                onDelete={(id) => setDeleteId(id)}
+                                onToggleFeatured={handleFeaturedToggle}
+                              />
+                            ))}
+                          </SortableContext>
+                        </DndContext>
+                      )}
+                    </div>
+                  </div>
 
-        <div className="w-10" ></div>
+                  {/* ================= PAGINATION ================= */}
+                  {pagination && (
+                    <div className="flex items-center justify-center gap-6 px-4 py-2 text-sm text-muted-foreground">
+                      <button
+                        disabled={pagination.current_page === 1}
+                        onClick={() => setPage(1)}
+                        className="text-2xl"
+                      >
+                        «
+                      </button>
+                      <button
+                        disabled={!pagination.prev_page_url}
+                        onClick={() => setPage((p) => p - 1)}
+                        className="text-2xl"
+                      >
+                        ‹
+                      </button>
+                      <span className="text-foreground font-medium">
+                        {pagination.current_page} / {pagination.last_page}
+                      </span>
+                      <button
+                        disabled={!pagination.next_page_url}
+                        onClick={() => setPage((p) => p + 1)}
+                        className="text-2xl"
+                      >
+                        ›
+                      </button>
+                      <button
+                        disabled={
+                          pagination.current_page === pagination.last_page
+                        }
+                        onClick={() => setPage(pagination.last_page)}
+                        className="text-2xl"
+                      >
+                        »
+                      </button>
+                    </div>
+                  )}
+                </div>
+                <AlertDialog
+                  open={!!deleteId}
+                  onOpenChange={() => setDeleteId(null)}
+                >
+                  <AlertDialogContent className="max-w-[420px] rounded-2xl p-6">
+                    <AlertDialogHeader>
+                      <AlertDialogTitle className="text-lg">
+                        Delete Team?
+                      </AlertDialogTitle>
+                    </AlertDialogHeader>
 
-        <div className="w-[25%] pl-4 border-l">Team</div>
-        <div className="w-[25%] pl-4 border-l">Designation</div>
-        <div className="w-[30%]  pl-4 border-l">Description</div>
-        <div className="w-[160px] pl-4 border-l">Featured</div>
-        <div className="w-[160px] pl-4 border-l text-right pr-4">Actions</div>
-      </div>
+                    <p className="text-sm text-muted-foreground">
+                      Are you sure you want to delete this Team? This action
+                      cannot be undone.
+                    </p>
 
-      {/* ================= BODY ================= */}
-      <div className="flex-1 overflow-y-auto scrollbar-thin">
+                    <AlertDialogFooter className="mt-6">
+                      <Button
+                        variant="cancel"
+                        onClick={() => setDeleteId(null)}
+                        disabled={isDeleting}
+                        className="rounded-[10px]"
+                      >
+                        Cancel
+                      </Button>
 
-        {!teams || teams.length === 0 ? (
-          <div className="py-10 text-center text-muted-foreground text-sm">
-            No Data found
-          </div>
-        ) : (
-          <DndContext collisionDetection={closestCenter} sensors={sensors}>
-            <SortableContext
-              items={teams.map((i) => i.id)}
-              strategy={verticalListSortingStrategy}
-            >
-              {teams.map((item, index) => (
-                <SortableRow
-                  key={item.id}
-                  item={item}
-                  index={index}
-                  onEdit={handleEdit}
-                  onDelete={(id) => setDeleteId(id)}
-                   onToggleFeatured={handleFeaturedToggle}
-                />
-              ))}
-            </SortableContext>
-          </DndContext>
-        )}
-      </div>
-    </div>
-
-    {/* ================= PAGINATION ================= */}
-    {pagination && (
-      <div className="flex items-center justify-center gap-6 px-4 py-2 text-sm text-muted-foreground">
-        <button disabled={pagination.current_page === 1} onClick={() => setPage(1)} className="text-2xl">«</button>
-        <button disabled={!pagination.prev_page_url} onClick={() => setPage(p => p - 1)} className="text-2xl">‹</button>
-        <span className="text-foreground font-medium">
-          {pagination.current_page} / {pagination.last_page}
-        </span>
-        <button disabled={!pagination.next_page_url} onClick={() => setPage(p => p + 1)} className="text-2xl">›</button>
-        <button disabled={pagination.current_page === pagination.last_page} onClick={() => setPage(pagination.last_page)} className="text-2xl">»</button>
-      </div>
-    )}
-  </div>
-   <AlertDialog
-                              open={!!deleteId}
-                              onOpenChange={() => setDeleteId(null)}
-                            >
-                              <AlertDialogContent className="max-w-[420px] rounded-2xl p-6">
-                                <AlertDialogHeader>
-                                  <AlertDialogTitle className="text-lg">
-                                    Delete Team?
-                                  </AlertDialogTitle>
-                                </AlertDialogHeader>
-
-                                <p className="text-sm text-muted-foreground">
-                                  Are you sure you want to delete this Team?
-                                  This action cannot be undone.
-                                </p>
-
-                                <AlertDialogFooter className="mt-6">
-                                  <Button
-                                    variant="cancel"
-                                    onClick={() => setDeleteId(null)}
-                                    disabled={isDeleting}
-                                  >
-                                    Cancel
-                                  </Button>
-
-                                  <Button
-                                    variant="destructive"
-                                    onClick={handleDeleteConfirm}
-                                    disabled={isDeleting}
-                                  >
-                                    {isDeleting ? "Deleting..." : "Delete"}
-                                  </Button>
-                                </AlertDialogFooter>
-                              </AlertDialogContent>
-                            </AlertDialog>
-</div>
+                      <Button
+                        variant="destructive"
+                        onClick={handleDeleteConfirm}
+                        disabled={isDeleting}
+                        className="rounded-[10px]"
+                      >
+                        {isDeleting ? "Deleting..." : "Delete"}
+                      </Button>
+                    </AlertDialogFooter>
+                  </AlertDialogContent>
+                </AlertDialog>
+              </div>
 
               {/* <div className="grid grid-cols-12">
                 <div className="col-span-12">

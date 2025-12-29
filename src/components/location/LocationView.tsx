@@ -169,7 +169,7 @@ location?.opening_hours?.forEach((o) => {
                     </div>
                   </div>
                 </div>
-                 <div className="rounded-[12px] border p-6 shadow-sm">
+                 <div className="rounded-[12px] border p-4 sm:p-6 shadow-sm">
   {/* Header */}
                             <div className="flex items-start justify-between">
                                 <div>
@@ -230,38 +230,76 @@ location?.opening_hours?.forEach((o) => {
     o.is_closed === 1 ||
     (!o.start_time && !o.end_time);
                         return (
-                        <div
-                            key={day}
-                            className="border border-border p-[15px] rounded-[12px]"
-                        >
-                            <div className="flex items-center gap-[30px]">
-                            {/* DAY */}
-                            <div className="min-w-[140px] rounded-[10px] bg-[#EBF2F3] text-[#035865] text-base leading-[16px] py-[11px] h-[38px] text-center font-semibold">
-                                {day}
-                            </div>
+                     <div
+  key={day}
+  className="border border-border p-4 rounded-[12px]"
+>
+  <div className="flex flex-col sm:flex-row sm:items-center gap-4 sm:gap-[30px]">
+    
+    {/* DAY */}
+    <div className="
+      w-full sm:min-w-[140px] sm:w-auto
+      rounded-[10px]
+      bg-[#EBF2F3]
+      text-[#035865]
+      text-base leading-[16px]
+      py-[11px] h-[38px]
+      text-center font-semibold
+    ">
+      {day}
+    </div>
 
-                            {/* TIME */}
-                           {isClosed ? (
-                              <div className="flex justify-center items-center gap-[5px] px-14">
-                              <button className="w-[110px] rounded-[10px] bg-[#F3F4F6] py-[11px] h-[38px] px-1 leading-[16px] text-[16px] font-semibold">
-                                Closed
-                              </button>
-                            </div>
-                          ) : (
-                            <div className="flex justify-center items-center gap-[5px]">
-                              <button className="w-[110px] rounded-[10px] bg-[#F3F4F6] py-[11px] h-[38px] px-1 leading-[16px] text-[16px] font-semibold">
-                                {formatTime(o.start_time)}
-                              </button>
+    {/* TIME / CLOSED */}
+    {isClosed ? (
+      <div className="flex justify-center sm:justify-start">
+        <button
+          className="
+            w-full sm:w-[110px]
+            rounded-[10px]
+            bg-[#F3F4F6]
+            py-[11px] h-[38px]
+            text-[16px] font-semibold
+          "
+        >
+          Closed
+        </button>
+      </div>
+    ) : (
+      <div className="
+        flex items-center justify-between sm:justify-start
+        gap-2 sm:gap-[5px]
+        w-full sm:w-auto
+      ">
+        <button
+          className="
+            flex-1 sm:flex-none sm:w-[110px]
+            rounded-[10px]
+            bg-[#F3F4F6]
+            py-[11px] h-[38px]
+            text-[16px] font-semibold
+          "
+        >
+          {formatTime(o.start_time)}
+        </button>
 
-                              <span className="text-[#B8B9BA]">–</span>
+        <span className="text-[#B8B9BA] hidden sm:inline">–</span>
 
-                              <button className="w-[110px] rounded-[10px] bg-[#F3F4F6] py-[11px] h-[38px] px-1 leading-[16px] text-[16px] font-semibold">
-                                {formatTime(o.end_time)}
-                              </button>
-                            </div>
-                          )}
-                            </div>
-                        </div>
+        <button
+          className="
+            flex-1 sm:flex-none sm:w-[110px]
+            rounded-[10px]
+            bg-[#F3F4F6]
+            py-[11px] h-[38px]
+            text-[16px] font-semibold
+          "
+        >
+          {formatTime(o.end_time)}
+        </button>
+      </div>
+    )}
+  </div>
+</div>
+
                         );
                     })}
                     </div>

@@ -18,6 +18,7 @@ import {
 } from "@/components/ui/alert-dialog";
 import { createLocation, getLocationById, updateLocation } from "@/services/locationService";
 import ParkingDetails from "./ParkingDetails";
+import { Footer } from "../layout/Footer";
 
 type GeneralData = {
   name: string;
@@ -405,6 +406,7 @@ const [locationName, setLocationName] = useState<string>("");
           </div>
         </div>
       </div>
+      <Footer/>
     </>
   );
 }

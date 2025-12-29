@@ -100,6 +100,9 @@ export async function getMemberships(params?: {
   if (params?.page) formData.append("page", String(params.page));
   if (params?.perPage) formData.append("per_page", String(params.perPage));
   if (params?.search) formData.append("search", params.search);
+ if (params?.sortBy) formData.append("sort_by", params.sortBy);
+  if (params?.sortDirection)
+    formData.append("sort_direction", params.sortDirection);
 
   const res = await api.post<MembershipResponse>(
     "/memberships",

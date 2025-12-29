@@ -38,8 +38,8 @@ export function MemberNav({ activeItem, onItemChange }: SecondaryNavProps) {
       {/* Outer Card */}
       <div
         className="bg-card space-y-2   flex
-      lg:flex-col w-full
-      gap-2
+      lg:flex-col w-full overflow-x-auto
+      gap-2 
       lg:gap-2  flex-wrap justify-center
       py-2"
       >

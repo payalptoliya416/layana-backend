@@ -36,8 +36,11 @@ import {
   AlertDialogFooter,
 } from "@/components/ui/alert-dialog";
 import { Button } from "@/components/ui/button";
-import { updateTeam } from "@/services/teamService";
-import { deleteMembership, getMemberships, MembershipPayload } from "@/services/getMemberShip";
+import {
+  deleteMembership,
+  getMemberships,
+  MembershipPayload,
+} from "@/services/getMemberShip";
 
 export type Category = {
   id: number;
@@ -56,7 +59,7 @@ function SortableRow({
   onEdit: (id: number) => void;
   onDelete: (id: number) => void;
 }) {
-      const { attributes, listeners, setNodeRef, transform, transition } =
+  const { attributes, listeners, setNodeRef, transform, transition } =
     useSortable({ id: item.id });
 
   const style = {
@@ -73,7 +76,7 @@ function SortableRow({
           "hover:bg-muted/70"
         )}
       >
-         {/* DRAG */}
+        {/* DRAG */}
         <div
           {...attributes}
           {...listeners}
@@ -83,15 +86,13 @@ function SortableRow({
         </div>
 
         {/* NAME */}
-       <div className="w-[25%] pl-4">
-          {item.name}
-        </div>
+        <div className="w-[25%] pl-4">{item.name}</div>
 
         {/* STATUS */}
         <div className="flex-1 pl-4">
           {item.status
-    ? item.status.charAt(0).toUpperCase() + item.status.slice(1)
-    : ""}
+            ? item.status.charAt(0).toUpperCase() + item.status.slice(1)
+            : ""}
         </div>
 
         {/* <div className="w-[20%] pl-4">
@@ -108,29 +109,28 @@ function SortableRow({
 
         {/* ACTIONS */}
         <div className="w-[160px] flex justify-end gap-2 pl-4">
-              <td className="w-[160px] flex justify-end gap-2 whitespace-nowrap">
-      
-          <button
-            onClick={() => onEdit(item.id)}
-            className="h-7 w-7 rounded-full border flex items-center justify-center hover:bg-muted"
-          >
-            <Pencil size={14} />
-          </button>
+          <td className="w-[160px] flex justify-end gap-2 whitespace-nowrap">
+            <button
+              onClick={() => onEdit(item.id)}
+              className="h-7 w-7 rounded-full border flex items-center justify-center hover:bg-muted"
+            >
+              <Pencil size={14} />
+            </button>
 
-          <button
-            onClick={() => onDelete(item.id)}
-            className="h-7 w-7 rounded-full border flex items-center justify-center hover:bg-muted"
-          >
-            <Trash2 size={14} />
-          </button>
-              </td>
+            <button
+              onClick={() => onDelete(item.id)}
+              className="h-7 w-7 rounded-full border flex items-center justify-center hover:bg-muted"
+            >
+              <Trash2 size={14} />
+            </button>
+          </td>
         </div>
       </div>
 
       {/* ================= MOBILE CARD ================= */}
       <div className="xl:hidden mx-3 my-2 rounded-xl border bg-card p-4 space-y-2">
         <div className="flex justify-between items-center">
-               <div {...attributes} {...listeners} className="cursor-grab">
+          <div {...attributes} {...listeners} className="cursor-grab">
             <GripVertical size={18} />
           </div>
           <div>
@@ -188,7 +188,7 @@ function MassageMemberShip() {
 
   const [page, setPage] = useState(1);
   const [pagination, setPagination] = useState<any>(null);
-  const [sortBy, setSortBy] = useState<"id" | "name">("id");
+  const [sortBy, setSortBy] = useState<"id" | "name" | "status">("id");
   const [sortDirection, setSortDirection] = useState<"asc" | "desc">("desc");
   const [isDeleting, setIsDeleting] = useState(false);
   const [deleteId, setDeleteId] = useState<number | null>(null);
@@ -200,8 +200,8 @@ function MassageMemberShip() {
         page,
         perPage: 10,
         search: debouncedSearch,
-         sortBy,
-  sortDirection,
+        sortBy,
+        sortDirection,
       });
 
       setMemberships(res.data);
@@ -213,7 +213,7 @@ function MassageMemberShip() {
 
   useEffect(() => {
     fetchMemberships();
-  }, [page, debouncedSearch]);
+  }, [page, debouncedSearch, sortBy, sortDirection,]);
 
   useEffect(() => {
     const t = setTimeout(() => {
@@ -231,7 +231,7 @@ function MassageMemberShip() {
       setIsDeleting(true);
       await deleteMembership(deleteId);
       toast.success("Membership deleted successfully");
-     fetchMemberships();
+      fetchMemberships();
     } catch {
       toast.error("Failed to delete Membership");
     } finally {
@@ -248,7 +248,7 @@ function MassageMemberShip() {
     <>
       <div className="bg-background flex">
         {/* Sidebar */}
-     
+
         <div className="hidden lg:block">
           <Sidebar
             collapsed={sidebarCollapsed}
@@ -283,7 +283,10 @@ function MassageMemberShip() {
         >
           {/* Sticky Header */}
           <div className="sticky top-3 z-10 pb-3">
-            <PageHeader title="Membership " onMenuClick={() => setSidebarOpen(true)} />
+            <PageHeader
+              title="Membership "
+              onMenuClick={() => setSidebarOpen(true)}
+            />
           </div>
 
           {/* Content */}
@@ -344,13 +347,49 @@ function MassageMemberShip() {
                 <div className="col-span-12">
                   <div className="w-full rounded-2xl border border-border bg-card flex flex-col h-[calc(93vh-300px)] sm:h-[calc(99vh-300px)]">
                     {/* ================= HEADER (DESKTOP) ================= */}
-                   <div className="sticky top-0 z-10 bg-card border-b hidden xl:flex items-center h-[52px] px-4 text-sm font-medium text-primary mx-3">
-                     <div className="w-10" ></div>
-                        <div className="w-[25%] pl-4">Name</div>
-                        <div className="flex-1 pl-4 border-l">Status</div>
-                        <div className="w-[10%] pl-4 border-l text-right pr-4">
-                            Actions
-                        </div>
+                    <div className="sticky top-0 z-[9] bg-card border-b hidden xl:flex items-center h-[52px] px-4 text-sm font-medium text-primary mx-3">
+                      <div className="w-10"></div>
+                      <div 
+                        className="w-[25%] pl-4 cursor-pointer flex items-center justify-between text-left"
+                        onClick={() => {
+                          setSortBy("name");
+                          setSortDirection((p) =>
+                            p === "asc" ? "desc" : "asc"
+                          );
+                        }}
+                      >
+                        Name
+                        <span className="flex flex-col gap-1 ml-2 text-muted-foreground leading-none mr-2">
+                          <span className="text-[10px]">
+                            <img src="/top.png" alt="" />
+                          </span>
+                          <span className="text-[10px] -mt-1">
+                            <img src="/down.png" alt="" />
+                          </span>
+                        </span>
+                      </div>
+                      <div
+                        className="flex-1 pl-4 border-l cursor-pointer flex items-center justify-between text-left"
+                        onClick={() => {
+                          setSortBy("status");
+                          setSortDirection((p) =>
+                            p === "asc" ? "desc" : "asc"
+                          );
+                        }}
+                      >
+                        Status
+                        <span className="flex flex-col gap-1 ml-2 text-muted-foreground leading-none mr-2">
+                          <span className="text-[10px]">
+                            <img src="/top.png" alt="" />
+                          </span>
+                          <span className="text-[10px] -mt-1">
+                            <img src="/down.png" alt="" />
+                          </span>
+                        </span>
+                      </div>
+                      <div className="w-[10%] pl-4 border-l text-right pr-4">
+                        Actions
+                      </div>
                     </div>
 
                     {/* ================= BODY ================= */}
@@ -444,6 +483,7 @@ function MassageMemberShip() {
                         variant="cancel"
                         onClick={() => setDeleteId(null)}
                         disabled={isDeleting}
+                        className="rounded-[10px]"
                       >
                         Cancel
                       </Button>
@@ -452,6 +492,7 @@ function MassageMemberShip() {
                         variant="destructive"
                         onClick={handleDeleteConfirm}
                         disabled={isDeleting}
+                        className="rounded-[10px]"
                       >
                         {isDeleting ? "Deleting..." : "Delete"}
                       </Button>

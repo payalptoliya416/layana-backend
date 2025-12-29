@@ -20,6 +20,7 @@ import {
 } from "@/components/ui/alert-dialog";
 import { createMembership, getMembershipById, updateMembership } from "@/services/getMemberShip";
 import { MemberShipSlogan } from "./MembershipSLogan";
+import { Footer } from "../Footer";
 
 
 /* ================= TYPES ================= */
@@ -333,7 +334,7 @@ const selectedBranchObjects = payload.location_ids.map((id) => ({
                 <div className="flex-1 pl-[15px] pr-6 px-6 flex flex-col h-full bg-card rounded-2xl shadow-card p-5 relative overflow-hidden">
                     <div className="flex w-full gap-5 flex-1 overflow-y-auto scrollbar-thin pb-14">
                         <div className="lg:flex w-full gap-5 h-full overflow-y-auto">
-                <aside className="lg:w-[270px] flex-shrink-0 border border-border lg:p-4 rounded-[20px] lg:h-full overflow-y-auto mb-3 lg:mb-0">
+                <aside className="lg:w-[270px] flex-shrink-0 border border-border lg:p-4 rounded-[20px] lg:h-full overflow-y-auto overflow-x-hidden mb-3 lg:mb-0">
                                 <MemberNav
                                 activeItem={activeSection}
                                 onItemChange={setActiveSection}
@@ -368,6 +369,7 @@ const selectedBranchObjects = payload.location_ids.map((id) => ({
                 </div>
         </div>
       </div>
+      <Footer/>
     </>
   );
 }

@@ -317,87 +317,84 @@ const handleDragEnd = (event: any) => {
       {/* FORM */}
       <div className="grid grid-cols-12">
         <div className="col-span-12">
-          <div className="w-full rounded-[10px] border border-border relative bg-card p-5 overflow-x-auto">
-            <table className="w-full border-separate border-spacing-0">
-              <tbody>
-                <tr>
-                  {/* DURATION */}
-                  <td className="px-4 py-3 border-y border-input border-l rounded-tl-[10px] rounded-bl-[10px]">
-                    <div className="flex items-center gap-3">
-                      <span className="text-sm text-foreground">
-                        Duration
-                      </span>
-                      <input
-                        type="number"
-                        value={duration}
-                        onChange={(e) => setDuration(e.target.value)}
-                        placeholder="Min"
-                        className="h-10 w-[150px] rounded-lg border border-input bg-card px-3 text-sm"
-                      />
-                    </div>
-                  </td>
+        <div className="w-full rounded-[10px] border border-border bg-card p-5 overflow-x-hidden">
+  <table className="w-full table-fixed border-separate border-spacing-0">
+    <tbody>
+      <tr className="grid grid-cols-2 gap-3 xl:table-row">
 
-                  {/* OFFER */}
-                  <td className="px-4 py-3 border-y border-input">
-                    <div className="flex items-center gap-3">
-                      <span className="text-sm text-foreground">
-                        Offer
-                      </span>
-                      <input
-                        type="number"
-                        value={offerPrice}
-                        onChange={(e) => setOfferPrice(e.target.value)}
-                        placeholder="£00"
-                        className="h-10 w-[150px] rounded-lg border border-input bg-card px-3 text-sm"
-                      />
-                    </div>
-                  </td>
-
-                  {/* EACH */}
-                  <td className="px-4 py-3 border-y border-input">
-                    <div className="flex items-center gap-3">
-                      <span className="text-sm text-foreground">
-                        Each
-                      </span>
-                      <input
-                        type="number"
-                        value={eachPrice}
-                        onChange={(e) => setEachPrice(e.target.value)}
-                        placeholder="£00"
-                        className="h-10 w-[150px] rounded-lg border border-input bg-card px-3 text-sm"
-                      />
-                    </div>
-                  </td>
-
-                  {/* PRICE */}
-                  <td className="px-4 py-3 border-y border-input">
-                    <div className="flex items-center gap-3">
-                      <span className="text-sm text-foreground">
-                        Price
-                      </span>
-                      <input
-                        type="number"
-                        value={price}
-                        onChange={(e) => setPrice(e.target.value)}
-                        placeholder="£00"
-                        className="h-10 w-[150px] rounded-lg border border-input bg-card px-3 text-sm"
-                      />
-                    </div>
-                  </td>
-
-                  {/* ACTION */}
-                  <td className="px-4 py-3 border-y border-input border-r rounded-tr-[10px] rounded-br-[10px] text-right">
-                    <button
-                      onClick={handleSave}
-                      className="inline-flex h-9 w-12 items-center justify-center rounded-full bg-primary text-primary-foreground"
-                    >
-                      <img src="/send.svg" className="h-4 w-4" />
-                    </button>
-                  </td>
-                </tr>
-              </tbody>
-            </table>
+        {/* DURATION */}
+        <td className="xl:table-cell border-y border-input xl:border-l xl:rounded-tl-[10px] xl:rounded-bl-[10px] p-3">
+          <div className="flex flex-col gap-2">
+            <span className="text-sm text-foreground">Duration</span>
+            <input
+              type="number"
+              value={duration}
+              onChange={(e) => setDuration(e.target.value)}
+              placeholder="Min"
+              className="h-10 w-full rounded-lg border border-input bg-card px-3 text-sm"
+            />
           </div>
+        </td>
+
+        {/* OFFER */}
+        <td className="xl:table-cell border-y border-input p-3">
+          <div className="flex flex-col gap-2">
+            <span className="text-sm text-foreground">Offer</span>
+            <input
+              type="number"
+              value={offerPrice}
+              onChange={(e) => setOfferPrice(e.target.value)}
+              placeholder="£00"
+              className="h-10 w-full rounded-lg border border-input bg-card px-3 text-sm"
+            />
+          </div>
+        </td>
+
+        {/* EACH */}
+        <td className="xl:table-cell border-y border-input p-3">
+          <div className="flex flex-col gap-2">
+            <span className="text-sm text-foreground">Each</span>
+            <input
+              type="number"
+              value={eachPrice}
+              onChange={(e) => setEachPrice(e.target.value)}
+              placeholder="£00"
+              className="h-10 w-full rounded-lg border border-input bg-card px-3 text-sm"
+            />
+          </div>
+        </td>
+
+        {/* PRICE */}
+        <td className="xl:table-cell border-y border-input p-3">
+          <div className="flex flex-col gap-2">
+            <span className="text-sm text-foreground">Price</span>
+            <input
+              type="number"
+              value={price}
+              onChange={(e) => setPrice(e.target.value)}
+              placeholder="£00"
+              className="h-10 w-full rounded-lg border border-input bg-card px-3 text-sm"
+            />
+          </div>
+        </td>
+
+        {/* ACTION */}
+        <td className="xl:table-cell border-y border-input xl:border-r xl:rounded-tr-[10px] xl:rounded-br-[10px] p-3 col-span-2 xl:col-span-1">
+          <div className="flex justify-end xl:justify-center h-full items-end">
+            <button
+              onClick={handleSave}
+              className="inline-flex h-10 w-12 items-center justify-center rounded-full bg-primary text-primary-foreground"
+            >
+              <img src="/send.svg" className="h-4 w-4" />
+            </button>
+          </div>
+        </td>
+
+      </tr>
+    </tbody>
+  </table>
+</div>
+
         </div>
       </div>
     </div>
@@ -407,6 +404,7 @@ const handleDragEnd = (event: any) => {
       <h2 className="mb-4 text-lg font-semibold text-foreground">
         Pricing List
       </h2>
+{ uiPricing.length > 0 && (
 
      <DndContext collisionDetection={closestCenter} onDragEnd={handleDragEnd}>
   <SortableContext
@@ -417,7 +415,7 @@ const handleDragEnd = (event: any) => {
       <div className="col-span-12">
 
         {/* ===== HEADER (DESKTOP) ===== */}
-        <div className="sticky top-0 z-10 bg-card border-b hidden xl:flex items-center h-[52px] px-4 text-sm font-medium text-primary mx-3">
+        <div className="sticky top-0 z-[9] bg-card border-b hidden xl:flex items-center h-[52px] px-4 text-sm font-medium text-primary mx-3">
               {/* <div className="w-10" ></div> */}
           <div className="w-[20%]">Duration</div>
           <div className="w-[20%]">Offer</div>
@@ -443,6 +441,7 @@ const handleDragEnd = (event: any) => {
     </div>
   </SortableContext>
 </DndContext>
+)}
 
     </div>
   </div>

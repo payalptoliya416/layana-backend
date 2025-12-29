@@ -184,6 +184,10 @@ const [deleteId, setDeleteId] = useState<number | null>(null);
 const [isAdding, setIsAdding] = useState(false);
 const [newName, setNewName] = useState("");
 const [newStatus, setNewStatus] = useState<"Disable" | "Enable">("Enable");
+ const [showValidationPopup, setShowValidationPopup] = useState(false);
+  const [validationErrors, setValidationErrors] = useState<
+    { section: string; field: string; message: string }[]
+  >([]);
 
 useEffect(() => {
   const fetchTreatments = async () => {
@@ -461,7 +465,7 @@ const handleSubmit = async () => {
                     <div className="w-full rounded-2xl border border-border bg-card flex flex-col h-[calc(98vh-300px)]">
 
                       {/* ================= HEADER ================= */}
-                      <div className="sticky top-0 z-[9] bg-card border-b hidden lg:flex items-center h-[52px] px-4 text-sm font-medium text-primary">
+                      <div className="sticky top-0 z-[9] bg-card border-b hidden lg:flex items-center h-[52px] px-4 text-sm font-medium text-primary mx-3">
 
                         {/* DRAG */}
                         <div className="w-10" />
@@ -472,7 +476,7 @@ const handleSubmit = async () => {
                             setSortBy("category");
                             setSortDirection((p) => (p === "asc" ? "desc" : "asc"));
                           }}
-                          className="w-[30%] pl-4 border-l flex items-center justify-between text-left"
+                          className="w-[30%] pl-4 border-l cursor-pointer flex items-center justify-between text-left"
                         >
                           <span>Category</span>
                           <span className="flex flex-col gap-1 ml-2 text-muted-foreground leading-none mr-2">
@@ -491,7 +495,7 @@ const handleSubmit = async () => {
                                 setSortBy("status");
                                 setSortDirection((p) => (p === "asc" ? "desc" : "asc"));
                               }}
-                              className="flex-1 pl-4 border-l flex items-center justify-between text-left"
+                              className="flex-1 pl-4 border-l cursor-pointer flex items-center justify-between text-left"
                             >
                               <span>Status</span>
                               <span className="flex flex-col gap-1 ml-2 text-muted-foreground leading-none mr-2">
@@ -590,51 +594,97 @@ const handleSubmit = async () => {
                               </Button>
                               </div>
                               <div>
-                              <Button
-                                variant="save"
-                                className="!w-[105px]"
-                                onClick={async () => {
-                                  if (!newName.trim()) {
-                                    toast.error("Category name required");
-                                    return;
-                                  }
+                             <Button
+  variant="save"
+  className="!w-[105px]"
+  onClick={async () => {
+    const errors: {
+      section: string;
+      field: string;
+      message: string;
+    }[] = [];
 
-                                  try {
-                                    if (editingId) {
-                                      await updateCategory({
-                                        id: editingId,
-                                        name: newName,
-                                        status: newStatus,
-                                      });
-                                      toast.success("Category updated");
-                                    } else {
-                                      await createCategory({
-                                        name: newName,
-                                        status: newStatus,
-                                      });
-                                      toast.success("Category created");
-                                    }
+    // 🔴 Category name validation
+    if (!newName.trim()) {
+      errors.push({
+        section: "Category",
+        field: "name",
+        message: "Category name is required",
+      });
+    }
 
-                                    const res = await getCategory({
-                                      page,
-                                      perPage: 10,
-                                      search,
-                                      sortBy,
-                                      sortDirection,
-                                    });
+    // 🔴 If validation errors → show popup
+    if (errors.length > 0) {
+      setValidationErrors(errors);
+      setShowValidationPopup(true);
+      return;
+    }
 
-                                    setCategory(res.data);
-                                    setIsAdding(false);
-                                    setEditingId(null);
-                                    setNewName("");
-                                    setNewStatus("Disable");
-                                  } catch {
-                                    toast.error("Failed to save category");
-                                  }
-                                }}
-                              >
-                                Save
-                              </Button>
+    try {
+      if (editingId) {
+        await updateCategory({
+          id: editingId,
+          name: newName,
+          status: newStatus,
+        });
+        toast.success("Category updated");
+      } else {
+        await createCategory({
+          name: newName,
+          status: newStatus,
+        });
+        toast.success("Category created");
+      }
+
+      const res = await getCategory({
+        page,
+        perPage: 10,
+        search,
+        sortBy,
+        sortDirection,
+      });
+
+      setCategory(res.data);
+      setIsAdding(false);
+      setEditingId(null);
+      setNewName("");
+      setNewStatus("Disable");
+    } catch {
+      toast.error("Failed to save category");
+    }
+  }}
+>
+  Save
+</Button>
+{showValidationPopup && (
+  <AlertDialog open onOpenChange={setShowValidationPopup}>
+    <AlertDialogContent className="max-w-[520px] rounded-2xl p-6">
+      <AlertDialogHeader>
+        <AlertDialogTitle>
+          Please fix the following
+        </AlertDialogTitle>
+      </AlertDialogHeader>
+
+      <div className="mt-4 max-h-[300px] overflow-y-auto space-y-2">
+        {validationErrors.map((e, i) => (
+          <div
+            key={i}
+            className="rounded-md border border-destructive/30 bg-destructive/5 p-2 text-sm"
+          >
+            <strong>{e.section}:</strong>{" "}
+            <span className="text-destructive">{e.message}</span>
+          </div>
+        ))}
+      </div>
+
+      <AlertDialogFooter>
+        <Button onClick={() => setShowValidationPopup(false)}>
+          OK
+        </Button>
+      </AlertDialogFooter>
+    </AlertDialogContent>
+  </AlertDialog>
+)}
                               </div>
                             </div>
                           </div>
@@ -706,7 +756,6 @@ const handleSubmit = async () => {
                         </AlertDialogFooter>
                       </AlertDialogContent>
                     </AlertDialog>
-
                   </div>
                 </div>
             </div>

@@ -188,9 +188,8 @@ function SortableRow({
         </div>
 
         <div className="flex-1 text-muted-foreground">
-          {item.status}
-        </div>
-
+  {item.status?.charAt(0).toUpperCase() + item.status?.slice(1)}
+</div>
         
           <td className="w-[160px] flex justify-end gap-2 whitespace-nowrap">
         <button
@@ -465,7 +464,7 @@ const onView = (id: number) =>{
                       <div className="w-full rounded-2xl border border-border bg-card flex flex-col h-[calc(100vh-300px)]">
 
                         {/* ================= HEADER (DESKTOP ONLY) ================= */}
-                        <div className="sticky top-0 z-[9] bg-card border-b hidden lg:flex items-center h-[52px] px-4 text-sm font-medium text-primary">
+                        <div className="sticky top-0 z-[9] bg-card border-b hidden lg:flex items-center h-[52px] px-4 text-sm font-medium text-primary mx-4">
 
                           <div className="w-10" />
 
@@ -474,7 +473,7 @@ const onView = (id: number) =>{
                               setSortBy("name");
                               setSortDirection((p) => (p === "asc" ? "desc" : "asc"));
                             }}
-                            className="w-[30%] pl-4 border-l flex items-center justify-between text-left"
+                            className="w-[30%] pl-4 border-l cursor-pointer flex items-center justify-between text-left"
                           >
                             <span>Location</span>
                              <span className="flex flex-col gap-1 ml-2 text-muted-foreground leading-none mr-2">
@@ -492,7 +491,7 @@ const onView = (id: number) =>{
                               setSortBy("status");
                               setSortDirection((p) => (p === "asc" ? "desc" : "asc"));
                             }}
-                            className="flex-1 pl-4 border-l flex items-center justify-between text-left"
+                            className="flex-1 pl-4 border-l cursor-pointer flex items-center justify-between text-left"
                           >
                             <span>Status</span>
                              <span className="flex flex-col gap-1 ml-2 text-muted-foreground leading-none mr-2">
@@ -505,7 +504,7 @@ const onView = (id: number) =>{
                                           </span>
                           </button>
 
-                          <div className="w-[160px] pl-4 border-l text-right pr-4">
+                          <div className="w-[160px] pl-4 border-l text-right">
                             Actions
                           </div>
                         </div>
@@ -598,6 +597,7 @@ const onView = (id: number) =>{
         variant="cancel"
         onClick={() => setDeleteId(null)}
         disabled={isDeleting}
+        className="rounded-[10px]"
       >
         Cancel
       </Button>
@@ -606,6 +606,7 @@ const onView = (id: number) =>{
         variant="destructive"
         onClick={handleDeleteConfirm}
         disabled={isDeleting}
+        className="rounded-[10px]"
       >
         {isDeleting ? "Deleting..." : "Delete"}
       </Button>
