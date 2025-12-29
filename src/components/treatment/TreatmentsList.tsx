@@ -258,7 +258,7 @@ const handleDragEnd = async (event: DragEndEvent) => {
   }
 
   try {
-    const totalCount = await getTableCount("treatments");
+    const totalCount = await getTableCount("treatements");
     const allTreatments = await getAllTreatments(totalCount);
 
     const fromIndex = allTreatments.findIndex(
