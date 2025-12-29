@@ -16,6 +16,7 @@ import { useNavigate } from "react-router-dom";
 import {
   closestCenter,
   DndContext,
+  DragEndEvent,
   KeyboardSensor,
   MeasuringStrategy,
   PointerSensor,
@@ -40,11 +41,13 @@ import {
 import { Button } from "@/components/ui/button";
 import {
   deleteMembership,
+  getAllMemberships,
   getMemberships,
   MembershipPayload,
   reorderMembership,
 } from "@/services/getMemberShip";
 import { useAutoRows } from "@/hooks/useAutoRows";
+import { getTableCount } from "@/services/getTeam";
 
 export type Category = {
   id: number;
@@ -241,32 +244,46 @@ function MassageMemberShip() {
     return () => clearTimeout(t);
   }, [search]);
   
-  const handleDragEnd = async (event: any) => {
+const handleDragEnd = async (event: DragEndEvent) => {
   const { active, over } = event;
   if (!over || active.id === over.id) return;
-  const oldIndex = memberships.findIndex((i) => i.id === active.id);
-  const newIndex = memberships.findIndex((i) => i.id === over.id);
 
-  if (oldIndex === -1 || newIndex === -1) return;
+  const activeId = Number(active.id);
+  const overId = Number(over.id);
 
-  const previous = [...memberships];
+  // 🔹 UI instant reorder
+  const oldIndex = memberships.findIndex(m => m.id === activeId);
+  const newIndex = memberships.findIndex(m => m.id === overId);
 
-  // ✅ UI ma turant reorder
-  const reordered = arrayMove(memberships, oldIndex, newIndex);
-  setMemberships(reordered);
-console.log(reordered)
+  if (oldIndex !== -1 && newIndex !== -1) {
+    setMemberships(prev => arrayMove(prev, oldIndex, newIndex));
+  }
+
   try {
-    // ✅ existing API params j use thase
-    await reorderMembership({
-      id: active.id,
-      index: newIndex + 1,
-    });
+    const totalCount = await getTableCount("memberships");
+    const allMemberships = await getAllMemberships(totalCount);
 
-  } catch (error) {
-    // ❌ fail thay to rollback
-    setMemberships(previous);
+    const fromIndex = allMemberships.findIndex(m => m.id === activeId);
+    const toIndex = allMemberships.findIndex(m => m.id === overId);
+    if (fromIndex === -1 || toIndex === -1) return;
+
+    const reordered = arrayMove(allMemberships, fromIndex, toIndex);
+
+    const payload = reordered.map((item, index) => ({
+      id: item.id,
+      index: index + 1,
+    }));
+
+    await reorderMembership(payload);
+    fetchMemberships();
+
+  } catch {
+    toast.error("Reorder failed");
+    fetchMemberships();
   }
 };
+
+
   const handleDeleteConfirm = async () => {
     if (!deleteId) return;
 

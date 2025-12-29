@@ -165,15 +165,35 @@ export async function deleteMembership(id: number) {
 }
 
 
-export const reorderMembership = async (payload: {
-  id: number;
-  index: number;
-}) => {
-  const res = await api.post(
-    "/memberships/reorder",
-    payload
-  );
-
+export const reorderMembership = async (
+  payload: { id: number; index: number }[]
+) => {
+  const res = await api.post("/memberships/reorder", {
+    memberships: payload,
+  });
   return res.data;
 };
 
+export async function getAllMemberships(
+  count: number
+): Promise<MembershipPayload[]> {
+  const formData = new URLSearchParams();
+  formData.append("page", "1");
+  formData.append("per_page", String(count));
+
+  const res = await api.post<MembershipResponse>(
+    "/memberships",
+    formData,
+    {
+      params: {
+        sort_by: "index",
+        sort_direction: "asc",
+      },
+      headers: {
+        "Content-Type": "application/x-www-form-urlencoded",
+      },
+    }
+  );
+
+  return res.data.data; // ✅ MembershipPayload[]
+}
