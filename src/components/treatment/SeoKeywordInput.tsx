@@ -58,7 +58,8 @@ export function SeoKeywordInput({ value, onChange }: SeoKeywordInputProps) {
       onKeyDown={handleKeyDown}
       placeholder="Type and press comma or tab"
       className="
-        flex-1 min-w-[160px]
+        flex-1 min-w-0
+  sm:min-w-[160px]
         border-none outline-none
         bg-transparent
         text-sm text-foreground
