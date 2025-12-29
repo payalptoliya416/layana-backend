@@ -38,10 +38,11 @@ import {
   AlertDialogFooter,
 } from "@/components/ui/alert-dialog";
 import { Button } from "../ui/button";
-import { getTeams, reorderteam } from "@/services/getTeam";
+import { getTableCount, getTeams, reorderteam } from "@/services/getTeam";
 import SwitchToggle from "../treatment/Toggle";
 import { deleteTeam, TeamPayload, updateTeam } from "@/services/teamService";
 import { useAutoRows } from "@/hooks/useAutoRows";
+import { getAllTeams } from "./getAllTeams";
 
 export type Category = {
   id: number;
@@ -269,36 +270,57 @@ function TeamList() {
   //   }
   // };
 
-  const handleDragEnd = async (event: any) => {
+const handleDragEnd = async (event: any) => {
   const { active, over } = event;
   if (!over || active.id === over.id) return;
 
+  // UI instant reorder (UX only)
   const oldIndex = teams.findIndex((i) => i.id === active.id);
   const newIndex = teams.findIndex((i) => i.id === over.id);
-  if (oldIndex === -1 || newIndex === -1) return;
 
-  const previous = [...teams];
-
-  // ✅ UI reorder instantly
-  const reordered = arrayMove(teams, oldIndex, newIndex);
-  setTeams(reordered);
+  if (oldIndex !== -1 && newIndex !== -1) {
+    setTeams((prev) => arrayMove(prev, oldIndex, newIndex));
+  }
 
   try {
-    // ✅ build FULL index payload
+    // 1️⃣ get total count
+    const totalCount = await getTableCount("staff_team");
+
+    // 2️⃣ fetch ALL records dynamically
+    const allTeams = await getAllTeams(totalCount);
+
+    // 3️⃣ match dragged & target
+    const fromIndex = allTeams.findIndex(
+      (t) => t.id === active.id
+    );
+    const toIndex = allTeams.findIndex(
+      (t) => t.id === over.id
+    );
+
+    if (fromIndex === -1 || toIndex === -1) return;
+
+    // 4️⃣ global reorder
+    const reordered = arrayMove(allTeams, fromIndex, toIndex);
+
+    // 5️⃣ rebuild indexes (MATCHED)
     const payload = reordered.map((item, index) => ({
       id: item.id,
       index: index + 1,
     }));
 
-    // 🔥 ONE API CALL — FAST
+    // 6️⃣ update DB
     await reorderteam(payload);
 
+    // 7️⃣ refresh page
+    fetchTeams();
+
   } catch (error) {
-    // ❌ rollback if fail
-    setTeams(previous);
     toast.error("Reorder failed");
+    fetchTeams();
   }
 };
+
+
 
   const handleDeleteConfirm = async () => {
     if (!deleteId) return;
