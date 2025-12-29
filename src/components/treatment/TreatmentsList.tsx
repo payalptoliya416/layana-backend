@@ -43,6 +43,7 @@ import { deleteTreatmentMessage } from "@/services/deleteServices";
 import { getTreatments, reorderTreatment } from "@/services/treatmentService";
 import { toast } from "sonner";
 import { useAutoRows } from "@/hooks/useAutoRows";
+import { Button } from "../ui/button";
 
 /* ---------------- TYPES ---------------- */
 type Treatment = {
@@ -370,20 +371,22 @@ const handleDelete = async () => {
             </AlertDialogHeader>
 
             <AlertDialogFooter>
-              <AlertDialogCancel
-                onClick={() => setDeleteId(null)}
-                disabled={isDeleting}
-              >
-                Cancel
-              </AlertDialogCancel>
-
-              <AlertDialogAction
-                onClick={handleDelete}
-                disabled={isDeleting}
-                className="bg-red-600 hover:bg-red-700"
-              >
-                {isDeleting ? "Deleting..." : "Delete"}
-              </AlertDialogAction>
+ <Button
+                        variant="cancel"
+                           onClick={() => setDeleteId(null)}
+                        disabled={isDeleting}
+                        className="rounded-[10px]"
+                      >
+                        Cancel
+                      </Button>
+               <Button
+                        variant="destructive"
+                        onClick={handleDelete}
+                        disabled={isDeleting}
+                        className="rounded-[10px]"
+                      >
+                        {isDeleting ? "Deleting..." : "Delete"}
+                      </Button>
             </AlertDialogFooter>
           </AlertDialogContent>
                </AlertDialog>

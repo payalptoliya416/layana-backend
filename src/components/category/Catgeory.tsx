@@ -744,15 +744,21 @@ const handleSubmit = async () => {
                         </AlertDialogHeader>
 
                         <AlertDialogFooter>
-                          <AlertDialogCancel onClick={() => setDeleteId(null)}>
-                            Cancel
-                          </AlertDialogCancel>
-                          <AlertDialogAction
-                            onClick={handleDelete}
-                            className="bg-red-600 hover:bg-red-700"
-                          >
-                            Delete
-                          </AlertDialogAction>
+                          <Button
+                                                  variant="cancel"
+                                                     onClick={() => setDeleteId(null)}
+                                                  className="rounded-[10px]"
+                                                >
+                                                  Cancel
+                                                </Button>
+                           <Button
+                        variant="destructive"
+                        onClick={handleDelete}
+                        className="rounded-[10px]"
+                      >
+                        Delete
+                      </Button>
+                          
                         </AlertDialogFooter>
                       </AlertDialogContent>
                     </AlertDialog>
