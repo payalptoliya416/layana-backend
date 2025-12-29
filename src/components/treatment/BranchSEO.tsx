@@ -64,10 +64,10 @@ const update = <K extends keyof typeof form>(
     <label className="text-sm font-medium text-foreground">
       Analytics (optional)
     </label>
-    <DescriptionEditor
+    {/* <DescriptionEditor
       value={form.analitycs}
       onChange={(v) => update("analitycs", v)}
-    />
+    /> */}
   </div>
 
   {/* SEO TITLE */}
