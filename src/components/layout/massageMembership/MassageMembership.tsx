@@ -262,7 +262,6 @@ console.log(reordered)
       index: newIndex,
     });
 
-    toast.success("Order updated");
   } catch (error) {
     // ❌ fail thay to rollback
     setMemberships(previous);

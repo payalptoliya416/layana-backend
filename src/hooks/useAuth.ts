@@ -23,7 +23,7 @@ export const useAuth = () => {
         
         // Redirect after showing success message
         setTimeout(() => {
-          navigate('/treatments-list');
+          navigate('/dashboard');
         }, 800);
       } else {
         setError(response.message || 'Login failed. Please try again.');

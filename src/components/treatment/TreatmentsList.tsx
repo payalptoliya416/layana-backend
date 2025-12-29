@@ -234,7 +234,6 @@ const handleDragEnd = async (event: any) => {
       index: newIndex,
     });
 
-    toast.success("Order updated");
   } catch (error) {
     // ❌ fail thay to rollback
     setTreatments(previous);

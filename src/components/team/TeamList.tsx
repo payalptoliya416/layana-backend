@@ -262,7 +262,6 @@ function TeamList() {
         index: newIndex,
       });
 
-      toast.success("Order updated");
     } catch (error) {
       // ❌ fail thay to rollback
       setTeams(previous);
