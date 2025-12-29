@@ -107,7 +107,7 @@ const update = <K extends keyof typeof form>(
       placeholder="Write a short description for search engines"
       rows={4}
       className="
-        w-full rounded-lg min-w-0
+        xl:w-full rounded-lg min-w-0
         border border-input
         bg-card 
         px-4 py-3 text-sm
