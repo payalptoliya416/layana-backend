@@ -139,11 +139,20 @@ function SortableRow({
             <GripVertical size={18} />
           </div>
           <div>
-            <p className="font-medium">{item.name}</p>
             <p className="text-sm text-muted-foreground capitalize">
-              Status: {item.status}
+               <span
+                  className={cn(
+                    "inline-block mb-2 px-3 py-1 rounded-sm text-xs",
+                    item.status === "active"
+                      ? "bg-green-100 text-green-700"
+                      : "bg-muted text-muted-foreground"
+                  )}
+                >
+                {item.status}
+                </span>
             </p>
-
+            <p className="font-medium">{item.name}</p>
+{/* 
             <p className="text-sm text-muted-foreground mt-1">
               Locations: {item.locations?.length ?? 0}
             </p>
@@ -154,7 +163,7 @@ function SortableRow({
 
             <p className="text-sm text-muted-foreground mt-1">
               FAQs: {item.faq?.length ?? 0}
-            </p>
+            </p> */}
           </div>
 
           <div className="flex gap-2 self-start">
