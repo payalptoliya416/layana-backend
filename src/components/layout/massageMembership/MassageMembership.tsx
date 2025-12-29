@@ -114,7 +114,7 @@ function SortableRow({
 
         {/* ACTIONS */}
         <div className="w-[160px] flex justify-end gap-2 pl-4">
-          <td className="w-[160px] flex justify-end gap-2 whitespace-nowrap">
+          <td className="w-[160px] flex justify-start gap-2 whitespace-nowrap pl-4">
             <button
               onClick={() => onEdit(item.id)}
               className="h-7 w-7 rounded-full border flex items-center justify-center hover:bg-muted"
@@ -423,7 +423,7 @@ console.log(reordered)
                           </span>
                         </span>
                       </div>
-                      <div className="w-[10%] pl-4 border-l text-right pr-4">
+                      <div className="w-[10%] pl-4 border-l text-left pr-4">
                         Actions
                       </div>
                     </div>
