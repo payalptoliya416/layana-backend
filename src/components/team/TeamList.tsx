@@ -140,7 +140,7 @@ function SortableRow({
               <GripVertical size={18} />
             </div>
 
-            <div className="flex-1 overflow-y-auto scrollbar-thin">
+            <div className="flex-1">
               <p className="font-medium mb-2">{item.name}</p>
               <p className="text-sm text-muted-foreground mb-2">
                 <span className="font-semibold">Designation : </span>
@@ -353,7 +353,7 @@ function TeamList() {
     overflow-hidden
     h-[calc(100dvh-160px)] lg:h-[calc(100vh-220px)]"
           >
-            <div className="flex flex-col flex-1 overflow-hidden">
+            <div className="flex flex-col flex-1">
               <div className="mb-2 flex items-center justify-between  shrink-0 flex-wrap gap-1 sm:gap-2">
                 <div className="relative w-full sm:w-[256px] rounded-full p-1">
                   <input
@@ -455,7 +455,7 @@ function TeamList() {
                     </div>
 
                     {/* ================= BODY ================= */}
-                    <div ref={containerRef} className="flex-1 overflow-hidden">
+                    <div ref={containerRef} className="flex-1  overflow-y-auto scrollbar-thins">
                       {!teams || teams.length === 0 ? (
                         <div className="py-10 text-center text-muted-foreground text-sm">
                           No Data found
