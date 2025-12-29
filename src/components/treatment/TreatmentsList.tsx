@@ -396,7 +396,7 @@ const handleDelete = async () => {
 
     <div className="w-full rounded-2xl border border-border bg-card flex flex-col h-[calc(98dvh-300px)] sm:h-[calc(99.5dvh-300px)]">
       {/* ================= HEADER (DESKTOP ONLY) ================= */}
-      <div className="sticky top-0 z-[9] bg-card border-b hidden xl:flex items-center h-[52px] px-4 text-sm font-medium text-primary mx-3">
+      <div className="sticky top-0 z-[8] bg-card border-b hidden xl:flex items-center h-[52px] px-4 text-sm font-medium text-primary mx-3">
 
         <div className="w-10" />
 
