@@ -44,44 +44,52 @@ export function ImageCropGallry({
     setCroppedAreaPixels(pixels);
   };
 
-  const createCroppedImage = async () => {
-    if (!croppedAreaPixels) return;
+const createCroppedImage = async () => {
+  if (!croppedAreaPixels) return;
 
-    const img = new Image();
-    img.src = image;
-    await new Promise((res) => (img.onload = res));
+  const img = new Image();
+  img.src = image;
+  await new Promise((res) => (img.onload = res));
 
-    const canvas = document.createElement("canvas");
-    canvas.width = outputWidth;
-    canvas.height = outputHeight;
+  const canvas = document.createElement("canvas");
+  canvas.width = outputWidth;
+  canvas.height = outputHeight;
 
-    const ctx = canvas.getContext("2d")!;
-    ctx.drawImage(
-      img,
-      croppedAreaPixels.x,
-      croppedAreaPixels.y,
-      croppedAreaPixels.width,
-      croppedAreaPixels.height,
-      0,
-      0,
-      outputWidth,
-      outputHeight
-    );
+  const ctx = canvas.getContext("2d")!;
 
-    const blob: Blob = await new Promise((resolve) =>
-      canvas.toBlob((b) => resolve(b!), "image/jpeg")
-    );
+  /* ✅ FILL WHITE BACKGROUND */
+  ctx.fillStyle = "#ffffff";
+  ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-    const file = new File([blob], "cropped.jpg", { type: "image/jpeg" });
+  /* ✅ DRAW IMAGE */
+  ctx.drawImage(
+    img,
+    croppedAreaPixels.x,
+    croppedAreaPixels.y,
+    croppedAreaPixels.width,
+    croppedAreaPixels.height,
+    0,
+    0,
+    outputWidth,
+    outputHeight
+  );
 
-    /* ✅ DECIDE MODE */
-    if (onNext) {
-      onNext(file); // gallery mode
-    } else if (onComplete) {
-      onComplete(file); // single mode
-      onClose();
-    }
-  };
+  /* ✅ EXPORT AS PNG (supports transparency properly) */
+  const blob: Blob = await new Promise((resolve) =>
+    canvas.toBlob((b) => resolve(b!), "image/png")
+  );
+
+  const file = new File([blob], "cropped.png", {
+    type: "image/png",
+  });
+
+  if (onNext) {
+    onNext(file);
+  } else if (onComplete) {
+    onComplete(file);
+    onClose();
+  }
+};
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-background/70 backdrop-blur-sm">
