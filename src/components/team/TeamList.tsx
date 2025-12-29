@@ -242,34 +242,6 @@ function TeamList() {
     return () => clearTimeout(delay);
   }, [search]);
 
-  // const handleDragEnd = async (event: any) => {
-  //   const { active, over } = event;
-  //   if (!over || active.id === over.id) return;
-  //   const oldIndex = teams.findIndex((i) => i.id === active.id);
-  //   const newIndex = teams.findIndex((i) => i.id === over.id);
-
-  //   if (oldIndex === -1 || newIndex === -1) return;
-
-  //   const previous = [...teams];
-
-  //   // ✅ UI ma turant reorder
-  //   const reordered = arrayMove(teams, oldIndex, newIndex);
-  //   setTeams(reordered);
-  //   console.log(reordered);
-  //   try {
-  //     // ✅ existing API params j use thase
-  //     await reorderteam({
-  //       id: active.id,
-  //       index: newIndex + 1,
-  //     });
-
-  //   } catch (error) {
-  //     // ❌ fail thay to rollback
-  //     setTeams(previous);
-  //     // toast.error("Reorder failed");
-  //   }
-  // };
-
 const handleDragEnd = async (event: any) => {
   const { active, over } = event;
   if (!over || active.id === over.id) return;

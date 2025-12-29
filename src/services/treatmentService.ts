@@ -26,6 +26,7 @@ export interface Location {
 
 export interface Treatment {
   id: number;
+  index?: number;
   category: string;
   name: string;
   slug: string;

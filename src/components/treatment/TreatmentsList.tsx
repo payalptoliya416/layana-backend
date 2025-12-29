@@ -175,8 +175,8 @@ const sensors = useSensors(
 const [treatments, setTreatments] = useState<Treatment[]>([]);
 const [page, setPage] = useState(1);
 const [pagination, setPagination] = useState<any>(null);
-const [sortBy, setSortBy] = useState<"id" | "category" | "name" | "index">("id");
-const [sortDirection, setSortDirection] = useState<"asc" | "desc">("desc");
+const [sortBy, setSortBy] = useState<"id" | "category" | "name" | "index">("index");
+const [sortDirection, setSortDirection] = useState<"asc" | "desc">("asc");
 const { containerRef, rowsPerPage } = useAutoRows();
 const [refreshKey, setRefreshKey] = useState(0);
 
@@ -213,34 +213,6 @@ useEffect(() => {
 
 const [deleteId, setDeleteId] = useState<number | null>(null);
 const [isDeleting, setIsDeleting] = useState(false);
-
-// const handleDragEnd = async (event: any) => {
-//   const { active, over } = event;
-//   if (!over || active.id === over.id) return;
-//   const oldIndex = treatments.findIndex((i) => i.id === active.id);
-//   const newIndex = treatments.findIndex((i) => i.id === over.id);
-
-//   if (oldIndex === -1 || newIndex === -1) return;
-
-//   const previous = [...treatments];
-
-//   // ✅ UI ma turant reorder
-//   const reordered = arrayMove(treatments, oldIndex, newIndex);
-//   setTreatments(reordered);
-
-//   try {
-//     // ✅ existing API params j use thase
-//     await reorderTreatment({
-//       id: active.id,
-//       index: newIndex + 1,
-//     });
-
-//   } catch (error) {
-//     // ❌ fail thay to rollback
-//     setTreatments(previous);
-//     toast.error("Reorder failed");
-//   }
-// };
 
 const handleDragEnd = async (event: DragEndEvent) => {
   const { active, over } = event;
@@ -284,7 +256,6 @@ const handleDragEnd = async (event: DragEndEvent) => {
     fetchTreatments();
   }
 };
-
 
 const handleEdit = (id: number) => {
   navigate(`/treatments-list/treatments/edit/${id}`);
