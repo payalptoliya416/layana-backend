@@ -92,7 +92,7 @@ function SortableRow({
         <div className="w-[25%] pl-4">{item.name}</div>
         <div className="w-[25%] pl-4 flex-1">{item.designation}</div>
 
-        <div className="w-[160px] pl-8">
+        <div className="w-[160px] pl-4">
           <SwitchToggle
             value={item.featured}
             onChange={(val: boolean) => onToggleFeatured(item.id, val)}
