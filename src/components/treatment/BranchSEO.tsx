@@ -82,7 +82,7 @@ const update = <K extends keyof typeof form>(
       }
       placeholder="Enter SEO title (e.g. Best Spa in Ahmedabad)"
       className="
-        w-full h-11 rounded-lg
+        w-full h-11 rounded-lg min-w-0
         border border-input
         bg-card 
         px-4 text-sm
@@ -107,7 +107,7 @@ const update = <K extends keyof typeof form>(
       placeholder="Write a short description for search engines"
       rows={4}
       className="
-        w-full rounded-lg
+        w-full rounded-lg min-w-0
         border border-input
         bg-card 
         px-4 py-3 text-sm
