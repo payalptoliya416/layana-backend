@@ -390,7 +390,7 @@ const onView = (id: number) =>{
         {/* Main Content Area */}
         <div
           className={cn(
-            "flex-1 flex flex-col transition-all duration-300 h-[calc(95vh-24px)] mt-3 px-3 sm:px-5",
+            "flex-1 flex flex-col transition-all duration-300 h-[calc(dvh-24px)] mt-3 px-3 sm:px-5",
             sidebarCollapsed ? "lg:ml-[96px]" : "lg:ml-[272px]"
           )}
         >
@@ -461,7 +461,7 @@ const onView = (id: number) =>{
               <div className="grid grid-cols-12">
                     <div className="col-span-12">
 
-                      <div className="w-full rounded-2xl border border-border bg-card flex flex-col h-[calc(100vh-300px)]">
+                      <div className="w-full rounded-2xl border border-border bg-card flex flex-col h-[calc(100dvh-300px)]">
 
                         {/* ================= HEADER (DESKTOP ONLY) ================= */}
                         <div className="sticky top-0 z-[9] bg-card border-b hidden lg:flex items-center h-[52px] px-4 text-sm font-medium text-primary mx-4">
