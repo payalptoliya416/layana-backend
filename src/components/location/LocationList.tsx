@@ -491,7 +491,7 @@ const onView = (id: number) =>{
                               setSortBy("status");
                               setSortDirection((p) => (p === "asc" ? "desc" : "asc"));
                             }}
-                            className="flex-1 pl-4 border-l cursor-pointer flex items-center justify-between text-left"
+                            className="flex-1 pl-8 border-l cursor-pointer flex items-center justify-between text-left"
                           >
                             <span>Status</span>
                              <span className="flex flex-col gap-1 ml-2 text-muted-foreground leading-none mr-2">
