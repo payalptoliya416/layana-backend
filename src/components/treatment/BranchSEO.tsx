@@ -125,13 +125,13 @@ const update = <K extends keyof typeof form>(
     <label className="text-sm font-medium text-foreground">
       SEO Keywords (comma separated)
     </label>
-{/* 
+
     <SeoKeywordInput
       value={form.seo_keyword}
       onChange={(keywords) =>
         update("seo_keyword", keywords)
       }
-    /> */}
+    />
   </div>
 </div>
   );

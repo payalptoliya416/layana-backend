@@ -35,8 +35,8 @@ export function SeoKeywordInput({ value, onChange }: SeoKeywordInputProps) {
   };
 
   return (
-  <div className="rounded-xl border border-border p-3 bg-card focus-within:ring-2 focus-within:ring-ring/20">
-  <div className="flex flex-wrap gap-2 items-center">
+  <div className="rounded-xl border border-border p-3 bg-card focus-within:ring-2 focus-within:ring-ring/20 overflow-x-hidden">
+  <div className="flex flex-wrap lg:gap-2 items-center w-full min-w-0">
     {keywords.map((keyword, index) => (
       <span
         key={index}
@@ -58,7 +58,7 @@ export function SeoKeywordInput({ value, onChange }: SeoKeywordInputProps) {
       onKeyDown={handleKeyDown}
       placeholder="Type and press comma or tab"
       className="
-        flex-1 min-w-0
+         flex-1 min-w-0 w-full
            xl:min-w-[160px]
         border-none outline-none
         bg-transparent
