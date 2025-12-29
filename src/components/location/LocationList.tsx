@@ -255,7 +255,7 @@ function SortableRow({
                   : "bg-muted text-muted-foreground"
               )}
             >
-              {item.status}
+              {item.status?.charAt(0).toUpperCase() + item.status?.slice(1)}
             </span>
             <p className="font-medium text-foreground">
               {item.name}
