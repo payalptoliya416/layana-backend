@@ -486,7 +486,7 @@ const onView = (id: number) =>{
                                           </span>
                           </button>
 
-                          <button
+                          <button 
                             onClick={() => {
                               setSortBy("status");
                               setSortDirection((p) => (p === "asc" ? "desc" : "asc"));
