@@ -202,12 +202,12 @@ const isFacial = category === "Facial";
   </div>
 
   {/* Benefits */}
-  <h2 className="text-lg font-semibold text-foreground">
+  {/* <h2 className="text-lg font-semibold text-foreground">
     Benefits{!isFacial && (<sup className="text-destructive">*</sup>)}
-  </h2>
+  </h2> */}
 
-  <div className="rounded-[15px] border border-border bg-card p-3 lg:p-5 space-y-4">
-    {/* Input */}
+  {/* <div className="rounded-[15px] border border-border bg-card p-3 lg:p-5 space-y-4">
+
     <div className="flex items-center gap-4 flex-wrap">
       <input
         value={input}
@@ -243,7 +243,6 @@ const isFacial = category === "Facial";
       <div className="border-t border-border" />
     )}
 
-    {/* DRAG & DROP LIST */}
     <DndContext
       collisionDetection={closestCenter}
       onDragEnd={handleDragEnd}
@@ -262,7 +261,7 @@ const isFacial = category === "Facial";
         ))}
       </SortableContext>
     </DndContext>
-  </div>
+  </div> */}
 </div>
 
   );
