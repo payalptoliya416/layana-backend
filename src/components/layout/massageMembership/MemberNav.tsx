@@ -38,9 +38,9 @@ export function MemberNav({ activeItem, onItemChange }: SecondaryNavProps) {
       {/* Outer Card */}
       <div
         className="bg-card space-y-2   flex
-      lg:flex-col w-full overflow-x-auto
+      lg:flex-col max-w-[270px] sm:max-w-[300px] md:w-full overflow-x-auto
       gap-2 
-      lg:gap-2  flex-wrap justify-center
+      lg:gap-2  flex-nowrap justify-center mx-auto
       py-2"
       >
         {navItems.map((item) => {
