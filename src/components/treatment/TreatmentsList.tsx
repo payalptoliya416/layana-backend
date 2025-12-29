@@ -443,7 +443,7 @@ const handleDelete = async () => {
       </div>
 
       {/* ================= BODY ================= */}
-      <div  ref={containerRef} className="flex-1">
+      <div  ref={containerRef} className="flex-1 overflow-y-auto scrollbar-thin">
         {treatments.length === 0 ? (
           <div className="py-6 text-center text-muted-foreground">
             No Treatment found

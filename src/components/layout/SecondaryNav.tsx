@@ -27,10 +27,10 @@ export function SecondaryNav({ activeItem, onItemChange }: SecondaryNavProps) {
       lg:overflow-visible
       scrollbar-hide ">
       {/* Outer Card */}
-      <div className="bg-card space-y-2   flex
+      <div className="bg-card lg:space-y-2   flex
       lg:flex-col w-full
-      gap-2
-      lg:gap-2  flex-wrap justify-center
+      gap-2 width-scroll px-4 lg:px-0
+      lg:gap-2  flex-nowrap 
       py-2">
         {navItems.map((item) => {
           const isActive = activeItem === item.id;

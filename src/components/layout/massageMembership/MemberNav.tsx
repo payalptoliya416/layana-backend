@@ -37,10 +37,10 @@ export function MemberNav({ activeItem, onItemChange }: SecondaryNavProps) {
     >
       {/* Outer Card */}
       <div
-        className="bg-card space-y-2   flex
-      lg:flex-col max-w-[270px] sm:max-w-[300px] md:w-full overflow-x-auto
-      gap-2 
-      lg:gap-2  flex-nowrap justify-center mx-auto
+        className="bg-card lg:space-y-2   flex
+      lg:flex-col 
+      gap-2 width-scroll px-4 lg:px-0
+      lg:gap-2  flex-nowrap 
       py-2"
       >
         {navItems.map((item) => {

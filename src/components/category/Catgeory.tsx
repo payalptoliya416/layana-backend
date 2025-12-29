@@ -545,12 +545,12 @@ const handleSubmit = async () => {
                           <div className="flex items-center gap-4 px-4 py-3 mx-4 my-2 rounded-[10px] border bg-muted/40 flex-wrap">
 
                             {/* DRAG */}
-                            <div className="w-10 flex justify-center text-muted-foreground">
+                            <div className="w-10 sm:flex justify-center text-muted-foreground hidden">
                               <GripVertical size={18} className="opacity-30" />
                             </div>
 
                             {/* NAME */}
-                            <div className="w-[30%]">
+                            <div className="w-full sm:w-[30%]">
                               <input
                                 value={newName}
                                 onChange={(e) => setNewName(e.target.value)}
@@ -560,7 +560,7 @@ const handleSubmit = async () => {
                             </div>
 
                             {/* STATUS */}
-                            <div className="w-[30%]">
+                            <div className="w-full sm:w-[30%]">
                               <Select
                                 value={newStatus}
                                 onValueChange={(v) =>
