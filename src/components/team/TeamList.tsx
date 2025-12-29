@@ -141,11 +141,11 @@ function SortableRow({
             </div>
 
             <div className="flex-1">
-              <p className="font-medium mb-2">{item.name}</p>
               <p className="text-sm text-muted-foreground mb-2">
                 <span className="font-semibold">Designation : </span>
                 {item.designation}
               </p>
+              <p className="font-medium mb-2">{item.name}</p>
               {/* <div className="flex justify-between items-center pt-2">
                 <SwitchToggle
                   value={item.featured}
