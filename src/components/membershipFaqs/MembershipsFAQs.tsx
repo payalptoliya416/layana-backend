@@ -96,13 +96,13 @@ function SortableFAQ({
         </span>
 
         <div className="flex-1 space-y-3 ">
-          <div className="flex justify-between gap-4 flex-wrap cursor-pointer" onClick={onToggle}>
+          <div className="flex justify-between gap-4 flex-wrap cursor-pointer flex-col lg:flex-row" onClick={onToggle}>
             <div className="flex gap-2 text-sm font-medium">
               <span className="font-semibold">Q.</span>
               {faq.question}
             </div>
 
-            <div className="flex items-center gap-2 ml-auto">
+            <div className="flex items-center gap-2 ml-auto lg:ml-0">
               <button
                 onClick={onToggle}
                 className="text-muted-foreground hover:text-foreground"

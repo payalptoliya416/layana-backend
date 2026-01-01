@@ -46,7 +46,7 @@
       <div className="flex gap-4 items-start  px-4 py-4">
         <div className="flex-1 space-y-3">
           <div
-             className="flex justify-between gap-4 flex-wrap cursor-pointer"
+             className="flex justify-between gap-4 flex-wrap cursor-pointer  flex-col lg:flex-row"
             onClick={onToggle}
           >
             <div className="flex gap-2 text-sm font-medium">
