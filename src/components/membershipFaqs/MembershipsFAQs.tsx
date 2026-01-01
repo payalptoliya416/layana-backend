@@ -51,36 +51,37 @@ interface UIFaq extends FAQItem {
   id: number;
 }
 
+
 function SortableFAQ({
   faq,
-  index,
+   index,
+  isOpen,
+  onToggle,
   onDelete,
   onEdit,
 }: {
-  faq: UIFaq;
-  index: number;
+  faq: UIFaq; index: number; 
+  isOpen: boolean;
+  onToggle: () => void;
   onDelete: () => void;
   onEdit: () => void;
 }) {
   const { setNodeRef, attributes, listeners, transform, transition } =
-    useSortable({
-      id: faq.id,
-      transition: {
-        duration: 250,
-        easing: "cubic-bezier(0.25, 1, 0.5, 1)",
-      },
-    });
+    useSortable({ id: faq.id ,transition: {
+    duration: 250,
+    easing: "cubic-bezier(0.25, 1, 0.5, 1)", 
+  }, });
 
   const style = {
-    transform: CSS.Transform.toString(transform),
-    transition,
-  };
+  transform: CSS.Transform.toString(transform),
+  transition,
+};
 
   return (
     <div
       ref={setNodeRef}
       style={style}
-      data-row
+       data-row
       className="rounded-xl border border-border bg-card px-4 py-4"
     >
       <div className="flex gap-4 items-start">
@@ -102,6 +103,19 @@ function SortableFAQ({
 
             <div className="flex items-center gap-2">
               <button
+                onClick={onToggle}
+                className="text-muted-foreground hover:text-foreground"
+              >
+                <ChevronDown
+                  size={18}
+                  className={cn(
+                    "transition-transform",
+                    isOpen && "rotate-180"
+                  )}
+                />
+              </button>
+
+              <button
                 onClick={onEdit}
                 className="h-7 w-7 rounded-full border flex items-center justify-center"
               >
@@ -117,8 +131,7 @@ function SortableFAQ({
             </div>
           </div>
 
-          {/* ✅ ALWAYS SHOW ANSWER */}
-          {faq.answer && (
+          {isOpen && faq.answer && (
             <div className="flex gap-2 text-sm text-muted-foreground">
               <span className="font-semibold text-foreground">Ans.</span>
               {faq.answer}
@@ -385,6 +398,10 @@ const handleDeleteConfirm = async () => {
                                             key={faq.id}
                                             faq={faq}
                                             index={index}
+                                            isOpen={openId === faq.id}
+                                            onToggle={() =>
+                                            setOpenId(openId === faq.id ? null : faq.id)
+                                            }
                                            onDelete={() => setDeleteId(faq.id)}
                                             onEdit={() => {
                                             setEditingIndex(index);

@@ -141,19 +141,21 @@ const handleSectionChange = (section: string) => {
 
     loadMembership();
   }, [id, isEdit]);
+const [faqLoading, setFaqLoading] = useState(false);
 
 useEffect(() => {
   if (!isEdit || !id) return;
-  if (activeSection !== "benefits") return; // FAQ tab
+  if (activeSection !== "benefits") return;
 
   const loadFaqs = async () => {
     try {
+      setFaqLoading(true); // ✅ start loader
+
       const res = await getAllMembershipFaqs({
         sortBy: "index",
         sortDirection: "asc",
       });
 
-      // ✅ correct path: res.data.data
       const faqs = res?.data?.data;
 
       if (Array.isArray(faqs)) {
@@ -167,6 +169,8 @@ useEffect(() => {
       }
     } catch {
       toast.error("Failed to load FAQs");
+    } finally {
+      setFaqLoading(false); // ✅ stop loader
     }
   };
 
@@ -276,6 +280,7 @@ useEffect(() => {
                 />
         <MemberFAQ
           ref={faqRef}
+           loading={faqLoading}
           value={payload.faq}
           onChange={(faq) =>
             setPayload((prev) => ({ ...prev, faq }))

@@ -37,10 +37,6 @@ function FAQCard({
   return (
     <div className="rounded-xl border border-border bg-card px-4 py-4">
       <div className="flex gap-4 items-start">
-        {/* UI drag icon */}
-        <span className="mt-1 text-muted-foreground">
-          <GripVertical size={18} />
-        </span>
 
         <div className="flex-1 space-y-3">
           <div className="flex justify-between gap-4 flex-wrap">
@@ -82,9 +78,10 @@ const MemberFAQ = forwardRef<
   { validate: () => Promise<ValidationResult> },
   {
     value: FAQItem[];
+     loading?: boolean;
     onChange: (v: FAQItem[]) => void;
   }
->(function MemberFAQ({ value }, ref) {
+>(function MemberFAQ({ value,loading }, ref) {
   const [openIndex, setOpenIndex] = useState<number | null>(null);
 
   /* ---------- expose validation ---------- */
@@ -105,25 +102,30 @@ const MemberFAQ = forwardRef<
     <div className="space-y-4">
       <h2 className="text-lg font-medium">FAQ’s</h2>
 
-      {(!value || value.length === 0) ? (
-        <div className="rounded-2xl border border-dashed p-6 text-center text-sm text-muted-foreground">
-          No FAQs added yet
-        </div>
-      ) : (
-        <div className="rounded-2xl border bg-card p-4 space-y-3">
-          {value.map((faq, index) => (
-            <FAQCard
-              key={`${faq.question}-${index}`}
-              faq={faq}
-              index={index}
-              isOpen={openIndex === index}
-              onToggle={() =>
-                setOpenIndex(openIndex === index ? null : index)
-              }
-            />
-          ))}
-        </div>
-      )}
+      {loading ? (
+      <div className="rounded-2xl border p-6 flex justify-center items-center">
+        <span className="animate-spin h-5 w-5 border-2 border-primary border-t-transparent rounded-full" />
+      </div>
+    ) : !value || value.length === 0 ? (
+      <div className="rounded-2xl border border-dashed p-6 text-center text-sm text-muted-foreground">
+        No FAQs added yet
+      </div>
+    ) : (
+      <div className="rounded-2xl border bg-card p-4 space-y-3">
+        {value.map((faq, index) => (
+          <FAQCard
+            key={`${faq.question}-${index}`}
+            faq={faq}
+            index={index}
+            isOpen={openIndex === index}
+            onToggle={() =>
+              setOpenIndex(openIndex === index ? null : index)
+            }
+          />
+        ))}
+      </div>
+    )}
+
     </div>
   );
 });
