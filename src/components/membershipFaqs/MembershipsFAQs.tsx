@@ -41,6 +41,7 @@ import {
 import { Button } from "../ui/button";
 import { getTableCount } from "@/services/getTeam";
 import { getAllFAQs } from "./getAllFAQ";
+import { Footer } from "../layout/Footer";
 
 export interface FAQItem {
   question: string;
@@ -278,6 +279,7 @@ const handleDeleteConfirm = async () => {
   }
 };
   return (
+    <>
      <div className="bg-background flex overflow-hidden">
       {/* SIDEBAR */}
       <div className="hidden lg:block">
@@ -548,6 +550,8 @@ const handleDeleteConfirm = async () => {
         }}
       />
     </div>
+    <Footer/>
+    </>
   );
 }
 
