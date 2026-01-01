@@ -422,7 +422,7 @@ const handleDragEnd = async (event: any) => {
               </div>
               <div className="grid grid-cols-12">
                 <div className="col-span-12">
-                  <div className="w-full rounded-2xl border border-border bg-card flex flex-col h-[calc(100vh-300px)]">
+                  <div className="w-full rounded-2xl border border-border bg-card flex flex-col h-[calc(98vh-300px)]">
                     {/* ================= HEADER (DESKTOP) ================= */}
                     <div className="sticky top-0 z-[9] bg-card border-b hidden xl:flex items-center h-[52px] px-4 text-sm font-medium text-primary mx-3">
                       <div className="w-10"></div>
