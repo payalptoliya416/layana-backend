@@ -54,7 +54,6 @@ export interface MembershipSavePayload {
   slogan: string;
   location_ids: number[];
   pricing: MembershipPricing[];
-  faq: MembershipFaq[];
 }
 
 /* =======================

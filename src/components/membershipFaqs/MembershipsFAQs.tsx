@@ -82,9 +82,9 @@ function SortableFAQ({
       ref={setNodeRef}
       style={style}
        data-row
-      className="rounded-xl border border-border bg-card px-4 py-4"
+      className="rounded-xl border border-border bg-card"
     >
-      <div className="flex gap-4 items-start">
+      <div className="flex gap-4 items-start  px-4 py-4">
         {/* DRAG */}
         <span
           {...attributes}
@@ -94,14 +94,14 @@ function SortableFAQ({
           <GripVertical size={18} />
         </span>
 
-        <div className="flex-1 space-y-3">
+        <div className="flex-1 space-y-3 ">
           <div className="flex justify-between gap-4 flex-wrap cursor-pointer" onClick={onToggle}>
             <div className="flex gap-2 text-sm font-medium">
               <span className="font-semibold">Q.</span>
               {faq.question}
             </div>
 
-            <div className="flex items-center gap-2">
+            <div className="flex items-center gap-2 ml-auto">
               <button
                 onClick={onToggle}
                 className="text-muted-foreground hover:text-foreground"
@@ -131,14 +131,14 @@ function SortableFAQ({
             </div>
           </div>
 
+        </div>
+      </div>
           {isOpen && faq.answer && (
-            <div className="flex gap-2 text-sm text-muted-foreground">
+            <div className="flex gap-2 text-sm text-muted-foreground border-t px-4 py-4">
               <span className="font-semibold text-foreground">Ans.</span>
               {faq.answer}
             </div>
           )}
-        </div>
-      </div>
     </div>
   );
 }
@@ -250,7 +250,7 @@ const handleDragEnd = async (event: DragEndEvent) => {
         index: index + 1,
     }));
     /* ================= 6️⃣ UPDATE DB ================= */
-  const data =   await reorderFAQ(payload);
+    await reorderFAQ(payload);
 
     /* ================= 7️⃣ REFRESH PAGE ================= */
     fetchFaqs();
@@ -260,7 +260,6 @@ const handleDragEnd = async (event: DragEndEvent) => {
     fetchFaqs();
   }
 };
-
 
 const handleDeleteConfirm = async () => {
   if (!deleteId) return;

@@ -9,7 +9,7 @@
   } from "react";
   import { cn } from "@/lib/utils";
   import AddFaqModal from "@/components/treatment/AddFaqModal";
-  import { createMembershipFaq, updateMembershipFaq } from "@/services/membershipFaqService";
+  import { createMembershipFaq, deleteMembershipFaq, updateMembershipFaq } from "@/services/membershipFaqService";
   import { MembershipFaq } from "@/services/getMemberShip";
   import { toast } from "sonner";
 
@@ -139,10 +139,22 @@
     /* ================= UI ================= */
   const [isModalOpen, setIsModalOpen] = useState(false);
     const [editingIndex, setEditingIndex] = useState<number | null>(null);
-const handleDelete = (index: number) => {
-  const updated = value.filter((_, i) => i !== index);
-  onChange(updated);
-  toast.success("FAQ deleted");
+
+const handleDelete = async (index: number) => {
+  try {
+    const faqId = (value as any)[index]?.id; // 👈 backend id
+
+    if (!faqId) return;
+
+    await deleteMembershipFaq(faqId);
+
+    toast.success("FAQ deleted successfully");
+
+    const updated = value.filter((_, i) => i !== index);
+    onChange(updated);
+  } catch {
+    toast.error("Failed to delete FAQ");
+  }
 };
 
 const handleEdit = (index: number) => {
@@ -211,17 +223,37 @@ const handleEdit = (index: number) => {
         onSave={async (q, a) => {
   try {
     if (editingIndex !== null) {
+      const faq = (value as any)[editingIndex];
+
+      await updateMembershipFaq({
+        id: faq.id,
+        question: q,
+        answer: a,
+      });
+
+      toast.success("FAQ updated successfully");
+
       const updated = value.map((f, i) =>
-        i === editingIndex
-          ? { ...f, question: q, answer: a }
-          : f
+        i === editingIndex ? { ...f, question: q, answer: a } : f
       );
 
       onChange(updated);
-      toast.success("FAQ updated successfully");
     } else {
-      onChange([...value, { question: q, answer: a }]);
+      const res = await createMembershipFaq({
+        question: q,
+        answer: a,
+      });
+
       toast.success("FAQ added successfully");
+
+      onChange([
+        ...value,
+        {
+          id: res.data.id,   // 👈 important
+          question: q,
+          answer: a,
+        } as any,
+      ]);
     }
 
     setEditingIndex(null);
