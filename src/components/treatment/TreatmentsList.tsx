@@ -320,7 +320,7 @@ const handleDelete = async () => {
           <PageHeader title="Treatments"   onMenuClick={() => setSidebarOpen(true)}/>
         </div>
         
-        <div className="flex-1 pl-[15px] pr-6 px-6 flex flex-col h-full bg-card rounded-2xl shadow-card p-5 overflow-hidden">
+        <div className="flex-1 pl-[15px] pr-6 px-6 flex flex-col bg-card rounded-2xl shadow-card p-5 overflow-hidden   h-[calc(100dvh-160px)] lg:h-[calc(100vh-220px)]">
           <div className="flex flex-col flex-1 overflow-hidden">
             {/* TOP BAR */}
             <div className="mb-2 flex items-center justify-between  shrink-0 flex-wrap gap-1 sm:gap-2">
@@ -408,7 +408,7 @@ const handleDelete = async () => {
           
             <div className="grid grid-cols-12">
   <div className="col-span-12">
-    <div className="w-full rounded-2xl border border-border bg-card flex flex-col h-[calc(98dvh-300px)] sm:h-[calc(99.5dvh-300px)]">
+    <div className="w-full rounded-2xl border border-border bg-card flex flex-col h-[calc(100vh-300px)]">
       {/* ================= HEADER (DESKTOP ONLY) ================= */}
       <div className="sticky top-0 z-[8] bg-card border-b hidden xl:flex items-center h-[52px] px-4 text-sm font-medium text-primary mx-3">
 
@@ -494,7 +494,7 @@ const handleDelete = async () => {
 
     {/* ================= PAGINATION ================= */}
     {pagination && (
-      <div className="h-[56px] flex items-center justify-center gap-6 px-4 py-2 text-sm text-muted-foreground">
+      <div data-pagination className="h-[56px] flex items-center justify-center gap-6 px-4 py-2 text-sm text-muted-foreground">
         <button disabled={pagination.current_page === 1} onClick={() => setPage(1)} className="text-2xl">«</button>
         <button disabled={!pagination.prev_page_url} onClick={() => setPage(p => p - 1)} className="text-2xl">‹</button>
         <span className="text-foreground font-medium">
