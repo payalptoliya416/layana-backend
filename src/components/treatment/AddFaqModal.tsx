@@ -82,7 +82,7 @@ export default function AddFaqModal({
   }}
   className={cn(
     "w-full rounded-[10px] border px-[15px] py-4 text-sm",
-    "bg-background text-foreground",
+    "bg-card text-foreground",
     "placeholder:text-muted-foreground",
     "focus:outline-none focus:ring-2 focus:ring-ring/20 transition",
     errors.question ? "border-red-500" : "border-input"
@@ -113,7 +113,7 @@ export default function AddFaqModal({
   rows={5}
   className={cn(
     "w-full rounded-[10px] border px-[15px] py-4 text-sm resize-none",
-    "bg-background text-foreground",
+    "bg-card text-foreground",
     "placeholder:text-muted-foreground",
     "focus:outline-none focus:ring-2 focus:ring-ring/20 transition",
     errors.answer ? "border-red-500" : "border-input"
