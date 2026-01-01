@@ -32,7 +32,7 @@ export function MemberNav({ activeItem, onItemChange }: SecondaryNavProps) {
   return (
     <nav
       className="h-full w-full overflow-x-auto
-      lg:overflow-visible     px-4 
+      lg:overflow-visible px-4 
       scrollbar-hide "
     >
       {/* Outer Card */}
@@ -41,7 +41,7 @@ export function MemberNav({ activeItem, onItemChange }: SecondaryNavProps) {
       lg:flex-col 
       gap-2 width-scroll 
       lg:gap-2  flex-nowrap 
-      py-2"
+      py-2 px-2"
       >
         {navItems.map((item) => {
           const isActive = activeItem === item.id;

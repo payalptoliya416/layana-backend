@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 
 const HEADER_HEIGHT = 46;
-// const PAGINATION_HEIGHT = 56;
+const FIXED_ROW_HEIGHT = 76; // 👈 question row height only
 
 export function useAutoRows() {
   const containerRef = useRef<HTMLDivElement | null>(null);
@@ -18,13 +18,12 @@ export function useAutoRows() {
       raf = requestAnimationFrame(() => {
         const height = entries[0].contentRect.height;
 
-        const rowHeight =
-          document.querySelector("[data-row]")?.getBoundingClientRect().height || 56;
+        const available = height - HEADER_HEIGHT;
 
-        const available =
-          height - HEADER_HEIGHT;
-
-        const rows = Math.max(1, Math.floor(available / rowHeight));
+        const rows = Math.max(
+          1,
+          Math.floor(available / FIXED_ROW_HEIGHT)
+        );
 
         setRowsPerPage(rows);
       });
