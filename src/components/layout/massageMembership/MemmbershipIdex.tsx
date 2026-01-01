@@ -144,8 +144,7 @@ const handleSectionChange = (section: string) => {
 const [faqLoading, setFaqLoading] = useState(false);
 
 useEffect(() => {
-  if (!isEdit || !id) return;
-  if (activeSection !== "benefits") return;
+   if (activeSection !== "benefits") return;
 
   const loadFaqs = async () => {
     try {
