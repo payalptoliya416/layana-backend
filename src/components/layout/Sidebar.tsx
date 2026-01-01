@@ -119,17 +119,35 @@ const isExpanded =
     <>
   <div className="relative">
   <button
+    // onClick={() => {
+    //   if (item.children) {
+    //     setExpandedItems((prev) =>
+    //       prev.includes(item.label)
+    //         ? prev.filter((i) => i !== item.label)
+    //         : [...prev, item.label]
+    //     );
+    //   } else if (item.href) {
+    //     navigate(item.href);
+    //   }
+    // }}
     onClick={() => {
-      if (item.children) {
-        setExpandedItems((prev) =>
-          prev.includes(item.label)
-            ? prev.filter((i) => i !== item.label)
-            : [...prev, item.label]
-        );
-      } else if (item.href) {
-        navigate(item.href);
-      }
-    }}
+  // ✅ If sidebar is collapsed & item has submenu → just expand sidebar
+  if (collapsed && item.children) {
+    onToggle(); // collapsed = false
+    return;
+  }
+
+  // ✅ Normal behaviour when expanded
+  if (item.children) {
+    setExpandedItems((prev) =>
+      prev.includes(item.label)
+        ? prev.filter((i) => i !== item.label)
+        : [...prev, item.label]
+    );
+  } else if (item.href) {
+    navigate(item.href);
+  }
+}}
     className={cn(
       "sidebar-nav-item w-full flex items-center gap-3",
       isActive && "sidebar-nav-item-active",
@@ -169,7 +187,7 @@ const isExpanded =
   </button>
 
   {/* ✅ COLLAPSED → FLYOUT SUBMENU */}
-  {collapsed && item.children && isExpanded && (
+  {!collapsed && item.children && isExpanded && (
     <div className="absolute left-full top-0 ml-2 w-44 rounded-xl bg-sidebar shadow-lg p-1 z-50">
       {item.children.map((child) => {
         const isChildActive =
