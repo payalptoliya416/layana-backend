@@ -97,7 +97,13 @@ useEffect(() => {
   });
 }, [location.pathname]);
 
- const NavItemContent = ({ item }: { item: NavItem }) => {
+const NavItemContent = ({
+  item,
+  collapsed,
+}: {
+  item: NavItem;
+  collapsed: boolean;
+}) => {
 const isExpanded =
   expandedItems.includes(item.label) ||
   (item.children?.some(child =>
@@ -111,61 +117,109 @@ const isExpanded =
 
   return (
     <>
-      <button
-       onClick={() => {
-  if (item.children) {
-    setExpandedItems((prev) =>
-      prev.includes(item.label)
-        ? prev.filter((i) => i !== item.label)
-        : [...prev, item.label]
-    );
-  } else if (item.href) {
-    navigate(item.href);
-  }
-}}
-        className={cn(
-          "sidebar-nav-item w-full",
-          isActive && "sidebar-nav-item-active"
-        )}
-      >
-        <item.icon className="w-5 h-5 flex-shrink-0" />
-        <span className="flex-1 text-left text-sm">
+  <div className="relative">
+  <button
+    onClick={() => {
+      if (item.children) {
+        setExpandedItems((prev) =>
+          prev.includes(item.label)
+            ? prev.filter((i) => i !== item.label)
+            : [...prev, item.label]
+        );
+      } else if (item.href) {
+        navigate(item.href);
+      }
+    }}
+    className={cn(
+      "sidebar-nav-item w-full flex items-center gap-3",
+      isActive && "sidebar-nav-item-active",
+      collapsed && "justify-center"
+    )}
+  >
+    {/* ICON */}
+    {collapsed ? (
+      <Tooltip>
+        <TooltipTrigger asChild>
+          <item.icon className="w-5 h-5" />
+        </TooltipTrigger>
+        <TooltipContent side="right">
           {item.label}
-        </span>
-        {item.children && (
-          <ChevronDown
-            className={cn(
-              "w-4 h-4 transition-transform",
-              isExpanded && "rotate-180"
-            )}
-          />
+        </TooltipContent>
+      </Tooltip>
+    ) : (
+      <item.icon className="w-5 h-5" />
+    )}
+
+    {/* LABEL */}
+    {!collapsed && (
+      <span className="flex-1 text-left text-sm">
+        {item.label}
+      </span>
+    )}
+
+    {/* ARROW */}
+    {!collapsed && item.children && (
+      <ChevronDown
+        className={cn(
+          "w-4 h-4 transition-transform",
+          isExpanded && "rotate-180"
         )}
-      </button>
+      />
+    )}
+  </button>
 
-      {item.children && isExpanded && (
-        <div className="ml-8 mt-1 space-y-1">
-          {item.children.map(child => {
-            const isChildActive =
-              location.pathname === child.href ||
-              location.pathname.startsWith(child.href + "/");
+  {/* ✅ COLLAPSED → FLYOUT SUBMENU */}
+  {collapsed && item.children && isExpanded && (
+    <div className="absolute left-full top-0 ml-2 w-44 rounded-xl bg-sidebar shadow-lg p-1 z-50">
+      {item.children.map((child) => {
+        const isChildActive =
+          location.pathname === child.href ||
+          location.pathname.startsWith(child.href + "/");
 
-            return (
-              <button
-                key={child.label}
-                onClick={() => navigate(child.href)}
-                className={cn(
-                  "block w-full text-left px-4 py-2 rounded-lg text-sm",
-                  isChildActive
-                    ? "bg-sidebar-accent font-medium"
-                    : "hover:bg-sidebar-accent"
-                )}
-              >
-                {child.label}
-              </button>
-            );
-          })}
-        </div>
-      )}
+        return (
+          <button
+            key={child.label}
+            onClick={() => navigate(child.href)}
+            className={cn(
+              "block w-full text-left px-3 py-2 rounded-lg text-sm",
+              isChildActive
+                ? "bg-sidebar-accent font-medium"
+                : "hover:bg-sidebar-accent"
+            )}
+          >
+            {child.label}
+          </button>
+        );
+      })}
+    </div>
+  )}
+
+  {/* ✅ EXPANDED → NORMAL SUBMENU */}
+  {!collapsed && item.children && isExpanded && (
+    <div className="ml-8 mt-1 space-y-1">
+      {item.children.map((child) => {
+        const isChildActive =
+          location.pathname === child.href ||
+          location.pathname.startsWith(child.href + "/");
+
+        return (
+          <button
+            key={child.label}
+            onClick={() => navigate(child.href)}
+            className={cn(
+              "block w-full text-left px-4 py-2 rounded-lg text-sm",
+              isChildActive
+                ? "bg-sidebar-accent font-medium"
+                : "hover:bg-sidebar-accent"
+            )}
+          >
+            {child.label}
+          </button>
+        );
+      })}
+    </div>
+  )}
+</div>
     </>
   );
 };
@@ -218,7 +272,7 @@ const isExpanded =
       <nav className="flex-1 overflow-y-auto scrollbar-thin px-3 py-2 space-y-1">
         {navItems.map((item) => (
           <div key={item.label}>
-            <NavItemContent item={item} />
+             <NavItemContent item={item} collapsed={collapsed} />
           </div>
         ))}
         <div className=""></div>
