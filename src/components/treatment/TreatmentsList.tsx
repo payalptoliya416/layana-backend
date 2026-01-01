@@ -491,19 +491,47 @@ const handleDelete = async () => {
         )}
       </div>
     </div>
-
+     {pagination && (
+                    <div
+                      data-pagination
+                      className="flex items-center justify-center gap-6 px-4 py-2 text-sm text-muted-foreground"
+                    >
+                      <button
+                        disabled={pagination.current_page === 1}
+                        onClick={() => setPage(1)}
+                        className="text-2xl"
+                      >
+                        «
+                      </button>
+                      <button
+                        disabled={!pagination.prev_page_url}
+                        onClick={() => setPage((p) => p - 1)}
+                        className="text-2xl"
+                      >
+                        ‹
+                      </button>
+                      <span className="text-foreground font-medium">
+                        {pagination.current_page} / {pagination.last_page}
+                      </span>
+                      <button
+                        disabled={!pagination.next_page_url}
+                        onClick={() => setPage((p) => p + 1)}
+                        className="text-2xl"
+                      >
+                        ›
+                      </button>
+                      <button
+                        disabled={
+                          pagination.current_page === pagination.last_page
+                        }
+                        onClick={() => setPage(pagination.last_page)}
+                        className="text-2xl"
+                      >
+                        »
+                      </button>
+                    </div>
+                  )}
     {/* ================= PAGINATION ================= */}
-    {pagination && (
-      <div data-pagination className="h-[56px] flex items-center justify-center gap-6 px-4 py-2 text-sm text-muted-foreground">
-        <button disabled={pagination.current_page === 1} onClick={() => setPage(1)} className="text-2xl">«</button>
-        <button disabled={!pagination.prev_page_url} onClick={() => setPage(p => p - 1)} className="text-2xl">‹</button>
-        <span className="text-foreground font-medium">
-          {pagination.current_page} / {pagination.last_page}
-        </span>
-        <button disabled={!pagination.next_page_url} onClick={() => setPage(p => p + 1)} className="text-2xl">›</button>
-        <button disabled={pagination.current_page === pagination.last_page} onClick={() => setPage(pagination.last_page)} className="text-2xl">»</button>
-      </div>
-    )}
   </div>
 </div>
 
