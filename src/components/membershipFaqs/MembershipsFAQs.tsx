@@ -184,10 +184,17 @@ const fetchFaqs = async () => {
       sortBy,
       sortDirection,
    });
+       if (!res?.data?.data || res.data.data.length === 0) {
+      setValue([]);          // 👈 clear table
+      setPagination(null);   // 👈 remove pagination
+      return;
+    }
     setValue(res.data.data);
     setPagination(res.pagination);
   } catch {
     toast.error("Failed to load FAQs");
+       setValue([]);            // 👈 safety clear
+    setPagination(null);
   } finally {
     setLoading(false);
   }
@@ -353,7 +360,7 @@ const handleDeleteConfirm = async () => {
                   </div>
                    <div className="grid grid-cols-12">
                      <div className="col-span-12">
-                        <div className="w-full rounded-2xl border border-border bg-card flex flex-col h-[calc(93vh-300px)] sm:h-[calc(99vh-300px)]">
+                        <div className="w-full rounded-2xl border border-border bg-card flex flex-col h-[calc(93vh-300px)] sm:h-[calc(99vh-300px)]" >
                             <div className="sticky top-0 z-[9] bg-card border-b hidden xl:flex items-center h-[52px] px-4 text-sm font-medium text-primary mx-3">
                             <div className="w-10"></div>
                             <div  className="flex-1 pl-4 border-l cursor-pointer flex items-center justify-between text-left"   onClick={() => {
@@ -532,7 +539,7 @@ const handleDeleteConfirm = async () => {
             setValue((prev) => [...prev, res.data]);
             toast.success("FAQ added successfully");
             }
-
+           fetchFaqs();
             setEditingIndex(null);
             setIsModalOpen(false);
         } catch {

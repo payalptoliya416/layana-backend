@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 
-const HEADER_HEIGHT = 46;
-// const PAGINATION_HEIGHT = 56;
+const HEADER_HEIGHT = 52;
+const PAGINATION_HEIGHT = 48;
 
 export function useAutoRows() {
   const containerRef = useRef<HTMLDivElement | null>(null);
