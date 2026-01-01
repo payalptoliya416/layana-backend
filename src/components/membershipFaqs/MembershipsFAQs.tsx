@@ -314,8 +314,8 @@ const handleDeleteConfirm = async () => {
         <div className="sticky top-3 z-10 pb-3">
           <PageHeader title="FAQ's" onMenuClick={() => setSidebarOpen(true)} />
         </div>
-           <div className="flex-1 pl-[15px] pr-6 px-6 flex flex-col h-full bg-card rounded-2xl shadow-card p-5 overflow-hidden">
-            <div className="flex flex-col flex-1 overflow-hidden justify-between">
+           <div className="flex-1 pl-[15px] pr-6 px-6 flex flex-col bg-card rounded-2xl shadow-card p-5 overflow-hidden h-[calc(100dvh-160px)] lg:h-[calc(100vh-220px)]" >
+            <div className="flex flex-col flex-1">
                   <div className="mb-2 flex items-center justify-between  shrink-0 flex-wrap gap-1 sm:gap-2">
                          <div className="relative w-full sm:w-[256px] rounded-full p-1">
                   <input
@@ -359,11 +359,11 @@ const handleDeleteConfirm = async () => {
                         className="flex items-center gap-2 rounded-full bg-primary px-5 py-3 text-sm text-primary-foreground w-full sm:w-auto justify-center text-center"
                         >
                         <Plus size={18} /> Add FAQ
-                        </button>
+                        </button> 
                   </div>
                    <div className="grid grid-cols-12">
                      <div className="col-span-12">
-                        <div className="w-full rounded-2xl border border-border bg-card flex flex-col h-[calc(93vh-300px)] sm:h-[calc(99vh-300px)]" >
+                        <div className="w-full rounded-2xl border border-border bg-card flex flex-col h-[calc(100vh-300px)]" >
                             <div className="sticky top-0 z-[9] bg-card border-b hidden xl:flex items-center h-[52px] px-4 text-sm font-medium text-primary mx-3">
                             <div className="w-10"></div>
                             <div  className="flex-1 pl-4 border-l cursor-pointer flex items-center justify-between text-left"   onClick={() => {
