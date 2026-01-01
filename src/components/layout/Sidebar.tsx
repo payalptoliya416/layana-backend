@@ -187,7 +187,7 @@ const isExpanded =
   </button>
 
   {/* ✅ COLLAPSED → FLYOUT SUBMENU */}
-  {!collapsed && item.children && isExpanded && (
+  {/* {!collapsed && item.children && isExpanded && (
     <div className="absolute left-full top-0 ml-2 w-44 rounded-xl bg-sidebar shadow-lg p-1 z-50">
       {item.children.map((child) => {
         const isChildActive =
@@ -210,7 +210,7 @@ const isExpanded =
         );
       })}
     </div>
-  )}
+  )} */}
 
   {/* ✅ EXPANDED → NORMAL SUBMENU */}
   {!collapsed && item.children && isExpanded && (
