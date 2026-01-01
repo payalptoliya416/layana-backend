@@ -39,7 +39,7 @@ function FAQCard({
       <div className="flex gap-4 items-start">
 
         <div className="flex-1 space-y-3">
-          <div className="flex justify-between gap-4 flex-wrap cursor-pointer" onClick={onToggle}>
+          <div className="flex justify-between gap-4 flex-nowrap cursor-pointer" onClick={onToggle}>
             <div className="flex gap-2 text-sm font-medium">
               <span className="font-semibold">Q.{index + 1}</span>
               {faq.question}
