@@ -115,6 +115,7 @@ const [selectedSeoBranch, setSelectedSeoBranch] =
   useState<number | null>(null);
 
 const navigate = useNavigate();
+const [showPricingGrid, setShowPricingGrid] = useState(true);
 const [showValidationPopup, setShowValidationPopup] = useState(false);
  const [sidebarOpen, setSidebarOpen] = useState(false);
 const [validationErrors, setValidationErrors] = useState<
@@ -125,7 +126,8 @@ const handleCancle = ()=>{
 }
 const [saving, setSaving] = useState(false);
 const handleSectionChange = (section: string) => {
-  if (activeSection === "pricing" && section !== "pricing") {
+  if (section === "pricing") {
+    setShowPricingGrid(true);      // ✅ force grid
     setSelectedPricingBranch(null);
   }
 
@@ -316,8 +318,12 @@ const renderTabContent = () => {
           ref={pricingRef}
              category={selectedCategory}
           branches={selectedBranchObjects}
+            showGrid={showPricingGrid}     
           selectedBranchId={selectedPricingBranch}
-          onSelectBranch={setSelectedPricingBranch}
+           onSelectBranch={(id) => {
+    setSelectedPricingBranch(id);
+    setShowPricingGrid(false);            // ✅ grid → form
+  }}
           initialData={treatmentPayload.pricing}
           onChange={(pricing) =>
             setTreatmentPayload((prev) => ({
@@ -483,14 +489,15 @@ const renderTabContent = () => {
           (activeSection === "pricing" && selectedPricingBranch !== null) ||
           (activeSection === "seo" && selectedSeoBranch !== null)
         }
-        onBack={() => {
-          if (activeSection === "pricing") {
-            setSelectedPricingBranch(null);
-          }
-          if (activeSection === "seo") {
-            setSelectedSeoBranch(null);
-          }
-        }}
+       onBack={() => {
+  if (activeSection === "pricing") {
+    setShowPricingGrid(true);
+    setSelectedPricingBranch(null);
+  }
+  if (activeSection === "seo") {
+    setSelectedSeoBranch(null);
+  }
+}}
       />
         </div>
 

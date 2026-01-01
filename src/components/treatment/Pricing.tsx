@@ -138,6 +138,7 @@ function SortableRow({
  interface PricingProps {
   branches: { id: number; name: string }[];
   selectedBranchId: number | null;
+    showGrid: boolean;  
   onSelectBranch: (id: number | null) => void;
   initialData?: any[]; // ✅ ADD
   onChange: (pricing: any[]) => void;
@@ -154,6 +155,7 @@ export const Pricing = forwardRef<
     onSelectBranch,
     onChange,
     initialData,
+    showGrid,
     category
   },
   ref
@@ -398,7 +400,7 @@ const handleDragEnd = (event: any) => {
     return (
       <>
         {/* STEP 1: BRANCH SELECT */}
-        {selectedBranchId === null && (
+        {showGrid && (
           <BranchGrid
             branches={branches}
             selectedId={selectedBranchId}
@@ -407,7 +409,7 @@ const handleDragEnd = (event: any) => {
         )}
 
         {/* STEP 2: PRICING */}
-        {selectedBranchId !== null && (
+     {!showGrid && selectedBranchId !== null && (
          <div className="space-y-10">
   {/* HEADER */}
   <div>
