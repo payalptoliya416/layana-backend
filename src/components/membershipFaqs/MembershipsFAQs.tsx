@@ -42,6 +42,7 @@
     import { getTableCount } from "@/services/getTeam";
     import { getAllFAQs } from "./getAllFAQ";
     import { Footer } from "../layout/Footer";
+import { useAutoRowsmembership } from "@/hooks/useAutoRowsmembership";
 
     export interface FAQItem {
         id?: number;
@@ -174,7 +175,7 @@
     const [pagination, setPagination] = useState<any>(null);
     const [sortBy, setSortBy] = useState<"id" | "name" | 'index'>("index");
     const [sortDirection, setSortDirection] = useState<"asc" | "desc">("asc");
-    const { containerRef, rowsPerPage } = useAutoRows();
+    const { containerRef, rowsPerPage } = useAutoRowsmembership();
     const [isDeleting, setIsDeleting] = useState(false);
     const [deleteId, setDeleteId] = useState<number | null>(null);
 
