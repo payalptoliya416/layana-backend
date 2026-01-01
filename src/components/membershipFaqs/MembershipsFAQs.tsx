@@ -311,7 +311,7 @@ const handleDeleteConfirm = async () => {
         )}
       >
         <div className="sticky top-3 z-10 pb-3">
-          <PageHeader title="FAQs" onMenuClick={() => setSidebarOpen(true)} />
+          <PageHeader title="FAQ's" onMenuClick={() => setSidebarOpen(true)} />
         </div>
            <div className="flex-1 pl-[15px] pr-6 px-6 flex flex-col h-full bg-card rounded-2xl shadow-card p-5 overflow-hidden">
             <div className="flex flex-col flex-1 overflow-hidden">

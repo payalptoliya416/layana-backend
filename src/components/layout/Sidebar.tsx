@@ -45,7 +45,7 @@ const navItems: NavItem[] = [
         href: "/massage-membership",
       },
       {
-        label: "FAQs",
+        label: "FAQ's",
         href: "/membership-faqs",
       },
     ],
