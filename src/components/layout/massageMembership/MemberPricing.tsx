@@ -145,10 +145,11 @@ const MemberPricing = forwardRef<
     selectedBranchId: number | null;
     onSelectBranch: (id: number | null) => void;
     value: MembershipPricingItem[];
+    showGrid: boolean;
     onChange: (v: MembershipPricingItem[]) => void;
   }
 >(function MemberPricing(
-  { branches, selectedBranchId, onSelectBranch, value, onChange },
+  { branches, selectedBranchId, onSelectBranch, value, onChange,showGrid },
   ref
 ) {
   const [editingId, setEditingId] = useState<number | null>(null);
@@ -290,16 +291,17 @@ const handleDragEnd = (event: any) => {
   return (
     <>
       {/* STEP 1: BRANCH SELECT */}
-      {selectedBranchId === null && (
+      {showGrid && (
         <MemberSHipGrid
           branches={branches}
           selectedId={selectedBranchId}
           onSelect={onSelectBranch}
+          
         />
       )}
 
       {/* STEP 2: PRICING */}
-    {selectedBranchId !== null && (
+    {!showGrid && selectedBranchId !== null && (
   <div className="space-y-10">
 
     {/* HEADER */}

@@ -63,6 +63,7 @@ function MembershipIndex() {
   const [saving, setSaving] = useState(false);
   const [loading, setLoading] = useState(false);
   const sloganRef = useRef<any>(null);
+const [showPricingGrid, setShowPricingGrid] = useState(true);
 
   /* ---------- VALIDATION POPUP ---------- */
   const [showValidationPopup, setShowValidationPopup] = useState(false);
@@ -94,7 +95,8 @@ const selectedBranchObjects = payload.location_ids.map((id) => ({
 }));
 
 const handleSectionChange = (section: string) => {
-  if (activeSection === "pricing" && section !== "pricing") {
+  if (section === "pricing") {
+    setShowPricingGrid(true);      // ✅ ALWAYS show grid first
     setSelectedPricingBranch(null);
   }
 
@@ -102,11 +104,11 @@ const handleSectionChange = (section: string) => {
 };
 
   /* ---------- LOAD EDIT DATA ---------- */
-  useEffect(() => {
-  if (isEdit && payload.pricing.length > 0 && selectedPricingBranch === null) {
-    setSelectedPricingBranch(payload.pricing[0].location_id);
-  }
-}, [isEdit, payload.pricing]);
+//   useEffect(() => {
+//   if (isEdit && payload.pricing.length > 0 && selectedPricingBranch === null) {
+//     setSelectedPricingBranch(payload.pricing[0].location_id);
+//   }
+// }, [isEdit, payload.pricing]);
 
   useEffect(() => {
     if (!isEdit || !id) return;
@@ -257,7 +259,11 @@ useEffect(() => {
                 ref={pricingRef}
                 branches={selectedBranchObjects}          
                 selectedBranchId={selectedPricingBranch}  
-                onSelectBranch={setSelectedPricingBranch} 
+                onSelectBranch={(id) => {
+    setSelectedPricingBranch(id);
+    setShowPricingGrid(false); // 👈 GRID → FORM
+  }}
+   showGrid={showPricingGrid}  
                 value={payload.pricing}                   // 
                 onChange={(pricing) =>
                     setPayload((prev) => ({
@@ -369,8 +375,9 @@ useEffect(() => {
             }
             onBack={() => {
               if (activeSection === "pricing") {
-                setSelectedPricingBranch(null);
-              }
+    setShowPricingGrid(true);
+    setSelectedPricingBranch(null);
+  }
             }}
           />
           </div>
