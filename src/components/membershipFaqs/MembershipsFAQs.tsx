@@ -54,7 +54,6 @@ interface UIFaq extends FAQItem {
 
 function SortableFAQ({
   faq,
-   index,
   isOpen,
   onToggle,
   onDelete,
@@ -95,7 +94,7 @@ function SortableFAQ({
         </span>
 
         <div className="flex-1 space-y-3">
-          <div className="flex justify-between gap-4 flex-wrap">
+          <div className="flex justify-between gap-4 flex-wrap cursor-pointer" onClick={onToggle}>
             <div className="flex gap-2 text-sm font-medium">
               <span className="font-semibold">Q.</span>
               {faq.question}
