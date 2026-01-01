@@ -510,53 +510,24 @@ input[type="time"]::-webkit-datetime-edit-ampm-field {
 }
 }
 /* Editor text */
-.dark .ql-editor {
-  color: #ffffff;
+.ql-toolbar {
+  border: none !important;
+  border-bottom: 1px solid hsl(var(--border)) !important;
+  background: hsl(var(--card));
 }
 
-/* Placeholder text */
-.dark .ql-editor.ql-blank::before {
-  color: rgba(255, 255, 255, 0.5);
+.ql-container {
+  border: none !important;
+  background: hsl(var(--card));
+  color: hsl(var(--foreground));
 }
 
-/* Toolbar icons (bold, italic, etc.) */
-.dark .ql-toolbar button svg,
-.dark .ql-toolbar button {
-  color: #ffffff;
-  stroke: #ffffff;
+.ql-editor.ql-blank::before {
+  color: hsl(var(--muted-foreground)) !important;
+  opacity: 1;
 }
 
-/* Active / hover toolbar icons */
-.dark .ql-toolbar button:hover,
-.dark .ql-toolbar button.ql-active {
-  color: #4fd1c5; /* optional accent */
-}
-
-/* Picker label (Sans Serif, Normal, etc.) */
-.dark .ql-picker {
-  color: #ffffff;
-}
-
-/* Picker label text */
-.dark .ql-picker-label {
-  color: #ffffff !important;
-}
-
-/* Picker dropdown options */
-.dark .ql-picker-options {
-  color: #ffffff;
-  border: 1px solid #374151;
-}
-
-/* Picker item hover */
-
-
-/* Toolbar background */
-.dark .ql-toolbar {
-  border-color: #374151;
-}
-
-/* Editor container */
-.dark .ql-container {
-  border-color: #374151;
+.ql-editor {
+  min-height: 180px;
+  padding: 16px;
 }
