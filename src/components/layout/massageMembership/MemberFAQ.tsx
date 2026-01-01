@@ -155,10 +155,9 @@ const handleDelete = async (index: number) => {
 
     await deleteMembershipFaq(index);
 
-    toast.success("FAQ deleted successfully");
 await onReload();
   } catch {
-    toast.error("Failed to delete FAQ");
+    // toast.error("Failed to delete FAQ");
   }
 };
 
@@ -235,7 +234,6 @@ const handleEdit = (id: number) => {
         answer: a,
       });
 
-      toast.success("FAQ updated successfully");
       await onReload();
     }
     // ➕ CREATE
@@ -245,14 +243,12 @@ const handleEdit = (id: number) => {
         answer: a,
       });
 
-      toast.success("FAQ added successfully");
       await onReload();
     }
 
     setEditingId(null);
     setIsModalOpen(false);
   } catch {
-    toast.error("Save failed");
   }
 }}
 
