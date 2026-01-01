@@ -67,7 +67,6 @@ const [teamName, setTeamName] = useState<string>("");
       images: [],
     },
   });
-console.log("formData",formData)
 
   /* ---------- render tabs ---------- */
   const renderTabContent = () => (
@@ -137,7 +136,6 @@ console.log("formData",formData)
       description: formData.general.description,
       images: formData.visuals.images,
     };
-    console.log("payload",payload)
 
     try {
       if (isEdit && id) {

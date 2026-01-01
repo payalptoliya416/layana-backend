@@ -233,7 +233,6 @@ function MassageMemberShip() {
   useEffect(() => {
     fetchMemberships();
   }, [page, debouncedSearch, sortBy, sortDirection,rowsPerPage]);
-
   
   useEffect(() => {
     const t = setTimeout(() => {
@@ -282,7 +281,6 @@ const handleDragEnd = async (event: DragEndEvent) => {
     fetchMemberships();
   }
 };
-
 
   const handleDeleteConfirm = async () => {
     if (!deleteId) return;
@@ -344,7 +342,7 @@ const handleDragEnd = async (event: DragEndEvent) => {
           {/* Sticky Header */}
           <div className="sticky top-3 z-10 pb-3">
             <PageHeader
-              title="Membership "
+              title="Memberships"
               onMenuClick={() => setSidebarOpen(true)}
             />
           </div>
@@ -541,7 +539,7 @@ const handleDragEnd = async (event: DragEndEvent) => {
                     </AlertDialogHeader>
 
                     <p className="text-sm text-muted-foreground">
-                      Are you sure you want to delete this Team? This action
+                      Are you sure you want to delete this Membership? This action
                       cannot be undone.
                     </p>
 

@@ -12,9 +12,8 @@ import {
   arrayMove,
 } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
-import { GripVertical, Pencil, Trash2 } from "lucide-react";
+import { Pencil, Trash2 } from "lucide-react";
 import MemberSHipGrid from "./MemberSHipGrid";
-import ActionsDropdown from "@/components/treatment/ActionsDropdown";
 import { cn } from "@/lib/utils";
 
 /* ================= TYPES ================= */

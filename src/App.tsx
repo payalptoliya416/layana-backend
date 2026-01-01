@@ -20,6 +20,7 @@ import TeamList from "./components/team/TeamList";
 import TeamIndex from "./components/team/TeamIndex";
 import MassageMembership from "./components/layout/massageMembership/MassageMembership";
 import MemmbershipIdex from "./components/layout/massageMembership/MemmbershipIdex";
+import MembershipsFAQs from "./components/membershipFaqs/MembershipsFAQs";
 
 const queryClient = new QueryClient();
 
@@ -170,6 +171,15 @@ const App = () => (
             element={
               <ProtectedRoute>
                 <MemmbershipIdex />
+              </ProtectedRoute>
+            }
+          />
+          
+          <Route
+            path="/membership-faqs"
+            element={
+              <ProtectedRoute>
+                <MembershipsFAQs />
               </ProtectedRoute>
             }
           />

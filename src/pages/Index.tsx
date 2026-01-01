@@ -56,17 +56,20 @@ const faqRef = useRef<any>(null);
 const seoRef = useRef<any>(null);
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
   const [activeSection, setActiveSection] = useState("general");
+  const [loadingTreatment, setLoadingTreatment] = useState(false);
+  const [allLocations, setAllLocations] = useState<
+  { id: number; name: string }[]
+>([]);
   const [selectedBranches, setSelectedBranches] = useState<number[]>([]);
-const [loadingTreatment, setLoadingTreatment] = useState(false);
-const selectedBranchObjects = selectedBranches.map((id) => ({
-  id,
-  name:
-    id === 1
-      ? "Belsize Park"
-      : id === 2
-      ? "Finchley Central"
-      : "Muswell Hill",
-}));
+const selectedBranchObjects = useMemo(() => {
+  return selectedBranches.map((id) => {
+    const loc = allLocations.find((l) => l.id === id);
+    return {
+      id,
+      name: loc?.name || "",
+    };
+  });
+}, [selectedBranches, allLocations]);
 
 const [treatmentPayload, setTreatmentPayload] = useState<TreatmentPayload>({
   general: {},
@@ -121,57 +124,18 @@ const handleCancle = ()=>{
   navigate('/treatments-list')
 }
 const [saving, setSaving] = useState(false);
+const handleSectionChange = (section: string) => {
+  if (activeSection === "pricing" && section !== "pricing") {
+    setSelectedPricingBranch(null);
+  }
 
-// const handleSaveTreatment = async () => {
-//    const validators = [
-//     generalRef,
-//     branchesRef,
-//     visualsRef,
-//     pricingRef,
-//     benefitsRef,
-//     faqRef,
-//     seoRef,
-//   ];
+  if (activeSection === "seo" && section !== "seo") {
+    setSelectedSeoBranch(null);
+  }
 
-//   const results: ValidationResult[] = await Promise.all(
-//     validators.map(async (ref) => {
-//       try {
-//         return (await ref.current?.validate?.()) ?? OK;
-//       } catch (err) {
-//         console.error("Validation error:", err);
-//         return OK;
-//       }
-//     })
-//   );
+  setActiveSection(section);
+};
 
-//   const allErrors = results.flatMap((r) => r.errors || []);
-
-//   if (allErrors.length > 0) {
-//     setValidationErrors(allErrors);
-//     setShowValidationPopup(true);
-//     return;
-//   }
-
-//   // ✅ API CALL
-//   try {
-//     const payload = {
-//       ...(isEdit ? { id: Number(id) } : {}),
-//       ...treatmentPayload,
-//       Location: selectedBranches,
-//     };
-
-//     const res = isEdit
-//       ? await updateTreatmentMessage(payload)
-//       : await createTreatmentMessage(payload);
-
-//     if (res?.status === "success" || res?.data?.status === "success") {
-//       toast.success(res.message || res.data.message);
-//       navigate("/treatments-list");
-//     }
-//   } catch {
-//     toast.error("Something went wrong");
-//   }
-// };
 const handleSaveTreatment = async () => {
   if (saving) return;
 
@@ -242,6 +206,16 @@ useEffect(() => {
       const locationIds = (data.locations || []).map(
         (loc: { id: number }) => loc.id
       );
+      
+      setSelectedBranches(locationIds);
+
+      setAllLocations(
+        (data.locations || []).map((loc: { id: number; name: string }) => ({
+          id: loc.id,
+          name: loc.name,
+        }))
+      );
+
       setTreatmentPayload({
         general: data.general,
         Location: locationIds,
@@ -254,8 +228,6 @@ useEffect(() => {
         },
         seo: data.seo || [],
       });
-
-      setSelectedBranches(locationIds);
 
       setBenefitsFaq(data.benifits_faq || {
         slogan: "",
@@ -531,7 +503,7 @@ const renderTabContent = () => {
                 <aside className="lg:w-[270px] flex-shrink-0 border border-border lg:p-4 rounded-[20px] lg:h-full overflow-y-auto mb-3 lg:mb-0">
                   <SecondaryNav
                     activeItem={activeSection}
-                    onItemChange={setActiveSection}
+                    onItemChange={handleSectionChange}
                   />
                 </aside>
 

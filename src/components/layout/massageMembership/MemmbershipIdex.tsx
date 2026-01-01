@@ -21,6 +21,7 @@ import {
 import { createMembership, getMembershipById, updateMembership } from "@/services/getMemberShip";
 import { MemberShipSlogan } from "./MembershipSLogan";
 import { Footer } from "../Footer";
+import { getAllMembershipFaqs, getMembershipFaq } from "@/services/membershipFaqService";
 
 
 /* ================= TYPES ================= */
@@ -92,6 +93,14 @@ const selectedBranchObjects = payload.location_ids.map((id) => ({
       : "Muswell Hill",
 }));
 
+const handleSectionChange = (section: string) => {
+  if (activeSection === "pricing" && section !== "pricing") {
+    setSelectedPricingBranch(null);
+  }
+
+  setActiveSection(section);
+};
+
   /* ---------- LOAD EDIT DATA ---------- */
   useEffect(() => {
   if (isEdit && payload.pricing.length > 0 && selectedPricingBranch === null) {
@@ -133,6 +142,37 @@ const selectedBranchObjects = payload.location_ids.map((id) => ({
     loadMembership();
   }, [id, isEdit]);
 
+useEffect(() => {
+  if (!isEdit || !id) return;
+  if (activeSection !== "benefits") return; // FAQ tab
+
+  const loadFaqs = async () => {
+    try {
+      const res = await getAllMembershipFaqs({
+        sortBy: "index",
+        sortDirection: "asc",
+      });
+
+      // ✅ correct path: res.data.data
+      const faqs = res?.data?.data;
+
+      if (Array.isArray(faqs)) {
+        setPayload(prev => ({
+          ...prev,
+          faq: faqs.map((f: any) => ({
+            question: f.question,
+            answer: f.answer,
+          })),
+        }));
+      }
+    } catch {
+      toast.error("Failed to load FAQs");
+    }
+  };
+
+  loadFaqs();
+}, [activeSection, id, isEdit]);
+
   /* ---------- SAVE ---------- */
   const handleSave = async () => {
     if (saving) return;
@@ -143,7 +183,6 @@ const selectedBranchObjects = payload.location_ids.map((id) => ({
       branchesRef,
       pricingRef,
       sloganRef,
-      faqRef,
     ];
     const results: ValidationResult[] = await Promise.all(
       validators.map(async (ref) => {
@@ -319,17 +358,17 @@ const selectedBranchObjects = payload.location_ids.map((id) => ({
           <div className="sticky top-3 z-10 pb-3">
             {/* <PageHeader title={payload.name || 'MemberShip'} onMenuClick={() => setSidebarOpen(true)} /> */}
               <PageHeader
-  onMenuClick={() => setSidebarOpen(true)}
-  title={payload.name || "MemberShip"}
-  showBack={
-    activeSection === "pricing" && selectedPricingBranch !== null
-  }
-  onBack={() => {
-    if (activeSection === "pricing") {
-      setSelectedPricingBranch(null);
-    }
-  }}
-/>
+            onMenuClick={() => setSidebarOpen(true)}
+            title={payload.name || "MemberShips"}
+            showBack={
+              activeSection === "pricing" && selectedPricingBranch !== null
+            }
+            onBack={() => {
+              if (activeSection === "pricing") {
+                setSelectedPricingBranch(null);
+              }
+            }}
+          />
           </div>
                 <div className="flex-1 pl-[15px] pr-6 px-6 flex flex-col h-full bg-card rounded-2xl shadow-card p-5 relative overflow-hidden">
                     <div className="flex w-full gap-5 flex-1 overflow-y-auto scrollbar-thin pb-14">
@@ -337,7 +376,7 @@ const selectedBranchObjects = payload.location_ids.map((id) => ({
                 <aside className="lg:w-[270px] flex-shrink-0 border border-border lg:p-4 rounded-[20px] lg:h-full overflow-y-auto overflow-x-hidden mb-3 lg:mb-0">
                                 <MemberNav
                                 activeItem={activeSection}
-                                onItemChange={setActiveSection}
+                                onItemChange={handleSectionChange}
                                 />
                             </aside>
                             <section className="flex-1 overflow-y-auto scrollbar-thin border border-border p-3 lg:p-5 rounded-[20px] scrollbar-thin h-full">

@@ -1,3 +1,4 @@
+import { cn } from "@/lib/utils";
 import { X } from "lucide-react";
 import { useEffect, useState } from "react";
 
@@ -73,19 +74,21 @@ export default function AddFaqModal({
           </label>
 
           <input
-            value={question}
-            onChange={(e) => {
-              setQuestion(e.target.value);
-              if (errors.question)
-                setErrors((p) => ({ ...p, question: undefined }));
-            }}
-            className={`
-              w-full rounded-[10px] border px-[15px] py-4 text-sm
-              focus:outline-none focus:ring-2 focus:ring-ring/20 transition
-              ${errors.question ? "border-red-500" : "border-input"}
-            `}
-            placeholder="Enter Question"
-          />
+  value={question}
+  onChange={(e) => {
+    setQuestion(e.target.value);
+    if (errors.question)
+      setErrors((p) => ({ ...p, question: undefined }));
+  }}
+  className={cn(
+    "w-full rounded-[10px] border px-[15px] py-4 text-sm",
+    "bg-background text-foreground",
+    "placeholder:text-muted-foreground",
+    "focus:outline-none focus:ring-2 focus:ring-ring/20 transition",
+    errors.question ? "border-red-500" : "border-input"
+  )}
+  placeholder="Enter Question"
+/>
 
           {errors.question && (
             <p className="mt-1 text-xs text-red-500">
@@ -101,20 +104,22 @@ export default function AddFaqModal({
           </label>
 
           <textarea
-            value={answer}
-            onChange={(e) => {
-              setAnswer(e.target.value);
-              if (errors.answer)
-                setErrors((p) => ({ ...p, answer: undefined }));
-            }}
-            rows={5}
-            className={`
-              w-full rounded-[10px] border px-[15px] py-4 text-sm resize-none
-              focus:outline-none focus:ring-2 focus:ring-ring/20 transition
-              ${errors.answer ? "border-red-500" : "border-input"}
-            `}
-            placeholder="Enter Answer"
-          />
+  value={answer}
+  onChange={(e) => {
+    setAnswer(e.target.value);
+    if (errors.answer)
+      setErrors((p) => ({ ...p, answer: undefined }));
+  }}
+  rows={5}
+  className={cn(
+    "w-full rounded-[10px] border px-[15px] py-4 text-sm resize-none",
+    "bg-background text-foreground",
+    "placeholder:text-muted-foreground",
+    "focus:outline-none focus:ring-2 focus:ring-ring/20 transition",
+    errors.answer ? "border-red-500" : "border-input"
+  )}
+  placeholder="Enter Answer"
+/>
 
           {errors.answer && (
             <p className="mt-1 text-xs text-red-500">

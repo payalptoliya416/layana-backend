@@ -121,6 +121,15 @@ export async function getMemberships(params?: {
   return res.data;
 }
 
+export const reorderFAQ = async (
+  payload: { id: number; index: number }[]
+) => {
+  const res = await api.post("/membership-faqs/reorder", {
+    faqs: payload,
+  });
+  return res.data;
+};
+
 /* =======================
    CREATE
 ======================= */

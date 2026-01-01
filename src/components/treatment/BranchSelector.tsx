@@ -52,7 +52,7 @@ export function BranchSelector({
               type="button"
               onClick={() => onSelect(branch.id)}
               className={cn(
-                "rounded-[10px] border px-6 py-5 text-left text-xl leading-[20px] font-medium transition-all bg-card  text-foreground",
+                "rounded-[10px] border px-6 py-[25px] text-left text-xl leading-[20px] font-medium transition-all bg-card  text-foreground",
                 active
                   ? "border-primary  shadow-[0_0_0_1px_hsl(var(--primary))]"
                   : "border-border   hover:border-primary/40"
