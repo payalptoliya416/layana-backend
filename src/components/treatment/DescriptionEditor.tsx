@@ -41,6 +41,7 @@ export default function DescriptionEditor({
       focus-within:border-ring
     "
   >
+    <div className="dark">
     <ReactQuill
       theme="snow"
       value={value}
@@ -49,6 +50,7 @@ export default function DescriptionEditor({
       placeholder="Enter analytics / description"
       className="h-[260px] text-foreground"
     />
+    </div>
   </div>
 </div>
   );
