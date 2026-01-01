@@ -425,7 +425,10 @@ const handleDeleteConfirm = async () => {
                             </div>
                         </div>
                         {pagination && (
-                            <div className="flex items-center justify-center gap-6 px-4 py-2 text-sm text-muted-foreground">
+                           <div
+                      data-pagination
+                      className="flex items-center justify-center gap-6 px-4 py-2 text-sm text-muted-foreground"
+                    >
                                 <button
                                 disabled={pagination.current_page === 1}
                                 onClick={() => setPage(1)}
