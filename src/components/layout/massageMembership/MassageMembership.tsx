@@ -348,7 +348,7 @@ const handleDragEnd = async (event: DragEndEvent) => {
           </div>
 
           {/* Content */}
-          <div className="flex-1 pl-[15px] pr-6 px-6 flex flex-col h-full bg-card rounded-2xl shadow-card p-5 overflow-hidden">
+          <div className="flex-1 pl-[15px] pr-6 px-6 flex flex-col bg-card rounded-2xl shadow-card p-5 overflow-hidden h-[calc(100dvh-160px)] lg:h-[calc(100vh-220px)]">
             <div className="flex flex-col flex-1 overflow-hidden">
               <div className="mb-2 flex items-center justify-between  shrink-0 flex-wrap gap-1 sm:gap-2">
                 <div className="relative w-full sm:w-[256px] rounded-full p-1">
