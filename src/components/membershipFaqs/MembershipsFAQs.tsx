@@ -353,7 +353,7 @@ const handleDeleteConfirm = async () => {
                             setEditingIndex(null);
                             setIsModalOpen(true);
                         }}
-                        className="flex items-center gap-2 rounded-full bg-primary px-5 py-3 text-sm text-primary-foreground"
+                        className="flex items-center gap-2 rounded-full bg-primary px-5 py-3 text-sm text-primary-foreground w-full sm:w-auto text-center"
                         >
                         <Plus size={18} /> Add FAQ
                         </button>
