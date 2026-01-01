@@ -346,7 +346,7 @@ const handleDragEnd = async (event: any) => {
               <Sidebar
                 collapsed={false}
                 onToggle={() => setSidebarOpen(false)}
-              />
+              />  
             </>
           )}
         </div>

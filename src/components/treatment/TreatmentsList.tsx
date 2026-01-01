@@ -315,13 +315,15 @@ const handleDelete = async () => {
         )}
       >
         {/* HEADER */}
-        <div className="sticky top-0 sidebar-index pb-3">
-          
-          <PageHeader title="Treatments"   onMenuClick={() => setSidebarOpen(true)}/>
-        </div>
+         <div className="sticky top-3 z-10 pb-3">
+            <PageHeader title="Team" onMenuClick={() => setSidebarOpen(true)} />
+          </div>
         
-        <div className="flex-1 pl-[15px] pr-6 px-6 flex flex-col bg-card rounded-2xl shadow-card p-5 overflow-hidden   relative h-[calc(100dvh-160px)] lg:h-[calc(100vh-220px)]">
-          <div className="flex flex-col flex-1 overflow-hidden">
+       <div
+            className="flex-1 pl-[15px] pr-6 px-6 flex flex-col bg-card rounded-2xl shadow-card p-5
+    relative overflow-hidden h-[calc(100dvh-160px)] lg:h-[calc(100vh-220px)]"
+          >
+          <div className="flex flex-col flex-1">
             {/* TOP BAR */}
             <div className="mb-2 flex items-center justify-between  shrink-0 flex-wrap gap-1 sm:gap-2">
          <div className="relative w-full sm:w-[256px] rounded-full p-1">
@@ -375,40 +377,9 @@ const handleDelete = async () => {
                 <Plus size={16} /> Add Treatment
               </button>
             </div>
-                <AlertDialog open={!!deleteId} onOpenChange={() => setDeleteId(null)}>
-          <AlertDialogContent>
-            <AlertDialogHeader>
-              <AlertDialogTitle>Are you sure?</AlertDialogTitle>
-              <AlertDialogDescription>
-                This action cannot be undone. This will permanently delete the
-                treatment.
-              </AlertDialogDescription>
-            </AlertDialogHeader>
-
-            <AlertDialogFooter>
- <Button
-                        variant="cancel"
-                           onClick={() => setDeleteId(null)}
-                        disabled={isDeleting}
-                        className="rounded-[10px]"
-                      >
-                        Cancel
-                      </Button>
-               <Button
-                        variant="destructive"
-                        onClick={handleDelete}
-                        disabled={isDeleting}
-                        className="rounded-[10px]"
-                      >
-                        {isDeleting ? "Deleting..." : "Delete"}
-                      </Button>
-            </AlertDialogFooter>
-          </AlertDialogContent>
-               </AlertDialog>
-          
             <div className="grid grid-cols-12">
   <div className="col-span-12">
-    <div className="w-full rounded-2xl border border-border bg-card flex flex-col h-[calc(100vh-300px)]">
+    <div className="w-full rounded-2xl border border-border bg-card flex flex-col h-[calc(98vh-300px)]">
       {/* ================= HEADER (DESKTOP ONLY) ================= */}
       <div className="sticky top-0 z-[8] bg-card border-b hidden xl:flex items-center h-[52px] px-4 text-sm font-medium text-primary mx-3">
 
@@ -491,7 +462,7 @@ const handleDelete = async () => {
         )}
       </div>
     </div>
-     {pagination && (
+    {pagination && (
                     <div
                       data-pagination
                       className="flex items-center justify-center gap-6 px-4 py-2 text-sm text-muted-foreground"
@@ -534,7 +505,36 @@ const handleDelete = async () => {
     {/* ================= PAGINATION ================= */}
   </div>
 </div>
+   <AlertDialog open={!!deleteId} onOpenChange={() => setDeleteId(null)}>
+          <AlertDialogContent>
+            <AlertDialogHeader>
+              <AlertDialogTitle>Are you sure?</AlertDialogTitle>
+              <AlertDialogDescription>
+                This action cannot be undone. This will permanently delete the
+                treatment.
+              </AlertDialogDescription>
+            </AlertDialogHeader>
 
+            <AlertDialogFooter>
+ <Button
+                        variant="cancel"
+                           onClick={() => setDeleteId(null)}
+                        disabled={isDeleting}
+                        className="rounded-[10px]"
+                      >
+                        Cancel
+                      </Button>
+               <Button
+                        variant="destructive"
+                        onClick={handleDelete}
+                        disabled={isDeleting}
+                        className="rounded-[10px]"
+                      >
+                        {isDeleting ? "Deleting..." : "Delete"}
+                      </Button>
+            </AlertDialogFooter>
+          </AlertDialogContent>
+               </AlertDialog>
           </div>
         </div>
       </div>
