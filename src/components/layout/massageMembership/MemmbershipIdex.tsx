@@ -145,36 +145,36 @@ const handleSectionChange = (section: string) => {
   }, [id, isEdit]);
 const [faqLoading, setFaqLoading] = useState(false);
 
+const loadFaqs = async () => {
+  try {
+    setFaqLoading(true);
+
+    const res = await getAllMembershipFaqs({
+      sortBy: "index",
+      sortDirection: "asc",
+    });
+
+    const faqs = res?.data?.data;
+    if (Array.isArray(faqs)) {
+      setPayload(prev => ({
+        ...prev,
+        faq: faqs.map((f: any) => ({
+          id: f.id,
+          question: f.question,
+          answer: f.answer,
+        })),
+      }));
+    }
+  } catch {
+    toast.error("Failed to load FAQs");
+  } finally {
+    setFaqLoading(false);
+  }
+};
+
+
 useEffect(() => {
    if (activeSection !== "benefits") return;
-
-  const loadFaqs = async () => {
-    try {
-      setFaqLoading(true); // ✅ start loader
-
-      const res = await getAllMembershipFaqs({
-        sortBy: "index",
-        sortDirection: "asc",
-      });
-
-      const faqs = res?.data?.data;
-
-      if (Array.isArray(faqs)) {
-        setPayload(prev => ({
-          ...prev,
-          faq: faqs.map((f: any) => ({
-            question: f.question,
-            answer: f.answer,
-          })),
-        }));
-      }
-    } catch {
-      toast.error("Failed to load FAQs");
-    } finally {
-      setFaqLoading(false); // ✅ stop loader
-    }
-  };
-
   loadFaqs();
 }, [activeSection, id, isEdit]);
 
@@ -290,6 +290,7 @@ useEffect(() => {
           onChange={(faq) =>
             setPayload((prev) => ({ ...prev, faq }))
           }
+          onReload={loadFaqs} 
         />
       </div>
     </>

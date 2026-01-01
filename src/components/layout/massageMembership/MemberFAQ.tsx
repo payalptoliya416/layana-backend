@@ -10,7 +10,6 @@
   import { cn } from "@/lib/utils";
   import AddFaqModal from "@/components/treatment/AddFaqModal";
   import { createMembershipFaq, deleteMembershipFaq, updateMembershipFaq } from "@/services/membershipFaqService";
-  import { MembershipFaq } from "@/services/getMemberShip";
   import { toast } from "sonner";
 
   /* ================= TYPES ================= */
@@ -21,10 +20,10 @@
   };
 
   export interface FAQItem {
+    id?: number;
     question: string;
     answer: string;
   }
-
   /* ================= FAQ CARD ================= */
 
  function FAQCard({
@@ -43,36 +42,40 @@
   onDelete: () => void;
 }) {
   return (
-    <div className="rounded-xl border border-border bg-card px-4 py-4">
-      <div className="flex gap-4 items-start">
+    <div className="rounded-xl border border-border bg-card">
+      <div className="flex gap-4 items-start  px-4 py-4">
         <div className="flex-1 space-y-3">
           <div
-            className="flex justify-between gap-4 flex-nowrap cursor-pointer"
+             className="flex justify-between gap-4 flex-wrap cursor-pointer"
             onClick={onToggle}
           >
             <div className="flex gap-2 text-sm font-medium">
               <span className="font-semibold shrink-0">
-                Q.{index + 1}
+                Q.
               </span>
 
               <div
                 className={cn(
                   "text-sm font-medium",
-                  !isOpen && "line-clamp-1"
                 )}
               >
                 {faq.question}
               </div>
             </div>
 
-            <div className="flex items-center gap-2 shrink-0">
-              <ChevronDown
-                size={18}
-                className={cn(
-                  "transition-transform",
-                  isOpen && "rotate-180"
-                )}
-              />
+            <div className="flex items-center gap-2 shrink-0 ml-auto">
+              <button
+                onClick={onToggle}
+                className="text-muted-foreground hover:text-foreground"
+              >
+                <ChevronDown
+                  size={18}
+                  className={cn(
+                    "transition-transform",
+                    isOpen && "rotate-180"
+                  )}
+                />
+              </button>
 
               <button
                 type="button"
@@ -98,16 +101,16 @@
             </div>
           </div>
 
+        </div>
+      </div>
           {isOpen && faq.answer && (
-            <div className="flex gap-2 text-sm text-muted-foreground">
+            <div className="flex gap-2 text-sm text-muted-foreground  border-t  px-4 py-4">
               <span className="font-semibold text-foreground">
                 Ans.
               </span>
               {faq.answer}
             </div>
           )}
-        </div>
-      </div>
     </div>
   );
 }
@@ -120,8 +123,9 @@
       value: FAQItem[];
       loading?: boolean;
        onChange: (v: FAQItem[]) => void;
-    }
-  >(function MemberFAQ({ value,loading,onChange }, ref) {
+         onReload: () => Promise<void>;
+      }
+  >(function MemberFAQ({ value,loading,onChange,onReload }, ref) {
     const [openIndex, setOpenIndex] = useState<number | null>(null);
 
     /* ---------- expose validation ---------- */
@@ -139,26 +143,27 @@
     /* ================= UI ================= */
   const [isModalOpen, setIsModalOpen] = useState(false);
     const [editingIndex, setEditingIndex] = useState<number | null>(null);
+const [editingId, setEditingId] = useState<number | null>(null);
+const editingFaq = editingId
+  ? value.find((f) => f.id === editingId)
+  : null;
 
 const handleDelete = async (index: number) => {
   try {
-    const faqId = (value as any)[index]?.id; // 👈 backend id
 
-    if (!faqId) return;
+    if (!index) return;
 
-    await deleteMembershipFaq(faqId);
+    await deleteMembershipFaq(index);
 
     toast.success("FAQ deleted successfully");
-
-    const updated = value.filter((_, i) => i !== index);
-    onChange(updated);
+await onReload();
   } catch {
     toast.error("Failed to delete FAQ");
   }
 };
 
-const handleEdit = (index: number) => {
-  setEditingIndex(index);
+const handleEdit = (id: number) => {
+    setEditingId(id);
   setIsModalOpen(true);
 };
 
@@ -168,8 +173,8 @@ const handleEdit = (index: number) => {
         <h2 className="text-lg font-medium">FAQ’s</h2>
         <button
                 onClick={() => {
-                              setEditingIndex(null);
-                              setIsModalOpen(true);
+               setEditingIndex(null);
+              setIsModalOpen(true);
                           }}
               className="
                 flex items-center gap-2
@@ -197,71 +202,60 @@ const handleEdit = (index: number) => {
       ) : (
         <div className="rounded-2xl border bg-card p-4 space-y-3">
           {value.map((faq, index) => (
-  <FAQCard
-    key={`${faq.question}-${index}`}
-    faq={faq}
-    index={index}
-    isOpen={openIndex === index}
-    onToggle={() =>
-      setOpenIndex(openIndex === index ? null : index)
-    }
-    onEdit={() => handleEdit(index)}
-    onDelete={() => handleDelete(index)}
-  />
-))}
+            <FAQCard
+               key={faq.id}
+              faq={faq}
+              index={index}
+              isOpen={openIndex === index}
+              onToggle={() =>
+                setOpenIndex(openIndex === index ? null : index)
+              }
+              onEdit={() => handleEdit(faq.id)}
+                onDelete={() => handleDelete(faq.id)}
+            />
+          ))}
 
         </div>
       )}
   <AddFaqModal
-          open={isModalOpen}
-          onClose={() => {
-            setEditingIndex(null);
-            setIsModalOpen(false);
-          }}
-          defaultQ={editingIndex !== null ? value[editingIndex].question : ""}
-          defaultA={editingIndex !== null ? value[editingIndex].answer : ""}
-        onSave={async (q, a) => {
+            open={isModalOpen}
+  onClose={() => {
+    setEditingId(null);
+    setIsModalOpen(false);
+  }}
+          defaultQ={editingFaq?.question || ""}
+  defaultA={editingFaq?.answer || ""}
+    onSave={async (q, a) => {
   try {
-    if (editingIndex !== null) {
-      const faq = (value as any)[editingIndex];
-
+    // 🔁 UPDATE
+    if (editingId !== null) {
       await updateMembershipFaq({
-        id: faq.id,
+        id: editingId,      // ✅ direct id
         question: q,
         answer: a,
       });
 
       toast.success("FAQ updated successfully");
-
-      const updated = value.map((f, i) =>
-        i === editingIndex ? { ...f, question: q, answer: a } : f
-      );
-
-      onChange(updated);
-    } else {
-      const res = await createMembershipFaq({
+      await onReload();
+    }
+    // ➕ CREATE
+    else {
+      await createMembershipFaq({
         question: q,
         answer: a,
       });
 
       toast.success("FAQ added successfully");
-
-      onChange([
-        ...value,
-        {
-          id: res.data.id,   // 👈 important
-          question: q,
-          answer: a,
-        } as any,
-      ]);
+      await onReload();
     }
 
-    setEditingIndex(null);
+    setEditingId(null);
     setIsModalOpen(false);
   } catch {
     toast.error("Save failed");
   }
 }}
+
         />
       </div>
     );
