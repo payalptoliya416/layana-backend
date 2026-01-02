@@ -20,7 +20,7 @@ const navItems: SecondaryNavItem[] = [
   { icon: Users, label: "General", id: "general" },
   { icon: MapPin, label: "Active Branches", id: "branches" },
   { icon: PoundSterling, label: "Pricing", id: "pricing" },
-  { icon: Star, label: "FAQ's", id: "benefits" },
+  // { icon: Star, label: "FAQ's", id: "benefits" },
 ];
 
 interface SecondaryNavProps {
@@ -32,7 +32,7 @@ export function MemberNav({ activeItem, onItemChange }: SecondaryNavProps) {
   return (
     <nav
       className="h-full w-full overflow-x-auto
-      lg:overflow-visible px-4 
+      lg:overflow-visible
       scrollbar-hide "
     >
       {/* Outer Card */}

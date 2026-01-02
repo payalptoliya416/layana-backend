@@ -19,9 +19,9 @@ import {
   AlertDialogFooter,
 } from "@/components/ui/alert-dialog";
 import { createMembership, getMembershipById, updateMembership } from "@/services/getMemberShip";
-import { MemberShipSlogan } from "./MembershipSLogan";
+// import { MemberShipSlogan } from "./MembershipSLogan";
 import { Footer } from "../Footer";
-import { getAllMembershipFaqs, getMembershipFaq } from "@/services/membershipFaqService";
+import { getAllMembershipFaqs } from "@/services/membershipFaqService";
 
 
 /* ================= TYPES ================= */
@@ -37,10 +37,10 @@ interface MembershipPayload {
   name: string;
   status: "active" | "inactive";
   content: string;
-  slogan: string;
+  // slogan: string;
   location_ids: number[];
   pricing: any[];
-  faq: { question: string; answer: string }[];
+  // faq: { question: string; answer: string }[];
 }
 
 /* ================= COMPONENT ================= */
@@ -54,7 +54,7 @@ function MembershipIndex() {
   const generalRef = useRef<any>(null);
   const branchesRef = useRef<any>(null);
   const pricingRef = useRef<any>(null);
-  const faqRef = useRef<any>(null);
+  // const faqRef = useRef<any>(null);
 
   /* ---------- UI STATE ---------- */
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
@@ -62,7 +62,7 @@ function MembershipIndex() {
   const [activeSection, setActiveSection] = useState("general");
   const [saving, setSaving] = useState(false);
   const [loading, setLoading] = useState(false);
-  const sloganRef = useRef<any>(null);
+  // const sloganRef = useRef<any>(null);
 const [showPricingGrid, setShowPricingGrid] = useState(true);
 
   /* ---------- VALIDATION POPUP ---------- */
@@ -76,10 +76,10 @@ const [showPricingGrid, setShowPricingGrid] = useState(true);
     name: "",
     status: "active",
     content: "",
-    slogan: "",
+    // slogan: "",
     location_ids: [],
     pricing: [],
-    faq: [],
+    // faq: [],
   });
 const [selectedPricingBranch, setSelectedPricingBranch] =
   useState<number | null>(null);
@@ -121,7 +121,7 @@ const handleSectionChange = (section: string) => {
           name: res.name,
           status: res.status,
           content: res.content,
-          slogan: res.slogan,
+          // slogan: res.slogan,
           location_ids: res.locations.map((l: any) => l.id),
           pricing: (res.pricing || []).map((p: any, i: number) => ({
     duration: p.duration,
@@ -132,7 +132,7 @@ const handleSectionChange = (section: string) => {
     index: i + 1,
   })),
 
-          faq: res.faq || [],
+          // faq: res.faq || [],
         });
       } catch {
         toast.error("Failed to load membership");
@@ -143,40 +143,40 @@ const handleSectionChange = (section: string) => {
 
     loadMembership();
   }, [id, isEdit]);
-const [faqLoading, setFaqLoading] = useState(false);
+// const [faqLoading, setFaqLoading] = useState(false);
 
-const loadFaqs = async () => {
-  try {
-    setFaqLoading(true);
+// const loadFaqs = async () => {
+//   try {
+//     setFaqLoading(true);
 
-    const res = await getAllMembershipFaqs({
-      sortBy: "index",
-      sortDirection: "asc",
-    });
+//     const res = await getAllMembershipFaqs({
+//       sortBy: "index",
+//       sortDirection: "asc",
+//     });
 
-    const faqs = res?.data?.data;
-    if (Array.isArray(faqs)) {
-      setPayload(prev => ({
-        ...prev,
-        faq: faqs.map((f: any) => ({
-          id: f.id,
-          question: f.question,
-          answer: f.answer,
-        })),
-      }));
-    }
-  } catch {
-    toast.error("Failed to load FAQs");
-  } finally {
-    setFaqLoading(false);
-  }
-};
+//     const faqs = res?.data?.data;
+//     if (Array.isArray(faqs)) {
+//       setPayload(prev => ({
+//         ...prev,
+//         faq: faqs.map((f: any) => ({
+//           id: f.id,
+//           question: f.question,
+//           answer: f.answer,
+//         })),
+//       }));
+//     }
+//   } catch {
+//     toast.error("Failed to load FAQs");
+//   } finally {
+//     setFaqLoading(false);
+//   }
+// };
 
 
-useEffect(() => {
-   if (activeSection !== "benefits") return;
-  loadFaqs();
-}, [activeSection, id, isEdit]);
+// useEffect(() => {
+//    if (activeSection !== "benefits") return;
+//   loadFaqs();
+// }, [activeSection, id, isEdit]);
 
   /* ---------- SAVE ---------- */
   const handleSave = async () => {
@@ -187,7 +187,7 @@ useEffect(() => {
       generalRef,
       branchesRef,
       pricingRef,
-      sloganRef,
+      // sloganRef,
     ];
     const results: ValidationResult[] = await Promise.all(
       validators.map(async (ref) => {
@@ -275,7 +275,7 @@ useEffect(() => {
       </div>
 
       {/* FAQ */}
-      <div className={cn(activeSection !== "benefits" && "hidden")}>
+      {/* <div className={cn(activeSection !== "benefits" && "hidden")}>
         <MemberShipSlogan
                 ref={sloganRef}
                 value={payload.slogan}
@@ -292,7 +292,7 @@ useEffect(() => {
           }
           onReload={loadFaqs} 
         />
-      </div>
+      </div> */}
     </>
   );
 

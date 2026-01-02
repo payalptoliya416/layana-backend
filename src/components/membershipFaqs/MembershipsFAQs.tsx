@@ -30,7 +30,6 @@
     , } from "@/services/getMemberShip";
     import { toast } from "sonner";
     import { createMembershipFaq, deleteMembershipFaq, getMembershipFaqs, updateMembershipFaq } from "@/services/membershipFaqService";
-    import { useAutoRows } from "@/hooks/useAutoRows";
     import {
     AlertDialog,
     AlertDialogContent,
@@ -57,6 +56,7 @@ import { useAutoRowsmembership } from "@/hooks/useAutoRowsmembership";
 
     function SortableFAQ({
     faq,
+    index,
     isOpen,
     onToggle,
     onDelete,
@@ -80,11 +80,16 @@ import { useAutoRowsmembership } from "@/hooks/useAutoRowsmembership";
     };
 
     return (
+        <>
+        <div data-row
+        className={cn(
+          "flex items-center rounded-xl bg-card",
+        )}>
         <div
         ref={setNodeRef}
         style={style}
         data-row
-        className="rounded-xl border border-border bg-card"
+        className="rounded-xl border border-border bg-card flex-1"
         >
         <div className="flex gap-4 items-start  px-4 py-4">
             {/* DRAG */}
@@ -119,15 +124,27 @@ import { useAutoRowsmembership } from "@/hooks/useAutoRowsmembership";
 
                 <button
                     onClick={onEdit}
-                    className="h-7 w-7 rounded-full border flex items-center justify-center"
-                >
+                   className="
+                    h-7 w-7 rounded-full
+                    border border-border
+                    bg-card
+                    flex items-center justify-center
+                    text-muted-foreground
+                    hover:text-foreground hover:bg-muted
+                ">
                     <Pencil size={14} />
                 </button>
 
                 <button
                     onClick={onDelete}
-                    className="h-7 w-7 rounded-full border flex items-center justify-center text-destructive"
-                >
+                    className="
+                    h-7 w-7 rounded-full
+                    border border-border
+                    bg-card
+                    flex items-center justify-center
+                    text-muted-foreground
+                    hover:bg-muted
+                ">
                     <Trash2 size={14} />
                 </button>
                 </div>
@@ -135,13 +152,14 @@ import { useAutoRowsmembership } from "@/hooks/useAutoRowsmembership";
 
             </div>
         </div>
+        
             {isOpen && faq.answer && (
                 <div
-  className={cn(
-    "overflow-hidden transition-[max-height] duration-300",
-    isOpen ? "max-h-[300px]" : "max-h-0"
-  )}
->
+                className={cn(
+                    "overflow-hidden transition-[max-height] duration-300",
+                    isOpen ? "max-h-[300px]" : "max-h-0"
+                )}
+                >
                 <div className="flex gap-2 text-sm text-muted-foreground border-t px-4 py-4">
                 <span className="font-semibold text-foreground">Ans.</span>
                 {faq.answer}
@@ -149,6 +167,8 @@ import { useAutoRowsmembership } from "@/hooks/useAutoRowsmembership";
                 </div>
             )}
         </div>
+        </div>
+        </>
     );
     }
 
@@ -391,6 +411,7 @@ import { useAutoRowsmembership } from "@/hooks/useAutoRowsmembership";
                                 <img src="/down.png" alt="" />
                             </span>
                             </span></div>
+                              <div className="w-[100px] pl-4 border-l">Actions</div>
                                 </div>
                                 <div ref={containerRef} className="flex-1 overflow-y-auto scrollbar-thin p-4">
                                     <DndContext

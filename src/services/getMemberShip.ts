@@ -34,10 +34,10 @@ export interface MembershipPayload {
   name: string;
   status: "active" | "inactive";
   content: string;
-  slogan: string;
+  // slogan: string;
   locations: MembershipLocation[];
   pricing: MembershipPricing[];
-  faq: MembershipFaq[];
+  // faq: MembershipFaq[];
   created_at: string;
   updated_at: string;
 }
@@ -51,7 +51,7 @@ export interface MembershipSavePayload {
   name: string;
   status: "active" | "inactive";
   content: string;
-  slogan: string;
+  // slogan: string;
   location_ids: number[];
   pricing: MembershipPricing[];
 }
