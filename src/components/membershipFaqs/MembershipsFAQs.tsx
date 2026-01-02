@@ -185,6 +185,7 @@ import { useAutoRowsmembership } from "@/hooks/useAutoRowsmembership";
     }));
 
     const fetchFaqs = async () => {
+        
     try {
         setLoading(true);
         const res = await getMembershipFaqs({ 
@@ -209,8 +210,8 @@ import { useAutoRowsmembership } from "@/hooks/useAutoRowsmembership";
         setLoading(false);
     }
     };
-    useEffect(() => {
 
+    useEffect(() => {
     fetchFaqs();
     }, [page, debouncedSearch, sortBy, sortDirection,rowsPerPage]);
 

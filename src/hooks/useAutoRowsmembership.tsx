@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 
 const HEADER_HEIGHT = 46;
-const FIXED_ROW_HEIGHT = 62; 
+const FIXED_ROW_HEIGHT = 6; 
 
 export function useAutoRowsmembership() {
   const containerRef = useRef<HTMLDivElement | null>(null);

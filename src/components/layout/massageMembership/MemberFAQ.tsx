@@ -10,7 +10,6 @@
   import { cn } from "@/lib/utils";
   import AddFaqModal from "@/components/treatment/AddFaqModal";
   import { createMembershipFaq, deleteMembershipFaq, updateMembershipFaq } from "@/services/membershipFaqService";
-  import { toast } from "sonner";
 
   /* ================= TYPES ================= */
 
