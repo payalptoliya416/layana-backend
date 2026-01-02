@@ -659,10 +659,13 @@ const handleSubmit = async () => {
 {showValidationPopup && (
   <AlertDialog open onOpenChange={setShowValidationPopup}>
     <AlertDialogContent className="max-w-[520px] rounded-2xl p-6">
-      <AlertDialogHeader>
-        <AlertDialogTitle>
-          Please fix the following
+      <AlertDialogHeader className="pb-3 border-b border-border">
+        <AlertDialogTitle className="text-lg font-semibold text-foreground">
+          Please fix the following validation
         </AlertDialogTitle>
+        <p className="text-sm text-muted-foreground">
+          Some required fields are missing or invalid
+        </p>
       </AlertDialogHeader>
 
       <div className="mt-4 max-h-[300px] overflow-y-auto space-y-2">
