@@ -72,7 +72,7 @@ const Login: React.FC = () => {
   {/* Logo */}
   <div className="mb-8">
     <img
-    src={isDark ? LayanLogoDark : LayanLogo}
+    src={LayanLogo }
       alt="Layana"
       className="h-24 w-auto object-contain"
     />
