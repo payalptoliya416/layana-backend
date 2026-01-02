@@ -246,13 +246,28 @@ const handleSectionChange = (section: string) => {
 
       {/* BRANCHES */}
       <div className={cn(activeSection !== "branches" && "hidden")}>
-        <MemberActiveBranch
+        {/* <MemberActiveBranch
           ref={branchesRef}
           selectedBranches={payload.location_ids}
           onSelectionChange={(ids) =>
             setPayload((prev) => ({ ...prev, location_ids: ids }))
           }
-        />
+        /> */}
+        <MemberActiveBranch
+  ref={branchesRef}
+  selectedBranches={payload.location_ids}
+  onSelectionChange={(ids) =>
+    setPayload((prev) => ({
+      ...prev,
+      location_ids: ids,
+
+      // ✅ REMOVE pricing of unchecked branches
+      pricing: prev.pricing.filter((p) =>
+        ids.includes(p.location_id)
+      ),
+    }))
+  }
+/>
       </div>
 
       {/* PRICING */}

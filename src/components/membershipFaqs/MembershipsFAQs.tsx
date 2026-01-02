@@ -80,7 +80,6 @@ import { useAutoRowsmembership } from "@/hooks/useAutoRowsmembership";
     };
 
     return (
-        <>
         <div data-row
         className={cn(
           "flex items-center rounded-xl bg-card",
@@ -168,7 +167,6 @@ import { useAutoRowsmembership } from "@/hooks/useAutoRowsmembership";
             )}
         </div>
         </div>
-        </>
     );
     }
 
