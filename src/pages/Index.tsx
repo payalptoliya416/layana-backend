@@ -283,7 +283,7 @@ const renderTabContent = () => {
 
       {/* BRANCHES */}
       <div className={cn(activeSection !== "branches" && "hidden")}>
-        <BranchList
+        {/* <BranchList
           ref={branchesRef}
            category={selectedCategory}
           selectedBranches={selectedBranches}
@@ -294,7 +294,25 @@ const renderTabContent = () => {
               Location: ids,
             }));
           }}
-        />
+        /> */}
+        <BranchList
+  ref={branchesRef}
+  category={selectedCategory}
+  selectedBranches={selectedBranches}
+  onSelectionChange={(ids) => {
+    setSelectedBranches(ids);
+
+    setTreatmentPayload((prev) => ({
+      ...prev,
+      Location: ids,
+
+      // ✅ REMOVE pricing of unchecked branches
+      pricing: prev.pricing.filter((p) =>
+        ids.includes(p.location_id)
+      ),
+    }));
+  }}
+/>
       </div>
 
       {/* VISUALS */}
