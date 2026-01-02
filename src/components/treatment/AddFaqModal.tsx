@@ -50,18 +50,17 @@ export default function AddFaqModal({
 
     onSave(question.trim(), answer.trim());
   };
-//   useEffect(() => {
-//   if (!open) {
-//     setErrors({});
-//   }
-// }, [open]);
+const handleClose = () => {
+  setErrors({});
+  onClose();
+};
   return (
   <div className="fixed inset-0 z-50 flex items-center justify-center bg-background/60 backdrop-blur-sm p-2 !mt-0">
       <div className="relative w-full max-w-[720px] rounded-[18px] bg-card px-[30px] pt-[40px] pb-[30px] border border-border shadow-dropdown">
 
         {/* Close */}
         <button
-          onClick={onClose}
+          onClick={handleClose}
           className="absolute right-[10px] top-[10px] flex h-8 w-8 items-center justify-center rounded-full border border-border text-muted-foreground hover:bg-muted hover:text-foreground transition"
         >
           <X size={14} />
