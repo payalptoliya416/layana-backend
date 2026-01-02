@@ -64,6 +64,7 @@ function MembershipIndex() {
   const [loading, setLoading] = useState(false);
   // const sloganRef = useRef<any>(null);
 const [showPricingGrid, setShowPricingGrid] = useState(true);
+const [displayName, setDisplayName] = useState("MemberShips");
 
   /* ---------- VALIDATION POPUP ---------- */
   const [showValidationPopup, setShowValidationPopup] = useState(false);
@@ -134,6 +135,7 @@ const handleSectionChange = (section: string) => {
 
           // faq: res.faq || [],
         });
+        setDisplayName(res.name || "MemberShips");
       } catch {
         toast.error("Failed to load membership");
       } finally {
@@ -370,7 +372,7 @@ const handleSectionChange = (section: string) => {
             {/* <PageHeader title={payload.name || 'MemberShip'} onMenuClick={() => setSidebarOpen(true)} /> */}
               <PageHeader
             onMenuClick={() => setSidebarOpen(true)}
-            title={payload.name || "MemberShips"}
+            title={displayName || "MemberShips"}
             showBack={
               activeSection === "pricing" && selectedPricingBranch !== null
             }
