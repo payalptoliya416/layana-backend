@@ -296,8 +296,13 @@ import { useAutoRowsmembership } from "@/hooks/useAutoRowsmembership";
         setIsDeleting(true);
         await deleteMembershipFaq(deleteId);
         toast.success("FAQ deleted successfully");
+         // 👇 check if this was last item on the page
+    if (value.length === 1 && page > 1) {
+      setPage((p) => p - 1);   // go to previous page
+    } else {
+      fetchFaqs();             // stay on same page
+    }
         setValue((prev) => prev.filter((f) => f.id !== deleteId));
-        fetchFaqs();
     } catch {
         toast.error("Failed to delete FAQ");
     } finally {
