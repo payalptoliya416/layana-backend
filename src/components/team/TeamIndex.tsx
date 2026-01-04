@@ -40,10 +40,10 @@ function TeamIndex() {
  const { id } = useParams();
   const isEdit = Boolean(id);
 
-  const navigate = useNavigate();
+    const navigate = useNavigate();
 
-  const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
-  const [sidebarOpen, setSidebarOpen] = useState(false);
+    const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
+    const [sidebarOpen, setSidebarOpen] = useState(false);
   const [activeSection, setActiveSection] = useState("general");
   const [saving, setSaving] = useState(false);
   const [showValidationPopup, setShowValidationPopup] = useState(false);

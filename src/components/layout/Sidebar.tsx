@@ -15,6 +15,7 @@ import {
   ShieldHalf,
   UsersRound,
   UserCheck,
+  Package,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import {
@@ -51,6 +52,7 @@ const navItems: NavItem[] = [
     ],
   },
   { icon: Bolt, label: "Bussiness Settings", href: "/settings" },
+  // { icon: Package, label: "Popup", href: "/popup" },
 ];
 
 interface SidebarProps {

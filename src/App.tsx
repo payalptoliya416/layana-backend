@@ -21,6 +21,8 @@ import TeamIndex from "./components/team/TeamIndex";
 import MassageMembership from "./components/layout/massageMembership/MassageMembership";
 import MemmbershipIdex from "./components/layout/massageMembership/MemmbershipIdex";
 import MembershipsFAQs from "./components/membershipFaqs/MembershipsFAQs";
+import PopupIndex from "./components/popup/PopupIndex";
+import PopupList from "./components/popup/PopupList";
 
 const queryClient = new QueryClient();
 
@@ -180,6 +182,22 @@ const App = () => (
             element={
               <ProtectedRoute>
                 <MembershipsFAQs />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/popup/add"
+            element={
+              <ProtectedRoute>
+                <PopupIndex />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/popup"
+            element={
+              <ProtectedRoute>
+                <PopupList />
               </ProtectedRoute>
             }
           />

@@ -7,7 +7,7 @@ import {
   MapPin,
   PoundSterling,
   Star,
-  Search,
+  ImageIcon,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 
@@ -17,11 +17,11 @@ interface SecondaryNavItem {
   id: string;
 }
 
-const navItems: SecondaryNavItem[] = [
+/* 🔹 Popup Nav Tabs */
+const popupNavItems: SecondaryNavItem[] = [
   { icon: Users, label: "General", id: "general" },
   { icon: MapPin, label: "Active Branches", id: "branches" },
-  { icon: PoundSterling, label: "Pricing", id: "pricing" },
-//  { icon: Search, label: "SEO", id: "seo" },
+  { icon: ImageIcon, label: "Visual", id: "visual" },
 ];
 
 interface SecondaryNavProps {
@@ -29,22 +29,19 @@ interface SecondaryNavProps {
   onItemChange: (id: string) => void;
 }
 
-export function MemberNav({ activeItem, onItemChange }: SecondaryNavProps) {
+export function PopupNav({ activeItem, onItemChange }: SecondaryNavProps) {
   return (
-    <nav
+   <nav
       className="h-full w-full overflow-x-auto
-      lg:overflow-visible
-      scrollbar-hide "
+      lg:overflow-visible scrollbar-hide"
     >
       {/* Outer Card */}
       <div
-        className="bg-card lg:space-y-2   flex
-      lg:flex-col 
-      gap-2 width-scroll 
-      lg:gap-2  flex-nowrap 
-      py-2 px-2"
+        className="bg-card lg:space-y-2 flex
+        lg:flex-col gap-2 width-scroll
+        flex-nowrap py-2 px-2"
       >
-        {navItems.map((item) => {
+        {popupNavItems.map((item) => {
           const isActive = activeItem === item.id;
           const Icon = item.icon;
 
@@ -55,13 +52,14 @@ export function MemberNav({ activeItem, onItemChange }: SecondaryNavProps) {
               className={cn(
                 "flex items-center gap-3 px-2 sm:px-5 py-2 lg:py-4 rounded-md lg:rounded-[16px] text-sm transition-all whitespace-nowrap",
                 isActive
-                  ? `  bg-card border border-primary text-primary font-medium  greenshadow ` : "text-muted-foreground hover:bg-muted"
+                  ? "bg-card border border-primary text-primary font-medium greenshadow"
+                  : "text-muted-foreground hover:bg-muted"
               )}
             >
               <Icon
                 className={cn(
                   "w-5 h-5",
-                  isActive ? "text-primary " : "text-muted-foreground"
+                  isActive ? "text-primary" : "text-muted-foreground"
                 )}
               />
               <span>{item.label}</span>
