@@ -70,15 +70,15 @@ const [payload, setPayload] = useState({
   title: "",
   status: "active" as "active" | "inactive",
 
-  cross_color: "#000000",
+  cross_color: "",
 
   treatment_ids: [] as number[],
 
   cta_enabled: false,
   cta_text: "",
   cta_link: "",
-  cta_color: "#007BFF",
-  cta_text_color: "#FFFFFF",
+  cta_color: "",
+  cta_text_color: "",
 
   location_ids: [] as (number | string)[],
   images: [] as string[],
@@ -99,15 +99,15 @@ const [payload, setPayload] = useState({
 
   status: res.status === 1 ? "active" : "inactive",
 
-  cross_color: res.cross_color ?? "#000000",
+  cross_color: res.cross_color ?? "",
 
   treatment_ids: res.treatment_ids ?? [],
 
   cta_enabled: res.is_cta ?? false,
   cta_text: res.cta_button_text ?? "",
   cta_link: res.cta_button_link ?? "",
-  cta_color: res.cta_button_color ?? "#007BFF",
-  cta_text_color: res.cta_button_text_color ?? "#FFFFFF",
+  cta_color: res.cta_button_color ?? "",
+  cta_text_color: res.cta_button_text_color ?? "",
 
   location_ids: res.location_ids ?? [],
   images: res.banner_image ? [res.banner_image] : [],
