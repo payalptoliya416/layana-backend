@@ -13,6 +13,12 @@ import {
 } from "@/components/ui/select";
 import { getAllTreatments } from "@/services/treatmentService";
 import { getTableCount } from "@/services/getTeam";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
+import { Check } from "lucide-react";
 
 /* ================= TYPES ================= */
 
@@ -150,47 +156,65 @@ const PopupActiveBranch = forwardRef<
     <div className="space-y-3">
       {/* ================= TREATMENT SELECT ================= */}
    <div className="grid grid-cols-12 gap-5">
-    <div className="col-span-6">
+    <div className="col-span-12 xl:col-span-6">
       <label className="text-sm font-medium">
         Treatments <sup className="text-destructive">*</sup>
       </label>
+      <Popover>
+  <PopoverTrigger asChild>
+    <button className="form-input flex justify-between items-center">
+      <span className="text-left">
+        {treatmentIds.length > 0
+          ? `${treatmentIds.length} treatment selected`
+          : "Select treatments"}
+      </span>
+      <span className="text-muted-foreground">▼</span>
+    </button>
+  </PopoverTrigger>
 
-    <Select
-      value=""
-      onValueChange={(v) => {
-        const id = Number(v);
-        const updated = treatmentIds.includes(id)
-          ? treatmentIds.filter((x) => x !== id)
-          : [...treatmentIds, id];
+  <PopoverContent
+  align="start"
+  className="w-[var(--radix-popover-trigger-width)] p-2 max-h-[260px] overflow-y-auto"
+>
+    {treatments.map((t) => {
+      const checked = treatmentIds.includes(t.id);
 
-        onTreatmentChange(updated);
-      }}
-    >
-      <SelectTrigger className="form-input">
-        <SelectValue
-          placeholder={
-            treatmentIds.length > 0
-              ? `${treatmentIds.length} treatment selected`
-              : "Select treatments"
-          }
-        />
-      </SelectTrigger>
+      return (
+        <button
+          key={t.id}
+          type="button"
+          onClick={() => {
+            const updated = checked
+              ? treatmentIds.filter((x) => x !== t.id)
+              : [...treatmentIds, t.id];
 
-      <SelectContent>
-        {treatments.map((t) => (
-          <SelectItem key={t.id} value={String(t.id)}>
-            <div className="flex items-center gap-2">
-              <input
-                type="checkbox"
-                checked={treatmentIds.includes(t.id)}
-                readOnly
-              />
-              {t.name}
-            </div>
-          </SelectItem>
-        ))}
-      </SelectContent>
-    </Select>
+            onTreatmentChange(updated);
+          }}
+          className={cn(
+            "flex w-full items-center gap-3 rounded-md px-3 py-2 text-sm transition mb-1",
+            checked
+              ? "bg-primary/10 text-primary"
+              : "hover:bg-muted"
+          )}
+        >
+          {/* CUSTOM CHECKBOX */}
+          <span
+            className={cn(
+              "flex h-4 w-4 items-center justify-center rounded border",
+              checked
+                ? "bg-primary border-primary text-white"
+                : "border-muted-foreground"
+            )}
+          >
+            {checked && <Check size={12} />}
+          </span>
+
+          <span className="flex-1 text-left">{t.name}</span>
+        </button>
+      );
+    })}
+  </PopoverContent>
+</Popover>
 
     </div>
    </div>

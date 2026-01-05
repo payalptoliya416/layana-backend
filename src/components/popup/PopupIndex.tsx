@@ -21,6 +21,7 @@ import {
   AlertDialogFooter,
 } from "@/components/ui/alert-dialog";
 import { createPopup, getPopupById, updatePopup } from "@/services/popup";
+import { Footer } from "../layout/Footer";
 
 type ValidationResult = {
     valid: boolean;
@@ -353,6 +354,7 @@ const buildPopupPayload = () => ({
                 </div>
             </div>
         </div>
+         <Footer/>
         </>
     )
 }

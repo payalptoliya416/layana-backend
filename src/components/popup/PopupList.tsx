@@ -30,6 +30,7 @@ import {
 } from "@/components/ui/alert-dialog";
 import { Button } from "@/components/ui/button";
 import { CSS } from "@dnd-kit/utilities";
+import { Footer } from "../layout/Footer";
 
 function PopupSortableRow({
   item,
@@ -108,7 +109,7 @@ const getStatusLabel = (status: number) => {
               {item.status === 1 ? "Active" : "Inactive"}
             </span>
 
-            <p className="font-medium">Popup #{item.id}</p>
+             <p className="font-medium">{item.title}</p>
           </div>
 
           <div className="flex gap-2">
@@ -220,6 +221,7 @@ const handleDeleteConfirm = async () => {
 
 
   return (
+    <>
     <div className="bg-background flex overflow-hidden">
       <div className="hidden lg:block">
         <Sidebar
@@ -455,6 +457,8 @@ const handleDeleteConfirm = async () => {
         </div>
       </div>
     </div>
+    <Footer/>
+    </>
   );
 }
 

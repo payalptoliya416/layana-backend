@@ -104,13 +104,13 @@ const PopupGeneral = forwardRef<any, Props>(
       defaultValues: {
       title: "",
       status: "active",
-      cross_color: "#000000",
+      cross_color: "",
       treatment_ids: [],
       cta_enabled: false,
       cta_text: "",
       cta_link: "",
-      cta_color: "#007BFF",
-      cta_text_color: "#FFFFFF",
+      cta_color: "",
+      cta_text_color: "",
       ...initialData,
     }
     });
@@ -124,13 +124,13 @@ const PopupGeneral = forwardRef<any, Props>(
   reset({
     title: initialData.title ?? "",
     status: initialData.status ?? "active",
-    cross_color: initialData.cross_color ?? "#000000",
+    cross_color: initialData.cross_color ?? "",
 
     cta_enabled: initialData.cta_enabled ?? false,
     cta_text: initialData.cta_text ?? "",
     cta_link: initialData.cta_link ?? "",
-    cta_color: initialData.cta_color ?? "#007BFF",
-    cta_text_color: initialData.cta_text_color ?? "#FFFFFF",
+    cta_color: initialData.cta_color ?? "",
+    cta_text_color: initialData.cta_text_color ?? "",
   });
 }, [initialData, reset]);
 
