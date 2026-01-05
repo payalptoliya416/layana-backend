@@ -53,7 +53,7 @@ const PopupActiveBranch = forwardRef<
   const [treatments, setTreatments] = useState<{ id: number; name: string }[]>(
     []
   );
-
+console.log("treatments",treatments)
   /* ---------- FETCH LOCATIONS ---------- */
   useEffect(() => {
     const fetchLocations = async () => {
@@ -76,13 +76,14 @@ const PopupActiveBranch = forwardRef<
     try {
       const totalCount = await getTableCount("treatements");
       const data = await getAllTreatments(totalCount);
-
       setTreatments(
-        data.map((t) => ({
-          id: t.id,
-          name: t.name,
-        }))
-      );
+  data
+    .filter((t) => t.status === "live")
+    .map((t) => ({
+      id: t.id,
+      name: t.name,
+    }))
+);
     } catch (e) {
       console.error("Failed to load treatments");
     }

@@ -416,7 +416,7 @@ const handleSectionChange = (section: string) => {
             {/* <PageHeader title={payload.name || 'MemberShip'} onMenuClick={() => setSidebarOpen(true)} /> */}
               <PageHeader
           onMenuClick={() => setSidebarOpen(true)}
-          title={displayName || "MemberShips"}
+          title={displayName || "Memberships"}
           showBack={
             (activeSection === "pricing" && selectedPricingBranch !== null) ||
             (activeSection === "seo" && selectedSeoBranch !== null)
