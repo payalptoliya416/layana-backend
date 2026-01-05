@@ -311,8 +311,7 @@ const handleDelete = async () => {
         className={cn(
           "flex-1 flex flex-col transition-all duration-300 h-[calc(95vh-24px)] mt-3 px-3 sm:px-5",
           sidebarCollapsed ? "lg:ml-[96px]" : "lg:ml-[272px]"
-        )}
-      >
+        )}>
         {/* HEADER */}
          <div className="sticky top-3 z-10 pb-3">
             <PageHeader title="Treatments" onMenuClick={() => setSidebarOpen(true)} />

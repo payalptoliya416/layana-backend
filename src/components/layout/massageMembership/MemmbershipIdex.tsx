@@ -103,8 +103,12 @@ const selectedBranchObjects = payload.location_ids.map((id) => ({
 
 const handleSectionChange = (section: string) => {
   if (section === "pricing") {
-    setShowPricingGrid(true);      // ✅ ALWAYS show grid first
+    setShowPricingGrid(true);
     setSelectedPricingBranch(null);
+  }
+
+  if (section === "seo") {
+    setSelectedSeoBranch(null); // ✅ RESET SEO BRANCH
   }
 
   setActiveSection(section);
@@ -142,7 +146,7 @@ const handleSectionChange = (section: string) => {
 
           // faq: res.faq || [],
         });
-        setDisplayName(res.name || "MemberShips");
+        setDisplayName(res.name || "Memberships");
       } catch {
         toast.error("Failed to load membership");
       } finally {
