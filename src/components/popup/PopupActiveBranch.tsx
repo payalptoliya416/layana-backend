@@ -53,7 +53,6 @@ const PopupActiveBranch = forwardRef<
   const [treatments, setTreatments] = useState<{ id: number; name: string }[]>(
     []
   );
-console.log("treatments",treatments)
   /* ---------- FETCH LOCATIONS ---------- */
   useEffect(() => {
     const fetchLocations = async () => {
@@ -172,12 +171,17 @@ console.log("treatments",treatments)
       <span className="text-muted-foreground">▼</span>
     </button>
   </PopoverTrigger>
-
-  <PopoverContent
+<PopoverContent
   align="start"
   className="w-[var(--radix-popover-trigger-width)] p-2 max-h-[260px] overflow-y-auto"
 >
-    {treatments.map((t) => {
+  {treatments.length === 0 ? (
+    /* ===== EMPTY STATE ===== */
+    <div className="px-3 py-2 text-center text-sm text-muted-foreground">
+      No active treatments found
+    </div>
+  ) : (
+    treatments.map((t) => {
       const checked = treatmentIds.includes(t.id);
 
       return (
@@ -213,8 +217,10 @@ console.log("treatments",treatments)
           <span className="flex-1 text-left">{t.name}</span>
         </button>
       );
-    })}
-  </PopoverContent>
+    })
+  )}
+</PopoverContent>
+
 </Popover>
 
     </div>
