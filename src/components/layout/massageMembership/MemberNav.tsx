@@ -21,7 +21,7 @@ const navItems: SecondaryNavItem[] = [
   { icon: Users, label: "General", id: "general" },
   { icon: MapPin, label: "Active Branches", id: "branches" },
   { icon: PoundSterling, label: "Pricing", id: "pricing" },
-//  { icon: Search, label: "SEO", id: "seo" },
+ { icon: Search, label: "SEO", id: "seo" },
 ];
 
 interface SecondaryNavProps {

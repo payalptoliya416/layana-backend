@@ -40,6 +40,7 @@ export interface MembershipPayload {
   // faq: MembershipFaq[];
   created_at: string;
   updated_at: string;
+    seo: any[];   
 }
 
 /* =======================
@@ -54,6 +55,7 @@ export interface MembershipSavePayload {
   // slogan: string;
   location_ids: number[];
   pricing: MembershipPricing[];
+    seo: any[];  
 }
 
 /* =======================

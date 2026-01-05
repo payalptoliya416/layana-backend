@@ -11,18 +11,56 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { Switch } from "@/components/ui/switch";
 import SwitchToggle from "../treatment/Toggle";
 
 /* ================= SCHEMA ================= */
 
-const popupGeneralSchema = z.object({
-  status: z.enum(["active", "inactive"]),
-  cta_enabled: z.boolean(),
-  cta_text: z.string().min(1, "CTA button text is required"),
-  cta_link: z.string().url("Enter a valid URL"),
-  cta_color: z.string().min(1, "CTA button color is required"),
-});
+const popupGeneralSchema = z
+  .object({
+    status: z.enum(["active", "inactive"]),
+    cta_enabled: z.boolean(),
+
+    cta_text: z.string().optional(),
+    cta_link: z.string().optional(),
+    cta_color: z.string().optional(),
+  })
+  .superRefine((data, ctx) => {
+    if (data.cta_enabled) {
+      if (!data.cta_text || data.cta_text.trim() === "") {
+        ctx.addIssue({
+          path: ["cta_text"],
+          message: "CTA button text is required",
+          code: z.ZodIssueCode.custom,
+        });
+      }
+
+      if (!data.cta_link) {
+        ctx.addIssue({
+          path: ["cta_link"],
+          message: "CTA link is required",
+          code: z.ZodIssueCode.custom,
+        });
+      } else {
+        try {
+          new URL(data.cta_link);
+        } catch {
+          ctx.addIssue({
+            path: ["cta_link"],
+            message: "Enter a valid URL",
+            code: z.ZodIssueCode.custom,
+          });
+        }
+      }
+
+      if (!data.cta_color) {
+        ctx.addIssue({
+          path: ["cta_color"],
+          message: "CTA color is required",
+          code: z.ZodIssueCode.custom,
+        });
+      }
+    }
+  });
 
 export type PopupGeneralForm = z.infer<typeof popupGeneralSchema>;
 
@@ -57,7 +95,7 @@ const PopupGeneral = forwardRef<any, Props>(
     });
 
     const isInitializing = useRef(true);
-
+   const ctaEnabled = watch("cta_enabled");
     /* ---------- reset on initialData ---------- */
     useEffect(() => {
       if (!initialData) return;
@@ -122,6 +160,14 @@ const PopupGeneral = forwardRef<any, Props>(
       return () => sub.unsubscribe();
     }, [watch, onChange]);
 
+    useEffect(() => {
+    if (!ctaEnabled) {
+      setValue("cta_text", "");
+      setValue("cta_link", "");
+      setValue("cta_color", "");
+    }
+  }, [ctaEnabled, setValue]);
+
     /* ================= UI ================= */
 
     return (
@@ -152,20 +198,7 @@ const PopupGeneral = forwardRef<any, Props>(
               </SelectContent>
             </Select>
           </div>
-          
-          {/* CTA Text */}
-          <div>
-            <label className="text-sm font-medium">
-              CTA Button Text <sup className="text-destructive">*</sup>
-            </label>
-            <input
-              className="form-input"
-              placeholder="Enter CTA button text"
-              {...register("cta_text")}
-            />
-          </div>
-
-          {/* CTA Enable */}
+           {/* CTA Enable */}
           <div className="">
             <label className="text-sm font-medium">
               Enable CTA Button <sup className="text-destructive">*</sup>
@@ -182,9 +215,23 @@ const PopupGeneral = forwardRef<any, Props>(
             />
           </div>
 
-          
+          {/* CTA Text */}
+          {ctaEnabled && (
+          <div>
+            <label className="text-sm font-medium">
+              CTA Button Text <sup className="text-destructive">*</sup>
+            </label>
+            <input
+              className="form-input"
+              placeholder="Enter CTA button text"
+              {...register("cta_text")}
+            />
+          </div> )}
+
+         
 
           {/* CTA Link */}
+          {ctaEnabled && (
           <div>
             <label className="text-sm font-medium">
               CTA Button Link <sup className="text-destructive">*</sup>
@@ -194,19 +241,20 @@ const PopupGeneral = forwardRef<any, Props>(
               placeholder="https://example.com"
               {...register("cta_link")}
             />
-          </div>
+          </div> )}
 
           {/* CTA Color */}
+          {ctaEnabled && (
           <div>
             <label className="text-sm font-medium">
               CTA Button Color <sup className="text-destructive">*</sup>
             </label>
             <input
               type="color"
-              className="h-10 w-full rounded-md border px-2"
+              className="h-10 w-16 rounded-md border px-2 bg-card"
               {...register("cta_color")}
             />
-          </div>
+          </div>)}
 
         </div>
       </div>

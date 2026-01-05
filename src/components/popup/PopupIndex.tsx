@@ -1,10 +1,10 @@
 "use client";
 
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Sidebar } from "../layout/Sidebar";
 import { cn } from "@/lib/utils";
 import { PageHeader } from "../layout/PageHeader";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { Button } from "../ui/button";
 import { toast } from "sonner";
 
@@ -20,6 +20,7 @@ import {
   AlertDialogTitle,
   AlertDialogFooter,
 } from "@/components/ui/alert-dialog";
+import { createPopup, getPopupById, updatePopup } from "@/services/popup";
 
 type ValidationResult = {
     valid: boolean;
@@ -31,6 +32,9 @@ const OK: ValidationResult = { valid: true, errors: [] };
 
 function PopupIndex() {
     const navigate = useNavigate();
+      const { id } = useParams();
+      const isEdit = Boolean(id);
+    
     const generalRef = useRef<any>(null);
     const branchRef = useRef<any>(null);
     const visualRef = useRef<any>(null);
@@ -61,22 +65,81 @@ function PopupIndex() {
     { section: string; field?: string; message: string }[]
   >([]);
     /* ---------- PAYLOAD ---------- */
-  const [payload, setPayload] = useState({
-    status: "active",
-    cta_enabled: false,
-    cta_text: "",
-    cta_link: "",
-    cta_color: "#000000",
-    location_ids: [] as number[],
-    images: [] as string[],
-  });
+const [payload, setPayload] = useState({
+  status: "active" as "active" | "inactive",
+  cta_enabled: false,
+  cta_text: "",
+  cta_link: "",
+  cta_color: "#000000",
+  location_ids: [] as (number | string)[],
+  images: [] as string[],
+});
 
    /* ---------- SAVE ---------- */
-  const handleSave = async () => {
-    if (saving) return;
-    setSaving(true);
+   useEffect(() => {
+  if (!isEdit || !id) return;
 
-    const validators = [generalRef, branchRef];
+  const loadPopup = async () => {
+    try {
+      setLoading(true);
+
+      const res = await getPopupById(Number(id));
+
+      setPayload({
+        status: res.status === 1 ? "active" : "inactive",
+
+        cta_enabled: res.is_cta ?? false,
+        cta_text: res.cta_button_text ?? "",
+        cta_link: res.cta_button_link ?? "",
+        cta_color: res.cta_button_color ?? "#000000",
+
+        location_ids: res.location_ids ?? [],
+
+        images: res.banner_image ? [res.banner_image] : [],
+      });
+
+      setDisplayName("Edit Popup");
+    } catch (error) {
+      toast.error("Failed to load popup");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  loadPopup();
+}, [id, isEdit]);
+
+
+ const buildPopupPayload = () => ({
+  banner_image: payload.images?.[0] ?? null,
+
+  location_ids: payload.location_ids,
+
+  is_cta: payload.cta_enabled,
+
+  cta_button_text: payload.cta_enabled
+    ? payload.cta_text
+    : null,
+
+  cta_button_link: payload.cta_enabled
+    ? payload.cta_link
+    : null,
+
+  cta_button_color: payload.cta_enabled
+    ? payload.cta_color
+    : null,
+
+  status: payload.status === "active" ? 1 : 0,
+});
+
+ const handleSave = async () => {
+  if (saving) return;
+  setSaving(true);
+
+  try {
+    /* ---------- VALIDATION ---------- */
+    const validators = [generalRef, branchRef, visualRef];
+
     const results: ValidationResult[] = await Promise.all(
       validators.map(async (ref) => {
         try {
@@ -92,17 +155,32 @@ function PopupIndex() {
     if (allErrors.length > 0) {
       setValidationErrors(allErrors);
       setShowValidationPopup(true);
-      setSaving(false);
       return;
     }
 
-    /* 🔥 DUMMY SAVE (API later) */
-    console.log("POPUP PAYLOAD 👉", payload);
-    toast.success("Popup saved successfully (dummy)");
+    /* ---------- BUILD API PAYLOAD ---------- */
+    const apiPayload = buildPopupPayload();
 
+    /* ---------- API CALL ---------- */
+    if (isEdit) {
+      await updatePopup({
+         id: Number(id),
+        ...apiPayload,
+      });
+
+      toast.success("Popup updated successfully");
+    } else {
+      await createPopup(apiPayload);
+      toast.success("Popup created successfully");
+    }
+
+    navigate(-1);
+  } catch (error: any) {
+    toast.error(error?.message || "Something went wrong");
+  } finally {
     setSaving(false);
-  };
-
+  }
+};
 
     /* ---------- TABS ---------- */
    const renderTabContent = () => (

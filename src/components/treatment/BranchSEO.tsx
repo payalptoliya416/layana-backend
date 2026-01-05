@@ -5,13 +5,13 @@ import { SeoKeywordInput } from "./SeoKeywordInput";
 interface BranchSEOProps {
   branchId: number;
   value?: {
-    analitycs: string;
+    analytics: string;
     seo_title: string;
     meta_description: string;
     seo_keyword: string[];
   };
   onChange: (v: {
-    analitycs: string;
+    analytics: string;
     seo_title: string;
     meta_description: string;
     seo_keyword: string[];
@@ -24,7 +24,7 @@ export function BranchSEO({
   onChange,
 }: BranchSEOProps) {
   const [form, setForm] = useState({
-    analitycs: "",
+    analytics: "",
     seo_title: "",
     meta_description: "",
     seo_keyword: [],
@@ -65,8 +65,8 @@ const update = <K extends keyof typeof form>(
       Analytics (optional)
     </label>
     <DescriptionEditor
-      value={form.analitycs}
-      onChange={(v) => update("analitycs", v)}
+      value={form.analytics}
+      onChange={(v) => update("analytics", v)}
     />
   </div>
 

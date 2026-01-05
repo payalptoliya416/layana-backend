@@ -27,12 +27,23 @@ const PopupVisualTab = forwardRef<any, Props>(
     const [gallery, setGallery] = useState<string[]>([]);
     const [cropImage, setCropImage] = useState<string | null>(null);
     const [cropConfig, setCropConfig] = useState<any>(null);
-    const [cropQueue, setCropQueue] = useState<string[]>([]);
-    const [currentCropIndex, setCurrentCropIndex] = useState(0);
 
     /* ---------- VALIDATION ---------- */
     useImperativeHandle(ref, () => ({
       validate(): ValidationResult {
+        if (!gallery || gallery.length === 0) {
+          return {
+            valid: false,
+            errors: [
+              {
+                section: "Visual",
+                field: "images",
+                message: "Banner image is required",
+              },
+            ],
+          };
+        }
+
         return { valid: true, errors: [] };
       },
     }));
@@ -40,7 +51,7 @@ const PopupVisualTab = forwardRef<any, Props>(
     /* ---------- INIT ---------- */
     useEffect(() => {
       if (Array.isArray(initialImages)) {
-        setGallery(initialImages);
+        setGallery(initialImages.slice(0, 1)); // ✅ only 1
       } else {
         setGallery([]);
       }
@@ -50,10 +61,14 @@ const PopupVisualTab = forwardRef<any, Props>(
 
     return (
       <div className="mt-6">
-        <p className="mb-2 text-sm font-medium">Images</p>
+        <p className="mb-2 text-sm font-medium">
+          Banner Image {" "}
+          <span className="text-muted-foreground">(1600 × 800)</span>{" "}
+          <sup className="text-destructive">*</sup>
+        </p>
 
         <div className="flex gap-3 flex-wrap">
-          {/* ADD IMAGE */}
+          {/* ADD / REPLACE IMAGE */}
           <div
             onClick={() => galleryRef.current?.click()}
             className="flex h-[90px] w-[90px] cursor-pointer items-center justify-center rounded-xl border"
@@ -64,24 +79,18 @@ const PopupVisualTab = forwardRef<any, Props>(
               ref={galleryRef}
               type="file"
               hidden
-              multiple
-              accept="image/*"
+              accept="image/*"   // ✅ multiple REMOVED
               onChange={(e) => {
-                const files = e.target.files;
-                if (!files?.length) return;
+                const file = e.target.files?.[0];
+                if (!file) return;
 
-                const previews = Array.from(files).map((file) =>
-                  URL.createObjectURL(file)
-                );
+                const preview = URL.createObjectURL(file);
 
-                setCropQueue(previews);
-                setCurrentCropIndex(0);
-                setCropImage(previews[0]);
-
+                setCropImage(preview);
                 setCropConfig({
-                  aspect: 565 / 575,
-                  width: 565,
-                  height: 575,
+                  aspect: 1600 / 800,
+                  width: 1600,
+                  height: 800,
                 });
 
                 e.target.value = "";
@@ -89,43 +98,38 @@ const PopupVisualTab = forwardRef<any, Props>(
             />
           </div>
 
-          {/* PREVIEW IMAGES */}
-          {Array.isArray(gallery) &&
-            gallery.map((img, i) => (
-              <div key={i} className="relative h-[90px] w-[90px] bg-card">
-                <img
-                  src={img}
-                  className="h-full w-full object-cover rounded-xl"
-                />
+          {/* PREVIEW IMAGE */}
+          {gallery.map((img, i) => (
+            <div key={i} className="relative h-[90px] w-[90px] bg-card">
+              <img
+                src={img}
+                className="h-full w-full object-cover rounded-xl"
+              />
 
-                <button
-                  onClick={() =>
-                    setGallery((prev) => {
-                      const next = prev.filter((_, idx) => idx !== i);
-                      onChange?.(next);
-                      return next;
-                    })
-                  }
-                  className="absolute right-2 top-2 z-20 rounded-full bg-card p-1 shadow"
-                >
-                  <X size={14} />
-                </button>
-              </div>
-            ))}
+              <button
+                onClick={() => {
+                  setGallery([]);
+                  onChange?.([]);
+                }}
+                className="absolute right-2 top-2 z-20 rounded-full bg-card p-1 shadow"
+              >
+                <X size={14} />
+              </button>
+            </div>
+          ))}
         </div>
 
         {/* CROP MODAL */}
         <ImageCropGallry
           open={!!cropImage}
-          image={cropQueue[currentCropIndex]}
+          image={cropImage!}
           aspect={cropConfig?.aspect}
           outputWidth={cropConfig?.width}
           outputHeight={cropConfig?.height}
-          isLast={currentCropIndex === cropQueue.length - 1}
+           isLast={true} 
           onClose={() => {
-            setCropQueue([]);
-            setCurrentCropIndex(0);
             setCropImage(null);
+            setCropConfig(null);
           }}
           onNext={async (file: File) => {
             const uploaded = await uploadImages([file], {
@@ -133,22 +137,13 @@ const PopupVisualTab = forwardRef<any, Props>(
             });
 
             if (uploaded?.[0]?.url) {
-              setGallery((prev) => {
-                const next = [...prev, uploaded[0].url];
-                onChange?.(next);
-                return next;
-              });
+              const next = [uploaded[0].url]; 
+              setGallery(next);
+              onChange?.(next);
             }
 
-            // 🔁 next image or close
-            if (currentCropIndex < cropQueue.length - 1) {
-              setCurrentCropIndex((i) => i + 1);
-              setCropImage(cropQueue[currentCropIndex + 1]);
-            } else {
-              setCropQueue([]);
-              setCurrentCropIndex(0);
-              setCropImage(null);
-            }
+            setCropImage(null);
+            setCropConfig(null);
           }}
         />
       </div>

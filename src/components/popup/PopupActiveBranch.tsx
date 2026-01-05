@@ -8,8 +8,8 @@ import check from "@/assets/check.png";
 /* ================= TYPES ================= */
 
 interface PopupActiveBranchProps {
-  selectedBranches: number[];
-  onSelectionChange: (ids: number[]) => void;
+  selectedBranches: (number | string)[];
+  onSelectionChange: (ids: (number | string)[]) => void;
 }
 
 type ValidationResult = {
@@ -47,48 +47,43 @@ const PopupActiveBranch = forwardRef<
   }, []);
 
   /* ---------- VALIDATION ---------- */
-  useImperativeHandle(ref, () => ({
-    async validate(): Promise<ValidationResult> {
-      if (!selectedBranches || selectedBranches.length === 0) {
-        return {
-          valid: false,
-          errors: [
-            {
-              section: "Branches",
-              field: "branches",
-              message: "Please select at least one branch",
-            },
-          ],
-        };
-      }
+ useImperativeHandle(ref, () => ({
+  async validate(): Promise<ValidationResult> {
+    const hasMainPage = selectedBranches.includes("H");
 
-      // ✅ At least one ACTIVE branch required
-      const hasActiveBranch = selectedBranches.some((id) => {
-        const branch = locations.find((l) => l.id === id);
-        return branch && branch.status !== "inactive";
-      });
+    // only numeric branch ids
+    const branchIds = selectedBranches.filter(
+      (id) => typeof id === "number"
+    ) as number[];
 
-      if (!hasActiveBranch) {
-        return {
-          valid: false,
-          errors: [
-            {
-              section: "Branches",
-              field: "branches",
-              message: "Please select at least one active branch",
-            },
-          ],
-        };
-      }
+    // check if any ACTIVE branch selected
+    const hasActiveBranch = branchIds.some((id) => {
+      const branch = locations.find((l) => l.id === id);
+      return branch && branch.status !== "inactive";
+    });
 
+    if (hasActiveBranch || hasMainPage) {
       return {
         valid: true,
         errors: [],
       };
-    },
-  }));
+    }
 
-  /* ---------- TOGGLE ---------- */
+    return {
+      valid: false,
+      errors: [
+        {
+          section: "Branches",
+          field: "branches",
+          message:
+            "Please select at least one active branch",
+        },
+      ],
+    };
+  },
+}));
+
+  /* ---------- TOGGLE BRANCH ---------- */
   const toggleBranch = (location: Location) => {
     if (location.status === "inactive") return;
 
@@ -103,13 +98,7 @@ const PopupActiveBranch = forwardRef<
   if (loading) {
     return (
       <div className="flex justify-center py-10">
-        <div
-          className="
-            h-6 w-6 animate-spin rounded-full
-            border-2 border-primary
-            border-t-transparent
-          "
-        />
+        <div className="h-6 w-6 animate-spin rounded-full border-2 border-primary border-t-transparent" />
       </div>
     );
   }
@@ -117,7 +106,73 @@ const PopupActiveBranch = forwardRef<
   /* ================= UI ================= */
 
   return (
-    <div className="space-y-4">
+    <div className="space-y-3">
+
+      {/* ================= MAIN PAGE CHECKBOX ================= */}
+      {/* ================= MAIN PAGE (LIKE LOCATION CARD) ================= */}
+<div className="grid grid-cols-1 xl:grid-cols-2 gap-4 border xl:border-0 p-2 xl:p-0 rounded-lg xl:rounded-none">
+  {/* LEFT CARD */}
+  <button
+    onClick={() => {
+      const updated = selectedBranches.includes("H")
+        ? selectedBranches.filter((id) => id !== "H")
+        : [...selectedBranches, "H"];
+
+      onSelectionChange(updated);
+    }}
+    className={cn(
+      "flex w-full items-center gap-4 overflow-hidden rounded-[12px] border transition-all",
+      selectedBranches.includes("H")
+        ? "border-primary"
+        : "border-border bg-card"
+    )}
+  >
+    {/* LEFT STRIP */}
+    <div
+      className={cn(
+        "flex h-full w-[44px] items-center justify-center transition-colors",
+        selectedBranches.includes("H") ? "bg-[#EBF2F3]" : "bg-muted"
+      )}
+    >
+      <img
+        src={check}
+        alt=""
+        className={cn(
+          "h-5 w-5 transition-opacity",
+          selectedBranches.includes("H")
+            ? "opacity-100"
+            : "opacity-30 grayscale"
+        )}
+      />
+    </div>
+
+    {/* NAME */}
+    <span
+      className={cn(
+        "py-4 text-base font-medium",
+        selectedBranches.includes("H")
+          ? "text-primary"
+          : "text-foreground"
+      )}
+    >
+      Main Page
+    </span>
+  </button>
+
+  {/* RIGHT CARD */}
+  <div className="flex items-center gap-[10px] rounded-[10px] border border-border bg-card py-[13px] px-[15px]">
+    <span className="text-sm text-muted-foreground">
+     Location Slug:
+    </span>
+
+    <span className="rounded-md bg-muted py-2 px-3 text-sm text-foreground">
+      Home
+    </span>
+  </div>
+</div>
+
+
+      {/* ================= BRANCH LIST ================= */}
       <div className="space-y-3">
         {locations.map((location) => {
           const isSelected = selectedBranches.includes(location.id);

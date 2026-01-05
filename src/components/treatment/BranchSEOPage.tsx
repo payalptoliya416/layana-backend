@@ -38,7 +38,7 @@ useEffect(() => {
   const map: Record<number, any> = {};
   initialData.forEach((item: any) => {
     map[item.location.id] = {
-      analitycs: item.location.analitycs || "",
+       analytics: item.location.analytics || "",  
       seo_title: item.location.seo_title || "",
       meta_description: item.location.meta_description || "",
       seo_keyword: Array.isArray(item.location.seo_keyword)
@@ -79,7 +79,7 @@ useEffect(() => {
       <BranchSEO
         branchId={selectedBranchId}
       value={seoMap[selectedBranchId] ?? {
-  analitycs: "",
+  analytics: "",
   seo_title: "",
   meta_description: "",
   seo_keyword: [],

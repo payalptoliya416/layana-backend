@@ -194,6 +194,14 @@ const App = () => (
             }
           />
           <Route
+            path="/popup/add/:id"
+            element={
+              <ProtectedRoute>
+                <PopupIndex />
+              </ProtectedRoute>
+            }
+          />
+          <Route
             path="/popup"
             element={
               <ProtectedRoute>

@@ -22,6 +22,7 @@ import { createMembership, getMembershipById, updateMembership } from "@/service
 // import { MemberShipSlogan } from "./MembershipSLogan";
 import { Footer } from "../Footer";
 import { getAllMembershipFaqs } from "@/services/membershipFaqService";
+import BranchSEOPage from "@/components/treatment/BranchSEOPage";
 
 
 /* ================= TYPES ================= */
@@ -40,6 +41,7 @@ interface MembershipPayload {
   // slogan: string;
   location_ids: number[];
   pricing: any[];
+  seo: any[];
   // faq: { question: string; answer: string }[];
 }
 
@@ -54,6 +56,7 @@ function MembershipIndex() {
   const generalRef = useRef<any>(null);
   const branchesRef = useRef<any>(null);
   const pricingRef = useRef<any>(null);
+  const seoRef = useRef<any>(null);
   // const faqRef = useRef<any>(null);
 
   /* ---------- UI STATE ---------- */
@@ -71,6 +74,8 @@ const [displayName, setDisplayName] = useState("MemberShips");
   const [validationErrors, setValidationErrors] = useState<
     { section: string; field: string; message: string }[]
   >([]);
+const [selectedSeoBranch, setSelectedSeoBranch] =
+  useState<number | null>(null);
 
   /* ---------- FORM DATA ---------- */
   const [payload, setPayload] = useState<MembershipPayload>({
@@ -80,6 +85,7 @@ const [displayName, setDisplayName] = useState("MemberShips");
     // slogan: "",
     location_ids: [],
     pricing: [],
+      seo: [],  
     // faq: [],
   });
 const [selectedPricingBranch, setSelectedPricingBranch] =
@@ -122,16 +128,17 @@ const handleSectionChange = (section: string) => {
           name: res.name,
           status: res.status,
           content: res.content,
+           seo: res.seo || [],
           // slogan: res.slogan,
           location_ids: res.locations.map((l: any) => l.id),
           pricing: (res.pricing || []).map((p: any, i: number) => ({
-    duration: p.duration,
-    offer_price: p.offer_price,
-    each_price: p.each_price,
-    price: p.price,
-    location_id: p.location_id,
-    index: i + 1,
-  })),
+          duration: p.duration,
+          offer_price: p.offer_price,
+          each_price: p.each_price,
+          price: p.price,
+          location_id: p.location_id,
+          index: i + 1,
+        })),
 
           // faq: res.faq || [],
         });
@@ -189,6 +196,7 @@ const handleSectionChange = (section: string) => {
       generalRef,
       branchesRef,
       pricingRef,
+        seoRef,    
       // sloganRef,
     ];
     const results: ValidationResult[] = await Promise.all(
@@ -291,6 +299,24 @@ const handleSectionChange = (section: string) => {
                 />
       </div>
 
+{/* SEO */}
+      <div className={cn(activeSection !== "seo" && "hidden")}>
+        <BranchSEOPage
+          ref={seoRef}
+          category="membership"
+          branches={selectedBranchObjects}
+          selectedBranchId={selectedSeoBranch}
+          initialData={payload.seo}
+          onSelectBranch={setSelectedSeoBranch}
+          onChange={(seo) =>
+            setPayload((prev) => ({
+              ...prev,
+              seo,
+            }))
+          }
+        />
+      </div>
+
       {/* FAQ */}
       {/* <div className={cn(activeSection !== "benefits" && "hidden")}>
         <MemberShipSlogan
@@ -389,18 +415,23 @@ const handleSectionChange = (section: string) => {
           <div className="sticky top-3 z-10 pb-3">
             {/* <PageHeader title={payload.name || 'MemberShip'} onMenuClick={() => setSidebarOpen(true)} /> */}
               <PageHeader
-            onMenuClick={() => setSidebarOpen(true)}
-            title={displayName || "MemberShips"}
-            showBack={
-              activeSection === "pricing" && selectedPricingBranch !== null
+          onMenuClick={() => setSidebarOpen(true)}
+          title={displayName || "MemberShips"}
+          showBack={
+            (activeSection === "pricing" && selectedPricingBranch !== null) ||
+            (activeSection === "seo" && selectedSeoBranch !== null)
+          }
+          onBack={() => {
+            if (activeSection === "pricing") {
+              setShowPricingGrid(true);
+              setSelectedPricingBranch(null);
             }
-            onBack={() => {
-              if (activeSection === "pricing") {
-    setShowPricingGrid(true);
-    setSelectedPricingBranch(null);
-  }
-            }}
-          />
+
+            if (activeSection === "seo") {
+              setSelectedSeoBranch(null);
+            }
+          }}
+        />
           </div>
                 <div className="flex-1 pl-[15px] pr-6 px-6 flex flex-col h-full bg-card rounded-2xl shadow-card p-5 relative overflow-hidden">
                     <div className="flex w-full gap-5 flex-1 overflow-y-auto scrollbar-thin pb-14">
