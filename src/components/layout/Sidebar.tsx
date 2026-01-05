@@ -51,8 +51,8 @@ const navItems: NavItem[] = [
       },
     ],
   },
-  { icon: Bolt, label: "Bussiness Settings", href: "/settings" },
   { icon: Package, label: "Popup", href: "/popup" },
+  { icon: Bolt, label: "Bussiness Settings", href: "/settings" },
 ];
 
 interface SidebarProps {
