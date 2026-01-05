@@ -232,7 +232,6 @@ const handleDragEnd = async (event: DragEndEvent) => {
   try {
     const totalCount = await getTableCount("treatements");
     const allTreatments = await getAllTreatments(totalCount);
-console.log("allTreatments",allTreatments)
     const fromIndex = allTreatments.findIndex(
       (t) => t.id === activeId
     );
