@@ -4,12 +4,23 @@ import { forwardRef, useEffect, useImperativeHandle, useState } from "react";
 import { cn } from "@/lib/utils";
 import { getLocations, Location } from "@/services/locationService";
 import check from "@/assets/check.png";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import { getAllTreatments } from "@/services/treatmentService";
+import { getTableCount } from "@/services/getTeam";
 
 /* ================= TYPES ================= */
 
 interface PopupActiveBranchProps {
   selectedBranches: (number | string)[];
   onSelectionChange: (ids: (number | string)[]) => void;
+  treatmentIds: number[];
+  onTreatmentChange: (ids: number[]) => void;
 }
 
 type ValidationResult = {
@@ -23,11 +34,19 @@ const PopupActiveBranch = forwardRef<
   { validate: () => Promise<ValidationResult> },
   PopupActiveBranchProps
 >(function PopupActiveBranch(
-  { selectedBranches, onSelectionChange },
+  {
+    selectedBranches,
+    onSelectionChange,
+    treatmentIds,        // ✅ ADD
+    onTreatmentChange,   // ✅ ADD
+  },
   ref
 ) {
   const [locations, setLocations] = useState<Location[]>([]);
   const [loading, setLoading] = useState(true);
+  const [treatments, setTreatments] = useState<{ id: number; name: string }[]>(
+    []
+  );
 
   /* ---------- FETCH LOCATIONS ---------- */
   useEffect(() => {
@@ -46,42 +65,64 @@ const PopupActiveBranch = forwardRef<
     fetchLocations();
   }, []);
 
+  useEffect(() => {
+  const loadTreatments = async () => {
+    try {
+      const totalCount = await getTableCount("treatements");
+      const data = await getAllTreatments(totalCount);
+
+      setTreatments(
+        data.map((t) => ({
+          id: t.id,
+          name: t.name,
+        }))
+      );
+    } catch (e) {
+      console.error("Failed to load treatments");
+    }
+  };
+
+  loadTreatments();
+}, []);
+
+
   /* ---------- VALIDATION ---------- */
- useImperativeHandle(ref, () => ({
-  async validate(): Promise<ValidationResult> {
-    const hasMainPage = selectedBranches.includes("H");
+  useImperativeHandle(ref, () => ({
+    async validate(): Promise<ValidationResult> {
+      // ❌ treatment is OPTIONAL → no check needed
 
-    // only numeric branch ids
-    const branchIds = selectedBranches.filter(
-      (id) => typeof id === "number"
-    ) as number[];
+      const hasMainPage = selectedBranches.includes("H");
 
-    // check if any ACTIVE branch selected
-    const hasActiveBranch = branchIds.some((id) => {
-      const branch = locations.find((l) => l.id === id);
-      return branch && branch.status !== "inactive";
-    });
+      const branchIds = selectedBranches.filter(
+        (id) => typeof id === "number"
+      ) as number[];
 
-    if (hasActiveBranch || hasMainPage) {
+      const hasActiveBranch = branchIds.some((id) => {
+        const branch = locations.find((l) => l.id === id);
+        return branch && branch.status !== "inactive";
+      });
+
+      // ✅ AT LEAST ONE LOCATION REQUIRED
+      if (!hasMainPage && !hasActiveBranch) {
+        return {
+          valid: false,
+          errors: [
+            {
+              section: "Branches",
+              field: "location_ids",
+              message:
+                "Please select at least one location",
+            },
+          ],
+        };
+      }
+
       return {
         valid: true,
         errors: [],
       };
-    }
-
-    return {
-      valid: false,
-      errors: [
-        {
-          section: "Branches",
-          field: "branches",
-          message:
-            "Please select at least one active branch",
-        },
-      ],
-    };
-  },
-}));
+    },
+  }));
 
   /* ---------- TOGGLE BRANCH ---------- */
   const toggleBranch = (location: Location) => {
@@ -107,70 +148,110 @@ const PopupActiveBranch = forwardRef<
 
   return (
     <div className="space-y-3">
+      {/* ================= TREATMENT SELECT ================= */}
+   <div className="grid grid-cols-12 gap-5">
+    <div className="col-span-6">
+      <label className="text-sm font-medium">
+        Treatments <sup className="text-destructive">*</sup>
+      </label>
 
-      {/* ================= MAIN PAGE CHECKBOX ================= */}
-      {/* ================= MAIN PAGE (LIKE LOCATION CARD) ================= */}
-<div className="grid grid-cols-1 xl:grid-cols-2 gap-4 border xl:border-0 p-2 xl:p-0 rounded-lg xl:rounded-none">
-  {/* LEFT CARD */}
-  <button
-    onClick={() => {
-      const updated = selectedBranches.includes("H")
-        ? selectedBranches.filter((id) => id !== "H")
-        : [...selectedBranches, "H"];
+    <Select
+      value=""
+      onValueChange={(v) => {
+        const id = Number(v);
+        const updated = treatmentIds.includes(id)
+          ? treatmentIds.filter((x) => x !== id)
+          : [...treatmentIds, id];
 
-      onSelectionChange(updated);
-    }}
-    className={cn(
-      "flex w-full items-center gap-4 overflow-hidden rounded-[12px] border transition-all",
-      selectedBranches.includes("H")
-        ? "border-primary"
-        : "border-border bg-card"
-    )}
-  >
-    {/* LEFT STRIP */}
-    <div
-      className={cn(
-        "flex h-full w-[44px] items-center justify-center transition-colors",
-        selectedBranches.includes("H") ? "bg-[#EBF2F3]" : "bg-muted"
-      )}
+        onTreatmentChange(updated);
+      }}
     >
-      <img
-        src={check}
-        alt=""
-        className={cn(
-          "h-5 w-5 transition-opacity",
-          selectedBranches.includes("H")
-            ? "opacity-100"
-            : "opacity-30 grayscale"
-        )}
-      />
+      <SelectTrigger className="form-input">
+        <SelectValue
+          placeholder={
+            treatmentIds.length > 0
+              ? `${treatmentIds.length} treatment selected`
+              : "Select treatments"
+          }
+        />
+      </SelectTrigger>
+
+      <SelectContent>
+        {treatments.map((t) => (
+          <SelectItem key={t.id} value={String(t.id)}>
+            <div className="flex items-center gap-2">
+              <input
+                type="checkbox"
+                checked={treatmentIds.includes(t.id)}
+                readOnly
+              />
+              {t.name}
+            </div>
+          </SelectItem>
+        ))}
+      </SelectContent>
+    </Select>
+
     </div>
+   </div>
+      <div className="grid grid-cols-1 xl:grid-cols-2 gap-4 border xl:border-0 p-2 xl:p-0 rounded-lg xl:rounded-none">
+        {/* LEFT CARD */}
+        <button
+          onClick={() => {
+            const updated = selectedBranches.includes("H")
+              ? selectedBranches.filter((id) => id !== "H")
+              : [...selectedBranches, "H"];
 
-    {/* NAME */}
-    <span
-      className={cn(
-        "py-4 text-base font-medium",
-        selectedBranches.includes("H")
-          ? "text-primary"
-          : "text-foreground"
-      )}
-    >
-      Main Page
-    </span>
-  </button>
+            onSelectionChange(updated);
+          }}
+          className={cn(
+            "flex w-full items-center gap-4 overflow-hidden rounded-[12px] border transition-all",
+            selectedBranches.includes("H")
+              ? "border-primary"
+              : "border-border bg-card"
+          )}
+        >
+          {/* LEFT STRIP */}
+          <div
+            className={cn(
+              "flex h-full w-[44px] items-center justify-center transition-colors",
+              selectedBranches.includes("H") ? "bg-[#EBF2F3]" : "bg-muted"
+            )}
+          >
+            <img
+              src={check}
+              alt=""
+              className={cn(
+                "h-5 w-5 transition-opacity",
+                selectedBranches.includes("H")
+                  ? "opacity-100"
+                  : "opacity-30 grayscale"
+              )}
+            />
+          </div>
 
-  {/* RIGHT CARD */}
-  <div className="flex items-center gap-[10px] rounded-[10px] border border-border bg-card py-[13px] px-[15px]">
-    <span className="text-sm text-muted-foreground">
-     Location Slug:
-    </span>
+          {/* NAME */}
+          <span
+            className={cn(
+              "py-4 text-base font-medium",
+              selectedBranches.includes("H")
+                ? "text-primary"
+                : "text-foreground"
+            )}
+          >
+            Main Page
+          </span>
+        </button>
 
-    <span className="rounded-md bg-muted py-2 px-3 text-sm text-foreground">
-      Home
-    </span>
-  </div>
-</div>
+        {/* RIGHT CARD */}
+        <div className="flex items-center gap-[10px] rounded-[10px] border border-border bg-card py-[13px] px-[15px]">
+          <span className="text-sm text-muted-foreground">Location Slug:</span>
 
+          <span className="rounded-md bg-muted py-2 px-3 text-sm text-foreground">
+            Home
+          </span>
+        </div>
+      </div>
 
       {/* ================= BRANCH LIST ================= */}
       <div className="space-y-3">
@@ -207,11 +288,8 @@ const PopupActiveBranch = forwardRef<
                     alt=""
                     className={cn(
                       "h-5 w-5 transition-opacity",
-                      isSelected
-                        ? "opacity-100"
-                        : "opacity-30 grayscale",
-                      location.status === "inactive" &&
-                        "opacity-20 grayscale"
+                      isSelected ? "opacity-100" : "opacity-30 grayscale",
+                      location.status === "inactive" && "opacity-20 grayscale"
                     )}
                   />
                 </div>
@@ -221,8 +299,7 @@ const PopupActiveBranch = forwardRef<
                   className={cn(
                     "py-4 text-base font-medium",
                     isSelected ? "text-primary" : "text-foreground",
-                    location.status === "inactive" &&
-                      "text-muted-foreground"
+                    location.status === "inactive" && "text-muted-foreground"
                   )}
                 >
                   {location.name}

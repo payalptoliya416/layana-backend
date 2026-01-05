@@ -66,7 +66,7 @@ const getStatusLabel = (status: number) => {
 
         {/* NAME */}
         <div className="w-[25%] pl-4">
-          <p className="font-medium">Popup #{item.id}</p>
+          <p className="font-medium">{item.title}</p>
         </div>
 
         {/* STATUS */}

@@ -20,6 +20,7 @@ export type PopupItem = {
   status: number; // 1 = Active, 0 = Inactive
   created_at: string;
   updated_at: string;
+  title: string;
 };
 
 export type Pagination = {

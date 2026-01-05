@@ -66,11 +66,19 @@ function PopupIndex() {
   >([]);
     /* ---------- PAYLOAD ---------- */
 const [payload, setPayload] = useState({
+  title: "",
   status: "active" as "active" | "inactive",
+
+  cross_color: "#000000",
+
+  treatment_ids: [] as number[],
+
   cta_enabled: false,
   cta_text: "",
   cta_link: "",
-  cta_color: "#000000",
+  cta_color: "#007BFF",
+  cta_text_color: "#FFFFFF",
+
   location_ids: [] as (number | string)[],
   images: [] as string[],
 });
@@ -86,17 +94,23 @@ const [payload, setPayload] = useState({
       const res = await getPopupById(Number(id));
 
       setPayload({
-        status: res.status === 1 ? "active" : "inactive",
+  title: res.title ?? "",
 
-        cta_enabled: res.is_cta ?? false,
-        cta_text: res.cta_button_text ?? "",
-        cta_link: res.cta_button_link ?? "",
-        cta_color: res.cta_button_color ?? "#000000",
+  status: res.status === 1 ? "active" : "inactive",
 
-        location_ids: res.location_ids ?? [],
+  cross_color: res.cross_color ?? "#000000",
 
-        images: res.banner_image ? [res.banner_image] : [],
-      });
+  treatment_ids: res.treatment_ids ?? [],
+
+  cta_enabled: res.is_cta ?? false,
+  cta_text: res.cta_button_text ?? "",
+  cta_link: res.cta_button_link ?? "",
+  cta_color: res.cta_button_color ?? "#007BFF",
+  cta_text_color: res.cta_button_text_color ?? "#FFFFFF",
+
+  location_ids: res.location_ids ?? [],
+  images: res.banner_image ? [res.banner_image] : [],
+});
 
       setDisplayName("Edit Popup");
     } catch (error) {
@@ -109,24 +123,24 @@ const [payload, setPayload] = useState({
   loadPopup();
 }, [id, isEdit]);
 
+const buildPopupPayload = () => ({
+  title: payload.title,
 
- const buildPopupPayload = () => ({
   banner_image: payload.images?.[0] ?? null,
+
+  cross_color: payload.cross_color,
+
+  treatment_ids: payload.treatment_ids,
 
   location_ids: payload.location_ids,
 
   is_cta: payload.cta_enabled,
 
-  cta_button_text: payload.cta_enabled
-    ? payload.cta_text
-    : null,
-
-  cta_button_link: payload.cta_enabled
-    ? payload.cta_link
-    : null,
-
-  cta_button_color: payload.cta_enabled
-    ? payload.cta_color
+  cta_button_text: payload.cta_enabled ? payload.cta_text : null,
+  cta_button_link: payload.cta_enabled ? payload.cta_link : null,
+  cta_button_color: payload.cta_enabled ? payload.cta_color : null,
+  cta_button_text_color: payload.cta_enabled
+    ? payload.cta_text_color
     : null,
 
   status: payload.status === "active" ? 1 : 0,
@@ -198,13 +212,21 @@ const [payload, setPayload] = useState({
 
       {/* BRANCHES */}
       <div className={cn(activeSection !== "branches" && "hidden")}>
-        <PopupActiveBranch
+      <PopupActiveBranch
           ref={branchRef}
           selectedBranches={payload.location_ids}
           onSelectionChange={(ids) =>
             setPayload((prev) => ({
               ...prev,
               location_ids: ids,
+            }))
+          }
+
+          treatmentIds={payload.treatment_ids}
+          onTreatmentChange={(ids) =>
+            setPayload((prev) => ({
+              ...prev,
+              treatment_ids: ids,
             }))
           }
         />

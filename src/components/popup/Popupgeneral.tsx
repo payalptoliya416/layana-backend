@@ -17,16 +17,24 @@ import SwitchToggle from "../treatment/Toggle";
 
 const popupGeneralSchema = z
   .object({
+    title: z.string().min(1, "Title is required"),
+
     status: z.enum(["active", "inactive"]),
+
+    cross_color: z.string().min(1, "Cross color is required"),
+
+    treatment_ids: z.array(z.number()).optional(),
+
     cta_enabled: z.boolean(),
 
     cta_text: z.string().optional(),
     cta_link: z.string().optional(),
     cta_color: z.string().optional(),
+    cta_text_color: z.string().optional(),
   })
   .superRefine((data, ctx) => {
     if (data.cta_enabled) {
-      if (!data.cta_text || data.cta_text.trim() === "") {
+      if (!data.cta_text) {
         ctx.addIssue({
           path: ["cta_text"],
           message: "CTA button text is required",
@@ -55,12 +63,21 @@ const popupGeneralSchema = z
       if (!data.cta_color) {
         ctx.addIssue({
           path: ["cta_color"],
-          message: "CTA color is required",
+          message: "CTA button color is required",
+          code: z.ZodIssueCode.custom,
+        });
+      }
+
+      if (!data.cta_text_color) {
+        ctx.addIssue({
+          path: ["cta_text_color"],
+          message: "CTA text color is required",
           code: z.ZodIssueCode.custom,
         });
       }
     }
   });
+
 
 export type PopupGeneralForm = z.infer<typeof popupGeneralSchema>;
 
@@ -85,71 +102,75 @@ const PopupGeneral = forwardRef<any, Props>(
       mode: "onSubmit",
       criteriaMode: "all",
       defaultValues: {
-        status: "active",
-        cta_enabled: false,
-        cta_text: "",
-        cta_link: "",
-        cta_color: "",
-        ...initialData,
-      },
+      title: "",
+      status: "active",
+      cross_color: "#000000",
+      treatment_ids: [],
+      cta_enabled: false,
+      cta_text: "",
+      cta_link: "",
+      cta_color: "#007BFF",
+      cta_text_color: "#FFFFFF",
+      ...initialData,
+    }
     });
 
     const isInitializing = useRef(true);
    const ctaEnabled = watch("cta_enabled");
     /* ---------- reset on initialData ---------- */
-    useEffect(() => {
-      if (!initialData) return;
+   useEffect(() => {
+  if (!initialData) return;
 
-      reset({
-        status: initialData.status ?? "active",
-        cta_enabled: initialData.cta_enabled ?? false,
-        cta_text: initialData.cta_text ?? "",
-        cta_link: initialData.cta_link ?? "",
-        cta_color: initialData.cta_color ?? "",
-      });
-    }, [initialData, reset]);
+  reset({
+    title: initialData.title ?? "",
+    status: initialData.status ?? "active",
+    cross_color: initialData.cross_color ?? "#000000",
+
+    cta_enabled: initialData.cta_enabled ?? false,
+    cta_text: initialData.cta_text ?? "",
+    cta_link: initialData.cta_link ?? "",
+    cta_color: initialData.cta_color ?? "#007BFF",
+    cta_text_color: initialData.cta_text_color ?? "#FFFFFF",
+  });
+}, [initialData, reset]);
 
     /* ---------- expose validate ---------- */
-    useImperativeHandle(ref, () => ({
-      validate: async () => {
-        const isValid = await trigger(undefined, { shouldFocus: false });
+ useImperativeHandle(ref, () => ({
+  validate: async () => {
+    const isValid = await trigger(undefined, { shouldFocus: false });
 
-        const fields: (keyof PopupGeneralForm)[] = [
-          "status",
-          "cta_enabled",
-          "cta_text",
-          "cta_link",
-          "cta_color",
-        ];
+    const fields: (keyof PopupGeneralForm)[] = [
+      "title",
+      "status",
+      "cross_color",
 
-        const errors = fields
-          .map((field) => {
-            const state = getFieldState(field);
-            return state.error
-              ? {
-                  section: "General",
-                  message: state.error.message || "Invalid value",
-                }
-              : null;
-          })
-          .filter(Boolean);
+      "cta_enabled",
+      "cta_text",
+      "cta_link",
+      "cta_color",
+      "cta_text_color",
+    ];
 
-        return {
-          valid: isValid && errors.length === 0,
-          errors,
-        };
-      },
+    const errors = fields
+      .map((field) => {
+        const state = getFieldState(field);
+        return state.error
+          ? {
+              section: "General",
+              field,
+              message: state.error.message || "Invalid value",
+            }
+          : null;
+      })
+      .filter(Boolean);
 
-      setData: (data: Partial<PopupGeneralForm>) => {
-        reset({
-          status: data.status ?? "active",
-          cta_enabled: data.cta_enabled ?? false,
-          cta_text: data.cta_text ?? "",
-          cta_link: data.cta_link ?? "",
-          cta_color: data.cta_color ?? "",
-        });
-      },
-    }));
+    return {
+      valid: isValid && errors.length === 0,
+      errors,
+    };
+  },
+}));
+
 
     useEffect(() => {
       isInitializing.current = false;
@@ -173,8 +194,33 @@ const PopupGeneral = forwardRef<any, Props>(
     return (
       <div className="space-y-6">
         <div className="grid grid-cols-1 xl:grid-cols-2 gap-6">
-
-          {/* Status */}
+        <div>
+          <label className="text-sm font-medium">
+            Popup Title <sup className="text-destructive">*</sup>
+          </label>
+          <input
+            className="form-input"
+            placeholder="Enter popup title"
+            {...register("title")}
+          />
+        </div>
+         {/* CTA Enable */}
+          <div className="">
+            <label className="text-sm font-medium">
+              Enable CTA Button <sup className="text-destructive">*</sup>
+            </label>
+            
+            <SwitchToggle
+                value={watch("cta_enabled")}
+                onChange={() =>
+                setValue("cta_enabled", !watch("cta_enabled"), {
+                    shouldDirty: true,
+                    shouldValidate: true,
+                })
+                }
+            />
+          </div>
+           {/* Status */}
           <div>
             <label className="text-sm font-medium">
               Status <sup className="text-destructive">*</sup>
@@ -198,22 +244,17 @@ const PopupGeneral = forwardRef<any, Props>(
               </SelectContent>
             </Select>
           </div>
-           {/* CTA Enable */}
-          <div className="">
-            <label className="text-sm font-medium">
-              Enable CTA Button <sup className="text-destructive">*</sup>
-            </label>
-            
-            <SwitchToggle
-                value={watch("cta_enabled")}
-                onChange={() =>
-                setValue("cta_enabled", !watch("cta_enabled"), {
-                    shouldDirty: true,
-                    shouldValidate: true,
-                })
-                }
-            />
-          </div>
+
+        <div>
+        <label className="text-sm font-medium">
+          Close Icon Color <sup className="text-destructive">*</sup>
+        </label>
+        <input
+          type="color"
+          className="h-10 w-16 rounded-md border px-2 bg-card"
+          {...register("cross_color")}
+        />
+      </div>
 
           {/* CTA Text */}
           {ctaEnabled && (
@@ -228,7 +269,18 @@ const PopupGeneral = forwardRef<any, Props>(
             />
           </div> )}
 
-         
+         {ctaEnabled && (
+          <div>
+            <label className="text-sm font-medium">
+              CTA Text Color <sup className="text-destructive">*</sup>
+            </label>
+            <input
+              type="color"
+                className="h-10 w-16 rounded-md border px-2 bg-card"
+              {...register("cta_text_color")}
+            />
+          </div>
+        )}
 
           {/* CTA Link */}
           {ctaEnabled && (
