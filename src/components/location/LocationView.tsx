@@ -1,4 +1,4 @@
-import { Mail, Phone, Info, Plus, Smartphone } from "lucide-react";
+import { Mail, Smartphone } from "lucide-react";
 import { Sidebar } from "../layout/Sidebar";
 import { useNavigate, useParams } from "react-router-dom";
 import { cn } from "@/lib/utils";
