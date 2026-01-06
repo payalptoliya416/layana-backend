@@ -132,7 +132,7 @@ const items = [
                   </div>
 
                   {/* TITLE */}
-                  <p className="text-base font-bold text-[#414347] dark:text-[#E5E7EB]">
+                  <p className="text-base font-bold text-[#414347] dark:text-[#E5E7EB] text-center">
                     {item.title}
                   </p>
                 </div>
