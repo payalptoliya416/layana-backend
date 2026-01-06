@@ -17,6 +17,7 @@ import {
   saveTermsCondition,
 } from "@/services/termsConditionService";
 import TermsDescriptionEditor from "./TermsDescriptionEditor";
+import { Footer } from "../layout/Footer";
 
 function TermsCondition() {
   const navigate = useNavigate();
@@ -91,6 +92,7 @@ const handleSave = async () => {
   /* ================= UI ================= */
 
   return (
+    <>
     <div className="bg-background flex">
       {/* DESKTOP SIDEBAR */}
       <div className="hidden lg:block">
@@ -203,6 +205,8 @@ const handleSave = async () => {
 </AlertDialog>
       </div>
     </div>
+    <Footer/>
+    </>
   );
 }
 
