@@ -271,10 +271,44 @@ const allErrors = results
       }
 
       navigate("/settings/location");
-    } catch (err: any) {
-      console.error(err);
-      toast.error(err?.response?.data?.message || "Failed to create location");
-    } finally {
+   } catch (err: any) {
+  console.error("API ERROR 👉", err);
+
+  const data = err?.response?.data;
+
+  let messages: string[] = [];
+
+  // ✅ Case 1: Laravel / backend validation object
+  if (data?.errors && typeof data.errors === "object") {
+    Object.values(data.errors).forEach((val: any) => {
+      if (Array.isArray(val)) {
+        messages.push(...val);
+      } else if (typeof val === "string") {
+        messages.push(val);
+      }
+    });
+  }
+
+  // ✅ Case 2: single message
+  if (messages.length === 0 && data?.message) {
+    messages.push(data.message);
+  }
+
+  // ✅ Case 3: totally unknown error
+  if (messages.length === 0) {
+    messages.push("Something went wrong. Please try again.");
+  }
+
+  // 🔥 convert to your required state format
+  setValidationErrors(
+    messages.map((msg) => ({
+      section: "error",
+      message: msg,
+    }))
+  );
+
+  setShowValidationPopup(true);
+} finally {
   setSaving(false);
 }
   };
