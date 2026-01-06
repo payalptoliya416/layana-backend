@@ -521,34 +521,31 @@ input[type="time"]::-webkit-datetime-edit-ampm-field {
   background: hsl(var(--card));
   color: hsl(var(--foreground));
 }
-/* OK button text white */
+
+/* TimePicker input focus */
+.ant-picker-focused {
+  border-color: #035865 !important;
+  box-shadow: 0 0 0 2px rgba(3, 88, 101, 0.25) !important;
+}
+
+/* Selected time item */
+.ant-picker-time-panel-cell-selected .ant-picker-time-panel-cell-inner {
+  background-color: #035865 !important;
+  color: #fff !important;
+}
+
+/* Hover time item */
+.ant-picker-time-panel-cell-inner:hover {
+  background-color: rgba(3, 88, 101, 0.15) !important;
+}
+
+/* OK button */
 .ant-picker-ok button {
   background-color: #035865 !important;
   border-color: #035865 !important;
-  color: #ffffff !important;
 }
 
-/* OK hover */
 .ant-picker-ok button:hover {
   background-color: #046d73 !important;
   border-color: #046d73 !important;
-  color: #ffffff !important;
-}
-
-/* "Now" button text white */
-.ant-picker-now-btn {
-  color: #ffffff !important;
-}
-
-/* Optional: hover effect for Now */
-.ant-picker-now-btn:hover {
-  color: #ffffff !important;
-  opacity: 0.85;
-}
-
-/* Selected time text white (already mostly correct, but safer) */
-.ant-picker-time-panel-cell-selected
-.ant-picker-time-panel-cell-inner {
-  background-color: #035865 !important;
-  color: #ffffff !important;
 }
