@@ -67,7 +67,7 @@ function SortableSliderRow({
         </span>
       </td>
 
-      <td className="px-4 py-3">
+      <td className="px-4 py-3 w-[18%]">
         {item.image && (
           <img
             src={item.image}
@@ -76,10 +76,10 @@ function SortableSliderRow({
         )}
       </td>
 
-      <td className="px-4 py-3 font-medium">{item.title}</td>
-      <td className="px-4 py-3">{item.btn_text}</td>
+      <td className="px-4 py-3 font-medium w-[22%]">{item.title}</td>
+      <td className="px-4 py-3  w-[22%]">{item.btn_text}</td>
 
-      <td className="px-4 py-3 max-w-[260px]">
+      <td className="px-4 py-3 flex-1">
         <a
           href={item.btn_link}
           target="_blank"
@@ -89,7 +89,7 @@ function SortableSliderRow({
         </a>
       </td>
 
-      <td className="px-4 py-3 text-right">
+      <td className="px-4 py-3">
         <div className="inline-flex gap-2">
           <button onClick={onEdit} className="border rounded-full p-2">
             <Pencil size={14} />
@@ -110,6 +110,8 @@ const LocationSlider = forwardRef<any>((_, ref) => {
   const [sliders, setSliders] = useState<SliderItem[]>([]);
   const [openModal, setOpenModal] = useState(false);
   const [editIndex, setEditIndex] = useState<number | null>(null);
+const SLIDER_GRID =
+  "grid-cols-[40px_18%_22%_22%_1fr_160px]";
 
   /* ---------- expose ---------- */
   useImperativeHandle(ref, () => ({
@@ -228,7 +230,7 @@ const handleDragEnd = (event: any) => {
             setEditIndex(null);
             setOpenModal(true);
           }}
-          className="flex items-center gap-2 rounded-full bg-primary px-4 py-2 text-white"
+          className="flex items-center gap-2 rounded-full bg-primary px-4 py-2 text-white text-sm"
         >
           <Plus size={16} />
           Add Slider
@@ -237,51 +239,73 @@ const handleDragEnd = (event: any) => {
 
       {/* DESKTOP TABLE */}
       <div className="hidden xl:block border rounded-xl overflow-hidden">
+<div className="sticky top-0 z-[9] bg-card border-b hidden xl:flex items-center h-[52px] text-sm font-medium text-primary ">
+
+  {/* Drag */}
+  <div className="w-10" />
+
+  {/* Image */}
+  <div className="w-[18%] pl-4 border-l text-left">
+    Image
+  </div>
+
+  {/* Title */}
+  <div className="w-[22%] pl-4 border-l text-left">
+    Title
+  </div>
+
+  {/* Button Text */}
+  <div className="w-[22%] pl-4 border-l text-left">
+    Button Text
+  </div>
+
+  {/* Button Link */}
+  <div className="flex-1 pl-4 border-l text-left">
+    Button Link
+  </div>
+
+  {/* Actions */}
+  <div className="w-[160px] pl-4 border-l text-left">
+    Actions
+  </div>
+</div>
         <table className="w-full text-sm">
-          <thead className="bg-muted">
-            <tr>
-              <th className="px-3 py-3 w-10"></th>
-              <th className="text-left px-4 py-3">Image</th>
-              <th className="text-left px-4 py-3">Title</th>
-              <th className="text-left px-4 py-3">Button Text</th>
-              <th className="text-left px-4 py-3">Button Link</th>
-              <th className="text-right px-4 py-3">Actions</th>
-            </tr>
-          </thead>
+         {/* ================= SLIDER HEADER (DESKTOP) ================= */}
 
-           <DndContext
-  collisionDetection={closestCenter}
-  onDragEnd={handleDragEnd}
->
-  <SortableContext
-  items={sliders.map((s) => String(s.index))}
-  strategy={verticalListSortingStrategy}
->
-    <tbody>
-      {sliders.map((item, index) => (
-        <SortableSliderRow
-          key={item.index}
-          id={String(index)}
-          item={item}
-          index={index}
-          onEdit={() => {
-            setEditIndex(index);
-            setOpenModal(true);
-          }}
-          onDelete={() => handleDelete(index)}
-        />
-      ))}
 
-      {sliders.length === 0 && (
-        <tr>
-          <td colSpan={6} className="text-center py-6 text-muted-foreground">
-            No sliders added yet
-          </td>
-        </tr>
-      )}
-    </tbody>
-  </SortableContext>
-</DndContext>
+                    <DndContext
+            collisionDetection={closestCenter}
+            onDragEnd={handleDragEnd}
+          >
+            <SortableContext
+            items={sliders.map((s) => String(s.index))}
+            strategy={verticalListSortingStrategy}
+          >
+              <tbody>
+                {sliders.map((item, index) => (
+                  <SortableSliderRow
+                    key={item.index}
+                    id={String(index)}
+                    item={item}
+                    index={index}
+                    onEdit={() => {
+                      setEditIndex(index);
+                      setOpenModal(true);
+                    }}
+                    onDelete={() => handleDelete(index)}
+                  />
+                ))}
+
+                {sliders.length === 0 && (
+                  <tr>
+                    <td colSpan={6} className="text-center py-6 text-muted-foreground">
+                      No sliders added yet
+                    </td>
+                  </tr>
+                )}
+              </tbody>
+            </SortableContext>
+          </DndContext>
 
         </table>
       </div>
@@ -291,10 +315,12 @@ const handleDragEnd = (event: any) => {
         {sliders.map((item, index) => (
           <div key={index} className="border rounded-xl p-4 space-y-3">
             {item.image && (
-              <img
-                src={item.image}
-                className="w-full h-[160px] rounded-lg object-cover"
-              />
+              <div className=" w-[160px]">
+                <img
+                  src={item.image}
+                  className=" w-[160px] h-[160px] rounded-lg object-contain"
+                />
+              </div>
             )}
 
             <div className="text-sm space-y-1">

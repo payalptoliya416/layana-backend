@@ -549,3 +549,16 @@ input[type="time"]::-webkit-datetime-edit-ampm-field {
   background-color: #046d73 !important;
   border-color: #046d73 !important;
 }
+.ant-picker input {
+  color: #ffffff !important;
+}
+
+/* Placeholder → soft grey (proper visible) */
+.ant-picker input::placeholder {
+  color: #bfcfd4 !important; /* 👈 best for dark theme */
+  opacity: 1 !important;     /* AntD sometimes sets low opacity */
+}
+.ant-picker:hover input::placeholder,
+.ant-picker-focused input::placeholder {
+  color: #e2f1f4 !important;
+}
