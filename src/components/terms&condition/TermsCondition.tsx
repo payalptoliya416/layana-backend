@@ -145,7 +145,7 @@ const handleSave = async () => {
             <TermsDescriptionEditor
                 value={value}
                 onChange={handleChange}
-                fullHeight
+                fullHeight= {true}
             />
             </div>
 
