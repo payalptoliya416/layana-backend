@@ -30,7 +30,7 @@ const items = [
     path: "/settings/location",
   },
    {
-    title: "Term & Condition",
+    title: "Terms & Condition",
     icon: FileText, 
     gradient: "from-[#6366F1]/10 to-transparent", 
     iconBg: "#6366F1",
