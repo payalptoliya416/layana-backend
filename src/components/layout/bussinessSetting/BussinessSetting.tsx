@@ -4,6 +4,7 @@ import { cn } from "@/lib/utils";
 import { PageHeader } from "../PageHeader";
 import {
   Building2,
+  FileText,
   MapPin,
 } from "lucide-react";
 import { useNavigate } from "react-router-dom";
@@ -27,6 +28,13 @@ const items = [
     gradient: "from-[#EF4444]/10 to-transparent",
     iconBg: "#EF4444",
     path: "/settings/location",
+  },
+   {
+    title: "Term & Condition",
+    icon: FileText, 
+    gradient: "from-[#6366F1]/10 to-transparent", 
+    iconBg: "#6366F1",
+    path: "/settings/terms-condition", 
   },
 ];
 
@@ -68,7 +76,7 @@ const items = [
         </div>
         <div className="flex-1 pl-[15px] pr-6 px-6 flex flex-col bg-card rounded-[12px] shadow-card p-5 overflow-hidden">
           <div className="flex flex-col flex-1 overflow-y-auto scrollbar-thin">
-          <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-7 gap-5">
+          <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-5 2xl:grid-cols-7 gap-5">
           {items.map((item, i) => {
             const Icon = item.icon;
 

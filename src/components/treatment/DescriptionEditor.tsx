@@ -4,11 +4,13 @@ import "react-quill/dist/quill.snow.css";
 interface DescriptionEditorProps {
   value: string;
   onChange: (value: string) => void;
+    height?: string;
 }
 
 export default function DescriptionEditor({
   value,
   onChange,
+    height = "260px",
 }: DescriptionEditorProps) {
   const modules = {
     toolbar: [
@@ -39,7 +41,8 @@ export default function DescriptionEditor({
       focus-within:ring-2
       focus-within:ring-ring/20
       focus-within:border-ring
-    "
+    " 
+     style={{ height }}
   >
     <div className="">
     <ReactQuill
@@ -47,7 +50,7 @@ export default function DescriptionEditor({
       value={value}
       onChange={onChange}
       modules={modules}
-      placeholder="Enter analytics / description"
+      placeholder="Enter Description"
       className="h-[260px] text-foreground"
     />
     </div>

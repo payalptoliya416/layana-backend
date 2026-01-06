@@ -16,13 +16,23 @@ import {
   AlertDialogTitle,
   AlertDialogFooter,
 } from "@/components/ui/alert-dialog";
-import { createLocation, getLocationById, updateLocation } from "@/services/locationService";
+import {
+  createLocation,
+  getLocationById,
+  updateLocation,
+} from "@/services/locationService";
 import ParkingDetails from "./ParkingDetails";
 import { Footer } from "../layout/Footer";
+import LocationSlider from "./LocationSlider";
+import LocationAbout from "./LocationAbout";
+import LocationPromo3 from "./LocationPromo3";
+import BranchSEOPage from "../treatment/BranchSEOPage";
+import LocationVisuals from "./LocationVisuals";
+import LocationSEOPage from "./LocationSEOPage";
 
 type GeneralData = {
   name: string;
-  slug: string;  
+  slug: string;
   status: string;
   freeText: string;
 };
@@ -31,7 +41,7 @@ type ContactData = {
   phone: string;
   address_line_1: string;
   address_line_2: string;
-   email: string;
+  email: string;
   country: string;
   state: string;
   city: string;
@@ -47,21 +57,30 @@ type WorkingData = {
 };
 
 type ParkingData = {
- parking_details : string;
+  parking_details: string;
 };
 
 type LocationFormData = {
   general: Partial<GeneralData>;
   contact: Partial<ContactData>;
   working: Partial<WorkingData>;
-  parking: Partial<ParkingData>; 
+  parking: Partial<ParkingData>;
 };
-
 
 function LocationIndex() {
   const { id } = useParams();
   const isEdit = Boolean(id);
-
+  const sectionToTabMap: Record<string, string> = {
+    General: "general",
+    Contact: "contact",
+    Working: "working",
+    Parking: "parking",
+    Slider: "slider",
+    About: "about",
+    Promo3: "promo3",
+    Visuals: "visuals",
+    SEO: "seo",
+  };
   const navigate = useNavigate();
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
   const [sidebarOpen, setSidebarOpen] = useState(false);
@@ -80,32 +99,37 @@ function LocationIndex() {
   const contactRef = useRef<any>(null);
   const workingRef = useRef<any>(null);
   const parkingRef = useRef<any>(null);
+  const sliderRef = useRef<any>(null);
+  const aboutRef = useRef<any>(null);
+  const promo3Ref = useRef<any>(null);
+  const seoRef = useRef<any>(null);
+  const visualsRef = useRef<any>(null);
 
   /* central data store */
-const [formData, setFormData] = useState<LocationFormData>({
-  general: {
-    name: "",
-    status: "",
-    slug: "", 
-    freeText: "",
-  },
-  contact: {
-    phone: "",
-    address_line_1: "",
-    address_line_2: "",
-    email: "",
-    country: "UK",
-    state: "",
-    city: "",
-    postcode: "",
-  },
-  working: {
-  opening_hours: [],
-},
-  parking:{
-    parking_details : ""
-  }
-});
+  const [formData, setFormData] = useState<LocationFormData>({
+    general: {
+      name: "",
+      status: "",
+      slug: "",
+      freeText: "",
+    },
+    contact: {
+      phone: "",
+      address_line_1: "",
+      address_line_2: "",
+      email: "",
+      country: "UK",
+      state: "",
+      city: "",
+      postcode: "",
+    },
+    working: {
+      opening_hours: [],
+    },
+    parking: {
+      parking_details: "",
+    },
+  });
 
   const renderTabContent = () => (
     <>
@@ -124,7 +148,7 @@ const [formData, setFormData] = useState<LocationFormData>({
       </div>
 
       <div className={cn(activeSection !== "working" && "hidden")}>
-        <LocationWorkingHr 
+        <LocationWorkingHr
           ref={workingRef}
           onChange={(data) => setFormData((p) => ({ ...p, working: data }))}
         />
@@ -136,41 +160,88 @@ const [formData, setFormData] = useState<LocationFormData>({
           onChange={(data) => setFormData((p) => ({ ...p, parking: data }))}
         />
       </div>
+
+      {/* SLIDER */}
+      <div className={cn(activeSection !== "slider" && "hidden")}>
+        <LocationSlider ref={sliderRef} />
+      </div>
+
+      {/* ABOUT */}
+      <div className={cn(activeSection !== "about" && "hidden")}>
+       <LocationAbout
+  ref={aboutRef}
+  onChange={(data) =>
+    setFormData((p) => ({
+      ...p,
+      general: {
+        ...p.general,
+        ...data, // only for UI sync, payload still ref based
+      },
+    }))
+  }
+/>
+      </div>
+
+      {/* PROMO 3 */}
+      <div className={cn(activeSection !== "promo3" && "hidden")}>
+        
+<LocationPromo3
+  ref={promo3Ref}
+  onChange={() => {}}
+/>
+      </div>
+
+      <div className={cn(activeSection !== "visuals" && "hidden")}>
+      <LocationVisuals
+  ref={visualsRef}
+  onChange={() => {}}
+/>
+      </div>
+      {/* SEO */}
+      <div className={cn(activeSection !== "seo" && "hidden")}>
+         <LocationSEOPage ref={seoRef} />
+      </div>
     </>
   );
 
   const handleSaveTreatment = async () => {
     setSaving(true);
+const validators = [
+  generalRef,
+  contactRef,
+  workingRef,
+  parkingRef,
+  sliderRef,
+  aboutRef,
+  promo3Ref,
+  visualsRef,
+  seoRef,
+];
 
-    const results = await Promise.all([
-      generalRef.current?.validate(),
-      contactRef.current?.validate(),
-      workingRef.current?.validate(),
-       parkingRef.current?.validate(),
-    ]);
+const results = await Promise.all(
+  validators.map((ref) =>
+    ref.current?.validate
+      ? ref.current.validate()
+      : { valid: true, errors: [] }
+  )
+);
+const allErrors = results
+  .filter((r) => r && r.valid === false)
+  .flatMap((r) => r.errors ?? []);
 
-    const allErrors = results
-      .filter((r) => !r.valid)
-      .flatMap((r) => r.errors);
-
-    if (allErrors.length > 0) {
-      setSaving(false);
-      setValidationErrors(
-        allErrors.map((e) => ({
-          section: e.section,
-          message: e.message,
-        }))
-      );
-      setShowValidationPopup(true);
-      return;
-    }
+   if (allErrors.length > 0) {
+  setSaving(false);        // 🔥 MUST
+  setValidationErrors(allErrors);
+  setShowValidationPopup(true);
+  return;
+}
 
     const payload = {
       name: formData.general.name!,
       status: formData.general.status!,
       slug: formData.general.slug!,
       free_text: formData.general.freeText!,
-      email :formData.contact.email!,
+      email: formData.contact.email!,
       country: formData.contact.country!,
       state: formData.contact.state!,
       city: formData.contact.city!,
@@ -180,46 +251,76 @@ const [formData, setFormData] = useState<LocationFormData>({
       address_line_2: formData.contact.address_line_2,
       parking_details: formData.parking.parking_details!,
       opening_hours: formData.working.opening_hours,
+
+      slider: sliderRef.current?.getData(),
+      ...aboutRef.current?.getData(),
+      ...promo3Ref.current?.getData(),
+      ...visualsRef.current?.getData(),
+      ...seoRef.current?.getData?.(),
     };
 
     try {
-     let res;
+      let res;
 
-  if (isEdit && id) {
-    res = await updateLocation(id, payload);
-    toast.success("Location updated successfully");
-  } else {
-    res = await createLocation(payload);
-    toast.success("Location created successfully");
-  }
+      if (isEdit && id) {
+        res = await updateLocation(id, payload);
+        toast.success("Location updated successfully");
+      } else {
+        res = await createLocation(payload);
+        toast.success("Location created successfully");
+      }
 
-  navigate("/settings/location");
+      navigate("/settings/location");
     } catch (err: any) {
       console.error(err);
-      toast.error(
-        err?.response?.data?.message || "Failed to create location"
-      );
+      toast.error(err?.response?.data?.message || "Failed to create location");
     } finally {
-      setSaving(false);
-    }
+  setSaving(false);
+}
   };
-const [locationName, setLocationName] = useState<string>("");
+  const [locationName, setLocationName] = useState<string>("");
 
   useEffect(() => {
-  if (!isEdit || !id) return;
+    if (!isEdit || !id) return;
 
-  const fetchLocation = async () => {
-    try {
-      const data = await getLocationById(id);
-      // ⬇️ CENTRAL STATE SET
-      setFormData({
-        general: {
+    const fetchLocation = async () => {
+      try {
+        const data = await getLocationById(id);
+        // ⬇️ CENTRAL STATE SET
+        setFormData({
+          general: {
+            name: data.name,
+            slug: data.slug,
+            status: data.status,
+            freeText: data.free_text,
+          },
+          contact: {
+            phone: data.phone,
+            address_line_1: data.address_line_1,
+            address_line_2: data.address_line_2,
+            email: data.email,
+            country: data.country,
+            state: data.state,
+            city: data.city,
+            postcode: data.postcode,
+          },
+          working: {
+            opening_hours: data.opening_hours || [],
+          },
+          parking: {
+            parking_details: data.parking_details,
+          },
+        });
+        setLocationName(data.name);
+        // ⬇️ PUSH DATA INTO CHILD FORMS
+        generalRef.current?.setData({
           name: data.name,
           slug: data.slug,
           status: data.status,
-          freeText: data.free_text,          
-        },
-        contact: {
+          freeText: data.free_text,
+        });
+
+        contactRef.current?.setData({
           phone: data.phone,
           address_line_1: data.address_line_1,
           address_line_2: data.address_line_2,
@@ -228,101 +329,112 @@ const [locationName, setLocationName] = useState<string>("");
           state: data.state,
           city: data.city,
           postcode: data.postcode,
-        },
-        working: {
+        });
+
+        workingRef.current?.setData({
           opening_hours: data.opening_hours || [],
-        },
-        parking: {
+        });
+
+        parkingRef.current?.setData({
           parking_details: data.parking_details,
-        },
-      });
-       setLocationName(data.name)
-      // ⬇️ PUSH DATA INTO CHILD FORMS
-      generalRef.current?.setData({
-        name: data.name,
-        slug: data.slug,
-        status: data.status,
-        freeText: data.free_text,
-      });
+        });
 
-      contactRef.current?.setData({
-        phone: data.phone,
-        address_line_1: data.address_line_1,
-        address_line_2: data.address_line_2,
-         email: data.email,
-        country: data.country,
-        state: data.state,
-        city: data.city,
-        postcode: data.postcode,
+        sliderRef.current?.setData(data.sliders ?? []);
+
+        // ABOUT
+       aboutRef.current?.setData({
+          sub_title: data.about?.sub_title ?? "",
+          about_btn_text: data.about?.btn_text ?? "",
+          about_btn_link: data.about?.btn_link ?? "",
+          about_description: data.about?.description ?? "",
+        });
+
+
+        // PROMO 3
+       promo3Ref.current?.setData({
+            title: data.promotion3?.title ?? "",
+            subtitle: data.promotion3?.sub_title ?? "",
+            promo_3_btn_text: data.promotion3?.btn_text ?? "",
+            promo_3_btn_link: data.promotion3?.btn_link ?? "",
+            promo_3_description: data.promotion3?.description ?? "",
+          });
+
+
+        // VISUALS
+                visualsRef.current?.setData({
+          about_image: data.about?.image ?? "",
+          promo_1_image: data.promotion?.promotion_1_image ?? "",
+          promo_2_image: data.promotion?.promotion_2_image ?? "",
+          promo_3_image: data.promotion3?.image ?? "",
+        });
+
+
+        // SEO
+            seoRef.current?.setData({
+        analytics: data.seo?.analytics ?? "",
+        seo_title: data.seo?.seo_title ?? "",
+        meta_description: data.seo?.meta_description ?? "",
+        seo_keyword: data.seo?.seo_keywords ?? [],
       });
+      } catch (err) {
+        toast.error("Failed to load location");
+      }
+    };
 
-      workingRef.current?.setData({
-        opening_hours: data.opening_hours || [],
-      });
-
-      parkingRef.current?.setData({
-        parking_details: data.parking_details,
-      });
-
-    } catch (err) {
-      toast.error("Failed to load location");
-    }
-  };
-
-  fetchLocation();
-}, [id, isEdit]);
+    fetchLocation();
+  }, [id, isEdit]);
 
   return (
     <>
-    {showValidationPopup && (
- <AlertDialog open={showValidationPopup} onOpenChange={setShowValidationPopup}>
-    <AlertDialogContent className="max-w-[520px] rounded-2xl p-6 scrollbar-thin">
-      
-      {/* HEADER */}
-      <AlertDialogHeader className="pb-3 border-b border-border">
-        <AlertDialogTitle className="text-lg font-semibold text-foreground">
-          Please fix the following validation
-        </AlertDialogTitle>
-        <p className="text-sm text-muted-foreground">
-          Some required fields are missing or invalid
-        </p>
-      </AlertDialogHeader>
-
-      {/* BODY */}
-      <div className="mt-4 max-h-[320px] overflow-y-auto pr-1 space-y-2">
-        {validationErrors.map((e, i) => (
-          <div
-            key={i}
-            className="flex items-start gap-3 rounded-lg border border-destructive/20 bg-destructive/5 px-3 lg:py-2"
-          >
-            <span className="mt-[6px] h-2 w-2 rounded-full bg-destructive shrink-0" />
-
-            <div className="text-sm leading-relaxed">
-              <span className="font-medium text-foreground">
-                {e.section}
-              </span>
-              <span className="text-muted-foreground"> → </span>
-              <span className="text-destructive">
-                {e.message}
-              </span>
-            </div>
-          </div>
-        ))}
-      </div>
-
-      {/* FOOTER */}
-      <AlertDialogFooter className="mt-6 flex justify-end">
-        <Button
-          variant="default"
-          className="rounded-full px-6"
-          onClick={() => setShowValidationPopup(false)}
+      {showValidationPopup && (
+        <AlertDialog
+          open={showValidationPopup}
+          onOpenChange={setShowValidationPopup}
         >
-          OK
-        </Button>
-      </AlertDialogFooter>
-    </AlertDialogContent>
-  </AlertDialog>
-)}
+          <AlertDialogContent className="max-w-[520px] rounded-2xl p-6 scrollbar-thin">
+            {/* HEADER */}
+            <AlertDialogHeader className="pb-3 border-b border-border">
+              <AlertDialogTitle className="text-lg font-semibold text-foreground">
+                Please fix the following validation
+              </AlertDialogTitle>
+              <p className="text-sm text-muted-foreground">
+                Some required fields are missing or invalid
+              </p>
+            </AlertDialogHeader>
+
+            {/* BODY */}
+            <div className="mt-4 max-h-[320px] overflow-y-auto pr-1 space-y-2">
+              {validationErrors.map((e, i) => (
+                <div
+                  key={i}
+                  className="flex items-start gap-3 rounded-lg border border-destructive/20 bg-destructive/5 px-3 lg:py-2"
+                >
+                  <span className="mt-[6px] h-2 w-2 rounded-full bg-destructive shrink-0" />
+
+                  <div className="text-sm leading-relaxed">
+                    <span className="font-medium text-foreground">
+                      {e.section}
+                    </span>
+                    <span className="text-muted-foreground"> → </span>
+                    <span className="text-destructive">{e.message}</span>
+                  </div>
+                </div>
+              ))}
+            </div>
+
+            {/* FOOTER */}
+            <AlertDialogFooter className="mt-6 flex justify-end">
+              <Button
+                variant="default"
+                className="rounded-full px-6"
+                onClick={() => setShowValidationPopup(false)}
+              >
+                OK
+              </Button>
+            </AlertDialogFooter>
+          </AlertDialogContent>
+        </AlertDialog>
+      )}
       <div className="bg-background flex overflow-hidden">
         <div className="hidden lg:block">
           <Sidebar
@@ -356,10 +468,10 @@ const [locationName, setLocationName] = useState<string>("");
           {/* Sticky Header */}
           <div className="sticky top-3 z-10 pb-3">
             <PageHeader
-               title={locationName || "Location"}
+              title={locationName || "Location"}
               onMenuClick={() => setSidebarOpen(true)}
               onBack={() => navigate(-1)}
-               showBack = {true}
+              showBack={true}
             />
           </div>
           <div className="flex-1 pl-[15px] pr-6 px-6 flex flex-col h-full bg-card rounded-2xl shadow-card p-5 relative overflow-hidden">
@@ -406,7 +518,7 @@ const [locationName, setLocationName] = useState<string>("");
           </div>
         </div>
       </div>
-      <Footer/>
+      <Footer />
     </>
   );
 }

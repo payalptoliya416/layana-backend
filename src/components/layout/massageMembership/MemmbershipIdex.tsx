@@ -156,6 +156,7 @@ const handleSectionChange = (section: string) => {
 
     loadMembership();
   }, [id, isEdit]);
+  
 // const [faqLoading, setFaqLoading] = useState(false);
 
 // const loadFaqs = async () => {

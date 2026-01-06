@@ -31,11 +31,14 @@ const ParkingDetails = forwardRef<any, Props>(
         ...initialData,
       },
     });
- useEffect(() => {
-      reset({
-        parking_details: initialData?.parking_details ?? "",
-      });
-    }, [initialData, reset]);
+useEffect(() => {
+  if (initialData && typeof initialData.parking_details === "string") {
+    reset({
+      parking_details: initialData.parking_details,
+    });
+  }
+}, [initialData, reset]);
+
     /* expose validation */
     useImperativeHandle(ref, () => ({
       validate: async () => {

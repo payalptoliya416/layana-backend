@@ -3,6 +3,11 @@ import {
   Clock,
   UserRound,
   ParkingCircle,
+  PanelRight,
+  Info,
+  AppWindowMac,
+  Search,
+  Image,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 
@@ -17,6 +22,11 @@ const navItems: SecondaryNavItem[] = [
   { icon: Users, label: "Contact Details", id: "contact" },
   { icon: Clock, label: "Working Hours", id: "working" },
   { icon: ParkingCircle, label: "Parking Details", id: "parking" },
+  { icon: Image , label: "Visuals", id: "visuals" },
+  { icon: PanelRight , label: "Slider", id: "slider" },
+  { icon: Info , label: "About", id: "about" },
+  { icon: AppWindowMac , label: "Promo 3", id: "promo3" },
+  { icon: Search, label: "SEO", id: "seo" },
 ];
 
 interface SecondaryNavProps {
@@ -26,11 +36,8 @@ interface SecondaryNavProps {
 
 export function LocationNav({ activeItem, onItemChange }: SecondaryNavProps) {
   return (
-    <nav
-      className="h-full w-full overflow-x-auto
-      lg:overflow-visible     px-4 
-      scrollbar-hide "
-    >
+    <nav className="h-full w-full overflow-x-auto
+      lg:overflow-visible px-4 scrollbar-hide ">
       {/* Outer Card */}
       <div
         className="bg-card lg:space-y-2   flex

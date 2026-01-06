@@ -522,12 +522,3 @@ input[type="time"]::-webkit-datetime-edit-ampm-field {
   color: hsl(var(--foreground));
 }
 
-.ql-editor.ql-blank::before {
-  color: hsl(var(--muted-foreground)) !important;
-  opacity: 1;
-}
-
-.ql-editor {
-  min-height: 180px;
-  padding: 16px;
-}

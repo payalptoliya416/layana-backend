@@ -346,19 +346,45 @@ useEffect(() => {
                       <label className="flex items-center gap-2 text-sm cursor-pointer mb-0">
         <Checkbox
   checked={d.is_closed}
-  onCheckedChange={(v) => {
+  // onCheckedChange={(v) => {
+  //   const checked = Boolean(v);
+
+  //   setTimes((p) => ({
+  //     ...p,
+  //     [day]: {
+  //       ...p[day],
+  //       is_closed: checked,
+  //       start: checked ? "" : p[day].start,
+  //       end: checked ? "" : p[day].end,
+  //     },
+  //   }));
+  // }}
+    onCheckedChange={(v) => {
     const checked = Boolean(v);
 
-    setTimes((p) => ({
-      ...p,
-      [day]: {
-        ...p[day],
-        is_closed: checked,
-        start: checked ? "" : p[day].start,
-        end: checked ? "" : p[day].end,
-      },
-    }));
+    setTimes((prev) => {
+      // count open days
+      const openDaysCount = Object.values(prev).filter(
+        (day) => !day.is_closed
+      ).length;
+
+      // ❌ prevent closing last open day
+      if (checked && openDaysCount === 1) {
+        return prev; // block action
+      }
+
+      return {
+        ...prev,
+        [day]: {
+          ...prev[day],
+          is_closed: checked,
+          start: checked ? "" : prev[day].start,
+          end: checked ? "" : prev[day].end,
+        },
+      };
+    });
   }}
+
   className="h-5 w-5 border border-muted-foreground/40"
 />
 

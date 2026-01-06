@@ -23,6 +23,7 @@ import MemmbershipIdex from "./components/layout/massageMembership/MemmbershipId
 import MembershipsFAQs from "./components/membershipFaqs/MembershipsFAQs";
 import PopupIndex from "./components/popup/PopupIndex";
 import PopupList from "./components/popup/PopupList";
+import TermsCondition from "./components/terms&condition/TermsCondition";
 
 const queryClient = new QueryClient();
 
@@ -80,11 +81,21 @@ const App = () => (
               </ProtectedRoute>
             }
           />
+
           <Route
             path="/settings/location/edit/:id"
             element={
               <ProtectedRoute>
                 <LocationIndex />
+              </ProtectedRoute>
+            }
+          />
+
+          <Route
+            path="/settings/terms-condition"
+            element={
+              <ProtectedRoute>
+                <TermsCondition />
               </ProtectedRoute>
             }
           />
