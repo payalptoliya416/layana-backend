@@ -128,22 +128,37 @@ return (
         <label className="mb-[6px] block text-sm font-medium">
           Slider Image (1440 × 800) <span className="text-red-500">*</span>
         </label>
-
         <div className="flex gap-3 mt-2 items-center">
-          <div
+        {/* Upload box */}
+        <div
             onClick={() => fileRef.current?.click()}
             className="h-[90px] w-[90px] border border-dashed rounded-xl flex items-center justify-center cursor-pointer text-muted-foreground hover:text-foreground transition"
-          >
+        >
             +
-          </div>
-
-          {watch("image") && (
-            <img
-              src={watch("image")}
-              className="h-[90px] w-[90px] rounded-xl object-cover border"
-            />
-          )}
         </div>
+
+        {/* Image Preview */}
+        {watch("image") && (
+            <div className="relative h-[90px] w-[90px]">
+            <img
+                src={watch("image")}
+                className="h-full w-full rounded-xl object-cover border"
+            />
+
+            <button
+                type="button"
+                onClick={() => {
+                setValue("image", "", { shouldValidate: true });
+                if (fileRef.current) fileRef.current.value = "";
+                }}
+                className="absolute top-1 right-1 flex h-5 w-5 items-center justify-center rounded-full bg-white text-black text-xs shadow hover:scale-105 transition"
+            >
+                <X size={12} />
+            </button>
+            </div>
+        )}
+        </div>
+
 
         {errors.image && (
           <p className="mt-1 text-xs text-red-500">{errors.image.message}</p>
