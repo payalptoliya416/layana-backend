@@ -141,7 +141,7 @@ const handleSave = async () => {
         <div className="flex-1 flex flex-col overflow-hidden">
             
             {/* EDITOR MUST BE flex-1 */}
-            <div className="flex-1 overflow-hidden">
+            <div className="flex-1 overflow-y-auto scrollbar-thin">
             <TermsDescriptionEditor
                 value={value}
                 onChange={handleChange}
