@@ -562,3 +562,41 @@ input[type="time"]::-webkit-datetime-edit-ampm-field {
 .ant-picker-focused input::placeholder {
   color: #e2f1f4 !important;
 }
+/* Default editor font */
+.ql-editor {
+  font-family: Inter, Arial, sans-serif;
+  font-size: 14px;
+}
+
+/* Font dropdown mapping */
+.ql-font-inter {
+  font-family: Inter, Arial, sans-serif;
+}
+
+.ql-font-arial {
+  font-family: Arial, sans-serif;
+}
+
+.ql-font-roboto {
+  font-family: Roboto, sans-serif;
+}
+
+.ql-font-times-new-roman {
+  font-family: "Times New Roman", serif;
+}
+
+.ql-font-georgia {
+  font-family: Georgia, serif;
+}
+
+.ql-font-courier-new {
+  font-family: "Courier New", monospace;
+}
+
+.ql-font-monospace {
+  font-family: monospace;
+}
+
+.ql-editor * {
+  font-family: "Poppins", sans-serif;
+}
