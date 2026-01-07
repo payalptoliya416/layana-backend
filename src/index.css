@@ -563,40 +563,61 @@ input[type="time"]::-webkit-datetime-edit-ampm-field {
   color: #e2f1f4 !important;
 }
 /* Default editor font */
+/* ================= DEFAULT EDITOR FONT ================= */
 .ql-editor {
-  font-family: Inter, Arial, sans-serif;
+  font-family: "Inter", Arial, sans-serif;
   font-size: 14px;
 }
 
-/* Font dropdown mapping */
-.ql-font-inter {
-  font-family: Inter, Arial, sans-serif;
+/* ================= FONT DROPDOWN ================= */
+.ql-snow .ql-picker.ql-font {
+  width: 180px;
 }
 
-.ql-font-arial {
+.ql-snow .ql-picker.ql-font .ql-picker-label::before {
+  content: "Font";
+}
+
+/* Inter */
+.ql-snow .ql-picker.ql-font [data-value="inter"]::before {
+  content: "Inter";
+  font-family: "Inter", sans-serif;
+}
+
+/* Roboto */
+.ql-snow .ql-picker.ql-font [data-value="roboto"]::before {
+  content: "Roboto";
+  font-family: "Roboto", sans-serif;
+}
+
+/* Arial */
+.ql-snow .ql-picker.ql-font [data-value="arial"]::before {
+  content: "Arial";
   font-family: Arial, sans-serif;
 }
 
-.ql-font-roboto {
-  font-family: Roboto, sans-serif;
-}
-
-.ql-font-times-new-roman {
+/* Times New Roman */
+.ql-snow .ql-picker.ql-font [data-value="times-new-roman"]::before {
+  content: "Times New Roman";
   font-family: "Times New Roman", serif;
 }
 
-.ql-font-georgia {
+/* Georgia */
+.ql-snow .ql-picker.ql-font [data-value="georgia"]::before {
+  content: "Georgia";
   font-family: Georgia, serif;
 }
 
-.ql-font-courier-new {
+/* Courier New */
+.ql-snow .ql-picker.ql-font [data-value="courier-new"]::before {
+  content: "Courier New";
   font-family: "Courier New", monospace;
 }
 
-.ql-font-monospace {
-  font-family: monospace;
-}
-
-.ql-editor * {
-  font-family: "Poppins", sans-serif;
-}
+/* ================= APPLY FONT ================= */
+.ql-font-inter { font-family: "Inter", sans-serif; }
+.ql-font-roboto { font-family: "Roboto", sans-serif; }
+.ql-font-arial { font-family: Arial, sans-serif; }
+.ql-font-times-new-roman { font-family: "Times New Roman", serif; }
+.ql-font-georgia { font-family: Georgia, serif; }
+.ql-font-courier-new { font-family: "Courier New", monospace; }
