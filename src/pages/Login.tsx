@@ -10,7 +10,6 @@ import { useAuth } from '@/hooks/useAuth';
 import { isAuthenticated } from '@/services/authService';
 import LayanLogo from '@/assets/LayanLogo.png';
 import { cn } from '@/lib/utils';
-import LayanLogoDark from "@/assets/LayanLogo-dark.png";
 
 const loginSchema = z.object({
   email: z.string().min(1, 'Email is required').email('Please enter a valid email'),
@@ -22,25 +21,17 @@ type LoginFormData = z.infer<typeof loginSchema>;
 const Login: React.FC = () => {
   const navigate = useNavigate();
   const { login, loading, error, success } = useAuth();
-  const [isDark, setIsDark] = useState(
-    localStorage.getItem("theme") === "dark"
-  );
+
   useEffect(() => {
-    const updateTheme = () => {
-      setIsDark(localStorage.getItem("theme") === "dark");
-    };
-  
-    // custom event (same tab)
-    window.addEventListener("theme-change", updateTheme);
-  
-    // storage event (fallback / other tabs)
-    window.addEventListener("storage", updateTheme);
-  
-    return () => {
-      window.removeEventListener("theme-change", updateTheme);
-      window.removeEventListener("storage", updateTheme);
-    };
-  }, []);
+  document.documentElement.classList.remove("dark");
+
+  return () => {
+    // optional: wapas theme allow karvo hoy to
+    if (localStorage.getItem("theme") === "dark") {
+      document.documentElement.classList.add("dark");
+    }
+  };
+}, []);
 
   const {
     register,
@@ -68,7 +59,7 @@ const Login: React.FC = () => {
   };
 
   return (
-  <div className="bg-background flex flex-col justify-center items-center p-4 h-screen">
+ <div className="bg-background flex flex-col justify-center items-center p-4 h-screen dark:bg-background text-foreground dark:text-foreground">
   {/* Logo */}
   <div className="mb-8">
     <img
