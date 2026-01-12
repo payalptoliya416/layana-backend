@@ -249,7 +249,7 @@ const handleDragEnd = (event: any) => {
       </div>
 
       {/* DESKTOP TABLE */}
-      <div className="hidden xl:block border rounded-xl overflow-hidden">
+      <div className="hidden 2xl:block border rounded-xl overflow-hidden">
 <div className="sticky top-0 z-[9] bg-card border-b hidden xl:flex items-center h-[52px] text-sm font-medium text-primary ">
 
   {/* Drag */}
@@ -320,7 +320,7 @@ const handleDragEnd = (event: any) => {
       </div>
 
       {/* MOBILE CARDS */}
-      <div className="xl:hidden space-y-4">
+      <div className="2xl:hidden space-y-4">
         {sliders.map((item, index) => (
           <div key={index} className="border rounded-xl p-4 space-y-3">
             {item.image && (
