@@ -27,6 +27,7 @@ import TermsCondition from "./components/terms&condition/TermsCondition";
 import SpaPackages from "./components/spaPackages/SpaPackages";
 import SpaPackageList from "./components/spaPackages/SpaPackageList";
 import HomeIndex from "./components/home/HomeIndex";
+import GlobalBookNow from "./components/globalBookNow/GlobalBookNow";
 
 const queryClient = new QueryClient();
 
@@ -99,6 +100,15 @@ const App = () => (
             element={
               <ProtectedRoute>
                 <TermsCondition />
+              </ProtectedRoute>
+            }
+          />
+
+          <Route
+            path="/settings/global-booking"
+            element={
+              <ProtectedRoute>
+                <GlobalBookNow />
               </ProtectedRoute>
             }
           />

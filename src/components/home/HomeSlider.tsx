@@ -183,21 +183,28 @@ const SLIDER_GRID =
 
   }));
 
-  const handleSave = (data: SliderItem) => {
-    if (editIndex !== null) {
-      setSliders((prev) => prev.map((s, i) => (i === editIndex ? data : s)));
-    } else {
-     setSliders((prev) => [
-  ...prev,
-  {
-    ...data,
-    index: prev.length + 1,   // 🔥 ensure correct index
-  },
-]);
-    }
-    setOpenModal(false);
-    setEditIndex(null);
-  };
+const handleSave = (data: Omit<SliderItem, "index">) => {
+  if (editIndex !== null) {
+    setSliders((prev) =>
+      prev.map((s, i) =>
+        i === editIndex
+          ? { ...data, index: s.index } // 🔥 keep original index
+          : s
+      )
+    );
+  } else {
+    setSliders((prev) => [
+      ...prev,
+      {
+        ...data,
+        index: prev.length + 1, // 🔥 new slider gets next index
+      },
+    ]);
+  }
+
+  setOpenModal(false);
+  setEditIndex(null);
+};
 
   const handleDelete = (index: number) => {
     setSliders((prev) => prev.filter((_, i) => i !== index));
@@ -210,13 +217,13 @@ const handleDragEnd = (event: any) => {
   setSliders((items) => {
     const moved = arrayMove(
       items,
-      Number(active.id),
-      Number(over.id)
+      items.findIndex((s) => String(s.index) === active.id),
+      items.findIndex((s) => String(s.index) === over.id)
     );
 
     return moved.map((item, i) => ({
       ...item,
-      index: i + 1,   // 🔥 backend needs 1-based index
+      index: i + 1, // 🔥 always 1,2,3...
     }));
   });
 };
@@ -281,13 +288,13 @@ const handleDragEnd = (event: any) => {
             collisionDetection={closestCenter}
             onDragEnd={handleDragEnd}
           >
-            <SortableContext
-            items={sliders.map((s) => String(s.index))}>
+            <SortableContext items={sliders.map((s) => String(s.index))}>
+
               <tbody>
                 {sliders.map((item, index) => (
                   <SortableSliderRow
-                    key={item.index}
-                     id={String(item.index)}
+                   key={item.index}
+  id={String(item.index)}
                     item={item}
                     index={index}
                     onEdit={() => {
@@ -382,6 +389,7 @@ const handleDragEnd = (event: any) => {
             setOpenModal(false);
             setEditIndex(null);
           }}
+          uploadType="home_page" 
           onSave={handleSave}
         />
       )}

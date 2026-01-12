@@ -380,6 +380,7 @@ const handleDragEnd = (event: any) => {
             setOpenModal(false);
             setEditIndex(null);
           }}
+          uploadType="location" 
           onSave={handleSave}
         />
       )}

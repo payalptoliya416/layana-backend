@@ -24,9 +24,10 @@ type Props = {
   isEdit?: boolean; // 👈 add this
   onSave: (data: SliderItem) => void;
   onClose: () => void;
+   uploadType: "home_page" | "location"; 
 };
 
-export default function SliderModal({ initialData, onSave, onClose }: Props) {
+export default function SliderModal({ initialData, onSave, onClose,uploadType }: Props) {
   const {
     register,
     handleSubmit,
@@ -206,7 +207,7 @@ return (
           onClose={() => setCropImage(null)}
           onNext={async (file: File) => {
             const uploaded = await uploadImages([file], {
-              type: "location-slider",
+              type: uploadType,
             });
 
             if (uploaded?.[0]?.url) {

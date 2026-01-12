@@ -168,7 +168,7 @@ const renderTabContent = () => (
     visuals: visualsRef.current.getData(),
     seo: seoRef.current.getData(),
   };
-
+console.log("payload",payload)
   try {
     await saveHomePage(payload);
     toast.success("Home page updated successfully");
@@ -210,7 +210,6 @@ useEffect(() => {
   const fetchHome = async () => {
     try {
       const data = await getHomePage();
-
       sliderRef.current?.setData(data.slider ?? []);
 
       promo1Ref.current?.setData({

@@ -224,7 +224,7 @@ useImperativeHandle(ref, () => ({
   // 👉 PARTNER IMAGE → direct upload (no crop)
   if (activeKey === null) {
     const uploaded = await uploadImages([file], {
-      type: "location",
+      type: "home_page",
     });
 
     if (uploaded?.[0]?.url) {
@@ -259,7 +259,7 @@ useImperativeHandle(ref, () => ({
             }}
             onNext={async (file: File) => {
             const uploaded = await uploadImages([file], {
-                type: "location",
+                type: "home_page",
             });
 
             if (uploaded?.[0]?.url) {

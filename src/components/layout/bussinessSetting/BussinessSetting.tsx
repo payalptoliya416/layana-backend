@@ -4,6 +4,7 @@ import { cn } from "@/lib/utils";
 import { PageHeader } from "../PageHeader";
 import {
   Building2,
+  CalendarCheck,
   FileText,
   MapPin,
 } from "lucide-react";
@@ -35,6 +36,13 @@ const items = [
     gradient: "from-[#6366F1]/10 to-transparent", 
     iconBg: "#6366F1",
     path: "/settings/terms-condition", 
+  },
+ {
+    title: "Global Book Now",
+    icon: CalendarCheck,          
+    gradient: "from-[#22C55E]/10 to-transparent",
+    iconBg: "#22C55E",
+    path: "/settings/global-booking",
   },
 ];
 
@@ -98,7 +106,6 @@ const items = [
                   dark:hover:shadow-[0_10px_40px_rgba(0,0,0,0.6)]
                 "
               >
-                {/* INNER GLOW */}
                 <div
                   className={`
                     pointer-events-none
