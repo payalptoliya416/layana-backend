@@ -11,35 +11,6 @@ import { Plus, X } from "lucide-react";
 import { uploadImages } from "@/services/uploadService";
 import { ImageCropGallry } from "../treatment/ImageCropGallry";
 
-/* ================= CONFIG ================= */
-
-// const IMAGE_CONFIG = {
-//   promo_1_image: {
-//     label: "Promotion 1 Image",
-//     size: "600 × 600",
-//     aspect: 600 / 600,
-//     width: 600,
-//     height: 600,
-//     uploadType: "location",
-//   },
-//   promo_2_image: {
-//     label: "Promotion 2 Image",
-//     size: "1170 × 406",
-//     aspect: 1,
-//     width: 1170,
-//     height: 406,
-//     uploadType: "location",
-//   },
-//   promo_3_image: {
-//     label: "Promotion 3 Image",
-//     size: "1440 × 400",
-//     aspect: 1,
-//     width: 1440,
-//     height: 400,
-//     uploadType: "location",
-//   },
-// } as const;
-
 const IMAGE_CONFIG = {
   promo_1_image: {
     label: "Promotion 1 Image",
