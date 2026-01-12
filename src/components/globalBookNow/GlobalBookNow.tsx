@@ -185,14 +185,13 @@ function GlobalBookNow() {
               </div>
                      </div>
               </div>
-        </div>
           <div className="pt-6 flex justify-end gap-3">
               <Button
                 type="button"
                 variant="cancel"
                 className="w-[105px]"
                 onClick={handleCancel}
-                disabled={loading || !hasChange}
+                disabled={loading}
               >
                 Cancel
               </Button>
@@ -201,7 +200,7 @@ function GlobalBookNow() {
                 type="button"
                 variant="save"
                 onClick={handleSave}
-                disabled={loading || !hasChange}
+                disabled={loading}
                 className="w-[105px] flex items-center justify-center gap-2"
               >
                 {loading ? (
@@ -214,6 +213,7 @@ function GlobalBookNow() {
                 )}
               </Button>
             </div>
+        </div>
         </div>
       </div>
 
