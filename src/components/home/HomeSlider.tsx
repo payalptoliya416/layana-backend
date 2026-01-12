@@ -326,7 +326,7 @@ const handleDragEnd = (event: any) => {
         {sliders.map((item, index) => (
           <div key={index} className="border rounded-xl p-4 space-y-3">
             {item.image && (
-              <div className=" w-[160px]">
+              <div className=" w-[160px] rounded-lg">
                 <img
                   src={item.image}
                   className=" w-[160px] h-[160px] rounded-lg object-contain"
