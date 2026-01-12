@@ -103,7 +103,7 @@ function SortableRow({
           {item.name}
         </div>
  <div className="w-[30%]  font-medium text-muted-foreground whitespace-nowrap px-5">
-         {item.status}
+        {item.status.charAt(0).toUpperCase() + item.status.slice(1)}
         </div>
         {/* ACTIONS */}
         <div className="w-[100px] flex justify-end gap-2 pr-4">
@@ -132,16 +132,16 @@ function SortableRow({
           </div>
 
           <div className="flex-1">
-             <p className="text-sm text-muted-foreground  mb-2">
+             <p className="text-sm text-muted-foreground">
                 <span
                   className={cn(
                     "inline-block mb-2 px-3 py-1 rounded-sm text-xs",
-                    item.status === "active"
+                    item.status === "live"
                       ? "bg-green-100 text-green-700"
                       : "bg-muted text-muted-foreground"
                   )}
                 >
-                {item.status}
+               {item.status.charAt(0).toUpperCase() + item.status.slice(1)}
                 </span>
             </p>
             <p className="font-medium text-foreground">
@@ -180,6 +180,7 @@ const sensors = useSensors(
   }),
   useSensor(KeyboardSensor)
 );
+
 const [packages, setPackages] = useState<SpaPackage[]>([]);
 const [page, setPage] = useState(1);
 const [pagination, setPagination] = useState<any>(null);
@@ -188,21 +189,29 @@ const [sortDirection, setSortDirection] = useState<"asc" | "desc">("asc");
 const { containerRef, rowsPerPage } = useAutoRows();
 const [refreshKey, setRefreshKey] = useState(0);
 
-const fetchSpaPackages = async () => {
+const fetchSpaPackages = async (customPage = page) => {
   try {
     const res = await getSpaPackages({
-      page,
+      page: customPage,
       perPage: rowsPerPage,
       search,
       sortBy,
       sortDirection,
     });
 
-    setPackages(Array.isArray(res?.data) ? res.data : []);
+    const data = Array.isArray(res?.data) ? res.data : [];
+
+    setPackages(data);
     setPagination(res?.pagination ?? null);
+
+    return {
+      data,
+      pagination: res?.pagination,
+    };
   } catch {
     setPackages([]);
     toast.error("Failed to load spa packages");
+    return { data: [], pagination: null };
   }
 };
 
@@ -274,10 +283,17 @@ const handleDelete = async () => {
 
   try {
     setIsDeleting(true);
-   await deleteSpaPackage(deleteId);
-setPackages(prev => prev.filter(p => p.id !== deleteId));
+    await deleteSpaPackage(deleteId);
     toast.success("Deleted successfully");
-    setRefreshKey((prev) => prev + 1);
+
+    const res = await fetchSpaPackages(page);
+
+    if (res.data.length === 0 && page > 1) {
+      const prevPage = page - 1;
+      setPage(prevPage);
+      await fetchSpaPackages(prevPage);
+    }
+
   } catch (err) {
     toast.error("Delete failed");
   } finally {
@@ -384,7 +400,7 @@ setPackages(prev => prev.filter(p => p.id !== deleteId));
                     </div>
                      <div className="grid grid-cols-12">
                       <div className="col-span-12">
-                        <div className="w-full rounded-2xl border border-border bg-card flex flex-col h-[calc(98vh-300px)]">
+                        <div className="w-full rounded-2xl border border-border bg-card flex flex-col h-[calc(99vh-300px)]">
                           {/* ================= HEADER (DESKTOP ONLY) ================= */}
                           <div className="sticky top-0 z-[8] bg-card border-b hidden lg:flex items-center h-[52px] px-4 text-sm font-medium text-primary mx-3">
                     

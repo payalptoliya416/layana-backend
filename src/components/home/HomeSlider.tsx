@@ -187,7 +187,13 @@ const SLIDER_GRID =
     if (editIndex !== null) {
       setSliders((prev) => prev.map((s, i) => (i === editIndex ? data : s)));
     } else {
-      setSliders((prev) => [...prev, data]);
+     setSliders((prev) => [
+  ...prev,
+  {
+    ...data,
+    index: prev.length + 1,   // 🔥 ensure correct index
+  },
+]);
     }
     setOpenModal(false);
     setEditIndex(null);
@@ -208,14 +214,12 @@ const handleDragEnd = (event: any) => {
       Number(over.id)
     );
 
-    // 🔥 IMPORTANT: recompute index
     return moved.map((item, i) => ({
       ...item,
-      index: i,
+      index: i + 1,   // 🔥 backend needs 1-based index
     }));
   });
 };
-
 
   return (
     <div className="space-y-5">
@@ -278,12 +282,12 @@ const handleDragEnd = (event: any) => {
             onDragEnd={handleDragEnd}
           >
             <SortableContext
-            items={sliders.map((_, i) => String(i))}>
+            items={sliders.map((s) => String(s.index))}>
               <tbody>
                 {sliders.map((item, index) => (
                   <SortableSliderRow
                     key={item.index}
-                    id={String(index)}
+                     id={String(item.index)}
                     item={item}
                     index={index}
                     onEdit={() => {

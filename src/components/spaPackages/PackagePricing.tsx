@@ -304,15 +304,16 @@ useImperativeHandle(ref, () => ({
 
         {!showGrid && selectedBranchId && (
             <div className="space-y-10">
-            <h3 className="text-xl font-semibold">
+              <div>
+            <h3 className="text-xl font-semibold mb-[25px]">
                 {selectedBranch?.name} Pricing
             </h3>
 
             {/* ADD FORM */}
          {/* ADD / EDIT FORM */}
-          <h2 className="mb-4 text-lg font-semibold text-foreground">
-      {editingId ? "Edit Pricing" : "Add Pricing"}   <sup className="text-destructive">*</sup>
-    </h2>
+                <h2 className="mb-4 text-lg font-semibold text-foreground">
+            {editingId ? "Edit Pricing" : "Add Pricing"}   <sup className="text-destructive">*</sup>
+          </h2>
 
                     <div className="grid grid-cols-12">
                     <div className="col-span-12">
@@ -381,10 +382,11 @@ useImperativeHandle(ref, () => ({
                         </div>
                     </div>
                     </div>
+              </div>
 
-   <h2 className="mb-4 text-lg font-semibold text-foreground">
-      Pricing List
-    </h2>
+        <h2 className="mb-4 text-lg font-semibold text-foreground">
+            Pricing List
+          </h2>
             {/* MOBILE / TABLET CARDS */}
         <div className="space-y-3 xl:hidden">
         {(pricingMap[selectedBranchId] || []).map((item) => (

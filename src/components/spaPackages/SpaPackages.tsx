@@ -24,6 +24,7 @@ import {
   getSpaPackageById,
   updateSpaPackage,
 } from "@/services/spaPackageService";
+import { Footer } from "../layout/Footer";
 
 function SpaPackages() {
   const { id } = useParams();
@@ -64,7 +65,6 @@ function SpaPackages() {
   const [allLocations, setAllLocations] = useState<
     { id: number; name: string }[]
   >([]);
-
   const selectedBranchObjects = useMemo(() => {
     return packagePayload.location.map((id) => {
       const loc = allLocations.find((l) => l.id === id);
@@ -99,7 +99,6 @@ useEffect(() => {
   const fetchPackage = async () => {
     try {
       const data = await getSpaPackageById(Number(id));
-
       setPackagePayload({
         general: {
           name: data.name || "",
@@ -458,6 +457,7 @@ useEffect(() => {
           </div>
         </div>
       </div>
+      <Footer/>
     </>
   );
 }

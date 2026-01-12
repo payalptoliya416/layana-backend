@@ -3,7 +3,13 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { forwardRef, useEffect, useImperativeHandle, useRef } from "react";
 import DescriptionEditor from "../treatment/DescriptionEditor";
-
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 interface PackageGeneralFormProps {
   initialData?: any;
   onChange: (data: any) => void;
@@ -146,22 +152,29 @@ useEffect(() => {
 
         {/* STATUS */}
         <div>
-          <label className="text-sm font-medium">
-            Status <sup className="text-destructive">*</sup>
-          </label>
-          <select
-            className="form-input"
-            value={status}
-            onChange={(e) =>
-              setValue("status", e.target.value as any, {
-                shouldDirty: true,
-              })
-            }
-          >
-            <option value="draft">Draft</option>
-            <option value="live">Live</option>
-          </select>
-        </div>
+  <label className="text-sm font-medium">
+    Status <sup className="text-destructive">*</sup>
+  </label>
+
+  <Select
+    value={status}
+    onValueChange={(v) =>
+      setValue("status", v as any, {
+        shouldDirty: true,
+        shouldValidate: true,
+      })
+    }
+  >
+    <SelectTrigger className="form-input">
+      <SelectValue placeholder="Select status" />
+    </SelectTrigger>
+
+    <SelectContent>
+      <SelectItem value="draft">Draft</SelectItem>
+      <SelectItem value="live">Live</SelectItem>
+    </SelectContent>
+  </Select>
+</div>
       </div>
 
       {/* SLOGAN */}

@@ -163,7 +163,7 @@ useEffect(() => {
             </label>
             <input
               className="form-input"
-              placeholder="https://"
+              placeholder="https://example.com"
               value={btnLink}
               onChange={(e) => setBtnLink(e.target.value)}
             />
@@ -177,52 +177,54 @@ useEffect(() => {
           Image <sup className="text-destructive">*</sup>
         </h3>
 
-        <div
-          className={cn(
-            "group relative flex h-[180px] cursor-pointer items-center justify-center rounded-[15px] border-2 border-dashed border-border bg-muted/40 overflow-hidden",
-            uploading && "opacity-60 pointer-events-none"
-          )}
-          onClick={() => inputRef.current?.click()}
-        >
-          {image ? (
-            <>
-              <img
-                src={image}
-                className="h-full w-full object-cover"
-              />
-              <button
-                onClick={(e) => {
-                  e.stopPropagation();
-                  setImage(null);
-                }}
-                className="absolute right-2 top-2 z-10 rounded-full bg-card p-1 shadow"
-              >
-                <X className="h-4 w-4" />
-              </button>
-            </>
-          ) : (
-            <div className="flex flex-col items-center text-muted-foreground">
-              <Upload className="mb-2 h-6 w-6" />
-              <p className="text-sm">
-                Click to upload image
-              </p>
-            </div>
-          )}
+      <div className="flex gap-4">
+  
+  {/* Upload box (always visible) */}
+  <div
+    className={cn(
+      "flex h-[180px] w-full cursor-pointer items-center justify-center rounded-[15px] border-2 border-dashed border-border bg-muted/40",
+      uploading && "opacity-60 pointer-events-none"
+    )}
+    onClick={() => inputRef.current?.click()}
+  >
+    <div className="flex flex-col items-center text-muted-foreground">
+      <Upload className="mb-2 h-6 w-6" />
+      <p className="text-sm">Upload</p>
+    </div>
 
-          <input
-            ref={inputRef}
-            type="file"
-            hidden
-            accept="image/*"
-            onChange={(e) => {
-              if (e.target.files?.[0]) {
-                handleSelect(e.target.files[0]);
-                e.target.value = "";
-              }
-            }}
-          />
-        </div>
+    <input
+      ref={inputRef}
+      type="file"
+      hidden
+      accept="image/*"
+      onChange={(e) => {
+        if (e.target.files?.[0]) {
+          handleSelect(e.target.files[0]);
+          e.target.value = "";
+        }
+      }}
+    />
+  </div>
+
+  {/* Image preview (ONLY when image exists) */}
+
+</div>
+
       </div>
+  {image && (
+    <div className="relative h-[180px] w-[180px] rounded-[15px] border overflow-hidden">
+      <img
+        src={image}
+        className="h-full w-full object-cover"
+      />
+      <button
+        onClick={() => setImage(null)}
+        className="absolute right-2 top-2 z-10 rounded-full bg-white p-1 shadow"
+      >
+        <X className="h-4 w-4" />
+      </button>
+    </div>
+  )}
        </div>
 
     </div>
