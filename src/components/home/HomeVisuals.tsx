@@ -202,7 +202,7 @@ useImperativeHandle(ref, () => ({
               ),
             }))
           }
-          className="absolute -right-2 -top-2 rounded-full border shadow p-1 bg-white"
+          className="absolute -right-2 -top-2 rounded-full border shadow p-1 bg-card"
         >
           <X size={14} />
         </button>
