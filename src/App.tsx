@@ -28,6 +28,7 @@ import SpaPackages from "./components/spaPackages/SpaPackages";
 import SpaPackageList from "./components/spaPackages/SpaPackageList";
 import HomeIndex from "./components/home/HomeIndex";
 import GlobalBookNow from "./components/globalBookNow/GlobalBookNow";
+import BookConsultationList from "./components/bookConsultationList/BookConsultationList";
 
 const queryClient = new QueryClient();
 
@@ -266,6 +267,15 @@ const App = () => (
             element={
               <ProtectedRoute>
                 <PopupList />
+              </ProtectedRoute>
+            }
+          />
+
+          <Route
+            path="/settings/booked-consultation-list"
+            element={
+              <ProtectedRoute>
+                <BookConsultationList />
               </ProtectedRoute>
             }
           />

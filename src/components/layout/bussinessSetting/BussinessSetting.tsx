@@ -5,6 +5,7 @@ import { PageHeader } from "../PageHeader";
 import {
   Building2,
   CalendarCheck,
+  ClipboardList,
   FileText,
   MapPin,
 } from "lucide-react";
@@ -44,6 +45,13 @@ const items = [
     iconBg: "#22C55E",
     path: "/settings/global-booking",
   },
+// {
+//   title: "Booked Consultation List",
+//   icon: ClipboardList,              // better for list / records
+//   gradient: "from-[#F59E0B]/10 to-transparent", // amber / orange tone
+//   iconBg: "#F59E0B",
+//   path: "/settings/booked-consultation-list",
+// },
 ];
 
   return (
@@ -84,7 +92,7 @@ const items = [
         </div>
         <div className="flex-1 pl-[15px] pr-6 px-6 flex flex-col bg-card rounded-[12px] shadow-card p-5 overflow-hidden">
           <div className="flex flex-col flex-1 overflow-y-auto scrollbar-thin">
-          <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-5 2xl:grid-cols-7 gap-5">
+          <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 2xl:grid-cols-7 gap-5">
           {items.map((item, i) => {
             const Icon = item.icon;
 
