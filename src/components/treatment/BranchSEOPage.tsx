@@ -75,7 +75,7 @@ useEffect(() => {
 
   {/* STEP 2: SEO FORM */}
   {selectedBranchId !== null && (
-    <div className="rounded-2xl border border-border bg-card p-6">
+    <div className="">
       <BranchSEO
         branchId={selectedBranchId}
       value={seoMap[selectedBranchId] ?? {

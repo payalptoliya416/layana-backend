@@ -79,14 +79,16 @@ function SortableSliderRow({
       <td className="px-4 py-3 font-medium w-[22%]">{item.title}</td>
       <td className="px-4 py-3  w-[22%]">{item.btn_text}</td>
 
-      <td className="px-4 py-3 flex-1">
-        <a
-          href={item.btn_link}
-          target="_blank"
-          className="text-primary underline break-all"
-        >
-          {item.btn_link}
-        </a>
+      <td className="px-4 py-3 flex-1 ">
+        <div className="max-w-[140px] overflow-hidden">
+    <a
+      href={item.btn_link}
+      target="_blank"
+      className="block text-primary underline break-all"
+    >
+      {item.btn_link}
+    </a>
+  </div>
       </td>
 
       <td className="px-4 py-3">
@@ -294,7 +296,7 @@ const handleDragEnd = (event: any) => {
                 {sliders.map((item, index) => (
                   <SortableSliderRow
                    key={item.index}
-  id={String(item.index)}
+            id={String(item.index)}
                     item={item}
                     index={index}
                     onEdit={() => {

@@ -176,7 +176,7 @@ useImperativeHandle(ref, () => ({
     Partner Images
   </label>
 
-  <div className="flex flex-wrap gap-4">
+  <div className="flex gap-4">
     <div
       onClick={() => {
         setActiveKey(null);

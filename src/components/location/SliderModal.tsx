@@ -7,6 +7,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { X } from "lucide-react";
 import { uploadImages } from "@/services/uploadService";
 import { ImageCropGallry } from "../treatment/ImageCropGallry";
+import { cn } from "@/lib/utils";
 
 /* ================= SCHEMA ================= */
 
@@ -55,6 +56,14 @@ export default function SliderModal({ initialData, onSave, onClose,uploadType }:
     }
   }, [initialData, reset]);
 
+const inputClass = (hasError?: boolean) =>
+  cn(
+    "w-full rounded-[10px] border px-[15px] py-4 text-sm bg-card text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 transition",
+    hasError
+      ? "border-red-500 focus:ring-red-500/30"
+      : "border-border focus:ring-ring/20"
+  );
+
 return (
   <div className="fixed inset-0 z-50 flex items-center justify-center bg-background/60 backdrop-blur-sm p-2 !mt-0">
     <form
@@ -83,7 +92,7 @@ return (
         <input
           {...register("title")}
           placeholder="Enter slider title"
-          className="w-full rounded-[10px] border px-[15px] py-4 text-sm bg-card text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring/20 transition"
+          className={inputClass(!!errors.title)}
         />
         {errors.title && (
           <p className="mt-1 text-xs text-red-500">{errors.title.message}</p>
@@ -98,7 +107,7 @@ return (
         <input
           {...register("btn_text")}
           placeholder="Enter button text"
-          className="w-full rounded-[10px] border px-[15px] py-4 text-sm bg-card text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring/20 transition"
+          className={inputClass(!!errors.btn_text)}
         />
         {errors.btn_text && (
           <p className="mt-1 text-xs text-red-500">
@@ -115,7 +124,7 @@ return (
         <input
           {...register("btn_link")}
           placeholder="https://example.com"
-          className="w-full rounded-[10px] border px-[15px] py-4 text-sm bg-card text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring/20 transition"
+          className={inputClass(!!errors.btn_link)}
         />
         {errors.btn_link && (
           <p className="mt-1 text-xs text-red-500">
@@ -133,7 +142,12 @@ return (
         {/* Upload box */}
         <div
             onClick={() => fileRef.current?.click()}
-            className="h-[90px] w-[90px] border border-dashed rounded-xl flex items-center justify-center cursor-pointer text-muted-foreground hover:text-foreground transition"
+         className={cn(
+    "h-[90px] w-[90px] border border-dashed rounded-xl flex items-center justify-center cursor-pointer transition",
+    errors.image
+      ? "border-red-500 text-red-500"
+      : "border-border text-muted-foreground hover:text-foreground"
+  )}
         >
             +
         </div>

@@ -20,7 +20,7 @@ const LocationSEOPage = forwardRef<any>((_, ref) => {
   }));
 
   return (
-    <div className="rounded-2xl border border-border bg-card p-6">
+    <div className="">
       <LocationSEO ref={seoRef} />
     </div>
   );
