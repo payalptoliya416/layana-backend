@@ -145,13 +145,13 @@ useImperativeHandle(ref, () => ({
                     setActiveKey(key);
                     fileRef.current?.click();
                   }}
-                  className="flex h-[110px] w-[110px] cursor-pointer items-center justify-center rounded-xl border border-dashed hover:border-primary transition"
+                  className="flex h-[90px] sm:h-[110px] w-[90px] sm:w-[110px] cursor-pointer items-center justify-center rounded-xl border border-dashed hover:border-primary transition"
                 >
                   <Plus className="text-muted-foreground" />
                 </div>
 
                 {images[key] && (
-                  <div className="relative h-[110px] w-[110px]">
+                  <div className="relative h-[90px] sm:h-[110px] w-[90px] sm:w-[110px]">
                     <img
                       src={images[key]}
                       className="h-full w-full rounded-xl object-cover"
@@ -182,13 +182,13 @@ useImperativeHandle(ref, () => ({
         setActiveKey(null);
         fileRef.current?.click();
       }}
-      className="flex h-[110px] w-[110px] cursor-pointer items-center justify-center rounded-xl border border-dashed hover:border-primary transition"
+      className="flex h-[90px] sm:h-[110px] w-[90px] sm:w-[110px] cursor-pointer items-center justify-center rounded-xl border border-dashed hover:border-primary transition"
     >
       <Plus className="text-muted-foreground" />
     </div>
 
     {images.partner_image.map((img, i) => (
-      <div key={i} className="relative h-[110px] w-[110px]">
+      <div key={i} className="relative h-[90px] sm:h-[110px] w-[90px] sm:w-[110px]">
         <img
           src={img}
           className="h-full w-full rounded-xl object-cover"
