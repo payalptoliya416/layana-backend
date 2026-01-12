@@ -630,36 +630,38 @@ const handleDragEnd = (event: any) => {
     <h2 className="mb-4 text-lg font-semibold text-foreground">
       Pricing List
     </h2>
-
-    <DndContext
-      collisionDetection={closestCenter}
-      onDragEnd={handleDragEnd}
-    >
-      <SortableContext
-        items={(pricingMap[selectedBranchId] || []).map(i => i.id)}
-        strategy={verticalListSortingStrategy}
+  <div className="hidden xl:block">
+      <DndContext
+        collisionDetection={closestCenter}
+        onDragEnd={handleDragEnd}
       >
-          <div className="grid grid-cols-12">
-              <div className="col-span-12">
-                  <div className="w-full overflow-x-auto overflow-y-visible relative z-10 min-h-[300px]">
-                  <table className="w-full border-separate border-spacing-y-3">
-                    <tbody>
-                      {(pricingMap[selectedBranchId] || []).map((item) => (
-                        <SortableRow
-                          key={item.id}
-                          item={item}
-                          onEdit={() => handleEdit(item)}
-                          onDelete={() => handleDelete(item.id)}
-                        />
-                      ))}
-                    </tbody>
-                  </table>
-                  </div>
-              </div>
-          </div>
-      </SortableContext>
-    </DndContext>
+        <SortableContext
+          items={(pricingMap[selectedBranchId] || []).map(i => i.id)}
+          strategy={verticalListSortingStrategy}
+        >
+            <div className="grid grid-cols-12">
+                <div className="col-span-12">
+                    <div className="w-full overflow-x-auto overflow-y-visible relative z-10 min-h-[300px]">
+                    <table className="w-full border-separate border-spacing-y-3">
+                      <tbody>
+                        {(pricingMap[selectedBranchId] || []).map((item) => (
+                          <SortableRow
+                            key={item.id}
+                            item={item}
+                            onEdit={() => handleEdit(item)}
+                            onDelete={() => handleDelete(item.id)}
+                          />
+                        ))}
+                      </tbody>
+                    </table>
+                    </div>
+                </div>
+            </div>
+        </SortableContext>
+      </DndContext>
   </div>
+  
+    </div>
 </div>
         )}
       </>

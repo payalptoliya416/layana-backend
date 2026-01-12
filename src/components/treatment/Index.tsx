@@ -283,18 +283,7 @@ const renderTabContent = () => {
 
       {/* BRANCHES */}
       <div className={cn(activeSection !== "branches" && "hidden")}>
-        {/* <BranchList
-          ref={branchesRef}
-           category={selectedCategory}
-          selectedBranches={selectedBranches}
-          onSelectionChange={(ids) => {
-            setSelectedBranches(ids);
-            setTreatmentPayload((prev) => ({
-              ...prev,
-              Location: ids,
-            }));
-          }}
-        /> */}
+
         <BranchList
   ref={branchesRef}
   category={selectedCategory}
@@ -339,9 +328,9 @@ const renderTabContent = () => {
             showGrid={showPricingGrid}     
           selectedBranchId={selectedPricingBranch}
            onSelectBranch={(id) => {
-    setSelectedPricingBranch(id);
-    setShowPricingGrid(false);            // ✅ grid → form
-  }}
+          setSelectedPricingBranch(id);
+          setShowPricingGrid(false);            // ✅ grid → form
+        }}
           initialData={treatmentPayload.pricing}
           onChange={(pricing) =>
             setTreatmentPayload((prev) => ({

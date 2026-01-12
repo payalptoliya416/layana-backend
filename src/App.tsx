@@ -4,7 +4,7 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import Login from "./pages/Login";
-import Index from "./pages/Index";
+import Index from "./components/treatment/Index";
 import Dashboard from "./pages/Dashboard";
 import NotFound from "./pages/NotFound";
 import ProtectedRoute from "./components/ProtectedRoute";
@@ -24,6 +24,9 @@ import MembershipsFAQs from "./components/membershipFaqs/MembershipsFAQs";
 import PopupIndex from "./components/popup/PopupIndex";
 import PopupList from "./components/popup/PopupList";
 import TermsCondition from "./components/terms&condition/TermsCondition";
+import SpaPackages from "./components/spaPackages/SpaPackages";
+import SpaPackageList from "./components/spaPackages/SpaPackageList";
+import HomeIndex from "./components/home/HomeIndex";
 
 const queryClient = new QueryClient();
 
@@ -134,6 +137,42 @@ const App = () => (
             element={
               <ProtectedRoute>
                 <Index />
+              </ProtectedRoute>
+            }
+          />
+
+          <Route
+            path="/packages-list"
+            element={
+              <ProtectedRoute>
+                <SpaPackageList />
+              </ProtectedRoute>
+            }
+          />
+
+          <Route
+            path="/packages-list/packages"
+            element={
+              <ProtectedRoute>
+                <SpaPackages />
+              </ProtectedRoute>
+            }
+          />
+
+          <Route
+            path="/packages-list/packages/edit/:id"
+            element={
+              <ProtectedRoute>
+                <SpaPackages />
+              </ProtectedRoute>
+            }
+          />
+
+          <Route
+            path="/home"
+            element={
+              <ProtectedRoute>
+                <HomeIndex />
               </ProtectedRoute>
             }
           />

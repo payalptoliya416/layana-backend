@@ -4,18 +4,12 @@ import {
   ChevronLeft,
   LayoutDashboard,
   Users,
-  Building2,
-  UserCog,
-  Settings,
   ChevronDown,
   Sparkles,
-  ChartColumnStacked,
-  MapPin,
   Bolt,
-  ShieldHalf,
-  UsersRound,
   UserCheck,
   Package,
+  House,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import {
@@ -35,7 +29,9 @@ interface NavItem {
 
 const navItems: NavItem[] = [
   { icon: LayoutDashboard, label: "Dashboard", href: "/dashboard" },
+  { icon: House, label: "Home", href: "/home" },
   { icon: Sparkles, label: "Treatments", href: "/treatments-list" },
+  { icon: Package, label: "Spa Packages", href: "/packages-list" },
   { icon: Users, label: "Team", href: "/team" },
   {
     icon: UserCheck,

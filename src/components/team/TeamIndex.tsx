@@ -198,7 +198,6 @@ const [teamName, setTeamName] = useState<string>("");
     navigate("/team");
   };
 
-
   return (
     <>
      {showValidationPopup && (

@@ -70,17 +70,6 @@ type LocationFormData = {
 function LocationIndex() {
   const { id } = useParams();
   const isEdit = Boolean(id);
-  const sectionToTabMap: Record<string, string> = {
-    General: "general",
-    Contact: "contact",
-    Working: "working",
-    Parking: "parking",
-    Slider: "slider",
-    About: "about",
-    Promo3: "promo3",
-    Visuals: "visuals",
-    SEO: "seo",
-  };
   const navigate = useNavigate();
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
   const [sidebarOpen, setSidebarOpen] = useState(false);
