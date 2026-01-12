@@ -212,37 +212,43 @@ useImperativeHandle(ref, () => ({
 </div>
 
         {/* FILE INPUT */}
-        <input
-          ref={fileRef}
-          type="file"
-          hidden
-          accept="image/*"
-          onChange={async (e) => {
-  const file = e.target.files?.[0];
-  if (!file) return;
+     <input
+      ref={fileRef}
+      type="file"
+      multiple
+      hidden
+      accept="image/*"
+      onChange={async (e) => {
+        const files = Array.from(e.target.files || []);
+        if (files.length === 0) return;
 
-  // 👉 PARTNER IMAGE → direct upload (no crop)
-  if (activeKey === null) {
-    const uploaded = await uploadImages([file], {
-      type: "home_page",
-    });
+        // 👉 PARTNER IMAGES (multiple allowed, no crop)
+        if (activeKey === null) {
+          const uploaded = await uploadImages(files, {
+            type: "home_page",
+          });
 
-    if (uploaded?.[0]?.url) {
-      setImages((p) => ({
-        ...p,
-        partner_image: [...p.partner_image, uploaded[0].url],
-      }));
-    }
+          const urls = uploaded
+            .map((i: any) => i?.url)
+            .filter(Boolean);
 
-    e.target.value = "";
-    return;
-  }
+          if (urls.length > 0) {
+            setImages((p) => ({
+              ...p,
+              partner_image: [...p.partner_image, ...urls],
+            }));
+          }
 
-  // 👉 PROMO IMAGE → open crop
-  setCropImage(URL.createObjectURL(file));
-  e.target.value = "";
-}}
-        />
+          e.target.value = "";
+          return;
+        }
+
+        // 👉 PROMO IMAGE (only first image, crop required)
+        const firstFile = files[0];
+        setCropImage(URL.createObjectURL(firstFile));
+        e.target.value = "";
+      }}
+    />
 
         {/* CROP MODAL */}
         {cropImage && (
