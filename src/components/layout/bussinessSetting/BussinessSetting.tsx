@@ -37,13 +37,13 @@ const items = [
     iconBg: "#6366F1",
     path: "/settings/terms-condition", 
   },
- {
-    title: "Global Book Now",
-    icon: CalendarCheck,          
-    gradient: "from-[#22C55E]/10 to-transparent",
-    iconBg: "#22C55E",
-    path: "/settings/global-booking",
-  },
+//  {
+//     title: "Global Book Now",
+//     icon: CalendarCheck,          
+//     gradient: "from-[#22C55E]/10 to-transparent",
+//     iconBg: "#22C55E",
+//     path: "/settings/global-booking",
+//   },
 ];
 
   return (
