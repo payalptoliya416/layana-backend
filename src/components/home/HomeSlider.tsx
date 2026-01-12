@@ -322,66 +322,70 @@ const handleDragEnd = (event: any) => {
       </div>
 
       {/* MOBILE CARDS */}
-      <div className="2xl:hidden space-y-4">
-        {sliders.map((item, index) => (
-          <div key={index} className="border rounded-xl p-4 space-y-3">
-            {item.image && (
-              <div className=" w-[160px] rounded-lg">
-                <img
-                  src={item.image}
-                  className=" w-[160px] h-[160px] rounded-lg object-contain"
-                />
-              </div>
-            )}
-
-            <div className="text-sm space-y-1">
-              <div className="font-medium text-base">{item.title}</div>
-
-              <div>
-                <span className="font-medium">Button Text:</span>{" "}
-                {item.btn_text}
-              </div>
-
-              <div>
-                <span className="font-medium">Button Link:</span>
-                <br />
-                <a
-                  href={item.btn_link}
-                  target="_blank"
-                  className="text-primary underline break-all"
-                >
-                  {item.btn_link}
-                </a>
-              </div>
-            </div>
-
-            <div className="flex justify-end gap-2 pt-2">
-              <button
-                onClick={() => {
-                  setEditIndex(index);
-                  setOpenModal(true);
-                }}
-                className="border rounded-full p-2"
-              >
-                <Pencil size={14} />
-              </button>
-
-              <button
-                onClick={() => handleDelete(index)}
-                className="border rounded-full p-2 text-destructive"
-              >
-                <Trash2 size={14} />
-              </button>
-            </div>
-          </div>
-        ))}
-
-        {sliders.length === 0 && (
-          <p className="text-center text-sm text-muted-foreground py-6">
-            No sliders added yet
-          </p>
-        )}
+   <div className="2xl:hidden space-y-4">
+  {sliders.map((item, index) => (
+    <div
+      key={index}
+      className="rounded-2xl border bg-card shadow-sm overflow-hidden"
+    >
+      {/* IMAGE */}
+      <div className="w-full h-[200px] bg-muted overflow-hidden">
+        <img
+          src={item.image}
+          className="w-full h-full object-cover"
+        />
       </div>
+
+      {/* CONTENT */}
+      <div className="p-4 space-y-3">
+        {/* Title */}
+        <h3 className="text-base font-semibold leading-tight">
+          {item.title}
+        </h3>
+
+        {/* Button text */}
+        <div className="flex justify-between text-sm">
+          <span className="text-muted-foreground">Button Text</span>
+          <span className="font-medium">{item.btn_text}</span>
+        </div>
+
+        {/* Button link */}
+        <div className="space-y-1 text-sm">
+          <span className="text-muted-foreground">Button Link</span>
+          <a
+            href={item.btn_link}
+            target="_blank"
+            className="block text-primary underline break-all"
+          >
+            {item.btn_link}
+          </a>
+        </div>
+
+        {/* Actions */}
+        <div className="flex justify-end gap-3 pt-3 border-t mt-2">
+          <button
+            onClick={() => {
+              setEditIndex(index);
+              setOpenModal(true);
+            }}
+            className="flex items-center gap-1 rounded-full border px-4 py-2 text-sm"
+          >
+            <Pencil size={14} />
+            Edit
+          </button>
+
+          <button
+            onClick={() => handleDelete(index)}
+            className="flex items-center gap-1 rounded-full border px-4 py-2 text-sm text-destructive"
+          >
+            <Trash2 size={14} />
+            Delete
+          </button>
+        </div>
+      </div>
+    </div>
+  ))}
+</div>
 
       {/* MODAL */}
       {openModal && (
