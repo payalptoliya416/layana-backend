@@ -160,7 +160,7 @@ useImperativeHandle(ref, () => ({
                       onClick={() =>
                         setImages((p) => ({ ...p, [key]: "" }))
                       }
-                      className="absolute -right-2 -top-2 rounded-full border shadow p-1"
+                      className="absolute -right-2 -top-2 rounded-full border shadow p-1 bg-card"
                     >
                       <X size={14} />
                     </button>
