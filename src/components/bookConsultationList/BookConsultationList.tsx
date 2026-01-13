@@ -316,7 +316,8 @@ const handleDragEnd = async (event: any) => {
         >
           {/* Sticky Header */}
           <div className="sticky top-3 z-10 pb-3">
-            <PageHeader title="Book Consultation" onMenuClick={() => setSidebarOpen(true)} />
+            <PageHeader title="Book Consultation" onMenuClick={() => setSidebarOpen(true)}  onBack={() => navigate(-1)}
+               showBack = {true}/>
           </div>
 
           {/* Content */}
