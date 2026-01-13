@@ -50,7 +50,7 @@ function EnquiryRow({
           "hover:bg-muted/70"
         )}
       >
-        <div className="w-[40px] text-center text-sm font-medium text-muted-foreground">
+        <div className="w-[40px] text-center text-sm font-medium">
           {index + 1}
         </div>
         <div className="w-[18%] pl-4 font-medium">{item.name}</div>
@@ -186,16 +186,12 @@ export default function EnquiryList() {
               onMenuClick={() => setSidebarOpen(true)}
             />
           </div>
-          <div className="   flex-1
-    flex
-    flex-col
-    bg-card
-    rounded-2xl
-    shadow-card
-    p-5
+          <div
+            className="  flex-1 pl-[15px] pr-6 px-6 flex flex-col bg-card rounded-2xl shadow-card p-5
+    relative
     overflow-hidden
-    h-[calc(100dvh-160px)]
-    lg:h-[calc(100vh-220px)]">
+    h-[calc(100dvh-160px)] lg:h-[calc(100vh-220px)]"
+          >
             <div className="mb-2 flex items-center justify-between shrink-0 flex-wrap gap-2">
               <div className="relative sm:w-[260px]">
                 <input
@@ -219,7 +215,7 @@ export default function EnquiryList() {
               <div className="sticky top-0 z-[9] bg-card border-b hidden xl:flex items-center h-[52px] px-4 text-sm font-medium text-primary mx-3">
                 <div className="w-[40px] text-center">#</div>
                 <div
-                  className="w-[18%] pl-4 cursor-pointer flex items-center justify-between"
+                  className="w-[18%]  border-l pl-4 cursor-pointer flex items-center justify-between"
                   onClick={() => {
                     setSortBy("name");
                     setSortDirection((p) => (p === "asc" ? "desc" : "asc"));
@@ -263,7 +259,10 @@ export default function EnquiryList() {
                 </div>
               </div>
 
-              <div ref={containerRef} className="flex-1 overflow-y-auto scrollbar-thin">
+              <div
+                ref={containerRef}
+                className="flex-1 overflow-y-auto scrollbar-thin"
+              >
                 {enquiries.length === 0 ? (
                   <div className="py-10 text-center text-muted-foreground">
                     No Enquiries Found
