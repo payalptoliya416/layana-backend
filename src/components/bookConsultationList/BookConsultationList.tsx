@@ -78,7 +78,7 @@ function SortableRow({
       {/* ================= DESKTOP ROW ================= */}
       <div
         className={cn(
-          "hidden xl:flex items-center px-4 py-3 mx-4 my-1 rounded-xl",
+          "hidden 2xl:flex items-center px-4 py-3 mx-4 my-1 rounded-xl",
           index % 2 === 0 ? "bg-card" : "bg-muted",
           "hover:bg-muted/70"
         )}
@@ -104,7 +104,7 @@ function SortableRow({
       </div>
 
       {/* ================= MOBILE CARD ================= */}
-      <div className="xl:hidden mx-3 my-2 rounded-xl border bg-card p-4 space-y-2">
+      <div className="2xl:hidden mx-3 my-2 rounded-xl border bg-card p-4 space-y-2">
         <div className="flex justify-between">
           <div>
             <p className="font-medium">{item.firstName} {item.lastName}</p>
@@ -149,25 +149,6 @@ const [loadingView, setLoadingView] = useState(false);
   const [teams, setTeams] = useState<Consultation[]>([]);
   const [isDeleting, setIsDeleting] = useState(false);
   const [deleteId, setDeleteId] = useState<number | null>(null);
-
-//   const fetchTeams = async () => {
-//     if (!rowsPerPage) return;
-//     try {
-//       const res = await getTeams({
-//         page,
-//         perPage: rowsPerPage,
-//         search: debouncedSearch,
-//         sortBy,
-//         sortDirection,
-//       });
-
-//       setTeams(res?.data ?? []);
-//       setPagination(res?.pagination ?? null);
-//     } catch (e) {
-//       setTeams([]);
-//       toast.error("Failed to load Team");
-//     }
-//   };
  
 const fetchTeams = async () => {
   if (!rowsPerPage) return;
@@ -402,8 +383,7 @@ const handleDragEnd = async (event: any) => {
                   <div className="w-full rounded-2xl border border-border bg-card flex flex-col h-[calc(100vh-300px)]">
                     {/* ================= HEADER (DESKTOP) ================= */}
                   <div
-                  className="sticky top-0 z-[9] bg-card border-b hidden xl:grid items-center h-[52px] px-4 text-sm font-medium text-primary mx-3"
-                  style={{ gridTemplateColumns: GRID_COLS }}
+                  className="sticky top-0 z-[9] bg-card border-b hidden 2xl:flex items-center h-[52px] px-4 text-sm font-medium text-primary mx-3"
                 >
                 <div className="w-10 text-center text-muted-foreground">#</div>
 

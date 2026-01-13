@@ -41,7 +41,7 @@ function EnquiryRow({
       {/* Desktop */}
       <div
         className={cn(
-          "hidden xl:flex items-center px-4 py-3 mx-4 my-1 rounded-xl",
+          "hidden 2xl:flex items-center px-4 py-3 mx-4 my-1 rounded-xl",
           index % 2 === 0 ? "bg-card" : "bg-muted",
           "hover:bg-muted/70"
         )}
@@ -60,7 +60,7 @@ function EnquiryRow({
       </div>
 
       {/* Mobile */}
-      <div className="xl:hidden mx-3 my-2 rounded-xl border bg-card p-4 space-y-2">
+      <div className="2xl:hidden mx-3 my-2 rounded-xl border bg-card p-4 space-y-2">
         <p className="font-medium">{item.name}</p>
         <p className="text-sm text-muted-foreground">{item.email}</p>
         <p className="text-sm">{item.mobile}</p>
@@ -193,7 +193,7 @@ const handleView = async (id: number) => {
             </div>
 
             <div className="border rounded-xl h-full flex flex-col">
-            <div className="hidden xl:flex border-b px-4 py-3 text-sm font-medium text-primary">
+            <div className="hidden 2xl:flex border-b px-4 py-3 text-sm font-medium text-primary">
                   <div className="w-[40px] text-center">#</div>
   <div
     className="w-[18%] pl-4 cursor-pointer flex items-center justify-between"
