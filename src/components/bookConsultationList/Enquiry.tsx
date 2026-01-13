@@ -108,9 +108,9 @@ export default function EnquiryList() {
 
   const [page, setPage] = useState(1);
   const [pagination, setPagination] = useState<any>(null);
-  const [sortBy, setSortBy] = useState<"name" | "email" | "created_at">(
-    "created_at"
-  );
+ const [sortBy, setSortBy] = useState<
+  "id" | "name" | "email" | "mobile" | "created_at"
+>("created_at");
   const [sortDirection, setSortDirection] = useState<"asc" | "desc">("desc");
   const [enquiries, setEnquiries] = useState<Enquiry[]>([]);
   const [viewId, setViewId] = useState<number | null>(null);
@@ -263,9 +263,21 @@ export default function EnquiryList() {
                   </span>
                 </div>
 
-                <div className="w-[15%] pl-4 border-l">Mobile</div>
-                <div className="w-[20%] pl-4 border-l">Location</div>
-                <div className="w-[20%] pl-4 border-l">Message</div>
+                <div className="w-[15%] pl-4 border-l flex items-center justify-between cursor-pointer"  onClick={() => {
+    setSortBy("mobile");
+    setSortDirection(p => p === "asc" ? "desc" : "asc");
+  }}>Mobile
+   <span className="flex flex-col gap-1 ml-2 text-muted-foreground leading-none mr-2">
+                    <span className="text-[10px]">
+                      <img src="/top.png" alt="" />
+                    </span>
+                    <span className="text-[10px] -mt-1">
+                      <img src="/down.png" alt="" />
+                    </span>
+                  </span>
+                  </div>
+                <div className="w-[20%] pl-4 border-l">Location </div>
+                <div className="w-[20%] pl-4 border-l">Message </div>
 
                 <div className="w-[100px] pl-4 border-l cursor-pointer flex items-center justify-between">
                   Action

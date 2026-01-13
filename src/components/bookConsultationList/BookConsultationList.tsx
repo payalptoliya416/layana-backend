@@ -173,7 +173,7 @@ const fetchTeams = async () => {
 
 useEffect(() => {
     fetchTeams();
-  }, [page, sortBy, sortDirection, rowsPerPage, debouncedSearch]);
+  }, [page, rowsPerPage, sortBy, sortDirection, debouncedSearch]);
 
 const handleView = async (id: number) => {
   try {
