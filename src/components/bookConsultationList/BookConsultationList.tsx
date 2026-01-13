@@ -403,6 +403,7 @@ const handleDragEnd = async (event: any) => {
                     {/* ================= HEADER (DESKTOP) ================= */}
                   <div
                   className="sticky top-0 z-[9] bg-card border-b hidden xl:grid items-center h-[52px] px-4 text-sm font-medium text-primary mx-3"
+                  style={{ gridTemplateColumns: GRID_COLS }}
                 >
                 <div className="w-10 text-center text-muted-foreground">#</div>
 

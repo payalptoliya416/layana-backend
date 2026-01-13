@@ -282,7 +282,7 @@ const handleView = async (id: number) => {
       {loadingView ? (
         <div className="py-10 text-center">Loading...</div>
       ) : viewData && (
-        <div className="grid grid-cols-2 gap-4 text-sm">
+        <div className="grid :grid-cols-2 gap-4 text-sm">
           <div>
             <p className="text-muted-foreground">Name</p>
             <p className="font-medium">{viewData.name}</p>
