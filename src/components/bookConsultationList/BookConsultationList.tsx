@@ -639,7 +639,7 @@ const handleDragEnd = async (event: any) => {
 
           <div className="col-span-2">
             <b>Message:</b>
-            <div className="mt-2 p-3 bg-muted rounded-lg">
+            <div className="mt-2">
               {viewData.message}
             </div>
           </div>
