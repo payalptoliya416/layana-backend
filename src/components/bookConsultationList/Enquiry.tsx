@@ -110,8 +110,8 @@ export default function EnquiryList() {
   const [pagination, setPagination] = useState<any>(null);
  const [sortBy, setSortBy] = useState<
   "id" | "name" | "email" | "mobile" | "created_at"
->("created_at");
-  const [sortDirection, setSortDirection] = useState<"asc" | "desc">("desc");
+>("id");
+  const [sortDirection, setSortDirection] = useState<"asc" | "desc">("asc");
   const [enquiries, setEnquiries] = useState<Enquiry[]>([]);
   const [viewId, setViewId] = useState<number | null>(null);
   const [viewData, setViewData] = useState<EnquiryDetail | null>(null);
@@ -127,8 +127,9 @@ export default function EnquiryList() {
         sortDirection,
       });
 
-       setEnquiries(res?.data ?? []);
-     setPagination(res?.pagination ?? null);
+       setEnquiries(res.data);
+     setPagination(res.pagination);
+     
     } catch {
       toast.error("Failed to load enquiries");
     }
@@ -264,10 +265,10 @@ export default function EnquiryList() {
                 </div>
 
                 <div className="w-[15%] pl-4 border-l flex items-center justify-between cursor-pointer"  onClick={() => {
-    setSortBy("mobile");
-    setSortDirection(p => p === "asc" ? "desc" : "asc");
-  }}>Mobile
-   <span className="flex flex-col gap-1 ml-2 text-muted-foreground leading-none mr-2">
+                        setSortBy("mobile");
+                        setSortDirection(p => p === "asc" ? "desc" : "asc");
+                    }}>Mobile
+                    <span className="flex flex-col gap-1 ml-2 text-muted-foreground leading-none mr-2">
                     <span className="text-[10px]">
                       <img src="/top.png" alt="" />
                     </span>

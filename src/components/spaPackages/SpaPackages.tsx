@@ -184,7 +184,6 @@ useEffect(() => {
         })),
       };
 
-      console.log("🚀 FINAL PAYLOAD:", payload);
 
       const res = isEdit
         ? await updateSpaPackage(payload)

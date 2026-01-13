@@ -121,7 +121,6 @@ function PricesIndex() {
         pricing: payload.pricing,
       };
 
-      console.log("🚀 FINAL PAYLOAD", finalPayload);
       toast.success("Prices saved successfully");
     } catch {
       toast.error("Failed to save prices");

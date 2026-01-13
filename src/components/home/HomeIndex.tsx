@@ -168,7 +168,6 @@ const renderTabContent = () => (
     visuals: visualsRef.current.getData(),
     seo: seoRef.current.getData(),
   };
-console.log("payload",payload)
   try {
     await saveHomePage(payload);
     toast.success("Home page updated successfully");

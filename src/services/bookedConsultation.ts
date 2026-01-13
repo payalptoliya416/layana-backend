@@ -64,7 +64,6 @@ export async function getBookedConsultations(params?: {
       },
     }
   );
-
   return res.data;
 }
 export async function getBookedConsultationById(id: number) {

@@ -2,7 +2,6 @@ import api from "./apiClient";
 
 export const getHomePage = async () => {
   const res = await api.post("/home-page");
-  console.log("res",res)
   return res.data;
 };
 

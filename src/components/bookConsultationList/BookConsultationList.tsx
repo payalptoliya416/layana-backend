@@ -164,8 +164,8 @@ const fetchTeams = async () => {
       sortBy,
       sortDirection,
     });
-     setTeams(res?.data ?? []);
-     setPagination(res?.pagination ?? null);
+     setTeams(res.data);
+     setPagination(res.pagination);
   } catch (e) {
     setTeams([]);
   }
