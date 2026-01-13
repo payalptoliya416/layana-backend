@@ -127,8 +127,8 @@ export default function EnquiryList() {
         sortDirection,
       });
 
-       setEnquiries(res.data);
-     setPagination(res.pagination);
+       setEnquiries(res?.data ?? []);
+     setPagination(res?.pagination ?? []);
      
     } catch {
       toast.error("Failed to load enquiries");
