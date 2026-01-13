@@ -548,7 +548,7 @@ const handleDragEnd = async (event: any) => {
       {loadingView ? (
         <div className="py-10 text-center">Loading...</div>
       ) : viewData && (
-        <div className="grid grid-cols-2 gap-4 text-sm">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-sm">
           <div><b>Name:</b> {viewData.firstName} {viewData.lastName}</div>
           <div><b>Email:</b> {viewData.email}</div>
           <div><b>Mobile:</b> {viewData.mobile}</div>
@@ -557,19 +557,19 @@ const handleDragEnd = async (event: any) => {
           <div><b>Date:</b> {viewData.day}</div>
           <div><b>Time:</b> {viewData.startTime} - {viewData.endTime}</div>
 
-          <div className="col-span-2">
+          <div>
             <b>Skin Type:</b> {viewData.skin_type}, {viewData.skin_type_second}
           </div>
 
-          <div className="col-span-2">
+          <div>
             <b>Skin Goal:</b> {viewData.skin_goal}
           </div>
 
-          <div className="col-span-2">
+          <div>
             <b>Skin Care Product:</b> {viewData.skin_care_products}
           </div>
 
-          <div className="col-span-2">
+          <div>
             <b>Message:</b>
             <div className="mt-2">
               {viewData.message}
