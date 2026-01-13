@@ -27,7 +27,6 @@ type EnquiryDetail = Enquiry & {
     address_line_2: string;
   };
 };
-
 function EnquiryRow({
   item,
   index,
