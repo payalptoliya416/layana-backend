@@ -105,20 +105,20 @@ function SortableRow({
 
       {/* ================= MOBILE CARD ================= */}
       <div className="2xl:hidden mx-3 my-2 rounded-xl border bg-card p-4 space-y-2">
-        <div className="flex justify-between">
+        <div className="">
           <div>
             <p className="font-medium">{item.firstName} {item.lastName}</p>
             <p className="text-sm">{item.email}</p>
             <p className="text-sm">{item.mobile}</p>
             <p className="text-sm">{item.type} • {item.treatments}</p>
           </div>
-
+          <div className="flex justify-end">
           <button
             onClick={() => onView(item.id)}
-            className="h-8 w-8 rounded-full border bg-muted flex items-center justify-center"
           >
-            <Eye size={16} />
+            <Eye size={16} className="cursor-pointer text-muted-foreground hover:text-foreground"/>
           </button>
+          </div>
         </div>
       </div>
     </div>
