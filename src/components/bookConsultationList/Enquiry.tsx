@@ -200,13 +200,13 @@ export default function EnquiryList() {
             />
           </div>
           <div
-            className="flex-1 pl-[15px] pr-6 px-6 flex flex-col bg-card rounded-2xl shadow-card p-5
+            className="flex-1 pl-[15px] pr-6 px-6 flex flex-col justify-evenly sm:justify-normal bg-card rounded-2xl shadow-card p-5
     relative
     overflow-hidden
     h-[calc(100dvh-160px)] lg:h-[calc(100vh-220px)]"
           >
             <div className="mb-2 flex items-center justify-between shrink-0 flex-wrap gap-2">
-              <div className="relative sm:w-[260px]">
+              <div className="relative w-full sm:w-[260px]">
                 <input
                   value={search}
                   onChange={(e) => setSearch(e.target.value)}

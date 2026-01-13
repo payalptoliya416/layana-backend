@@ -328,7 +328,7 @@ const handleDragEnd = async (event: any) => {
     overflow-hidden
     h-[calc(100dvh-160px)] lg:h-[calc(100vh-220px)]"
           >
-            <div className="flex flex-col flex-1">
+            <div className="flex flex-col flex-1 justify-evenly sm:justify-normal">
               <div className="mb-2 flex items-center justify-between  shrink-0 flex-wrap gap-1 sm:gap-2">
                 <div className="relative w-full sm:w-[256px] rounded-full p-1">
                   <input
