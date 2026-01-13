@@ -49,6 +49,7 @@ const navItems: NavItem[] = [
   },
   { icon: Package, label: "Popup", href: "/popup" },
   { icon: Bolt, label: "Bussiness Settings", href: "/settings" },
+  // { icon: PrinterCheckIcon, label: "Pricing", href: "/prices" },
 ];
 
 interface SidebarProps {

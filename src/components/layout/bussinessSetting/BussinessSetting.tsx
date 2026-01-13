@@ -7,6 +7,7 @@ import {
   CalendarCheck,
   ClipboardList,
   FileText,
+  Link2,
   MapPin,
 } from "lucide-react";
 import { useNavigate } from "react-router-dom";
@@ -40,7 +41,7 @@ const items = [
   },
  {
     title: "Global Book Now",
-    icon: CalendarCheck,          
+    icon: Link2,          
     gradient: "from-[#22C55E]/10 to-transparent",
     iconBg: "#22C55E",
     path: "/settings/global-booking",

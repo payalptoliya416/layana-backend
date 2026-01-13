@@ -252,36 +252,36 @@ const handleDragEnd = (event: any) => {
 
       {/* DESKTOP TABLE */}
       <div className="hidden 2xl:block border rounded-xl overflow-hidden">
-<div className="sticky top-0 z-[9] bg-card border-b hidden xl:flex items-center h-[52px] text-sm font-medium text-primary ">
+      <div className="sticky top-0 z-[9] bg-card border-b hidden xl:flex items-center h-[52px] text-sm font-medium text-primary ">
 
-  {/* Drag */}
-  <div className="w-10" />
+        {/* Drag */}
+        <div className="w-10" />
 
-  {/* Image */}
-  <div className="w-[18%] pl-4 border-l text-left">
-    Image
-  </div>
+        {/* Image */}
+        <div className="w-[18%] pl-4 border-l text-left">
+          Image
+        </div>
 
-  {/* Title */}
-  <div className="w-[22%] pl-4 border-l text-left">
-    Title
-  </div>
+        {/* Title */}
+        <div className="w-[22%] pl-4 border-l text-left">
+          Title
+        </div>
 
-  {/* Button Text */}
-  <div className="w-[22%] pl-4 border-l text-left">
-    Button Text
-  </div>
+        {/* Button Text */}
+        <div className="w-[22%] pl-4 border-l text-left">
+          Button Text
+        </div>
 
-  {/* Button Link */}
-  <div className="flex-1 pl-4 border-l text-left">
-    Button Link
-  </div>
+        {/* Button Link */}
+        <div className="flex-1 pl-4 border-l text-left">
+          Button Link
+        </div>
 
-  {/* Actions */}
-  <div className="w-[160px] pl-4 border-l text-left">
-    Actions
-  </div>
-</div>
+        {/* Actions */}
+        <div className="w-[160px] pl-4 border-l text-left">
+          Actions
+        </div>
+      </div>
         <table className="w-full text-sm">
          {/* ================= SLIDER HEADER (DESKTOP) ================= */}
 

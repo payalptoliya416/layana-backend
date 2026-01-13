@@ -29,6 +29,7 @@ import SpaPackageList from "./components/spaPackages/SpaPackageList";
 import HomeIndex from "./components/home/HomeIndex";
 import GlobalBookNow from "./components/globalBookNow/GlobalBookNow";
 import BookConsultationList from "./components/bookConsultationList/BookConsultationList";
+import PricesIndex from "./components/prices/PricesIndex";
 
 const queryClient = new QueryClient();
 
@@ -122,6 +123,14 @@ const App = () => (
               </ProtectedRoute>
             }
           />
+          {/* <Route
+            path="/settings/prices"
+            element={
+              <ProtectedRoute>
+                <PricesIndex />
+              </ProtectedRoute>
+            }
+          /> */}
 
           {/* Protected Treatment Editor Route */}
           <Route

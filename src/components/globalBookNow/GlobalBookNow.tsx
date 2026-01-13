@@ -167,9 +167,11 @@ function GlobalBookNow() {
         >
               <div className="flex-1 flex flex-col overflow-hidden">
                      <div className="flex-1 overflow-y-auto scrollbar-thin">
-   <div>
+                <div className="grid grid-cols-12">
+  <div className="col-span-12 xl:col-span-6 xl:col-start-4">
+                  <div>
                 <label className="text-sm font-medium">
-                  Global Booking URL{" "}
+                   Booking URL{" "}
                   <span className="text-destructive">*</span>
                 </label>
 
@@ -182,37 +184,39 @@ function GlobalBookNow() {
                   placeholder="https://example.com"
                   className="mt-2 w-full h-[48px] rounded-xl border px-4 text-sm bg-card focus:ring-2 focus:ring-ring/30"
                 />
-              </div>
+                  </div>
+                  <div className="pt-6 flex justify-center gap-3">
+                    <Button
+                      type="button"
+                      variant="cancel"
+                      className="w-[105px]"
+                      onClick={handleCancel}
+                      disabled={loading}
+                    >
+                      Cancel
+                    </Button>
+
+                    <Button
+                      type="button"
+                      variant="save"
+                      onClick={handleSave}
+                      disabled={loading}
+                      className="w-[105px] flex items-center justify-center gap-2"
+                    >
+                      {loading ? (
+                        <>
+                          <span className="h-4 w-4 animate-spin rounded-full border-2 border-white/40 border-t-white" />
+                          Saving...
+                        </>
+                      ) : (
+                        "Save"
+                      )}
+                    </Button>
+                  </div>
+                </div>
+                      </div>
                      </div>
               </div>
-          <div className="pt-6 flex justify-end gap-3">
-              <Button
-                type="button"
-                variant="cancel"
-                className="w-[105px]"
-                onClick={handleCancel}
-                disabled={loading}
-              >
-                Cancel
-              </Button>
-
-              <Button
-                type="button"
-                variant="save"
-                onClick={handleSave}
-                disabled={loading}
-                className="w-[105px] flex items-center justify-center gap-2"
-              >
-                {loading ? (
-                  <>
-                    <span className="h-4 w-4 animate-spin rounded-full border-2 border-white/40 border-t-white" />
-                    Saving...
-                  </>
-                ) : (
-                  "Save"
-                )}
-              </Button>
-            </div>
         </div>
         </div>
       </div>
