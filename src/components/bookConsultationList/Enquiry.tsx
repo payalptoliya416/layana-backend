@@ -47,7 +47,7 @@ function EnquiryRow({
           "hover:bg-muted/70"
         )}
       >
-          <div  className="">
+          <div  className="w-[40px] text-center text-sm font-medium text-muted-foreground">
             {index + 1}
             </div>
         <div className="w-[18%] pl-4 font-medium">{item.name}</div>
@@ -56,7 +56,7 @@ function EnquiryRow({
         <div className="w-[20%] pl-4">{item.location?.name}</div>
         <div className="w-[20%] pl-4 truncate">{item.message}</div>
         <div className="w-[100px] flex justify-center">
-          <Eye className="cursor-pointer text-muted-foreground hover:text-foreground" onClick={() => onView(item.id)} />
+          <Eye  size={18} className="cursor-pointer text-muted-foreground hover:text-foreground" onClick={() => onView(item.id)} />
         </div>
       </div>
 
@@ -195,6 +195,7 @@ const handleView = async (id: number) => {
 
             <div className="border rounded-xl h-full flex flex-col">
             <div className="hidden xl:flex border-b px-4 py-3 text-sm font-medium text-primary">
+                  <div className="w-[40px] text-center">#</div>
   <div
     className="w-[18%] pl-4 cursor-pointer flex items-center justify-between"
     onClick={() => {
