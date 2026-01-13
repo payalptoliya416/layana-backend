@@ -186,10 +186,17 @@ export default function EnquiryList() {
               onMenuClick={() => setSidebarOpen(true)}
             />
           </div>
-         
-
-          <div className="flex-1 bg-card rounded-2xl p-5 shadow-card overflow-hidden">
-            <div className="mb-4">
+          <div className="   flex-1
+    flex
+    flex-col
+    bg-card
+    rounded-2xl
+    shadow-card
+    p-5
+    overflow-hidden
+    h-[calc(100dvh-160px)]
+    lg:h-[calc(100vh-220px)]">
+            <div className="mb-2 flex items-center justify-between shrink-0 flex-wrap gap-2">
               <div className="relative sm:w-[260px]">
                 <input
                   value={search}
@@ -208,8 +215,8 @@ export default function EnquiryList() {
               </div>
             </div>
 
-            <div className="border rounded-xl h-full flex flex-col">
-              <div className="hidden 2xl:flex border-b px-4 py-3 text-sm font-medium text-primary">
+            <div className="w-full rounded-2xl border border-border bg-card flex flex-col flex-1">
+              <div className="sticky top-0 z-[9] bg-card border-b hidden xl:flex items-center h-[52px] px-4 text-sm font-medium text-primary mx-3">
                 <div className="w-[40px] text-center">#</div>
                 <div
                   className="w-[18%] pl-4 cursor-pointer flex items-center justify-between"
@@ -256,7 +263,7 @@ export default function EnquiryList() {
                 </div>
               </div>
 
-              <div ref={containerRef} className="flex-1 overflow-y-auto">
+              <div ref={containerRef} className="flex-1 overflow-y-auto scrollbar-thin">
                 {enquiries.length === 0 ? (
                   <div className="py-10 text-center text-muted-foreground">
                     No Enquiries Found
