@@ -173,13 +173,13 @@ const handleView = async (id: number) => {
           </div>
 
           <div className="flex-1 bg-card rounded-2xl p-5 shadow-card overflow-hidden">
-            <div className="mb-4 flex justify-between">
-              <div className="relative w-[260px]">
+            <div className="mb-4">
+              <div className="relative sm:w-[260px]">
                 <input
                   value={search}
                   onChange={(e) => setSearch(e.target.value)}
                   placeholder="Search"
-                  className="w-full h-11 rounded-full border px-4 pr-10"
+                  className="w-full h-11 rounded-full border px-4 pr-10 bg-card"
                 />
                 {search ? (
                   <X
