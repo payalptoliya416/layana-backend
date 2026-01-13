@@ -492,7 +492,7 @@ const handleDragEnd = async (event: any) => {
                     </div>
 
                     {/* ================= BODY ================= */}
-                    <div ref={containerRef} className="flex-1  overflow-y-auto scrollbar-thins">
+                    <div ref={containerRef} className="flex-1  overflow-y-auto scrollbar-thin">
                       {!teams || teams.length === 0 ? (
                         <div className="py-10 text-center text-muted-foreground text-sm">
                           No Data found
