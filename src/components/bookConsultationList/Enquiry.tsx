@@ -20,7 +20,9 @@ import {
   AlertDialogTitle,
   AlertDialogFooter,
 } from "@/components/ui/alert-dialog";
+import { CSS } from "@dnd-kit/utilities";
 import { Button } from "../ui/button";
+import { useSortable } from "@dnd-kit/sortable";
 type EnquiryDetail = Enquiry & {
   location?: {
     id: number;
@@ -40,17 +42,26 @@ function EnquiryRow({
   index: number;
   onView: (id: number) => void;
 }) {
+      const { attributes, listeners, setNodeRef, transform, transition } =
+        useSortable({ id: item.id });
+    
+      const style = {
+        transform: CSS.Transform.toString(transform),
+        transition,
+      };
   return (
     <>
-      {/* Desktop */}
+    <div ref={setNodeRef} style={style}>
+
       <div
+      data-row
         className={cn(
           "hidden 2xl:flex items-center px-4 py-3 mx-4 my-1 rounded-xl",
           index % 2 === 0 ? "bg-card" : "bg-muted",
           "hover:bg-muted/70"
         )}
       >
-        <div className="w-[40px] text-center text-sm font-medium">
+        <div {...attributes} {...listeners} className="w-[40px] text-center text-sm font-medium">
           {index + 1}
         </div>
         <div className="w-[18%] pl-4 font-medium">{item.name}</div>
@@ -83,6 +94,7 @@ function EnquiryRow({
           />
         </div>
       </div>
+    </div>
     </>
   );
 }
@@ -115,8 +127,8 @@ export default function EnquiryList() {
         sortDirection,
       });
 
-      setEnquiries(res.data);
-      setPagination(res.pagination);
+       setEnquiries(res?.data ?? []);
+     setPagination(res?.pagination ?? null);
     } catch {
       toast.error("Failed to load enquiries");
     }
@@ -282,35 +294,46 @@ export default function EnquiryList() {
             </div>
                   </div>
              </div>
-            
-
             {pagination && (
-              <div className="flex justify-center gap-4 mt-3">
-                <button disabled={page === 1} onClick={() => setPage(1)}>
-                  «
-                </button>
+            <div className="flex items-center justify-center gap-6 px-4 py-2 text-sm text-muted-foreground">
                 <button
-                  disabled={!pagination.prev_page_url}
-                  onClick={() => setPage((p) => p - 1)}
+                disabled={pagination.current_page === 1}
+                onClick={() => setPage(1)}
+                className="text-2xl"
                 >
-                  ‹
+                «
                 </button>
-                <span>
-                  {pagination.current_page} / {pagination.last_page}
+
+                <button
+                disabled={pagination.current_page === 1}
+                onClick={() => setPage((p) => Math.max(1, p - 1))}
+                className="text-2xl"
+                >
+                ‹
+                </button>
+
+                <span className="text-foreground font-medium">
+                {pagination.current_page} / {pagination.last_page}
                 </span>
+
                 <button
-                  disabled={!pagination.next_page_url}
-                  onClick={() => setPage((p) => p + 1)}
+                disabled={pagination.current_page === pagination.last_page}
+                onClick={() =>
+                    setPage((p) => Math.min(pagination.last_page, p + 1))
+                }
+                className="text-2xl"
                 >
-                  ›
+                ›
                 </button>
+
                 <button
-                  disabled={page === pagination.last_page}
-                  onClick={() => setPage(pagination.last_page)}
+                disabled={pagination.current_page === pagination.last_page}
+                onClick={() => setPage(pagination.last_page)}
+                className="text-2xl"
                 >
-                  »
+                »
                 </button>
-              </div>
+            </div>
             )}
           </div>
         </div>

@@ -77,6 +77,7 @@ function SortableRow({
     <div ref={setNodeRef} style={style}>
       {/* ================= DESKTOP ROW ================= */}
       <div
+      data-row
         className={cn(
           "hidden 2xl:flex items-center px-4 py-3 mx-4 my-1 rounded-xl",
           index % 2 === 0 ? "bg-card" : "bg-muted",
@@ -144,7 +145,9 @@ const [loadingView, setLoadingView] = useState(false);
 
   const [page, setPage] = useState(1);
   const [pagination, setPagination] = useState<any>(null);
-  const [sortBy, setSortBy] = useState<"id" | "name" | "designation"| "index">("index");
+  const [sortBy, setSortBy] = useState<
+  "id" | "firstName" | "lastName" | "email" | "mobile" | "type" | "treatments"
+>("id");
   const [sortDirection, setSortDirection] = useState<"asc" | "desc">("asc");
   const [teams, setTeams] = useState<Consultation[]>([]);
   const [isDeleting, setIsDeleting] = useState(false);
@@ -161,9 +164,8 @@ const fetchTeams = async () => {
       sortBy,
       sortDirection,
     });
-
-    setTeams(res.data);
-    setPagination(res.pagination);
+     setTeams(res?.data ?? []);
+     setPagination(res?.pagination ?? null);
   } catch (e) {
     setTeams([]);
     toast.error("Failed to load booked consultations");
@@ -376,7 +378,7 @@ const handleDragEnd = async (event: any) => {
                       <div
                         className={`w-[15%] pl-4 border-l cursor-pointer flex items-center justify-between text-left`}
                         onClick={() => {
-                          setSortBy("name");
+                          setSortBy("firstName");
                           setSortDirection((p) =>
                             p === "asc" ? "desc" : "asc"
                           );
@@ -395,7 +397,7 @@ const handleDragEnd = async (event: any) => {
                       <div
                         className={`w-[15%] pl-4 border-l flex-1 cursor-pointer flex items-center justify-between text-left`}
                         onClick={() => {
-                          setSortBy("designation");
+                          setSortBy("lastName");
                           setSortDirection((p) =>
                             p === "asc" ? "desc" : "asc"
                           );
@@ -414,7 +416,7 @@ const handleDragEnd = async (event: any) => {
                       <div
                         className={`w-[25%] pl-4 border-l  cursor-pointer flex items-center justify-between text-left`}
                         onClick={() => {
-                          setSortBy("designation");
+                          setSortBy("email");
                           setSortDirection((p) =>
                             p === "asc" ? "desc" : "asc"
                           );
@@ -433,7 +435,7 @@ const handleDragEnd = async (event: any) => {
                       <div
                         className={`w-[15%] pl-4 border-l flex-1 cursor-pointer flex items-center justify-between text-left`}
                         onClick={() => {
-                          setSortBy("designation");
+                          setSortBy("mobile");
                           setSortDirection((p) =>
                             p === "asc" ? "desc" : "asc"
                           );
@@ -452,7 +454,7 @@ const handleDragEnd = async (event: any) => {
                       <div
                         className={`w-[10%] pl-4 border-l  cursor-pointer flex items-center justify-between text-left`}
                         onClick={() => {
-                          setSortBy("designation");
+                          setSortBy("type");
                           setSortDirection((p) =>
                             p === "asc" ? "desc" : "asc"
                           );
@@ -471,7 +473,7 @@ const handleDragEnd = async (event: any) => {
                       <div
                         className={`w-[15%] pl-4 border-l cursor-pointer flex items-center justify-between text-left`}
                         onClick={() => {
-                          setSortBy("designation");
+                          setSortBy("treatments");
                           setSortDirection((p) =>
                             p === "asc" ? "desc" : "asc"
                           );
@@ -524,6 +526,47 @@ const handleDragEnd = async (event: any) => {
                       )}
                     </div>
                   </div>
+                    {pagination && (
+            <div className="flex items-center justify-center gap-6 px-4 py-2 text-sm text-muted-foreground">
+                <button
+                disabled={pagination.current_page === 1}
+                onClick={() => setPage(1)}
+                className="text-2xl"
+                >
+                «
+                </button>
+
+                <button
+                disabled={pagination.current_page === 1}
+                onClick={() => setPage((p) => Math.max(1, p - 1))}
+                className="text-2xl"
+                >
+                ‹
+                </button>
+
+                <span className="text-foreground font-medium">
+                {pagination.current_page} / {pagination.last_page}
+                </span>
+
+                <button
+                disabled={pagination.current_page === pagination.last_page}
+                onClick={() =>
+                    setPage((p) => Math.min(pagination.last_page, p + 1))
+                }
+                className="text-2xl"
+                >
+                ›
+                </button>
+
+                <button
+                disabled={pagination.current_page === pagination.last_page}
+                onClick={() => setPage(pagination.last_page)}
+                className="text-2xl"
+                >
+                »
+                </button>
+            </div>
+            )}
 {viewId && (
   <AlertDialog open onOpenChange={() => { setViewId(null); setViewData(null); }}>
     <AlertDialogContent className="max-w-[720px] rounded-2xl p-6 bg-card">
@@ -574,46 +617,7 @@ const handleDragEnd = async (event: any) => {
 )}
 
                   {/* ================= PAGINATION ================= */}
-                  {pagination && (
-                    <div
-                      data-pagination
-                      className="flex items-center justify-center gap-6 px-4 py-2 text-sm text-muted-foreground"
-                    >
-                      <button
-                        disabled={pagination.current_page === 1}
-                        onClick={() => setPage(1)}
-                        className="text-2xl"
-                      >
-                        «
-                      </button>
-                      <button
-                        disabled={!pagination.prev_page_url}
-                        onClick={() => setPage((p) => p - 1)}
-                        className="text-2xl"
-                      >
-                        ‹
-                      </button>
-                      <span className="text-foreground font-medium">
-                        {pagination.current_page} / {pagination.last_page}
-                      </span>
-                      <button
-                        disabled={!pagination.next_page_url}
-                        onClick={() => setPage((p) => p + 1)}
-                        className="text-2xl"
-                      >
-                        ›
-                      </button>
-                      <button
-                        disabled={
-                          pagination.current_page === pagination.last_page
-                        }
-                        onClick={() => setPage(pagination.last_page)}
-                        className="text-2xl"
-                      >
-                        »
-                      </button>
-                    </div>
-                  )}
+                
                 </div>
                 <AlertDialog
                   open={!!deleteId}
