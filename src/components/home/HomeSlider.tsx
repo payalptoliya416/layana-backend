@@ -18,6 +18,7 @@ import SliderModal from "../location/SliderModal";
 
 export type SliderItem = {
   title: string;
+    description?: string;
   image: string;
   btn_text: string;
   btn_link: string;
@@ -162,6 +163,7 @@ const SLIDER_GRID =
     getData: () =>
   sliders.map((s) => ({
     title: s.title,
+    description: s.description,
     image: s.image,
     btn_text: s.btn_text,
     btn_link: s.btn_link,
@@ -175,6 +177,7 @@ const SLIDER_GRID =
       .sort((a, b) => a.index - b.index)
       .map((s) => ({
         title: s.title,
+          description: s.description || "", 
         image: s.image,
         btn_text: s.btn_text,
         btn_link: s.btn_link,
@@ -189,9 +192,7 @@ const handleSave = (data: Omit<SliderItem, "index">) => {
   if (editIndex !== null) {
     setSliders((prev) =>
       prev.map((s, i) =>
-        i === editIndex
-          ? { ...data, index: s.index } // 🔥 keep original index
-          : s
+        i === editIndex ? { ...s, ...data } : s
       )
     );
   } else {
@@ -199,7 +200,7 @@ const handleSave = (data: Omit<SliderItem, "index">) => {
       ...prev,
       {
         ...data,
-        index: prev.length + 1, // 🔥 new slider gets next index
+        index: prev.length + 1,
       },
     ]);
   }

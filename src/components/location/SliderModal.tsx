@@ -1,22 +1,35 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { useForm } from "react-hook-form";
+import { useController, useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { X } from "lucide-react";
 import { uploadImages } from "@/services/uploadService";
 import { ImageCropGallry } from "../treatment/ImageCropGallry";
 import { cn } from "@/lib/utils";
+import DescriptionEditor from "../treatment/DescriptionEditor";
 
 /* ================= SCHEMA ================= */
 
-const sliderModalSchema = z.object({
-  title: z.string().min(1, "Title is required"),
-  btn_text: z.string().min(1, "Button text is required"),
-  btn_link: z.string().min(1, "Button link is required").url("Enter valid URL"),
-  image: z.string().min(1, "Slider image is required"),
-});
+const sliderModalSchema = z
+  .object({
+    title: z.string().min(1, "Title is required"),
+    description: z.string().optional(),
+    btn_text: z.string().min(1, "Button text is required"),
+    btn_link: z.string().min(1, "Button link is required").url("Enter valid URL"),
+    image: z.string().min(1, "Slider image is required"),
+    uploadType: z.enum(["home_page", "location"]),
+  })
+  .superRefine((data, ctx) => {
+    if (data.uploadType === "home_page" && !data.description?.trim()) {
+      ctx.addIssue({
+        path: ["description"],
+        message: "Description is required for Home Slider",
+        code: z.ZodIssueCode.custom,
+      });
+    }
+  });
 
 export type SliderItem = z.infer<typeof sliderModalSchema>;
 
@@ -35,17 +48,23 @@ export default function SliderModal({ initialData, onSave, onClose,uploadType }:
     setValue,
     reset,
     watch,
+      control,
     formState: { errors },
   } = useForm<SliderItem>({
     resolver: zodResolver(sliderModalSchema),
     defaultValues: {
       title: "",
+       description: "",
       btn_text: "",
       btn_link: "",
       image: "",
+        uploadType,
     },
   });
-
+const { field: descriptionField } = useController({
+      name: "description",
+      control,
+    });
   const fileRef = useRef<HTMLInputElement | null>(null);
   const [cropImage, setCropImage] = useState<string | null>(null);
 
@@ -65,7 +84,7 @@ const inputClass = (hasError?: boolean) =>
   );
 
 return (
-  <div className="fixed inset-0 z-50 flex items-center justify-center bg-background/60 backdrop-blur-sm p-2 !mt-0">
+  <div className="fixed inset-0 z-50 flex items-center justify-center bg-background/60 backdrop-blur-sm p-2 !mt-0 overflow-y-auto">
     <form
       onSubmit={handleSubmit(onSave)}
       className="relative w-full max-w-[720px] rounded-[18px] bg-card px-[30px] pt-[40px] pb-[30px] border border-border shadow-dropdown space-y-5"
@@ -191,7 +210,33 @@ return (
           }}
         />
       </div>
+{/* DESCRIPTION */}
+     {uploadType === "home_page" && (
+  <div>
+    <label className="mb-[6px] block text-sm font-medium">
+      Description <span className="text-red-500">*</span>
+    </label>
 
+    <textarea
+      value={descriptionField.value || ""}
+      onChange={(e) => descriptionField.onChange(e.target.value)}
+      rows={3}
+      placeholder="Enter slider description"
+      className={cn(
+        "w-full rounded-[10px] border px-[15px] py-3 text-sm bg-card text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 transition resize-none",
+        errors.description
+          ? "border-red-500 focus:ring-red-500/30"
+          : "border-border focus:ring-ring/20"
+      )}
+    />
+
+    {errors.description && (
+      <p className="mt-1 text-xs text-red-500">
+        {errors.description.message}
+      </p>
+    )}
+  </div>
+)}
       {/* FOOTER */}
       <div className="flex justify-center gap-3 pt-4">
         <button
