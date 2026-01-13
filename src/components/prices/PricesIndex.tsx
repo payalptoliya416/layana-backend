@@ -231,7 +231,7 @@ function PricesIndex() {
             <PageHeader
               title={
                 payload.general.category
-                  ? `${payload.general.category} - ${payload.general.subCategory}`
+                  ? `${payload.general.category}`
                   : "Pricing"
               }
               showBack={activeSection === "pricing" && !showPricingGrid}

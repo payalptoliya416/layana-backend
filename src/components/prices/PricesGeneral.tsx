@@ -5,6 +5,14 @@ import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+
 /* ================= SCHEMA ================= */
 
 const teamSchema = z.object({
@@ -31,11 +39,11 @@ const CATEGORY_MAP: Record<string, string[]> = {
 
 const PricesGeneral = forwardRef<any, Props>(({ initialData, onChange }, ref) => {
   const {
-    register,
     watch,
     trigger,
     reset,
     getFieldState,
+    setValue,
   } = useForm<PricesGeneralForm>({
     resolver: zodResolver(teamSchema),
     defaultValues: {
@@ -46,6 +54,7 @@ const PricesGeneral = forwardRef<any, Props>(({ initialData, onChange }, ref) =>
   });
 
   const category = watch("category");
+  const subCategory = watch("subCategory");
 
   /* ---------- expose validate ---------- */
   useImperativeHandle(ref, () => ({
@@ -95,14 +104,26 @@ const PricesGeneral = forwardRef<any, Props>(({ initialData, onChange }, ref) =>
         <label className="text-sm font-medium">
           Category <sup className="text-destructive">*</sup>
         </label>
-        <select {...register("category")} className="form-input">
-          <option value="">Select Category</option>
-          {Object.keys(CATEGORY_MAP).map((cat) => (
-            <option key={cat} value={cat}>
-              {cat}
-            </option>
-          ))}
-        </select>
+
+        <Select
+          value={category}
+          onValueChange={(v) => {
+            setValue("category", v, { shouldDirty: true, shouldValidate: true });
+            setValue("subCategory", ""); // reset sub when category changes
+          }}
+        >
+          <SelectTrigger className="form-input">
+            <SelectValue placeholder="Select Category" />
+          </SelectTrigger>
+
+          <SelectContent>
+            {Object.keys(CATEGORY_MAP).map((cat) => (
+              <SelectItem key={cat} value={cat}>
+                {cat}
+              </SelectItem>
+            ))}
+          </SelectContent>
+        </Select>
       </div>
 
       {/* SUB CATEGORY */}
@@ -110,20 +131,32 @@ const PricesGeneral = forwardRef<any, Props>(({ initialData, onChange }, ref) =>
         <label className="text-sm font-medium">
           Sub Category <sup className="text-destructive">*</sup>
         </label>
-        <select
-          {...register("subCategory")}
-          className="form-input"
+
+        <Select
+          value={subCategory}
           disabled={!category}
+          onValueChange={(v) =>
+            setValue("subCategory", v, {
+              shouldDirty: true,
+              shouldValidate: true,
+            })
+          }
         >
-          <option value="">Select Sub Category</option>
-          {category &&
-            CATEGORY_MAP[category]?.map((sub) => (
-              <option key={sub} value={sub}>
-                {sub}
-              </option>
-            ))}
-        </select>
+          <SelectTrigger className="form-input">
+            <SelectValue placeholder="Select Sub Category" />
+          </SelectTrigger>
+
+          <SelectContent>
+            {category &&
+              CATEGORY_MAP[category]?.map((sub) => (
+                <SelectItem key={sub} value={sub}>
+                  {sub}
+                </SelectItem>
+              ))}
+          </SelectContent>
+        </Select>
       </div>
+
     </div>
   );
 });

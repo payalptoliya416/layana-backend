@@ -43,49 +43,9 @@ import SwitchToggle from "../treatment/Toggle";
 import { deleteTeam, TeamPayload, updateTeam } from "@/services/teamService";
 import { useAutoRows } from "@/hooks/useAutoRows";
 import { getAllTeams } from "../team/getAllTeams";
+import { BookedConsultation, getBookedConsultations } from "@/services/bookedConsultation";
 
-type Consultation = {
-  id: number;
-  first_name: string;
-  last_name: string;
-  email: string;
-  mobile: string;
-  type: string;
-  treatments: string;
-  index: number;
-};
-const DUMMY_CONSULTATIONS: Consultation[] = [
-  {
-    id: 1,
-    first_name: "John",
-    last_name: "Doe",
-    email: "john@example.com",
-    mobile: "9876543210",
-    type: "Online",
-    treatments: "Hair Treatment",
-    index: 1,
-  },
-  {
-    id: 2,
-    first_name: "Emma",
-    last_name: "Watson",
-    email: "emma@gmail.com",
-    mobile: "9988776655",
-    type: "Offline",
-    treatments: "Skin Care",
-    index: 2,
-  },
-  {
-    id: 3,
-    first_name: "Alex",
-    last_name: "Smith",
-    email: "alex@mail.com",
-    mobile: "9090909090",
-    type: "Online",
-    treatments: "Laser",
-    index: 3,
-  },
-];
+type Consultation = BookedConsultation;
 
 export type Category = {
   id: number;
@@ -95,13 +55,16 @@ export type Category = {
    const COLS = {
     drag: "w-10",
     first: "w-[15%]",
-    last: "w-[15%]",
+    last: "w-[19%]",
     email: "w-[25%]",
     mobile: "w-[15%]",
     type: "w-[15%]",
     treatments: "w-[15%]",
-    actions: "w-[100px]",
+    // actions: "w-[100px]",
     };
+    const GRID_COLS =
+  "40px 150px 170px 260px 160px 140px 220px";
+
 function SortableRow({
   item,
   index,
@@ -133,6 +96,7 @@ function SortableRow({
           index % 2 === 0 ? "bg-card" : "bg-muted",
           "hover:bg-muted/70"
         )}
+         style={{ gridTemplateColumns: GRID_COLS }}
       >
         <div
           {...attributes}
@@ -142,13 +106,13 @@ function SortableRow({
           <GripVertical size={18} />
         </div>
 
-        <div className={`${COLS.first} pl-4`}>{item.first_name}</div>
-        <div className={`${COLS.last} pl-4`}>{item.last_name}</div>
+        <div className={`${COLS.first} pl-4`}>{item.firstName}</div>
+        <div className={`${COLS.last} pl-4`}>{item.lastName}</div>
         <div className={`${COLS.email} pl-4`}>{item.email}</div>
         <div className={`${COLS.mobile} pl-4`}>{item.mobile}</div>
         <div className={`${COLS.type} pl-4`}>{item.type}</div>
         <div className={`${COLS.treatments} pl-4`}>{item.treatments}</div>
-        <div className={`${COLS.actions} flex justify-center gap-2`}>
+        {/* <div className={`${COLS.actions} flex justify-center gap-2`}>
           <td className=" flex gap-2 whitespace-nowrap pl-4 justify-center">
             <button
               onClick={() => onEdit(item.id)}
@@ -178,7 +142,7 @@ function SortableRow({
               <Trash2 size={15} />
             </button>
           </td>
-        </div>
+        </div> */}
       </div>
 
       {/* ================= MOBILE CARD ================= */}
@@ -193,14 +157,14 @@ function SortableRow({
               <p className="text-sm text-muted-foreground mb-2">
                 {item.designation}
               </p>
-              <p className="font-medium mb-2">{item.first_name} {item.last_name}</p>
-                <p className="text-sm">{item.email}</p>
-                <p className="text-sm">{item.mobile}</p>
+              <p className="font-medium mb-1">{item.firstName} {item.lastName}</p>
+                <p className="text-sm mb-1">{item.email}</p>
+                <p className="text-sm mb-1">{item.mobile}</p>
                 <p className="text-sm">{item.type} • {item.treatments}</p>
 
             </div>
           </div>
-          <div className="flex gap-2">
+          {/* <div className="flex gap-2">
             <button
               onClick={() => onEdit(item.id)}
               className="
@@ -228,7 +192,7 @@ function SortableRow({
             >
               <Trash2 size={15} />
             </button>
-          </div>
+          </div> */}
         </div>
       </div>
     </div>
@@ -278,33 +242,23 @@ function BookConsultationList() {
 //   };
  
 const fetchTeams = async () => {
-  // later API aavse to aa block replace kari devano
-  let data = [...DUMMY_CONSULTATIONS];
+  if (!rowsPerPage) return;
 
-  // search
-  if (debouncedSearch) {
-    data = data.filter(
-      (i) =>
-        i.first_name.toLowerCase().includes(debouncedSearch.toLowerCase()) ||
-        i.last_name.toLowerCase().includes(debouncedSearch.toLowerCase()) ||
-        i.email.toLowerCase().includes(debouncedSearch.toLowerCase())
-    );
+  try {
+    const res = await getBookedConsultations({
+      page,
+      perPage: rowsPerPage,
+      search: debouncedSearch,
+      sortBy,
+      sortDirection,
+    });
+
+    setTeams(res.data);
+    setPagination(res.pagination);
+  } catch (e) {
+    setTeams([]);
+    toast.error("Failed to load booked consultations");
   }
-
-  // sorting
-  data.sort((a: any, b: any) => {
-    const valA = a[sortBy];
-    const valB = b[sortBy];
-    if (valA < valB) return sortDirection === "asc" ? -1 : 1;
-    if (valA > valB) return sortDirection === "asc" ? 1 : -1;
-    return 0;
-  });
-
-  setTeams(data);
-  setPagination({
-    current_page: 1,
-    last_page: 1,
-  });
 };
 
 useEffect(() => {
@@ -438,7 +392,7 @@ const handleDragEnd = async (event: any) => {
         >
           {/* Sticky Header */}
           <div className="sticky top-3 z-10 pb-3">
-            <PageHeader title="Team" onMenuClick={() => setSidebarOpen(true)} />
+            <PageHeader title="Book Consultation" onMenuClick={() => setSidebarOpen(true)} />
           </div>
 
           {/* Content */}
@@ -484,7 +438,7 @@ const handleDragEnd = async (event: any) => {
                     </button>
                   )}
                 </div>
-                <button
+                {/* <button
                   onClick={() => navigate("/team/add")}
                   className="
                         flex items-center gap-2
@@ -498,13 +452,13 @@ const handleDragEnd = async (event: any) => {
                     "
                 >
                   <Plus size={16} /> Add Team
-                </button>
+                </button> */}
               </div>
               <div className="grid grid-cols-12">
                 <div className="col-span-12">
                   <div className="w-full rounded-2xl border border-border bg-card flex flex-col h-[calc(100vh-300px)]">
                     {/* ================= HEADER (DESKTOP) ================= */}
-                    <div className="sticky top-0 z-[9] bg-card border-b hidden xl:flex items-center h-[52px] px-4 text-sm font-medium text-primary mx-3">
+                    <div className="sticky top-0 z-[9] bg-card border-b hidden xl:flex items-center h-[52px] px-4 text-sm font-medium text-primary mx-3"   style={{ gridTemplateColumns: GRID_COLS }}>
                       <div className="w-10"></div>
 
                       <div
@@ -621,7 +575,7 @@ const handleDragEnd = async (event: any) => {
                           </span>
                         </span>
                       </div>
-                      <div className={`${COLS.actions} pl-4 border-l`}>Actions</div>
+                      {/* <div className={`${COLS.actions} pl-4 border-l`}>Actions</div> */}
                     </div>
 
                     {/* ================= BODY ================= */}

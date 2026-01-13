@@ -14,13 +14,18 @@
     SortableContext,
     useSortable,
     verticalListSortingStrategy,
-    arrayMove,
     } from "@dnd-kit/sortable";
     import { CSS } from "@dnd-kit/utilities";
-    import SwitchToggle from "../treatment/Toggle";
     import ActionsDropdown from "../treatment/ActionsDropdown";
 
-  
+  import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+
 type ValidationError = {
   section: string;
   field: string;
@@ -475,90 +480,112 @@ const addPromotion = () => {
             <div className="flex justify-between">
 
             <h2 className="text-lg font-semibold">
-  Promotions
-</h2>
-
-
-  <div className="flex justify-end xl:justify-center">
+              Promotions
+            </h2>
+              <div className="flex justify-end xl:justify-center">
                         <button
                     onClick={() => setShowPromoPopup(true)}
-                          className="inline-flex h-9 w-full px-4 items-center justify-center rounded-full bg-primary text-primary-foreground shadow-button hover:opacity-90 transition"
-                        >
-                          {/* <img
-                            src="/send.svg"
-                            alt="send"
-                            className="h-4 w-4"
-                          /> */}
+                          className="inline-flex h-9 w-full px-4 items-center justify-center rounded-full bg-primary text-primary-foreground shadow-button hover:opacity-90 transition">
                           Add Promotion
                         </button>
                       </div>
             </div>
 
-<div className="space-y-3">
-  {(promotionMap[selectedBranchId!] || []).map((p) => (
-    <div
-      key={p.id}
-      className="flex justify-between items-center rounded-lg border border-border bg-card p-4"
+              <div className="space-y-3">
+                {(promotionMap[selectedBranchId!] || []).map((p) => (
+                  <div
+                    key={p.id}
+                    className="flex justify-between items-center rounded-lg border border-border bg-card p-4"
+                  >
+                    <div>
+                      <p className="font-medium">{p.label}</p>
+                      <p className="text-sm text-muted-foreground">{p.treatment}</p>
+                    </div>
+                    <span className="font-semibold">£{p.offerPrice}</span>
+                  </div>
+                ))}
+              </div>
+              {showPromoPopup && (
+                <div className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center !mt-0">
+               <div className="relative w-full max-w-[720px] bg-card rounded-xl p-6 space-y-5">
+
+  <h3 className="text-lg font-semibold">Add Promotion</h3>
+
+  {/* Treatment Select */}
+  <div>
+    <label className="text-sm font-medium">
+      Treatment <sup className="text-destructive">*</sup>
+    </label>
+
+    <Select
+      value={promoTreatment}
+      onValueChange={(v) => setPromoTreatment(v)}
     >
-      <div>
-        <p className="font-medium">{p.label}</p>
-        <p className="text-sm text-muted-foreground">{p.treatment}</p>
-      </div>
-      <span className="font-semibold">£{p.offerPrice}</span>
-    </div>
-  ))}
-</div>
-{showPromoPopup && (
-  <div className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center !mt-0">
-    <div className="relative w-full max-w-[720px] bg-card rounded-xl p-6 space-y-4">
+      <SelectTrigger className="form-input">
+        <SelectValue placeholder="Select treatment" />
+      </SelectTrigger>
 
-      <h3 className="text-lg font-semibold">Add Promotion</h3>
-
-      <select
-        value={promoTreatment}
-        onChange={(e) => setPromoTreatment(e.target.value)}
-        className="form-input"
-      >
-        <option value="">Select Treatment</option>
+      <SelectContent>
         {availableTreatments.map((t) => (
-          <option key={t} value={t}>{t}</option>
+          <SelectItem key={t} value={t}>
+            {t}
+          </SelectItem>
         ))}
-      </select>
-
-      <input
-        value={promoLabel}
-        onChange={(e) => setPromoLabel(e.target.value)}
-        placeholder="Promotion label"
-        className="form-input"
-      />
-
-      <input
-        type="number"
-        value={promoPrice}
-        onChange={(e) => setPromoPrice(e.target.value)}
-        placeholder="Offer price"
-        className="form-input"
-      />
-     <div className="flex justify-center gap-3 pt-4">
-        <button
-          type="button"
-           onClick={() => setShowPromoPopup(false)}
-          className="rounded-full px-6 py-2 border"
-        >
-          Cancel
-        </button>
-        <button
-          type="submit"
-           onClick={addPromotion}
-          className="rounded-full bg-primary px-6 py-2 text-primary-foreground shadow-button hover:opacity-90 transition"
-        >
-          Save
-        </button>
-      </div>
-    </div>
+      </SelectContent>
+    </Select>
   </div>
-)}
 
+  {/* Promotion Label */}
+  <div>
+    <label className="text-sm font-medium">
+      Promotion Label <sup className="text-destructive">*</sup>
+    </label>
+
+    <input
+      value={promoLabel}
+      onChange={(e) => setPromoLabel(e.target.value)}
+      placeholder="Enter promotion label"
+      className="form-input"
+    />
+  </div>
+
+  {/* Offer Price */}
+  <div>
+    <label className="text-sm font-medium">
+      Offer Price <sup className="text-destructive">*</sup>
+    </label>
+
+    <input
+      type="number"
+      value={promoPrice}
+      onChange={(e) => setPromoPrice(e.target.value)}
+      placeholder="Enter offer price"
+      className="form-input"
+    />
+  </div>
+
+  {/* Buttons */}
+  <div className="flex justify-center gap-3 pt-4">
+    <button
+      type="button"
+      onClick={() => setShowPromoPopup(false)}
+      className="rounded-full px-6 py-2 border"
+    >
+      Cancel
+    </button>
+
+    <button
+      type="button"
+      onClick={addPromotion}
+      className="rounded-full bg-primary px-6 py-2 text-primary-foreground shadow-button hover:opacity-90 transition"
+    >
+      Save
+    </button>
+  </div>
+
+</div>
+                </div>
+              )}
             </div>
         )}
         </>

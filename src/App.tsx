@@ -30,6 +30,7 @@ import HomeIndex from "./components/home/HomeIndex";
 import GlobalBookNow from "./components/globalBookNow/GlobalBookNow";
 import BookConsultationList from "./components/bookConsultationList/BookConsultationList";
 import PricesIndex from "./components/prices/PricesIndex";
+import EnquiryList from "./components/bookConsultationList/Enquiry";
 
 const queryClient = new QueryClient();
 
@@ -123,14 +124,22 @@ const App = () => (
               </ProtectedRoute>
             }
           />
-          {/* <Route
-            path="/settings/prices"
+          <Route
+            path="/prices"
             element={
               <ProtectedRoute>
                 <PricesIndex />
               </ProtectedRoute>
             }
-          /> */}
+          />
+          <Route
+            path="/enquiry"
+            element={
+              <ProtectedRoute>
+                <EnquiryList />
+              </ProtectedRoute>
+            }
+          />
 
           {/* Protected Treatment Editor Route */}
           <Route

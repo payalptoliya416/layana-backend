@@ -46,13 +46,13 @@ const items = [
     iconBg: "#22C55E",
     path: "/settings/global-booking",
   },
-// {
-//   title: "Booked Consultation List",
-//   icon: ClipboardList,              // better for list / records
-//   gradient: "from-[#F59E0B]/10 to-transparent", // amber / orange tone
-//   iconBg: "#F59E0B",
-//   path: "/settings/booked-consultation-list",
-// },
+{
+  title: "Booked Consultation List",
+  icon: ClipboardList,              // better for list / records
+  gradient: "from-[#F59E0B]/10 to-transparent", // amber / orange tone
+  iconBg: "#F59E0B",
+  path: "/settings/booked-consultation-list",
+},
 ];
 
   return (

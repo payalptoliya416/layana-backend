@@ -10,6 +10,9 @@ import {
   UserCheck,
   Package,
   House,
+  PrinterCheckIcon,
+  Album,
+  BadgePercent,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import {
@@ -48,8 +51,9 @@ const navItems: NavItem[] = [
     ],
   },
   { icon: Package, label: "Popup", href: "/popup" },
+  { icon: Album, label: "Enquiry", href: "/enquiry" },
   { icon: Bolt, label: "Bussiness Settings", href: "/settings" },
-  // { icon: PrinterCheckIcon, label: "Pricing", href: "/prices" },
+  { icon: BadgePercent, label: "Pricing", href: "/prices" },
 ];
 
 interface SidebarProps {
