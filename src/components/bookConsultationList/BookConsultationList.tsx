@@ -630,11 +630,11 @@ const handleDragEnd = async (event: any) => {
           </div>
 
           <div className="col-span-2">
-            <b>Goal:</b> {viewData.skin_goal}
+            <b>Skin Goal:</b> {viewData.skin_goal}
           </div>
 
           <div className="col-span-2">
-            <b>Products:</b> {viewData.skin_care_products}
+            <b>Skin Care Product:</b> {viewData.skin_care_products}
           </div>
 
           <div className="col-span-2">
