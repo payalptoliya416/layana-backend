@@ -168,7 +168,6 @@ const fetchTeams = async () => {
      setPagination(res?.pagination ?? null);
   } catch (e) {
     setTeams([]);
-    toast.error("Failed to load booked consultations");
   }
 };
 

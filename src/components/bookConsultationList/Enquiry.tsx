@@ -218,7 +218,7 @@ export default function EnquiryList() {
                     onClick={() => setSearch("")}
                   />
                 ) : (
-                  <Search className="absolute right-4 top-3" />
+                  <Search className="absolute right-5 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground" />
                 )}
               </div>
             </div>
