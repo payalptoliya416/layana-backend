@@ -426,7 +426,7 @@ const handleDragEnd = async (event: any) => {
                         </span>
                       </div>
                       <div
-                        className={`w-[25%] pl-4 border-l flex-1 cursor-pointer flex items-center justify-between text-left`}
+                        className={`w-[25%] pl-4 border-l  cursor-pointer flex items-center justify-between text-left`}
                         onClick={() => {
                           setSortBy("designation");
                           setSortDirection((p) =>
