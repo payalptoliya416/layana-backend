@@ -226,7 +226,7 @@ export default function EnquiryList() {
              <div className="grid grid-cols-12">
                   <div className="col-span-12">
             <div className="w-full rounded-2xl border border-border bg-card flex flex-col h-[calc(100vh-300px)]">
-              <div className="sticky top-0 z-[9] bg-card border-b hidden xl:flex items-center h-[52px] px-4 text-sm font-medium text-primary mx-3">
+              <div className="sticky top-0 z-[9] bg-card border-b hidden 2xl:flex items-center h-[52px] px-4 text-sm font-medium text-primary mx-3">
                 <div className="w-[40px] text-center">#</div>
                 <div
                   className="w-[18%]  border-l pl-4 cursor-pointer flex items-center justify-between"
