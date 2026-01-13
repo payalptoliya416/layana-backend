@@ -88,7 +88,7 @@ function SortableRow({
         </div>
 
         <div className="w-[15%] pl-4">{item.firstName}</div>
-        <div className="w-[15%] pl-4">{item.lastName}</div>
+        <div className="w-[14%] pl-4">{item.lastName}</div>
         <div className="w-[25%] pl-4 truncate">{item.email}</div>
         <div className="w-[15%] pl-4">{item.mobile}</div>
         <div className="w-[10%] pl-4 capitalize">{item.type}</div>
