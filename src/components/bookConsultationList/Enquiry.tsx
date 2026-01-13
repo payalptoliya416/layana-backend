@@ -187,7 +187,7 @@ export default function EnquiryList() {
             />
           </div>
           <div
-            className="  flex-1 pl-[15px] pr-6 px-6 flex flex-col bg-card rounded-2xl shadow-card p-5
+            className="flex-1 pl-[15px] pr-6 px-6 flex flex-col bg-card rounded-2xl shadow-card p-5
     relative
     overflow-hidden
     h-[calc(100dvh-160px)] lg:h-[calc(100vh-220px)]"
@@ -210,8 +210,9 @@ export default function EnquiryList() {
                 )}
               </div>
             </div>
-
-            <div className="w-full rounded-2xl border border-border bg-card flex flex-col flex-1">
+             <div className="grid grid-cols-12">
+                  <div className="col-span-12">
+            <div className="w-full rounded-2xl border border-border bg-card flex flex-col h-[calc(100vh-300px)]">
               <div className="sticky top-0 z-[9] bg-card border-b hidden xl:flex items-center h-[52px] px-4 text-sm font-medium text-primary mx-3">
                 <div className="w-[40px] text-center">#</div>
                 <div
@@ -279,6 +280,9 @@ export default function EnquiryList() {
                 )}
               </div>
             </div>
+                  </div>
+             </div>
+            
 
             {pagination && (
               <div className="flex justify-center gap-4 mt-3">

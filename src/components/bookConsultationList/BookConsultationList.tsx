@@ -362,21 +362,6 @@ const handleDragEnd = async (event: any) => {
                     </button>
                   )}
                 </div>
-                {/* <button
-                  onClick={() => navigate("/team/add")}
-                  className="
-                        flex items-center gap-2
-                        rounded-full
-                        bg-primary
-                        px-3 sm:px-5 py-3
-                        text-xs sm:text-sm text-primary-foreground
-                        shadow-button
-                        hover:opacity-90
-                        transition w-full sm:w-auto justify-center
-                    "
-                >
-                  <Plus size={16} /> Add Team
-                </button> */}
               </div>
               <div className="grid grid-cols-12">
                 <div className="col-span-12">
