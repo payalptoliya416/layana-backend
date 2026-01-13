@@ -43,7 +43,7 @@ import SwitchToggle from "../treatment/Toggle";
 import { deleteTeam, TeamPayload, updateTeam } from "@/services/teamService";
 import { useAutoRows } from "@/hooks/useAutoRows";
 import { getAllTeams } from "../team/getAllTeams";
-import { BookedConsultation, getBookedConsultations } from "@/services/bookedConsultation";
+import { BookedConsultation, getBookedConsultationById, getBookedConsultations } from "@/services/bookedConsultation";
 
 type Consultation = BookedConsultation;
 
@@ -52,24 +52,15 @@ export type Category = {
   name: string;
   status: "Live" | "Draft";
 };
-   const COLS = {
-    drag: "w-10",
-    first: "w-[15%]",
-    last: "w-[19%]",
-    email: "w-[25%]",
-    mobile: "w-[15%]",
-    type: "w-[15%]",
-    treatments: "w-[15%]",
-    // actions: "w-[100px]",
-    };
-    const GRID_COLS =
-  "40px 150px 170px 260px 160px 140px 220px";
-
+   
+const GRID_COLS =
+  "40px 150px 170px 260px 160px 140px 220px 60px";
 function SortableRow({
   item,
   index,
   onEdit,
   onDelete,
+    onView,
   onToggleFeatured,
 }: {
   item: any;
@@ -77,6 +68,7 @@ function SortableRow({
   onEdit: (id: number) => void;
   onDelete: (id: number) => void;
   onToggleFeatured: (id: number, value: boolean) => void;
+  onView: (id: number) => void;
 }) {
   const { attributes, listeners, setNodeRef, transform, transition } =
     useSortable({ id: item.id });
@@ -89,68 +81,41 @@ function SortableRow({
   return (
     <div ref={setNodeRef} style={style}>
       {/* ================= DESKTOP ROW ================= */}
-      <div
-        data-row
-        className={cn(
-          " hidden xl:flex items-center px-4 py-3 mx-4 my-1 rounded-xl",
-          index % 2 === 0 ? "bg-card" : "bg-muted",
-          "hover:bg-muted/70"
-        )}
-         style={{ gridTemplateColumns: GRID_COLS }}
-      >
+     <div
+  data-row
+  className="hidden xl:grid items-center px-4 py-3 mx-4 my-1 rounded-xl justify-between"
+  style={{ gridTemplateColumns: GRID_COLS }}
+>
         <div
           {...attributes}
           {...listeners}
-          className="w-10 flex justify-center cursor-grab"
+          className="w-10 flex justify-center "
         >
-          <GripVertical size={18} />
+           {index + 1}
         </div>
 
-        <div className={`${COLS.first} pl-4`}>{item.firstName}</div>
-        <div className={`${COLS.last} pl-4`}>{item.lastName}</div>
-        <div className={`${COLS.email} pl-4`}>{item.email}</div>
-        <div className={`${COLS.mobile} pl-4`}>{item.mobile}</div>
-        <div className={`${COLS.type} pl-4`}>{item.type}</div>
-        <div className={`${COLS.treatments} pl-4`}>{item.treatments}</div>
-        {/* <div className={`${COLS.actions} flex justify-center gap-2`}>
-          <td className=" flex gap-2 whitespace-nowrap pl-4 justify-center">
-            <button
-              onClick={() => onEdit(item.id)}
-              className="
-            h-7 w-7 rounded-full
-            border border-border
-            bg-card
-            flex items-center justify-center
-            text-muted-foreground
-            hover:text-foreground hover:bg-muted
-          "
-            >
-              <Pencil size={15} />
-            </button>
-
-            <button
-              onClick={() => onDelete(item.id)}
-              className="
-            h-7 w-7 rounded-full
-            border border-border
-            bg-card
-            flex items-center justify-center
-            text-muted-foreground
-            hover:bg-muted
-          "
-            >
-              <Trash2 size={15} />
-            </button>
-          </td>
-        </div> */}
+        <div className={` pl-4`}>{item.firstName}</div>
+        <div className={` pl-4`}>{item.lastName}</div>
+        <div className={` pl-4`}>{item.email}</div>
+        <div className={` pl-4`}>{item.mobile}</div>
+        <div className={` pl-4`}>{item.type}</div>
+        <div className={`$ pl-4`}>{item.treatments}</div>
+        <div className="flex justify-center">
+  <Eye
+    size={18}
+    className="cursor-pointer text-muted-foreground hover:text-foreground"
+    onClick={() => onView(item.id)}
+  />
+</div>
+       
       </div>
 
       {/* ================= MOBILE CARD ================= */}
       <div className="xl:hidden mx-3 my-2 rounded-xl border bg-card p-4 space-y-2">
         <div className="flex justify-between">
           <div className="flex gap-3 items-center">
-            <div {...attributes} {...listeners} className="cursor-grab">
-              <GripVertical size={18} />
+            <div {...attributes} {...listeners} className="">
+            {index + 1}
             </div>
 
             <div className="flex-1">
@@ -161,6 +126,12 @@ function SortableRow({
                 <p className="text-sm mb-1">{item.email}</p>
                 <p className="text-sm mb-1">{item.mobile}</p>
                 <p className="text-sm">{item.type} • {item.treatments}</p>
+                <button
+    onClick={() => onView(item.id)}
+    className="absolute top-3 right-3 h-8 w-8 rounded-full border bg-muted flex items-center justify-center"
+  >
+    <Eye size={16} />
+  </button>
 
             </div>
           </div>
@@ -206,7 +177,9 @@ function BookConsultationList() {
   const [search, setSearch] = useState("");
   const [debouncedSearch, setDebouncedSearch] = useState("");
   const { containerRef, rowsPerPage } = useAutoRows();
-
+const [viewId, setViewId] = useState<number | null>(null);
+const [viewData, setViewData] = useState<Consultation | null>(null);
+const [loadingView, setLoadingView] = useState(false);
   const sensors = useSensors(
     useSensor(PointerSensor, {
       activationConstraint: { distance: 5 },
@@ -264,6 +237,21 @@ const fetchTeams = async () => {
 useEffect(() => {
     fetchTeams();
   }, [page, sortBy, sortDirection, rowsPerPage, debouncedSearch]);
+
+const handleView = async (id: number) => {
+  try {
+    setLoadingView(true);
+    setViewId(id);
+
+    const data = await getBookedConsultationById(id);
+
+    setViewData(data);
+  } catch {
+    toast.error("Failed to load consultation");
+  } finally {
+    setLoadingView(false);
+  }
+};
 
   useEffect(() => {
     const delay = setTimeout(() => {
@@ -458,11 +446,14 @@ const handleDragEnd = async (event: any) => {
                 <div className="col-span-12">
                   <div className="w-full rounded-2xl border border-border bg-card flex flex-col h-[calc(100vh-300px)]">
                     {/* ================= HEADER (DESKTOP) ================= */}
-                    <div className="sticky top-0 z-[9] bg-card border-b hidden xl:flex items-center h-[52px] px-4 text-sm font-medium text-primary mx-3"   style={{ gridTemplateColumns: GRID_COLS }}>
-                      <div className="w-10"></div>
+                  <div
+                  className="sticky top-0 z-[9] bg-card border-b hidden xl:grid items-center h-[52px] px-4 text-sm font-medium text-primary mx-3 justify-between"
+                  style={{ gridTemplateColumns: GRID_COLS }}
+                >
+                <div className="text-center text-muted-foreground">#</div>
 
                       <div
-                        className={`${COLS.first} pl-4 border-l cursor-pointer flex items-center justify-between text-left`}
+                        className={` pl-4 border-l cursor-pointer flex items-center justify-between text-left`}
                         onClick={() => {
                           setSortBy("name");
                           setSortDirection((p) =>
@@ -481,7 +472,7 @@ const handleDragEnd = async (event: any) => {
                         </span>
                       </div>
                       <div
-                        className={`${COLS.last} pl-4 border-l flex-1 cursor-pointer flex items-center justify-between text-left`}
+                        className={`$pl-4 border-l flex-1 cursor-pointer flex items-center justify-between text-left`}
                         onClick={() => {
                           setSortBy("designation");
                           setSortDirection((p) =>
@@ -500,7 +491,7 @@ const handleDragEnd = async (event: any) => {
                         </span>
                       </div>
                       <div
-                        className={`${COLS.email} pl-4 border-l flex-1 cursor-pointer flex items-center justify-between text-left`}
+                        className={`pl-4 border-l flex-1 cursor-pointer flex items-center justify-between text-left`}
                         onClick={() => {
                           setSortBy("designation");
                           setSortDirection((p) =>
@@ -519,7 +510,7 @@ const handleDragEnd = async (event: any) => {
                         </span>
                       </div>
                       <div
-                        className={`${COLS.mobile} pl-4 border-l flex-1 cursor-pointer flex items-center justify-between text-left`}
+                        className={` pl-4 border-l flex-1 cursor-pointer flex items-center justify-between text-left`}
                         onClick={() => {
                           setSortBy("designation");
                           setSortDirection((p) =>
@@ -538,7 +529,7 @@ const handleDragEnd = async (event: any) => {
                         </span>
                       </div>
                       <div
-                        className={`${COLS.type} pl-4 border-l flex-1 cursor-pointer flex items-center justify-between text-left`}
+                        className={` pl-4 border-l flex-1 cursor-pointer flex items-center justify-between text-left`}
                         onClick={() => {
                           setSortBy("designation");
                           setSortDirection((p) =>
@@ -557,7 +548,7 @@ const handleDragEnd = async (event: any) => {
                         </span>
                       </div>
                       <div
-                        className={`${COLS.treatments} pl-4 border-l cursor-pointer flex items-center justify-between text-left`}
+                        className={` pl-4 border-l cursor-pointer flex items-center justify-between text-left`}
                         onClick={() => {
                           setSortBy("designation");
                           setSortDirection((p) =>
@@ -575,7 +566,7 @@ const handleDragEnd = async (event: any) => {
                           </span>
                         </span>
                       </div>
-                      {/* <div className={`${COLS.actions} pl-4 border-l`}>Actions</div> */}
+                      <div className={` pl-4 border-l`}>Actions</div>
                     </div>
 
                     {/* ================= BODY ================= */}
@@ -607,6 +598,7 @@ const handleDragEnd = async (event: any) => {
                                 onEdit={handleEdit}
                                 onDelete={(id) => setDeleteId(id)}
                                 onToggleFeatured={handleFeaturedToggle}
+                                 onView={handleView}
                               />
                             ))}
                           </SortableContext>
@@ -614,6 +606,54 @@ const handleDragEnd = async (event: any) => {
                       )}
                     </div>
                   </div>
+{viewId && (
+  <AlertDialog open onOpenChange={() => { setViewId(null); setViewData(null); }}>
+    <AlertDialogContent className="max-w-[720px] rounded-2xl p-6 bg-card">
+      <AlertDialogHeader>
+        <AlertDialogTitle>Consultation Details</AlertDialogTitle>
+      </AlertDialogHeader>
+
+      {loadingView ? (
+        <div className="py-10 text-center">Loading...</div>
+      ) : viewData && (
+        <div className="grid grid-cols-2 gap-4 text-sm">
+          <div><b>Name:</b> {viewData.firstName} {viewData.lastName}</div>
+          <div><b>Email:</b> {viewData.email}</div>
+          <div><b>Mobile:</b> {viewData.mobile}</div>
+          <div><b>Type:</b> {viewData.type}</div>
+          <div><b>Treatment:</b> {viewData.treatments}</div>
+          <div><b>Date:</b> {viewData.day}</div>
+          <div><b>Time:</b> {viewData.startTime} - {viewData.endTime}</div>
+
+          <div className="col-span-2">
+            <b>Skin Type:</b> {viewData.skin_type}, {viewData.skin_type_second}
+          </div>
+
+          <div className="col-span-2">
+            <b>Goal:</b> {viewData.skin_goal}
+          </div>
+
+          <div className="col-span-2">
+            <b>Products:</b> {viewData.skin_care_products}
+          </div>
+
+          <div className="col-span-2">
+            <b>Message:</b>
+            <div className="mt-2 p-3 bg-muted rounded-lg">
+              {viewData.message}
+            </div>
+          </div>
+        </div>
+      )}
+
+      <AlertDialogFooter className="mt-6">
+        <Button variant="cancel" onClick={() => { setViewId(null); setViewData(null); }}>
+          Close
+        </Button>
+      </AlertDialogFooter>
+    </AlertDialogContent>
+  </AlertDialog>
+)}
 
                   {/* ================= PAGINATION ================= */}
                   {pagination && (
