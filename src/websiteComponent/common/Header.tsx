@@ -226,6 +226,101 @@ const underlineClass =
           ))}
         </div>
       )}
+      {open && (
+        <>
+       {/* ================= MOBILE SIDEBAR ================= */}
+<div
+  className={`fixed inset-0 z-50 lg:hidden transition-all duration-300 ${
+    open ? "visible" : "invisible"
+  }`}
+>
+  {/* Overlay */}
+  <div
+    className={`absolute inset-0 bg-black/70 transition-opacity duration-300 ${
+      open ? "opacity-100" : "opacity-0"
+    }`}
+    onClick={() => setOpen(false)}
+  />
+
+  {/* Sidebar */}
+  <div
+    className={`absolute right-0 top-0 h-full w-[85%] max-w-[360px]
+    bg-[#f6efec] text-black
+    transition-transform duration-300
+    ${open ? "translate-x-0" : "translate-x-full"}`}
+  >
+    {/* Close button */}
+    <div className="flex justify-end p-3">
+    <button
+      onClick={() => setOpen(false)}
+      className="bg-black rounded-full text-white w-[35px] h-[35px] flex justify-center items-center"
+    >
+      <X size={24} />
+    </button>
+    </div>
+
+    {/* Menu */}
+    <div className="h-full flex flex-col px-4 space-y-6 tracking-widest text-sm">
+      {menu.map((item) => (
+        <div key={item.label}>
+          {item.external ? (
+            <a
+              href={item.href}
+              target="_blank"
+              className="block uppercase"
+            >
+              {item.label}
+            </a>
+          ) : item.dropdownKey ? (
+            <button
+              onClick={() =>
+                setActiveDropdown(
+                  activeDropdown === item.dropdownKey
+                    ? null
+                    : item.dropdownKey
+                )
+              }
+              className="w-full flex justify-between items-center uppercase"
+            >
+              <span>{item.label}</span>
+              <ChevronDown size={14} />
+            </button>
+          ) : (
+            <Link
+              to={withBase(item.href)}
+              className="block uppercase"
+              onClick={() => setOpen(false)}
+            >
+              {item.label}
+            </Link>
+          )}
+
+          {/* Dropdowns */}
+          {item.dropdownKey === "treatments" &&
+            activeDropdown === "treatments" && (
+              <MobileLocations baseUrl={withBase("/treatments")} />
+            )}
+
+          {item.dropdownKey === "memberships" &&
+            activeDropdown === "memberships" && (
+              <MobileLocations baseUrl={withBase("/memberships")} />
+            )}
+
+          {item.dropdownKey === "spa" &&
+            activeDropdown === "spa" && (
+              <MobileLocations baseUrl={withBase("/spa-packages")} />
+            )}
+
+          {item.dropdownKey === "prices" &&
+            activeDropdown === "prices" && <MobilePrices />}
+        </div>
+      ))}
+    </div>
+  </div>
+</div>
+
+        </>
+      )}
     </header>
   );
 }
@@ -289,7 +384,7 @@ const MobileLocations = ({ baseUrl }: { baseUrl: string }) => (
       <Link
         key={loc.slug}
         to={`${baseUrl}/${loc.slug}`}
-        className="block text-sm text-white/80"
+        className="block text-sm"
       >
         {loc.label}
       </Link>
@@ -310,7 +405,7 @@ const MobilePrices = () => (
                 s.slug
               }`
             )}
-            className="block text-sm text-white/80 ml-3 py-1"
+            className="block text-smml-3 py-1"
           >
             {s.label}
           </Link>
