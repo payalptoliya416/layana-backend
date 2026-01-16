@@ -399,7 +399,25 @@ const renderTabContent = () => {
     </>
   );
 };
+const shouldShowBack =
+  (activeSection === "pricing" && selectedPricingBranch !== null) ||
+  (activeSection === "seo" && selectedSeoBranch !== null);
+  
+const handleBack = () => {
+  if (activeSection === "pricing" && selectedPricingBranch !== null) {
+    setShowPricingGrid(true);
+    setSelectedPricingBranch(null);
+    return;
+  }
 
+  if (activeSection === "seo" && selectedSeoBranch !== null) {
+    setSelectedSeoBranch(null);
+    return;
+  }
+
+  // default → normal page back
+  navigate(-1);
+};
   return (
     <>
   {showValidationPopup && (
@@ -492,19 +510,21 @@ const renderTabContent = () => {
         onMenuClick={() => setSidebarOpen(true)}
         title={pageTitle}
           isTitleLoading={isTitleLoading}
-        showBack={
-          (activeSection === "pricing" && selectedPricingBranch !== null) ||
-          (activeSection === "seo" && selectedSeoBranch !== null)
-        }
-       onBack={() => {
-  if (activeSection === "pricing") {
-    setShowPricingGrid(true);
-    setSelectedPricingBranch(null);
-  }
-  if (activeSection === "seo") {
-    setSelectedSeoBranch(null);
-  }
-}}
+//         showBack={
+//           (activeSection === "pricing" && selectedPricingBranch !== null) ||
+//           (activeSection === "seo" && selectedSeoBranch !== null)
+//         }
+//        onBack={() => {
+//   if (activeSection === "pricing") {
+//     setShowPricingGrid(true);
+//     setSelectedPricingBranch(null);
+//   }
+//   if (activeSection === "seo") {
+//     setSelectedSeoBranch(null);
+//   }
+// }}
+ showBack={shouldShowBack || true}
+  onBack={handleBack}
       />
         </div>
 

@@ -90,9 +90,11 @@ function SpaPackages() {
   const handleCancle = () => {
     navigate("/packages-list");
   };
+
   const [validationErrors, setValidationErrors] = useState<
     { section: string; field: string; message: string }[]
   >([]);
+
 useEffect(() => {
   if (!isEdit || !id) return;
 
@@ -234,6 +236,29 @@ useEffect(() => {
       general,
     }));
   }, []);
+
+  const shouldShowBack =
+  (activeSection === "pricing" && selectedPricingBranch !== null) ||
+  (activeSection === "seo" && selectedSeoBranch !== null);
+
+  const handleBack = () => {
+  // pricing detail → pricing list
+  if (activeSection === "pricing" && selectedPricingBranch !== null) {
+    setShowPricingGrid(true);
+    setSelectedPricingBranch(null);
+    return;
+  }
+
+  // seo detail → seo list
+  if (activeSection === "seo" && selectedSeoBranch !== null) {
+    setSelectedSeoBranch(null);
+    return;
+  }
+
+  // normal position → previous page
+  navigate(-1);
+};
+
   const renderTabContent = () => {
     return (
       <>
@@ -391,24 +416,12 @@ useEffect(() => {
             <PageHeader
               onMenuClick={() => setSidebarOpen(true)}
               title={
-    isEdit && packagePayload.general.name
-      ? packagePayload.general.name
-      : "Spa Packages"
-  }
-              showBack={
-                (activeSection === "pricing" &&
-                  selectedPricingBranch !== null) ||
-                (activeSection === "seo" && selectedSeoBranch !== null)
+                isEdit && packagePayload.general.name
+                  ? packagePayload.general.name
+                  : "Spa Packages"
               }
-              onBack={() => {
-                if (activeSection === "pricing") {
-                  setShowPricingGrid(true);
-                  setSelectedPricingBranch(null);
-                }
-                if (activeSection === "seo") {
-                  setSelectedSeoBranch(null);
-                }
-              }}
+               showBack={shouldShowBack || true}
+               onBack={handleBack}
             />
           </div>
 

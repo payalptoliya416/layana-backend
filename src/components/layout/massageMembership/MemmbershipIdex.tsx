@@ -243,6 +243,27 @@ const handleSectionChange = (section: string) => {
     }
   };
 
+  const shouldShowBack =
+  (activeSection === "pricing" && selectedPricingBranch !== null) ||
+  (activeSection === "seo" && selectedSeoBranch !== null);
+const handleBack = () => {
+  // pricing detail → pricing list
+  if (activeSection === "pricing" && selectedPricingBranch !== null) {
+    setShowPricingGrid(true);
+    setSelectedPricingBranch(null);
+    return;
+  }
+
+  // seo detail → seo list
+  if (activeSection === "seo" && selectedSeoBranch !== null) {
+    setSelectedSeoBranch(null);
+    return;
+  }
+
+  // normal tab position → previous page
+  navigate(-1);
+};
+
   /* ---------- TABS ---------- */
   const renderTabContent = () => (
     <>
@@ -418,24 +439,11 @@ const handleSectionChange = (section: string) => {
         )}
       >
           <div className="sticky top-3 z-10 pb-3">
-            {/* <PageHeader title={payload.name || 'MemberShip'} onMenuClick={() => setSidebarOpen(true)} /> */}
               <PageHeader
           onMenuClick={() => setSidebarOpen(true)}
           title={displayName || "Memberships"}
-          showBack={
-            (activeSection === "pricing" && selectedPricingBranch !== null) ||
-            (activeSection === "seo" && selectedSeoBranch !== null)
-          }
-          onBack={() => {
-            if (activeSection === "pricing") {
-              setShowPricingGrid(true);
-              setSelectedPricingBranch(null);
-            }
-
-            if (activeSection === "seo") {
-              setSelectedSeoBranch(null);
-            }
-          }}
+          showBack={shouldShowBack || true}
+          onBack={handleBack}
         />
           </div>
                 <div className="flex-1 pl-[15px] pr-6 px-6 flex flex-col h-full bg-card rounded-2xl shadow-card p-5 relative overflow-hidden">
