@@ -185,7 +185,6 @@ function BeautyRow({
   return (
     <div className="my-2 text-xs sm:text-sm lg:text-base">
       <div className="grid grid-cols-12 gap-x-4 gap-y-1 items-start bg-[#fff4e9]">
-
         {/* LEFT COLUMN */}
         <div className="col-span-12 sm:col-span-7 p-2">
           <div className="font-medium text-[#666666]">{title}</div>
@@ -195,13 +194,12 @@ function BeautyRow({
         <div className="col-span-12 sm:col-span-5 text-left sm:text-right font-medium break-words p-2">
           {price}
         </div>
-
       </div>
       {description && (
-            <div className="text-xs sm:text-sm lg:text-base text-[#666666] font-quattro py-4 px-2">
-              {description}
-            </div>
-          )}
+        <div className="text-xs sm:text-sm lg:text-base text-[#666666] font-quattro py-4 px-2">
+          {description}
+        </div>
+      )}
     </div>
   );
 }
@@ -285,8 +283,19 @@ function FacialContent() {
 // --beauty Tab content -- end
 
 function PricingPage() {
-    const [openAccordion, setOpenAccordion] = useState<string | null>("MASSAGE");
-
+  const [openAccordion, setOpenAccordion] = useState<{
+    Massage: string | null;
+    Beauty: string | null;
+  }>({
+    Massage: "MASSAGE",
+    Beauty: "NAILS",
+  });
+  const toggleAccordion = (tab: "Massage" | "Beauty", key: string) => {
+    setOpenAccordion((prev) => ({
+      ...prev,
+      [tab]: prev[tab] === key ? null : key,
+    }));
+  };
   return (
     <>
       <SimpleHeroBanner
@@ -303,41 +312,47 @@ function PricingPage() {
               <>
                 {activeTab === "Massage" && (
                   <>
-                    <PricingAccordion title="MASSAGE" isOpen={openAccordion === "MASSAGE"}
-      onToggle={() =>
-        setOpenAccordion(openAccordion === "MASSAGE" ? null : "MASSAGE")
-      }>
+                    <PricingAccordion
+                      title="MASSAGE"
+                      isOpen={openAccordion.Massage === "MASSAGE"}
+                      onToggle={() => toggleAccordion("Massage", "MASSAGE")}
+                    >
                       <MassageContent />
                     </PricingAccordion>
 
-                    <PricingAccordion title="SPA PACKAGES"  isOpen={openAccordion === "SPA"}
-      onToggle={() =>
-        setOpenAccordion(openAccordion === "SPA" ? null : "SPA")
-      }>
+                    <PricingAccordion
+                      title="SPA PACKAGES"
+                      isOpen={openAccordion.Massage === "SPA"}
+                      onToggle={() => toggleAccordion("Massage", "SPA")}
+                    >
                       <SpaContent />
                     </PricingAccordion>
                   </>
                 )}
+
                 {activeTab === "Beauty" && (
                   <>
-                    <PricingAccordion title="NAILS"   isOpen={openAccordion === "NAILS"}
-      onToggle={() =>
-        setOpenAccordion(openAccordion === "NAILS" ? null : "NAILS")
-      }>
+                    <PricingAccordion
+                      title="NAILS"
+                      isOpen={openAccordion.Beauty === "NAILS"}
+                      onToggle={() => toggleAccordion("Beauty", "NAILS")}
+                    >
                       <NailsContent />
                     </PricingAccordion>
 
-                    <PricingAccordion title="FEMALE WAXING"  isOpen={openAccordion === "WAXING"}
-      onToggle={() =>
-        setOpenAccordion(openAccordion === "WAXING" ? null : "WAXING")
-      }>
+                    <PricingAccordion
+                      title="FEMALE WAXING"
+                      isOpen={openAccordion.Beauty === "WAXING"}
+                      onToggle={() => toggleAccordion("Beauty", "WAXING")}
+                    >
                       <FemaleWaxingContent />
                     </PricingAccordion>
 
-                    <PricingAccordion title="FACIAL"  isOpen={openAccordion === "FACIAL"}
-      onToggle={() =>
-        setOpenAccordion(openAccordion === "FACIAL" ? null : "FACIAL")
-      }>
+                    <PricingAccordion
+                      title="FACIAL"
+                      isOpen={openAccordion.Beauty === "FACIAL"}
+                      onToggle={() => toggleAccordion("Beauty", "FACIAL")}
+                    >
                       <FacialContent />
                     </PricingAccordion>
                   </>
