@@ -1,7 +1,8 @@
 import { useState } from "react";
-import { Menu, X, MapPin, ChevronDown } from "lucide-react";
+import { X, MapPin, ChevronDown } from "lucide-react";
 import { Link } from "react-router-dom";
 import white_logo from "@/assets/white_logo.png";
+import menuimg from "@/assets/menu.png";
 import { WEBSITE_BASE } from "@/route/config";
 
 /* ================= MENU ================= */
@@ -171,7 +172,7 @@ const underlineClass =
           onMouseEnter={() => setActiveDropdown("location")}
           onMouseLeave={() => setActiveDropdown(null)}
         >
-          <button className="flex items-center gap-2 text-sm tracking-widest hover:text-[#e6c9a2]">
+          <button className="flex items-center gap-2 text-xs tracking-widest hover:text-[#e6c9a2]">
             <MapPin size={14} />
             {selectedLocation ?? "Choose Location"}
           </button>
@@ -187,7 +188,7 @@ const underlineClass =
           )}
         </div>
         <button className="lg:hidden" onClick={() => setOpen(!open)}>
-          {open ? <X size={28} /> : <Menu size={28} />}
+          {open ? <X size={28} /> : <img src={menuimg} alt="menu"/>}
         </button>
         </div>
       </div>
@@ -385,7 +386,7 @@ const DesktopLocations = ({
   onSelect: (label: string) => void;
 }) => (
   <div className="absolute left-0 top-full pt-2">
-    <div className="w-[160px] bg-white rounded-b-md overflow-hidden">
+    <div className="w-[130px] sm:w-[160px] bg-white rounded-b-md overflow-hidden">
       {locations.map((loc) => (
         <Link
           key={loc.slug}
