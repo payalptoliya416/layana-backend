@@ -14,6 +14,25 @@ import {
   ChevronRight,
 } from "lucide-react";
 
+const socialLinks = [
+  {
+    icon: Facebook,
+    href: "https://www.facebook.com/layanauk",
+  },
+  {
+    icon: Instagram,
+    href: "https://www.instagram.com/layana.uk/",
+  },
+  {
+    icon: Mail,
+    href: "mailto:info@layana.co.uk",
+  },
+  {
+    icon: Linkedin, // WhatsApp mate lucide ma icon nathi, niche note joi lo
+    href: "https://wa.me/message/QZVCD34TB4OKC1",
+  },
+];
+
 function Footer() {
   return (
     <>
@@ -28,7 +47,10 @@ function Footer() {
         {/* content */}
         <div className="relative z-10 max-w-3xl px-6">
           {/* arrow */}
-          <a href="#" className="w-[53px] h-[53px] mx-auto rounded-full bg-[#9A563A] flex items-center justify-center mb-[41px]">
+          <a
+            href="#"
+            className="w-[53px] h-[53px] mx-auto rounded-full bg-[#9A563A] flex items-center justify-center mb-[41px]"
+          >
             <ArrowRight className="text-white" size={20} />
           </a>
 
@@ -66,13 +88,19 @@ function Footer() {
             <div className="grid grid-cols-12 lg:gap-6 items-center ">
               {/* Social icons */}
               <div className="col-span-12 sm:col-span-6 lg:col-span-4 flex justify-center lg:justify-start gap-3  py-[36px]">
-                {[Facebook, Twitter, Instagram, Linkedin].map((Icon, i) => (
-                  <span
+                {socialLinks.map(({ icon: Icon, href }, i) => (
+                  <a
                     key={i}
-                    className="w-[55px] h-[55px] rounded-full border border-[#BEBEBE] flex items-center justify-center hover:bg-[#9A563A] hover:border-[#9A563A] transition cursor-pointer"
+                    href={href}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="w-[55px] h-[55px] rounded-full border border-[#BEBEBE]
+      flex items-center justify-center
+      hover:bg-[#9A563A] hover:border-[#9A563A]
+      transition cursor-pointer"
                   >
                     <Icon size={22} />
-                  </span>
+                  </a>
                 ))}
               </div>
 
@@ -110,38 +138,38 @@ function Footer() {
                   ABOUT LAYANA
                 </h4>
 
-               <ul className="space-y-4 text-sm">
-  <li>
-    <a
-      href="https://maps.google.com"
-      target="_blank"
-      className="flex gap-3 items-center text-[#A3A2A2] hover:text-white cursor-pointer"
-    >
-      <MapPin size={16} className="text-[#9A563A]" />
-      Centerl Park West La, New York
-    </a>
-  </li>
+                <ul className="space-y-4 text-sm">
+                  <li>
+                    <a
+                      href="https://maps.google.com"
+                      target="_blank"
+                      className="flex gap-3 items-center text-[#A3A2A2] hover:text-white cursor-pointer"
+                    >
+                      <MapPin size={16} className="text-[#9A563A]" />
+                      Centerl Park West La, New York
+                    </a>
+                  </li>
 
-  <li>
-    <a
-      href="tel:+01234567890"
-      className="flex gap-3 items-center text-[#A3A2A2] hover:text-white cursor-pointer"
-    >
-      <Phone size={16} className="text-[#9A563A]" />
-      +0 123 456 7890
-    </a>
-  </li>
+                  <li>
+                    <a
+                      href="tel:+01234567890"
+                      className="flex gap-3 items-center text-[#A3A2A2] hover:text-white cursor-pointer"
+                    >
+                      <Phone size={16} className="text-[#9A563A]" />
+                      +0 123 456 7890
+                    </a>
+                  </li>
 
-  <li>
-    <a
-      href="mailto:info@example.com"
-      className="flex gap-3 items-center text-[#A3A2A2] hover:text-white cursor-pointer"
-    >
-      <Mail size={16} className="text-[#9A563A]" />
-      info@example.com
-    </a>
-  </li>
-               </ul>
+                  <li>
+                    <a
+                      href="mailto:info@example.com"
+                      className="flex gap-3 items-center text-[#A3A2A2] hover:text-white cursor-pointer"
+                    >
+                      <Mail size={16} className="text-[#9A563A]" />
+                      info@example.com
+                    </a>
+                  </li>
+                </ul>
 
                 <div className="mt-6">
                   <p className="text-white text-2xl mb-3 font-quattro">
@@ -158,51 +186,50 @@ function Footer() {
                 <h4 className="relative text-white tracking-widest mb-6 text-xl font-quattro after:content-[''] after:block after:w-12 after:h-[2px] after:bg-[#9A563A] after:mt-3">
                   IMPORTANT LINKS
                 </h4>
-               <ul className="space-y-3 text-sm">
-  {[
-    { label: "Services", href: "/services" },
-    { label: "About Us", href: "/about-us" },
-    { label: "Price Plan", href: "/prices" },
-    { label: "Contact", href: "/contact-us" },
-    { label: "Terms & Conditions", href: "/terms" },
-  ].map((item) => (
-    <li key={item.label}>
-      <a
-        href={item.href}
-        className="flex items-center gap-2 uppercase text-[#BEBEBE] hover:text-white cursor-pointer"
-      >
-        <ChevronRight size={14} className="text-[#9A563A]" />
-        {item.label}
-      </a>
-    </li>
-  ))}
-</ul>
-
+                <ul className="space-y-3 text-sm">
+                  {[
+                    { label: "Services", href: "/services" },
+                    { label: "About Us", href: "/about-us" },
+                    { label: "Price Plan", href: "/prices" },
+                    { label: "Contact", href: "/contact-us" },
+                    { label: "Terms & Conditions", href: "/terms" },
+                  ].map((item) => (
+                    <li key={item.label}>
+                      <a
+                        href={item.href}
+                        className="flex items-center gap-2 uppercase text-[#BEBEBE] hover:text-white cursor-pointer"
+                      >
+                        <ChevronRight size={14} className="text-[#9A563A]" />
+                        {item.label}
+                      </a>
+                    </li>
+                  ))}
+                </ul>
               </div>
 
               <div className="col-span-12 sm:col-span-6 lg:col-span-3 mb-10 sm:mb-0">
                 <h4 className="relative text-white tracking-widest mb-6 text-xl font-quattro after:content-[''] after:block after:w-12 after:h-[2px] after:bg-[#9A563A] after:mt-3">
                   CATEGORIES
                 </h4>
-               <ul className="space-y-3 text-sm">
-  {[
-    "Pigmentation Removal",
-    "Deep Tissue Massage",
-    "Fragrance",
-    "Haircare",
-    "Bath & Body",
-  ].map((item) => (
-    <li key={item}>
-      <a
-        href="#"
-        className="flex items-center gap-2 uppercase text-[#BEBEBE] hover:text-white cursor-pointer"
-      >
-        <ChevronRight size={14} className="text-[#9A563A]" />
-        {item}
-      </a>
-    </li>
-  ))}
-</ul>
+                <ul className="space-y-3 text-sm">
+                  {[
+                    "Pigmentation Removal",
+                    "Deep Tissue Massage",
+                    "Fragrance",
+                    "Haircare",
+                    "Bath & Body",
+                  ].map((item) => (
+                    <li key={item}>
+                      <a
+                        href="#"
+                        className="flex items-center gap-2 uppercase text-[#BEBEBE] hover:text-white cursor-pointer"
+                      >
+                        <ChevronRight size={14} className="text-[#9A563A]" />
+                        {item}
+                      </a>
+                    </li>
+                  ))}
+                </ul>
               </div>
 
               <div className="col-span-12 sm:col-span-6 lg:col-span-3">
@@ -225,8 +252,10 @@ function Footer() {
                     },
                   ].map((loc, i) => (
                     <a
-      key={i}
-      href="#" className="flex gap-4 border-b border-[#9A563A] pb-[21px] items-center">
+                      key={i}
+                      href="#"
+                      className="flex gap-4 border-b border-[#9A563A] pb-[21px] items-center"
+                    >
                       <div className="w-[68px] h-[68px] rounded-full overflow-hidden flex-shrink-0">
                         <img
                           src={blog}
@@ -249,12 +278,11 @@ function Footer() {
         {/* ================= BOTTOM BAR ================= */}
         <div className="bg-[#1D2429]">
           <div className="container mx-auto flex justify-center sm:justify-between items-center flex-wrap gap-5 py-6">
-        <div className="text-center text-sm ">
-        Copyright © 2023{" "}
-        <span className="text-[#9A563A]">LAYANA</span>. All Rights Reserved By
-        ALEX
-      </div>
-      <img src={copy_img} alt="" />
+            <div className="text-center text-sm ">
+              Copyright © 2023 <span className="text-[#9A563A]">LAYANA</span>.
+              All Rights Reserved By ALEX
+            </div>
+            <img src={copy_img} alt="" />
           </div>
         </div>
       </footer>
