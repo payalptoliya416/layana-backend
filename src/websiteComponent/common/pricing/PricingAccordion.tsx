@@ -26,7 +26,7 @@ export default function PricingAccordion({
       </button>
 
       {/* Body */}
-      {open && <div className="bg-[#fbf8f3] px-4 py-2">{children}</div>}
+      {open && <div className="bg-[#fbf8f3] px-2 sm:px-4 py-2">{children}</div>}
     </div>
   );
 }
