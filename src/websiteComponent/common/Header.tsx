@@ -268,7 +268,7 @@ const DesktopPrices = () => (
               to={withBase(
                 `/prices/${block.location.toLowerCase().replace(/ /g, "-")}/${s.slug}`
               )}
-              className="block px-4 py-2 text-sm text-black hover:bg-[#f6efec]"
+              className="block px-4 py-2 text-xs text-black hover:bg-[#f6efec]"
             >
               {s.label}
             </Link>
