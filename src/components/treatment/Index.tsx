@@ -402,7 +402,7 @@ const renderTabContent = () => {
 const shouldShowBack =
   (activeSection === "pricing" && selectedPricingBranch !== null) ||
   (activeSection === "seo" && selectedSeoBranch !== null);
-  
+
 const handleBack = () => {
   if (activeSection === "pricing" && selectedPricingBranch !== null) {
     setShowPricingGrid(true);

@@ -6,6 +6,18 @@
 @tailwind components;
 @tailwind utilities;
 
+
+@theme {
+  /* Fonts */
+  --font-mulish: "Mulish", sans-serif;
+  --font-quattro: "Quattrocento", serif;
+  --font-muli: "Muli", sans-serif;
+  
+  /* Colors */
+  --color-para: #666666;
+  --color-primarygray: #282828;
+}
+
 @layer base {
   :root {
       --overlay-bg: 0 0% 0% / 0.45;
@@ -117,10 +129,29 @@
     @apply border-border;
   }
 
-  body {
+  /* body {
     @apply bg-background text-foreground font-sans antialiased;
-      font-family: "Poppins", sans-serif;
-  }
+  } */
+}
+.admin-root {
+  font-family: "Poppins", sans-serif;
+  background: hsl(var(--background));
+  color: hsl(var(--foreground));
+}
+.website-root {
+  font-family: "Mulish", sans-serif;
+  background: #ffffff;
+}
+.website-root .font-mulish {
+  font-family: "Mulish", sans-serif;
+}
+
+.website-root .font-muli {
+  font-family: "Muli", sans-serif;
+}
+
+.website-root .font-quattro {
+  font-family: "Quattrocento", serif;
 }
 
 @layer components {
@@ -621,3 +652,186 @@ input[type="time"]::-webkit-datetime-edit-ampm-field {
 .ql-font-times-new-roman { font-family: "Times New Roman", serif; }
 .ql-font-georgia { font-family: Georgia, serif; }
 .ql-font-courier-new { font-family: "Courier New", monospace; }
+
+
+/* -------------------------website----------------- */
+
+/* Mulish Font Setup */
+
+/* 200 */
+@font-face {
+  font-family: "Mulish";
+  src: url("/fonts/mulish-v18-latin-200.woff2") format("woff2");
+  font-weight: 200;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* 300 */
+@font-face {
+  font-family: "Mulish";
+  src: url("/fonts/mulish-v18-latin-300.woff2") format("woff2");
+  font-weight: 300;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* 400 (Regular) */
+@font-face {
+  font-family: "Mulish";
+  src: url("/fonts/mulish-v18-latin-regular.woff2") format("woff2");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* 500 */
+@font-face {
+  font-family: "Mulish";
+  src: url("/fonts/mulish-v18-latin-500.woff2") format("woff2");
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* 600 */
+@font-face {
+  font-family: "Mulish";
+  src: url("/fonts/mulish-v18-latin-600.woff2") format("woff2");
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* 700 */
+@font-face {
+  font-family: "Mulish";
+  src: url("/fonts/mulish-v18-latin-700.woff2") format("woff2");
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* 800 */
+@font-face {
+  font-family: "Mulish";
+  src: url("/fonts/mulish-v18-latin-800.woff2") format("woff2");
+  font-weight: 800;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* 900 */
+@font-face {
+  font-family: "Mulish";
+  src: url("/fonts/mulish-v18-latin-900.woff2") format("woff2");
+  font-weight: 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* quattrocento-regular - latin */
+@font-face {
+  font-display: swap; 
+  font-family: 'Quattrocento';
+  font-style: normal;
+  font-weight: 400;
+  src: url('/fonts/quattrocento-v24-latin-regular.woff2') format('woff2'); 
+}
+/* ------muli------- */
+
+/* 400 - Regular */
+@font-face {
+  font-family: "Muli";
+  src: url("/fonts/muli-regular.woff2") format("woff2");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* 500 */
+@font-face {
+  font-family: "Muli";
+  src: url("/fonts/muli-500.woff2") format("woff2");
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* 600 */
+@font-face {
+  font-family: "Muli";
+  src: url("/fonts/muli-600.woff2") format("woff2");
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* 700 */
+@font-face {
+  font-family: "Muli";
+  src: url("/fonts/muli-700.woff2") format("woff2");
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+
+.container {
+  width: 100%;
+  max-width: 1170px;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: 16px;
+  padding-right: 16px;
+}
+
+/* Tablet */
+@media (min-width: 768px) {
+  .container {
+    padding-left: 24px;
+    padding-right: 24px;
+  }
+}
+
+/* Desktop */
+@media (min-width: 1280px) {
+  .container {
+    padding-left: 0;
+    padding-right: 0;
+  }
+}
+/* ================= GLOBAL ================= */
+
+body {
+  font-family: var(--font-mulish);
+}
+
+.py-110{
+    padding: 110px 0;
+}
+.layana-dropdown {
+  animation: dropdownFade 0.25s ease forwards;
+  transform-origin: top center;
+}
+
+@keyframes dropdownFade {
+  from {
+    opacity: 0;
+    transform: translateY(10px) scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+.swiper-button-prev,
+.swiper-button-next {
+  color: white;
+  width: 50px;
+}
+
+.swiper-button-prev::after,
+.swiper-button-next::after {
+  font-size: 22px;
+}
