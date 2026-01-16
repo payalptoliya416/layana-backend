@@ -226,7 +226,7 @@ function Footer() {
                   ].map((loc, i) => (
                     <a
       key={i}
-      href="#" key={i} className="flex gap-4 border-b border-[#9A563A] pb-[21px] items-center">
+      href="#" className="flex gap-4 border-b border-[#9A563A] pb-[21px] items-center">
                       <div className="w-[68px] h-[68px] rounded-full overflow-hidden flex-shrink-0">
                         <img
                           src={blog}
