@@ -165,9 +165,31 @@ const underlineClass =
         </div>
 
         {/* Mobile Toggle */}
+        <div className="flex items-center gap-2">
+           <div
+          className="relative block lg:hidden group"
+          onMouseEnter={() => setActiveDropdown("location")}
+          onMouseLeave={() => setActiveDropdown(null)}
+        >
+          <button className="flex items-center gap-2 text-sm tracking-widest hover:text-[#e6c9a2]">
+            <MapPin size={14} />
+            {selectedLocation ?? "Choose Location"}
+          </button>
+
+          {activeDropdown === "location" && (
+            <DesktopLocations
+              baseUrl={withBase("/finchley")}
+              onSelect={(label) => {
+                setSelectedLocation(label);
+                setActiveDropdown(null);
+              }}
+            />
+          )}
+        </div>
         <button className="lg:hidden" onClick={() => setOpen(!open)}>
           {open ? <X size={28} /> : <Menu size={28} />}
         </button>
+        </div>
       </div>
 
       {/* ================= MOBILE MENU ================= */}
