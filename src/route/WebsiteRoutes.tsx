@@ -53,6 +53,10 @@ function WebsiteRoutes() {
         <Route path="/memberships/muswell-hill" element={<MemberShip/>}/>
         {/* --- */}
         <Route path="/prices/finchley-central/massage-beauty" element={<PricingPage/>}/>
+        <Route path="/prices/finchley-central/skin" element={<PricingPage/>}/>
+        <Route path="/prices/finchley-central/laser" element={<PricingPage/>}/>
+        <Route path="/prices/muswell-hill/massage-beauty" element={<PricingPage/>}/>
+        <Route path="/prices/belsize-park/massage-beauty" element={<PricingPage/>}/>
          </Route>
    
       <Route path="*" element={<NotFound />} />

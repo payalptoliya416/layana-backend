@@ -54,10 +54,13 @@ const menu = [
     ],
   },
 
-  { label: "Gift Cards", href: "https://www.fresha.com/vouchers/provider/rmxjfmmk",  external: true, },
+  {
+    label: "Gift Cards",
+    href: "https://www.fresha.com/vouchers/provider/rmxjfmmk",
+    external: true,
+  },
   { label: "Contact Us", href: "/contact-us" },
 ];
-
 
 /* ================= DATA ================= */
 
@@ -95,58 +98,60 @@ export default function Header() {
 
   return (
     <header className="absolute top-0 left-0 w-full z-50">
-        <div className="container mx-auto py-[22px] flex items-center justify-between text-white">
+      <div className="container mx-auto py-[22px] flex items-center justify-between text-white">
+        {/* Logo */}
+        <Link to={withBase("/")}>
+          <img src={white_logo} alt="Layana" className="w-[114px]" />
+        </Link>
 
-          {/* Logo */}
-          <Link to={withBase("/")}>
-            <img src={white_logo} alt="Layana" className="w-[114px]" />
-          </Link>
+        {/* Desktop Nav */}
+        <nav className="hidden lg:flex items-center gap-[25px] text-sm tracking-widest font-muli">
+          {menu.map((item) => (
+            <div
+              key={item.label}
+              className="relative"
+              onMouseEnter={() =>
+                item.dropdownKey && setActiveDropdown(item.dropdownKey)
+              }
+              onMouseLeave={() => setActiveDropdown(null)}
+            >
+              {item.external ? (
+                <a
+                  href={item.href}
+                  target="_blank"
+                  className="hover:text-[#e6c9a2] uppercase"
+                >
+                  {item.label}
+                </a>
+              ) : item.dropdownKey ? (
+                <span className="cursor-pointer hover:text-[#e6c9a2] uppercase">
+                  {item.label}
+                </span>
+              ) : (
+                <Link to={withBase(item.href)} className="uppercase">
+                  {item.label}
+                </Link>
+              )}
 
-          {/* Desktop Nav */}
-          <nav className="hidden lg:flex items-center gap-[25px] text-xs tracking-widest">
-           {menu.map((item) => (
-  <div
-    key={item.label}
-    className="relative"
-    onMouseEnter={() => item.dropdownKey && setActiveDropdown(item.dropdownKey)}
-    onMouseLeave={() => setActiveDropdown(null)}
-  >
-    {item.external ? (
-      <a
-        href={item.href}
-        target="_blank"
-        className="hover:text-[#e6c9a2] uppercase"
-      >
-        {item.label}
-      </a>
-    ) : item.dropdownKey ? (
-      <span className="cursor-pointer hover:text-[#e6c9a2] uppercase">
-        {item.label}
-      </span>
-    ) : (
-      <Link to={withBase(item.href)} className="uppercase">{item.label}</Link>
-    )}
+              {activeDropdown === item.dropdownKey && (
+                <DesktopDropdown item={item} />
+              )}
+            </div>
+          ))}
+        </nav>
 
-    {activeDropdown === item.dropdownKey && (
-      <DesktopDropdown item={item} />
-    )}
-  </div>
-))}
+        {/* Desktop Location */}
+        <div
+          className="relative hidden lg:block group"
+          onMouseEnter={() => setActiveDropdown("location")}
+          onMouseLeave={() => setActiveDropdown(null)}
+        >
+          <button className="flex items-center gap-2 text-xs tracking-widest hover:text-[#e6c9a2]">
+            <MapPin size={14} />
+            {selectedLocation ?? "Choose Location"}
+          </button>
 
-          </nav>
-
-          {/* Desktop Location */}
-          <div
-            className="relative hidden lg:block"
-            onMouseEnter={() => setActiveDropdown("location")}
-            onMouseLeave={() => setActiveDropdown(null)}
-          >
-            <button className="flex items-center gap-2 text-xs tracking-widest hover:text-[#e6c9a2]">
-              <MapPin size={14} />
-              {selectedLocation ?? "Choose Location"}
-            </button>
-
-            {activeDropdown === "location" && (
+          {activeDropdown === "location" && (
             <DesktopLocations
               baseUrl={withBase("/finchley")}
               onSelect={(label) => {
@@ -155,13 +160,13 @@ export default function Header() {
               }}
             />
           )}
-          </div>
-
-          {/* Mobile Toggle */}
-          <button className="lg:hidden" onClick={() => setOpen(!open)}>
-            {open ? <X size={28} /> : <Menu size={28} />}
-          </button>
         </div>
+
+        {/* Mobile Toggle */}
+        <button className="lg:hidden" onClick={() => setOpen(!open)}>
+          {open ? <X size={28} /> : <Menu size={28} />}
+        </button>
+      </div>
 
       {/* ================= MOBILE MENU ================= */}
       {open && (
@@ -169,40 +174,44 @@ export default function Header() {
           {menu.map((item) => (
             <div key={item.label}>
               {item.external ? (
-                  <a
-                    href={item.href}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="block tracking-widest text-sm py-2"
-                  >
-                    {item.label}
-                  </a>
-                ) : (
-                  <button
-                   onClick={() =>
+                <a
+                  href={item.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="block tracking-widest text-sm py-2"
+                >
+                  {item.label}
+                </a>
+              ) : (
+                <button
+                  onClick={() =>
                     setActiveDropdown(
-                      activeDropdown === item.dropdownKey ? null : item.dropdownKey || null
+                      activeDropdown === item.dropdownKey
+                        ? null
+                        : item.dropdownKey || null
                     )
                   }
-                    className="w-full flex justify-between items-center tracking-widest text-sm py-2"
-                  >
-                    <span>{item.label}</span>
-                    {item.dropdownKey  && <ChevronDown size={14} />}
-                  </button>
+                  className="w-full flex justify-between items-center tracking-widest text-sm py-2"
+                >
+                  <span>{item.label}</span>
+                  {item.dropdownKey && <ChevronDown size={14} />}
+                </button>
+              )}
+              {item.dropdownKey === "treatments" &&
+                activeDropdown === "treatments" && (
+                  <MobileLocations baseUrl={withBase("/treatments")} />
                 )}
-              {item.dropdownKey  === "treatments" && activeDropdown === "treatments" && (
-                <MobileLocations baseUrl={withBase("/treatments")} />
-              )}
 
-              {item.dropdownKey  === "memberships" && activeDropdown === "memberships" && (
-                <MobileLocations baseUrl={withBase("/memberships")} />
-              )}
+              {item.dropdownKey === "memberships" &&
+                activeDropdown === "memberships" && (
+                  <MobileLocations baseUrl={withBase("/memberships")} />
+                )}
 
-              {item.dropdownKey  === "spa" && activeDropdown === "spa" && (
+              {item.dropdownKey === "spa" && activeDropdown === "spa" && (
                 <MobileLocations baseUrl={withBase("/spa-packages")} />
               )}
 
-              {item.dropdownKey  === "prices" && activeDropdown === "prices" && (
+              {item.dropdownKey === "prices" && activeDropdown === "prices" && (
                 <MobilePrices />
               )}
 
@@ -228,43 +237,45 @@ const DesktopLocations = ({
   baseUrl: string;
   onSelect: (label: string) => void;
 }) => (
-  <div className="absolute left-full -translate-x-1/2 w-[160px] bg-white rounded-b-md shadow-xl overflow-hidden">
-    {locations.map((loc) => (
-      <Link
-        key={loc.slug}
-        to={`${baseUrl}`}
-         onClick={() => onSelect(loc.label)}
-        className="block px-3 py-2 text-xs text-black hover:bg-[#f6efec]"
-      >
-        {loc.label}
-      </Link>
-    ))}
+  <div className="absolute left-0 top-full pt-2">
+    <div className="w-[160px] bg-white roundedb-b-md shadow-xl overflow-hidden">
+      {locations.map((loc) => (
+        <Link
+          key={loc.slug}
+          to={baseUrl}
+          onClick={() => onSelect(loc.label)}
+          className="block px-3 py-2 text-xs text-black hover:bg-[#f6efec]"
+        >
+          {loc.label}
+        </Link>
+      ))}
+    </div>
   </div>
 );
 
 const DesktopPrices = () => (
-  <div className="absolute left-1/2 -translate-x-1/2 w-[160px] bg-white rounded-b-md shadow-xl overflow-hidden">
-    {pricesData.map((block) => (
-      <div key={block.location} className="">
-        <div className="px-4 py-2 text-sm font-semibold text-black tracking-wide">
-          {block.location}
-        </div>
+  <div className="absolute left-0 top-full pt-2">
+    <div className="w-[165px] bg-white rounded-b-md shadow-xl overflow-hidden">
+      {pricesData.map((block) => (
+        <div key={block.location}>
+          <div className="px-3 py-2 text-sm font-semibold text-black">
+            {block.location}
+          </div>
 
-        {block.services.map((s) => (
-          <Link
-            key={s.slug}
-            to={withBase(
-              `/prices/${block.location
-                .toLowerCase()
-                .replace(/ /g, "-")}/${s.slug}`
-            )}
-            className="block px-4 py-2 text-xs text-black hover:bg-[#f6efec]"
-          >
-            {s.label}
-          </Link>
-        ))}
-      </div>
-    ))}
+          {block.services.map((s) => (
+            <Link
+              key={s.slug}
+              to={withBase(
+                `/prices/${block.location.toLowerCase().replace(/ /g, "-")}/${s.slug}`
+              )}
+              className="block px-4 py-2 text-xs text-black hover:bg-[#f6efec]"
+            >
+              {s.label}
+            </Link>
+          ))}
+        </div>
+      ))}
+    </div>
   </div>
 );
 
@@ -292,9 +303,11 @@ const MobilePrices = () => (
         {block.services.map((s) => (
           <Link
             key={s.slug}
-             to={withBase(
-    `/prices/${block.location.toLowerCase().replace(/ /g, "-")}/${s.slug}`
-  )}
+            to={withBase(
+              `/prices/${block.location.toLowerCase().replace(/ /g, "-")}/${
+                s.slug
+              }`
+            )}
             className="block text-sm text-white/80 ml-3 py-1"
           >
             {s.label}
@@ -305,20 +318,15 @@ const MobilePrices = () => (
   </div>
 );
 
-const DesktopDropdown = ({
-  item,
-}: {
-  item: any;
-}) => {
+const DesktopDropdown = ({ item }: { item: any }) => {
   if (item.dropdownKey === "prices") {
     return <DesktopPrices />;
   }
 
-  // ❌ prices sivay biju
   if (!item.dropdownData) return null;
   return (
-    <div className="absolute left-1/2 -translate-x-1/2 w-[160px] bg-white rounded-b-md shadow-xl overflow-hidden">
-      {/* Prices type */}
+    <div className="absolute left-0 top-full pt-2 w-[160px] overflow-hidden">
+      <div className="bg-white rounded-b-md">
       {item.dropdownKey === "prices"
         ? item.dropdownData.map((block: any) => (
             <div key={block.title} className="border-b last:border-0">
@@ -350,6 +358,7 @@ const DesktopDropdown = ({
               {d.label}
             </Link>
           ))}
+      </div>
     </div>
   );
 };
