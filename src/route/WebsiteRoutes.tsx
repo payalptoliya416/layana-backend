@@ -14,6 +14,7 @@ import Massage from "@/websiteComponent/pages/treatments/tratementPages/Massage"
 import OilMassage from "@/websiteComponent/pages/treatments/tratementPages/OilMassage"
 import {  Route, Routes } from "react-router-dom"
 import WebsiteLayout from "./WebsiteLayout"
+import PricingPage from "@/websiteComponent/pages/pricing/PricingPage"
 
 function WebsiteRoutes() {
   return (
@@ -50,6 +51,8 @@ function WebsiteRoutes() {
         <Route path="/memberships/belsize-park" element={<MemberShip/>}/>
         <Route path="/memberships/finchley-central" element={<MemberShip/>}/>
         <Route path="/memberships/muswell-hill" element={<MemberShip/>}/>
+        {/* --- */}
+        <Route path="/prices/finchley-central/massage-beauty" element={<PricingPage/>}/>
          </Route>
    
       <Route path="*" element={<NotFound />} />

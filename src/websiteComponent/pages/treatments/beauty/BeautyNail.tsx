@@ -3,9 +3,9 @@ import beauty_nail_bg from "@/assets/beauty_nail_bg.png";
 import nail1 from "@/assets/nail1.png";
 import nail2 from "@/assets/nail2.png";
 import nail3 from "@/assets/nail3.png";
-import { ChevronDown, Phone } from "lucide-react";
+import { Phone } from "lucide-react";
 import { useState } from "react";
-import { nailsData, nailsPriceData, pricingTooltips } from "./massageBeautyData";
+import { nailsData, pricingTooltips } from "./massageBeautyData";
 import PriceTooltip from "./PriceTooltip";
 import PriceAccordion from "./PriceAccordion";
 import SimpleHeroBanner from "@/websiteComponent/common/home/SimpleHeroBanner";
@@ -15,7 +15,6 @@ import CommonButton from "@/websiteComponent/common/home/CommonButton";
 export const images = [nail1, nail2, nail3];
 
 function BeautyNail() {
-  const [openIndex, setOpenIndex] = useState(0);
   return (
     <>
       <SimpleHeroBanner
