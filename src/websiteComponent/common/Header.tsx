@@ -124,7 +124,7 @@ export default function Header() {
         {item.label}
       </span>
     ) : (
-      <Link to={withBase(item.href)}>{item.label}</Link>
+      <Link to={withBase(item.href)} className="uppercase">{item.label}</Link>
     )}
 
     {activeDropdown === item.dropdownKey && (
