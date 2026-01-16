@@ -188,14 +188,14 @@ function Home() {
             Our Team
           </h2>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 lg:gap-[36px] mb-14">
-            {team.map((member) => (
-              <TeamCard key={member.name} {...member} />
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-x-10 gap-y-12 sm:gap-y-14 md:gap-y-16 lg:gap-y-24">
+            {team.map((member, index) => (
+              <TeamCard key={member.name} {...member} index={index} />
             ))}
           </div>
 
-          <div className="flex justify-center">
-            <CommonButton>View All</CommonButton>
+          <div className="flex justify-center mt-24">
+            <CommonButton to="/websiteurl/team">View All</CommonButton>
           </div>
 
         </div>
