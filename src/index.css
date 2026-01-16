@@ -826,14 +826,8 @@ body {
     transform: translateY(0) scale(1);
   }
 }
-
-.swiper-button-prev,
-.swiper-button-next {
-  color: white;
-  width: 50px;
-}
-
-.swiper-button-prev::after,
-.swiper-button-next::after {
-  font-size: 22px;
+@media(max-width:575px){
+  .swiper-button-prev{
+    margin-left: -5px;
+  }
 }

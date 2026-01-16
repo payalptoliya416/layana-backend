@@ -28,9 +28,9 @@ function Footer() {
         {/* content */}
         <div className="relative z-10 max-w-3xl px-6">
           {/* arrow */}
-          <div className="w-[53px] h-[53px] mx-auto rounded-full bg-[#9A563A] flex items-center justify-center mb-[41px]">
+          <a href="#" className="w-[53px] h-[53px] mx-auto rounded-full bg-[#9A563A] flex items-center justify-center mb-[41px]">
             <ArrowRight className="text-white" size={20} />
-          </div>
+          </a>
 
           {/* heading */}
           <h1 className="text-white font-quattro text-[28px] md:text-[36px] lg:text-[40px] md:leading-[36px] lg:leading-[48px] tracking-wide mb-8">

@@ -65,7 +65,7 @@ export default function HeroSlider() {
               {slide.text}
             </p>
 
-            <button className="border border-white px-[50px] py-[23px] uppercase tracking-[0.15em] text-xs hover:bg-black hover:border-black transition cursor-pointer">
+            <button className="border border-white px-10 sm:px-[50px] py-5 sm:py-[23px] uppercase tracking-[0.15em] text-xs hover:bg-black hover:border-black transition cursor-pointer">
               Book Now
             </button>
              </div>
