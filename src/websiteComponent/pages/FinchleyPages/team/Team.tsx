@@ -155,7 +155,7 @@ function Team() {
         title="Our Team"
         subtitle="Finchley Central"
       />
-        <section className="pt-12 lg:pt-[110px]">
+        <section className="py-12 lg:py-[110px]">
             <div className="container mx-auto">
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-x-10 gap-y-12 sm:gap-y-14 md:gap-y-16 lg:gap-y-24">
                     {team.map((member , index) => (
