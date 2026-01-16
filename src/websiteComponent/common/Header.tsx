@@ -95,6 +95,8 @@ export default function Header() {
   const [open, setOpen] = useState(false);
   const [activeDropdown, setActiveDropdown] = useState<string | null>(null);
   const [selectedLocation, setSelectedLocation] = useState<string | null>(null);
+const underlineClass =
+  "relative uppercase after:content-[''] after:absolute after:left-0 after:-bottom-1 after:h-[1px] after:w-0 after:bg-[#e6c9a2] after:transition-all after:duration-300 hover:after:w-full";
 
   return (
     <header className="absolute top-0 left-0 w-full z-50">
@@ -119,7 +121,7 @@ export default function Header() {
                 <a
                   href={item.href}
                   target="_blank"
-                  className="hover:text-[#e6c9a2] uppercase"
+                   className={`hover:text-[#e6c9a2] ${underlineClass}`}
                 >
                   {item.label}
                 </a>
