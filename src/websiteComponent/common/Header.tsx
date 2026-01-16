@@ -146,7 +146,7 @@ export default function Header() {
           onMouseEnter={() => setActiveDropdown("location")}
           onMouseLeave={() => setActiveDropdown(null)}
         >
-          <button className="flex items-center gap-2 text-xs tracking-widest hover:text-[#e6c9a2]">
+          <button className="flex items-center gap-2 text-sm tracking-widest hover:text-[#e6c9a2]">
             <MapPin size={14} />
             {selectedLocation ?? "Choose Location"}
           </button>
@@ -244,7 +244,7 @@ const DesktopLocations = ({
           key={loc.slug}
           to={baseUrl}
           onClick={() => onSelect(loc.label)}
-          className="block px-3 py-2 text-xs text-black hover:bg-[#f6efec]"
+          className="block px-3 py-2 text-sm text-black hover:bg-[#f6efec]"
         >
           {loc.label}
         </Link>
@@ -268,7 +268,7 @@ const DesktopPrices = () => (
               to={withBase(
                 `/prices/${block.location.toLowerCase().replace(/ /g, "-")}/${s.slug}`
               )}
-              className="block px-4 py-2 text-xs text-black hover:bg-[#f6efec]"
+              className="block px-4 py-2 text-sm text-black hover:bg-[#f6efec]"
             >
               {s.label}
             </Link>
@@ -342,7 +342,7 @@ const DesktopDropdown = ({ item }: { item: any }) => {
                       .toLowerCase()
                       .replace(/ /g, "-")}/${s.slug}`
                   )}
-                  className="block px-2 py-2 text-xs text-black hover:bg-[#f6efec]"
+                  className="block px-2 py-2 text-sm text-black hover:bg-[#f6efec]"
                 >
                   {s.label}
                 </Link>
@@ -353,7 +353,7 @@ const DesktopDropdown = ({ item }: { item: any }) => {
             <Link
               key={d.slug}
               to={withBase(`${item.basePath}/${d.slug}`)}
-              className="block px-2 py-2 text-xs text-black hover:bg-[#f6efec]"
+              className="block px-2 py-2 text-sm text-black hover:bg-[#f6efec]"
             >
               {d.label}
             </Link>
