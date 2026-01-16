@@ -3,7 +3,7 @@ import { useState } from "react";
 const tabs = ["Massage", "Beauty"];
 
 export default function PricingTabs({ children }: { children: any }) {
-  const [activeTab, setActiveTab] = useState("Beauty");
+  const [activeTab, setActiveTab] = useState("Massage");
 
   return (
     <>
