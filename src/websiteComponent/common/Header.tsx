@@ -20,7 +20,7 @@ const menu = [
     dropdownKey: "treatments",
     basePath: "/treatments",
     dropdownData: [
-      { label: "Belsize Park", slug: "massage" },
+      { label: "Belsize Park", slug: "belsize-park" },
       { label: "Finchley Central", slug: "finchley-central" },
       { label: "Musswell Hill", slug: "muswell-hill" },
     ],
@@ -37,7 +37,7 @@ const menu = [
     dropdownKey: "memberships",
     basePath: "/memberships",
     dropdownData: [
-      { label: "Belsize Park", slug: "massage" },
+      { label: "Belsize Park", slug: "belsize-park" },
       { label: "Finchley Central", slug: "finchley-central" },
       { label: "Musswell Hill", slug: "muswell-hill" },
     ],
@@ -48,7 +48,7 @@ const menu = [
     dropdownKey: "spa",
     basePath: "/spa-packages",
     dropdownData: [
-      { label: "Belsize Park", slug: "massage" },
+      { label: "Belsize Park", slug: "belsize-park" },
       { label: "Finchley Central", slug: "finchley-central" },
       { label: "Musswell Hill", slug: "muswell-hill" },
     ],
@@ -62,9 +62,9 @@ const menu = [
 /* ================= DATA ================= */
 
 const locations = [
-  { label: "Belsize Park", slug: "finchley" },
-  { label: "Finchley Central", slug: "finchley" },
-  { label: "Muswell Hill", slug: "finchley" },
+  { label: "Belsize Park", slug: "belsize-park" },
+  { label: "Finchley Central", slug: "finchley-central" },
+  { label: "Muswell Hill", slug: "muswell-hill" },
 ];
 
 const pricesData = [
@@ -103,7 +103,7 @@ export default function Header() {
           </Link>
 
           {/* Desktop Nav */}
-          <nav className="hidden lg:flex items-center gap-[25px] text-xs tracking-widest uppercase">
+          <nav className="hidden lg:flex items-center gap-[25px] text-xs tracking-widest">
            {menu.map((item) => (
   <div
     key={item.label}
@@ -115,12 +115,12 @@ export default function Header() {
       <a
         href={item.href}
         target="_blank"
-        className="hover:text-[#e6c9a2]"
+        className="hover:text-[#e6c9a2] uppercase"
       >
         {item.label}
       </a>
     ) : item.dropdownKey ? (
-      <span className="cursor-pointer hover:text-[#e6c9a2]">
+      <span className="cursor-pointer hover:text-[#e6c9a2] uppercase">
         {item.label}
       </span>
     ) : (
@@ -173,7 +173,7 @@ export default function Header() {
                     href={item.href}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="block uppercase tracking-widest text-sm py-2"
+                    className="block tracking-widest text-sm py-2"
                   >
                     {item.label}
                   </a>
@@ -184,7 +184,7 @@ export default function Header() {
                       activeDropdown === item.dropdownKey ? null : item.dropdownKey || null
                     )
                   }
-                    className="w-full flex justify-between items-center uppercase tracking-widest text-sm py-2"
+                    className="w-full flex justify-between items-center tracking-widest text-sm py-2"
                   >
                     <span>{item.label}</span>
                     {item.dropdownKey  && <ChevronDown size={14} />}
@@ -228,7 +228,7 @@ const DesktopLocations = ({
   baseUrl: string;
   onSelect: (label: string) => void;
 }) => (
-  <div className="absolute left-full -translate-x-1/2 w-[175px] bg-white rounded-b-xl shadow-xl overflow-hidden">
+  <div className="absolute left-full -translate-x-1/2 w-[160px] bg-white rounded-b-md shadow-xl overflow-hidden">
     {locations.map((loc) => (
       <Link
         key={loc.slug}
@@ -243,10 +243,10 @@ const DesktopLocations = ({
 );
 
 const DesktopPrices = () => (
-  <div className="absolute left-1/2 -translate-x-1/2 w-[180px] bg-white rounded-b-xl shadow-xl overflow-hidden">
+  <div className="absolute left-1/2 -translate-x-1/2 w-[160px] bg-white rounded-b-md shadow-xl overflow-hidden">
     {pricesData.map((block) => (
-      <div key={block.location} className="border-b last:border-0">
-        <div className="px-4 py-2 text-sm font-semibold text-black uppercase tracking-wide">
+      <div key={block.location} className="">
+        <div className="px-4 py-2 text-sm font-semibold text-black tracking-wide">
           {block.location}
         </div>
 
@@ -258,7 +258,7 @@ const DesktopPrices = () => (
                 .toLowerCase()
                 .replace(/ /g, "-")}/${s.slug}`
             )}
-            className="block px-5 py-2 text-xs text-black hover:bg-[#f6efec]"
+            className="block px-4 py-2 text-xs text-black hover:bg-[#f6efec]"
           >
             {s.label}
           </Link>
@@ -295,7 +295,7 @@ const MobilePrices = () => (
              to={withBase(
     `/prices/${block.location.toLowerCase().replace(/ /g, "-")}/${s.slug}`
   )}
-            className="block text-sm text-white/80 ml-3"
+            className="block text-sm text-white/80 ml-3 py-1"
           >
             {s.label}
           </Link>
@@ -317,7 +317,7 @@ const DesktopDropdown = ({
   // ❌ prices sivay biju
   if (!item.dropdownData) return null;
   return (
-    <div className="absolute left-1/2 -translate-x-1/2 w-[190px] bg-white rounded-b-xl shadow-xl overflow-hidden">
+    <div className="absolute left-1/2 -translate-x-1/2 w-[160px] bg-white rounded-b-md shadow-xl overflow-hidden">
       {/* Prices type */}
       {item.dropdownKey === "prices"
         ? item.dropdownData.map((block: any) => (
@@ -334,7 +334,7 @@ const DesktopDropdown = ({
                       .toLowerCase()
                       .replace(/ /g, "-")}/${s.slug}`
                   )}
-                  className="block px-4 py-2 text-xs text-black hover:bg-[#f6efec]"
+                  className="block px-2 py-2 text-xs text-black hover:bg-[#f6efec]"
                 >
                   {s.label}
                 </Link>
@@ -345,7 +345,7 @@ const DesktopDropdown = ({
             <Link
               key={d.slug}
               to={withBase(`${item.basePath}/${d.slug}`)}
-              className="block px-4 py-2 text-xs text-black hover:bg-[#f6efec]"
+              className="block px-2 py-2 text-xs text-black hover:bg-[#f6efec]"
             >
               {d.label}
             </Link>

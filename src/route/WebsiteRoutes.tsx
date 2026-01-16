@@ -27,7 +27,7 @@ function WebsiteRoutes() {
 
         {/* ---- */}
         <Route path="/treatments" element={<Massage/>}/>
-        <Route path="/treatments/massage" element={<Massage/>}/>
+        <Route path="/treatments/belsize-park" element={<Massage/>}/>
         <Route path="/treatments/finchley-central" element={<Massage/>}/>
         <Route path="/treatments/muswell-hill" element={<Massage/>}/>
 
@@ -43,11 +43,11 @@ function WebsiteRoutes() {
         {/* ---- */}
         <Route path="/contact-us" element={<ContactUs/>}/>
         {/* ---- */}
-        <Route path="/spa-packages/massage" element={<SpaPackages/>}/>
+        <Route path="/spa-packages/belsize-park" element={<SpaPackages/>}/>
         <Route path="/spa-packages/finchley-central" element={<SpaPackages/>}/>
         <Route path="/spa-packages/muswell-hill" element={<SpaPackages/>}/>
         {/* ---- */}
-        <Route path="/memberships/massage" element={<MemberShip/>}/>
+        <Route path="/memberships/belsize-park" element={<MemberShip/>}/>
         <Route path="/memberships/finchley-central" element={<MemberShip/>}/>
         <Route path="/memberships/muswell-hill" element={<MemberShip/>}/>
          </Route>
