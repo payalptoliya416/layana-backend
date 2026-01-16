@@ -53,7 +53,7 @@ const navItems: NavItem[] = [
   { icon: Package, label: "Popup", href: "/popup" },
   { icon: Album, label: "Enquiry", href: "/enquiry" },
   { icon: Bolt, label: "Bussiness Settings", href: "/settings" },
-  { icon: BadgePercent, label: "Pricing", href: "/prices" },
+  // { icon: BadgePercent, label: "Pricing", href: "/prices" },
 ];
 
 interface SidebarProps {
