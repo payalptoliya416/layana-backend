@@ -238,7 +238,7 @@ const DesktopLocations = ({
   onSelect: (label: string) => void;
 }) => (
   <div className="absolute left-0 top-full pt-2">
-    <div className="w-[160px] bg-white roundedb-b-md shadow-xl overflow-hidden">
+    <div className="w-[160px] bg-white rounded-b-md overflow-hidden">
       {locations.map((loc) => (
         <Link
           key={loc.slug}
@@ -255,7 +255,7 @@ const DesktopLocations = ({
 
 const DesktopPrices = () => (
   <div className="absolute left-0 top-full pt-2">
-    <div className="w-[165px] bg-white rounded-b-md shadow-xl overflow-hidden">
+    <div className="w-[165px] bg-white rounded-b-md overflow-hidden">
       {pricesData.map((block) => (
         <div key={block.location}>
           <div className="px-3 py-2 text-sm font-semibold text-black">
