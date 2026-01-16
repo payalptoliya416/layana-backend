@@ -164,8 +164,8 @@ const fetchTeams = async () => {
       sortBy,
       sortDirection,
     });
-     setTeams(res.data);
-     setPagination(res.pagination);
+     setTeams(res?.data ?? []);
+     setPagination(res?.pagination ?? []);
   } catch (e) {
     setTeams([]);
   }
@@ -328,7 +328,7 @@ const handleDragEnd = async (event: any) => {
     overflow-hidden
     h-[calc(100dvh-160px)] lg:h-[calc(100vh-220px)]"
           >
-            <div className="flex flex-col flex-1">
+            <div className="flex flex-col flex-1 justify-evenly sm:justify-normal">
               <div className="mb-2 flex items-center justify-between  shrink-0 flex-wrap gap-1 sm:gap-2">
                 <div className="relative w-full sm:w-[256px] rounded-full p-1">
                   <input
@@ -492,7 +492,7 @@ const handleDragEnd = async (event: any) => {
                     </div>
 
                     {/* ================= BODY ================= */}
-                    <div ref={containerRef} className="flex-1  overflow-y-auto scrollbar-thins">
+                    <div ref={containerRef} className="flex-1  overflow-y-auto scrollbar-thin">
                       {!teams || teams.length === 0 ? (
                         <div className="py-10 text-center text-muted-foreground text-sm">
                           No Data found

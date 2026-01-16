@@ -127,8 +127,8 @@ export default function EnquiryList() {
         sortDirection,
       });
 
-       setEnquiries(res.data);
-     setPagination(res.pagination);
+       setEnquiries(res?.data ?? []);
+     setPagination(res?.pagination ?? []);
      
     } catch {
       toast.error("Failed to load enquiries");
@@ -200,13 +200,13 @@ export default function EnquiryList() {
             />
           </div>
           <div
-            className="flex-1 pl-[15px] pr-6 px-6 flex flex-col bg-card rounded-2xl shadow-card p-5
+            className="flex-1 pl-[15px] pr-6 px-6 flex flex-col justify-evenly sm:justify-normal bg-card rounded-2xl shadow-card p-5
     relative
     overflow-hidden
     h-[calc(100dvh-160px)] lg:h-[calc(100vh-220px)]"
           >
             <div className="mb-2 flex items-center justify-between shrink-0 flex-wrap gap-2">
-              <div className="relative sm:w-[260px]">
+              <div className="relative w-full sm:w-[260px]">
                 <input
                   value={search}
                   onChange={(e) => setSearch(e.target.value)}
@@ -226,7 +226,7 @@ export default function EnquiryList() {
              <div className="grid grid-cols-12">
                   <div className="col-span-12">
             <div className="w-full rounded-2xl border border-border bg-card flex flex-col h-[calc(100vh-300px)]">
-              <div className="sticky top-0 z-[9] bg-card border-b hidden xl:flex items-center h-[52px] px-4 text-sm font-medium text-primary mx-3">
+              <div className="sticky top-0 z-[9] bg-card border-b hidden 2xl:flex items-center h-[52px] px-4 text-sm font-medium text-primary mx-3">
                 <div className="w-[40px] text-center">#</div>
                 <div
                   className="w-[18%]  border-l pl-4 cursor-pointer flex items-center justify-between"
