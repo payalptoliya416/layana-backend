@@ -224,7 +224,9 @@ function Footer() {
                       address: "18, England’s Lane, London NW3 4TG",
                     },
                   ].map((loc, i) => (
-                    <div key={i} className="flex gap-4 border-b border-[#9A563A] pb-[21px] items-center">
+                    <a
+      key={i}
+      href="#" key={i} className="flex gap-4 border-b border-[#9A563A] pb-[21px] items-center">
                       <div className="w-[68px] h-[68px] rounded-full overflow-hidden flex-shrink-0">
                         <img
                           src={blog}
@@ -236,7 +238,7 @@ function Footer() {
                         <p className="text-white font-quattro">{loc.title}</p>
                         <p className="text-sm text-[#BEBEBE]">{loc.address}</p>
                       </div>
-                    </div>
+                    </a>
                   ))}
                 </div>
               </div>
