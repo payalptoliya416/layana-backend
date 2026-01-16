@@ -201,20 +201,32 @@ const underlineClass =
               )}
               {item.dropdownKey === "treatments" &&
                 activeDropdown === "treatments" && (
-                  <MobileLocations baseUrl={withBase("/treatments")} />
+                  <MobileLocations baseUrl={withBase("/treatments")} onClose={() => {
+    setOpen(false);
+    setActiveDropdown(null);
+  }} />
                 )}
 
               {item.dropdownKey === "memberships" &&
                 activeDropdown === "memberships" && (
-                  <MobileLocations baseUrl={withBase("/memberships")} />
+                  <MobileLocations baseUrl={withBase("/memberships")}  onClose={() => {
+    setOpen(false);
+    setActiveDropdown(null);
+  }}/>
                 )}
 
               {item.dropdownKey === "spa" && activeDropdown === "spa" && (
-                <MobileLocations baseUrl={withBase("/spa-packages")} />
+                <MobileLocations baseUrl={withBase("/spa-packages")}  onClose={() => {
+    setOpen(false);
+    setActiveDropdown(null);
+  }}/>
               )}
 
               {item.dropdownKey === "prices" && activeDropdown === "prices" && (
-                <MobilePrices />
+                <MobilePrices  onClose={() => {
+    setOpen(false);
+    setActiveDropdown(null);
+  }} />
               )}
 
               {/* {!item.dropdown && (
@@ -231,22 +243,22 @@ const underlineClass =
        {/* ================= MOBILE SIDEBAR ================= */}
 <div
   className={`fixed inset-0 z-50 lg:hidden transition-all duration-300 ${
-    open ? "visible" : "invisible"
+    open ? "pointer-events-auto" : "pointer-events-none"
   }`}
 >
   {/* Overlay */}
-  <div
+   <div
+    onClick={() => setOpen(false)}
     className={`absolute inset-0 bg-black/70 transition-opacity duration-300 ${
       open ? "opacity-100" : "opacity-0"
     }`}
-    onClick={() => setOpen(false)}
   />
 
   {/* Sidebar */}
-  <div
+ <div
     className={`absolute right-0 top-0 h-full w-[85%] max-w-[360px]
     bg-[#f6efec] text-black
-    transition-transform duration-300
+    transition-transform duration-300 ease-in-out
     ${open ? "translate-x-0" : "translate-x-full"}`}
   >
     {/* Close button */}
@@ -268,6 +280,7 @@ const underlineClass =
               href={item.href}
               target="_blank"
               className="block uppercase"
+               onClick={() => setOpen(false)}
             >
               {item.label}
             </a>
@@ -289,7 +302,10 @@ const underlineClass =
             <Link
               to={withBase(item.href)}
               className="block uppercase"
-              onClick={() => setOpen(false)}
+               onClick={() => {
+                  setOpen(false);
+                  setActiveDropdown(null);
+                }}
             >
               {item.label}
             </Link>
@@ -298,21 +314,33 @@ const underlineClass =
           {/* Dropdowns */}
           {item.dropdownKey === "treatments" &&
             activeDropdown === "treatments" && (
-              <MobileLocations baseUrl={withBase("/treatments")} />
+              <MobileLocations baseUrl={withBase("/treatments")} onClose={() => {
+    setOpen(false);
+    setActiveDropdown(null);
+  }} />
             )}
 
           {item.dropdownKey === "memberships" &&
             activeDropdown === "memberships" && (
-              <MobileLocations baseUrl={withBase("/memberships")} />
+              <MobileLocations baseUrl={withBase("/memberships")} onClose={() => {
+    setOpen(false);
+    setActiveDropdown(null);
+  }} />
             )}
 
           {item.dropdownKey === "spa" &&
             activeDropdown === "spa" && (
-              <MobileLocations baseUrl={withBase("/spa-packages")} />
+              <MobileLocations baseUrl={withBase("/spa-packages")} onClose={() => {
+    setOpen(false);
+    setActiveDropdown(null);
+  }} />
             )}
 
           {item.dropdownKey === "prices" &&
-            activeDropdown === "prices" && <MobilePrices />}
+            activeDropdown === "prices" && <MobilePrices onClose={() => {
+    setOpen(false);
+    setActiveDropdown(null);
+  }} />}
         </div>
       ))}
     </div>
@@ -378,13 +406,20 @@ const DesktopPrices = () => (
 
 /* ================= MOBILE DROPDOWNS ================= */
 
-const MobileLocations = ({ baseUrl }: { baseUrl: string }) => (
+const MobileLocations = ({
+  baseUrl,
+  onClose,
+}: {
+  baseUrl: string;
+  onClose: () => void;
+}) => (
   <div className="ml-4 mt-2 space-y-2">
     {locations.map((loc) => (
       <Link
         key={loc.slug}
         to={`${baseUrl}/${loc.slug}`}
         className="block text-sm"
+          onClick={onClose}
       >
         {loc.label}
       </Link>
@@ -392,7 +427,7 @@ const MobileLocations = ({ baseUrl }: { baseUrl: string }) => (
   </div>
 );
 
-const MobilePrices = () => (
+const MobilePrices = ({ onClose }: { onClose: () => void }) => (
   <div className="ml-4 mt-2 space-y-3">
     {pricesData.map((block) => (
       <div key={block.location}>
@@ -405,6 +440,7 @@ const MobilePrices = () => (
                 s.slug
               }`
             )}
+             onClick={onClose}
             className="block text-smml-3 py-1"
           >
             {s.label}
