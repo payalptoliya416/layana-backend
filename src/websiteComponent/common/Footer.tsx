@@ -59,183 +59,6 @@ function Footer() {
         </div>
       </section>
 
-      {/* <footer className="bg-[#282828] text-white pt-[38px]">
-        <div className="container mx-auto">
-          <div className="grid grid-cols-1 lg:grid-cols-4 gap-12 pb-16">
-            <div className="lg:col-span-1 mx-auto">
-              <img src={white_logo} alt="Layana" />
-            </div>
-            <div className="grid grid-cols-2 gap-8 lg:col-span-2">
-              <div>
-                <ul className="space-y-[10px] text-xs font-quattro">
-                  <li>
-                    <a
-                      href="#"
-                      onClick={(e) => e.preventDefault()}
-                      className="hover:text-white"
-                    >
-                      Infrared Sauna
-                    </a>
-                  </li>
-                  <li>
-                    <a
-                      href="#"
-                      onClick={(e) => e.preventDefault()}
-                      className="hover:text-white"
-                    >
-                      Cool Peel
-                    </a>
-                  </li>
-                  <li>
-                    <a
-                      href="#"
-                      onClick={(e) => e.preventDefault()}
-                      className="hover:text-white"
-                    >
-                      Image Facials
-                    </a>
-                  </li>
-                  <li>
-                    <a
-                      href="#"
-                      onClick={(e) => e.preventDefault()}
-                      className="hover:text-white"
-                    >
-                      Nails & Waxing
-                    </a>
-                  </li>
-                  <li>
-                    <a
-                      href="#"
-                      onClick={(e) => e.preventDefault()}
-                      className="hover:text-white"
-                    >
-                      Laser Hair Removal
-                    </a>
-                  </li>
-                  <li>
-                    <a
-                      href="#"
-                      onClick={(e) => e.preventDefault()}
-                      className="hover:text-white"
-                    >
-                      Skin Rejuvenation
-                    </a>
-                  </li>
-                  <li>
-                    <a
-                      href="#"
-                      onClick={(e) => e.preventDefault()}
-                      className="hover:text-white"
-                    >
-                      Red Vein Removal
-                    </a>
-                  </li>
-                </ul>
-              </div>
-
-              <div>
-                <ul className="space-y-[10px] text-xs font-quattro">
-                  <li>
-                    <a
-                      href="#"
-                      onClick={(e) => e.preventDefault()}
-                      className="hover:text-white"
-                    >
-                      Pigmentation Removal
-                    </a>
-                  </li>
-                  <li>
-                    <a
-                      href="#"
-                      onClick={(e) => e.preventDefault()}
-                      className="hover:text-white"
-                    >
-                      Deep Tissue Massage
-                    </a>
-                  </li>
-                  <li>
-                    <a
-                      href="#"
-                      onClick={(e) => e.preventDefault()}
-                      className="hover:text-white"
-                    >
-                      Thai Traditional Massage
-                    </a>
-                  </li>
-                  <li>
-                    <a
-                      href="#"
-                      onClick={(e) => e.preventDefault()}
-                      className="hover:text-white"
-                    >
-                      Aromatherapy Massage
-                    </a>
-                  </li>
-                  <li>
-                    <a
-                      href="#"
-                      onClick={(e) => e.preventDefault()}
-                      className="hover:text-white"
-                    >
-                      Thai Foot Reflexology
-                    </a>
-                  </li>
-                  <li>
-                    <a
-                      href="#"
-                      onClick={(e) => e.preventDefault()}
-                      className="hover:text-white"
-                    >
-                      Contact Us
-                    </a>
-                  </li>
-                  <li>
-                    <a
-                      href="#"
-                      onClick={(e) => e.preventDefault()}
-                      className="hover:text-white"
-                    >
-                      Terms & Conditions
-                    </a>
-                  </li>
-                </ul>
-              </div>
-            </div>
-
-            <div className="md:col-span-1">
-              <h4 className="font-mulish text-lg leading-[16px] mb-5">
-                We don’t keep our secrets!
-              </h4>
-
-              <label className="block font-mulish text-sm leading-[14px] mb-[10px]">
-                Name
-              </label>
-              <input
-                type="text"
-                placeholder="Full Name"
-                className="w-full bg-transparent border-b border-white/40 pb-[13px] text-white placeholder:text-white/40 focus:outline-none focus:border-white mb-8"
-              />
-
-              <label className="block font-mulish text-[14px] mb-2">
-                Email
-              </label>
-              <input
-                type="email"
-                placeholder="you@example.com"
-                className="w-full bg-transparent border-b border-white/40 py-2 text-white placeholder:text-white/40 focus:outline-none focus:border-white mb-12"
-              />
-
-              <button className="border border-white px-10 py-3 text-[12px] tracking-[0.2em] uppercase hover:bg-white hover:text-black transition">
-                Subscribe
-              </button>
-            </div>
-          </div>
-          <div className="border-t border-gray-700 py-6 text-center text-sm text-gray-400">
-            Thai Mane © 2015 – {new Date().getFullYear()}
-          </div>
-        </div>
-      </footer> */}
       <footer className=" text-[#cfd6da]">
         {/* ================= TOP STRIP ================= */}
         <div className="bg-[#1F262B] border-b border-[#9A563A]">
@@ -287,20 +110,38 @@ function Footer() {
                   ABOUT LAYANA
                 </h4>
 
-                <ul className="space-y-4 text-sm">
-                  <li className="flex gap-3 items-center text-[#A3A2A2]">
-                    <MapPin size={16} className="text-[#9A563A]" />
-                    Centerl Park West La, New York
-                  </li>
-                  <li className="flex gap-3 items-center text-[#A3A2A2]">
-                    <Phone size={16} className="text-[#9A563A]" />
-                    +0 123 456 7890
-                  </li>
-                  <li className="flex gap-3 items-center text-[#A3A2A2]">
-                    <Mail size={16} className="text-[#9A563A]" />
-                    info@example.com
-                  </li>
-                </ul>
+               <ul className="space-y-4 text-sm">
+  <li>
+    <a
+      href="https://maps.google.com"
+      target="_blank"
+      className="flex gap-3 items-center text-[#A3A2A2] hover:text-white cursor-pointer"
+    >
+      <MapPin size={16} className="text-[#9A563A]" />
+      Centerl Park West La, New York
+    </a>
+  </li>
+
+  <li>
+    <a
+      href="tel:+01234567890"
+      className="flex gap-3 items-center text-[#A3A2A2] hover:text-white cursor-pointer"
+    >
+      <Phone size={16} className="text-[#9A563A]" />
+      +0 123 456 7890
+    </a>
+  </li>
+
+  <li>
+    <a
+      href="mailto:info@example.com"
+      className="flex gap-3 items-center text-[#A3A2A2] hover:text-white cursor-pointer"
+    >
+      <Mail size={16} className="text-[#9A563A]" />
+      info@example.com
+    </a>
+  </li>
+               </ul>
 
                 <div className="mt-6">
                   <p className="text-white text-2xl mb-3 font-quattro">
@@ -317,46 +158,51 @@ function Footer() {
                 <h4 className="relative text-white tracking-widest mb-6 text-xl font-quattro after:content-[''] after:block after:w-12 after:h-[2px] after:bg-[#9A563A] after:mt-3">
                   IMPORTANT LINKS
                 </h4>
-                <ul className="space-y-3 text-sm">
-                  {[
-                    "Services",
-                    "About Us",
-                    "Price Plan",
-                    "Contact",
-                    "Terms & Conditions",
-                  ].map((item) => (
-                    <li
-                      key={item}
-                      className="flex items-center gap-2 uppercase text-[#BEBEBE]"
-                    >
-                      <ChevronRight size={14} className="text-[#9A563A]" />
-                      {item}
-                    </li>
-                  ))}
-                </ul>
+               <ul className="space-y-3 text-sm">
+  {[
+    { label: "Services", href: "/services" },
+    { label: "About Us", href: "/about-us" },
+    { label: "Price Plan", href: "/prices" },
+    { label: "Contact", href: "/contact-us" },
+    { label: "Terms & Conditions", href: "/terms" },
+  ].map((item) => (
+    <li key={item.label}>
+      <a
+        href={item.href}
+        className="flex items-center gap-2 uppercase text-[#BEBEBE] hover:text-white cursor-pointer"
+      >
+        <ChevronRight size={14} className="text-[#9A563A]" />
+        {item.label}
+      </a>
+    </li>
+  ))}
+</ul>
+
               </div>
 
               <div className="col-span-12 sm:col-span-6 lg:col-span-3 mb-10 sm:mb-0">
                 <h4 className="relative text-white tracking-widest mb-6 text-xl font-quattro after:content-[''] after:block after:w-12 after:h-[2px] after:bg-[#9A563A] after:mt-3">
                   CATEGORIES
                 </h4>
-                <ul className="space-y-3 text-sm">
-                  {[
-                    "Pigmentation Removal",
-                    "Deep Tissue Massage",
-                    "Fragrance",
-                    "Haircare",
-                    "Bath & Body",
-                  ].map((item) => (
-                    <li
-                      key={item}
-                      className="flex items-center gap-2 text-[#BEBEBE] uppercase"
-                    >
-                      <ChevronRight size={14} className="text-[#9A563A]" />
-                      {item}
-                    </li>
-                  ))}
-                </ul>
+               <ul className="space-y-3 text-sm">
+  {[
+    "Pigmentation Removal",
+    "Deep Tissue Massage",
+    "Fragrance",
+    "Haircare",
+    "Bath & Body",
+  ].map((item) => (
+    <li key={item}>
+      <a
+        href="#"
+        className="flex items-center gap-2 uppercase text-[#BEBEBE] hover:text-white cursor-pointer"
+      >
+        <ChevronRight size={14} className="text-[#9A563A]" />
+        {item}
+      </a>
+    </li>
+  ))}
+</ul>
               </div>
 
               <div className="col-span-12 sm:col-span-6 lg:col-span-3">
