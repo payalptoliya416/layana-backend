@@ -137,6 +137,7 @@
   font-family: "Poppins", sans-serif;
   background: hsl(var(--background));
   color: hsl(var(--foreground));
+  min-height: 100vh;
 }
 .website-root {
   font-family: "Mulish", sans-serif;
