@@ -1,13 +1,12 @@
 import { useEffect, useState } from "react";
 import TeamCard from "@/websiteComponent/common/home/TeamCard";
-import teamBg from "@/assets/teamBg.png";
+import teambg from "@/assets/teambg.png";
 import { getTeams } from "@/websiteComponent/api/teams.api";
 import SimpleHeroBanner from "@/websiteComponent/common/home/SimpleHeroBanner";
 
 function Team() {
   const [teams, setTeams] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
-
   useEffect(() => {
     getTeams()
       .then((res) => {
@@ -22,7 +21,7 @@ function Team() {
   return (
     <>
       <SimpleHeroBanner
-        background={teamBg}
+        background={teambg}
         title="Our Team"
         subtitle="Finchley Central"
       />
