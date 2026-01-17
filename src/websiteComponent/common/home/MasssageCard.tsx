@@ -1,12 +1,31 @@
+import { useNavigate } from "react-router-dom";
+
 type Props = {
   title: string;
   image: string;
   bgColor: string;
+  slug: string;
+  id?: number;
 };
 
-export default function MassageCard({ title, image, bgColor }: Props) {
+export default function MassageCard({
+  title,
+  image,
+  bgColor,
+  slug,
+  id,
+}: Props) {
+  const navigate = useNavigate();
+
+  const handleClick = () => {
+    navigate(`/websiteurl/treatments/${slug}`, {
+      state: { treatmentId: id },
+    });
+  };
+
   return (
     <div
+      onClick={handleClick}
       className="relative group overflow-hidden h-[358px] cursor-pointer"
       style={{ backgroundColor: bgColor }}
     >
@@ -17,11 +36,11 @@ export default function MassageCard({ title, image, bgColor }: Props) {
         style={{ backgroundImage: `url(${image})` }}
       />
 
-      <div className="absolute inset-0 group-hover:opacity-60 transition duration-700"
+      <div
+        className="absolute inset-0 group-hover:opacity-60 transition duration-700"
         style={{ backgroundColor: bgColor }}
       />
 
-      {/* Title */}
       <div className="relative z-10 h-full flex items-center justify-center text-center px-6">
         <h3 className="font-mulish text-[28px] leading-[32px] font-normal">
           {title}

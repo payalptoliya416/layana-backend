@@ -30,7 +30,6 @@ type Props = {
 /* ================= CATEGORY MAP ================= */
 
 const CATEGORY_MAP: Record<string, string[]> = {
-  "Laser Skin": ["Rejuvenation", "Hair Removal", "Pigmentation"],
   Facial: ["Hydrafacial", "Anti Aging", "Acne"],
   Body: ["Fat Reduction", "Skin Tightening"],
 };

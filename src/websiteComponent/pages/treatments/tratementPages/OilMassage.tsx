@@ -14,42 +14,49 @@ import SimpleHeroBanner from "@/websiteComponent/common/home/SimpleHeroBanner";
 import MassageGallery from "@/websiteComponent/common/massage/MassageGallery";
 import CommonButton from "@/websiteComponent/common/home/CommonButton";
 import MassageCard from "@/websiteComponent/common/home/MasssageCard";
+import { useLocation } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { getTreatmentById } from "@/websiteComponent/api/treatments.api";
+import Loader from "@/websiteComponent/common/Loader";
 
 export const images = [img1, img2, img3, img4];
-
-const faqData: FaqItem[] = [
-  {
-    question: "Lorem Ipsum is simply dummy text of the printing?",
-    answer:
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.",
-  },
-  {
-    question: "Lorem Ipsum is simply dummy?",
-    answer: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
-  },
-  {
-    question: "Sed ut perspiciatis unde omnis iste natus error sit voluptatem?",
-    answer:
-      "Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium.",
-  },
-  {
-    question: "Excepteur sint occaecat cupidatat non proident?",
-    answer:
-      "Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
-  },
-];
 
 const CARD_COLORS = ["#FBF3EC", "#F9EEE7", "#FFF4E9"];
 
 function OilMassage() {
   const activeTab: MassageTreatmentTabs = "Massage";
+  const location = useLocation();
+  const treatmentId = location.state?.treatmentId;
+
+  const [data, setData] = useState<any>(null);
+  const [loading, setLoading] = useState(true);
+
+   useEffect(() => {
+    if (!treatmentId) return;
+
+    getTreatmentById(treatmentId)
+      .then((res) => {
+        setData(res.data);
+      })
+      .finally(() => setLoading(false));
+  }, [treatmentId]);
+
+  if (loading) return <div className="py-20 text-center"><Loader/></div>;
+  if (!data) return <div className="py-20 text-center"></div>;
+
+  const treatment = data.treatment;
+  const faqItems =
+  data?.faqs?.map((faq: any) => ({
+    question: faq.question,
+    answer: faq.answer,
+  })) || [];
 
   return (
     <>
       <SimpleHeroBanner
-        background={oilMassage}
-        title="Thai Oil Massage"
-        subtitle="Finchley Central / Treatments / Massage"
+          background={data.visuals?.banners?.[0]}
+         title={treatment.name}
+          subtitle={`Finchley Central / Treatments / ${treatment.category}`}
       />
       {/* ----- */}
       <section className="py-12 lg:py-[110px]">
@@ -61,46 +68,31 @@ function OilMassage() {
             <div className="col-span-12 lg:col-span-6 px-4 lg:px-0">
               <div className="mb-[42px]">
                 <h3 className="text-[28px] md:text-4xl mb-[15px] md:mb-5 leading-[36px] font-light">
-                  Thai Oil Massage
+                  {treatment.name}
                 </h3>
-                <p className="text-xs sm:text-base leading-[26px] font-normal text-[#666666] mb-[15px] font-quattro text-justify">
-                  Lorem Ipsum is simply dummy text of the printing and
-                  typesetting industry. Lorem Ipsum has been the industry's
-                  standard dummy text ever since the 1500s, when an unknown
-                  printer took a galley of type and scrambled it to make a type
-                  specimen book. It has survived not only five centuries, but
-                  also the leap into electronic typesetting, remaining
-                  essentially unchanged.
-                </p>
-                <p className="text-xs sm:text-base leading-[26px] font-normal text-[#666666] mb-[15px] font-quattro text-justify">
-                  Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed
-                  do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-                  Ut enim ad minim veniam, quis nostrud exercitation ullamco
-                  laboris nisi ut aliquip ex ea commodo consequat.
-                </p>
+                 <div
+              className="text-xs sm:text-base leading-[26px] font-normal text-[#666666] mb-[15px] font-quattro text-justify"
+              dangerouslySetInnerHTML={{ __html: treatment.content }}
+            />
               </div>
+               {data.benefits?.length > 0 && (
               <div className="mb-[30px]">
                 <h3 className="text-[#282828] text-xl md:text-[22px] leading-[36px] md:leading-[24px] mb-[15px] md:mb-5">
-                  Benefits of Thai Oil Massage
+                  Benefits of {treatment.name}
                 </h3>
                 <ul className="list-disc list-outside pl-5">
+                   {data.benefits.map((b: any) => (
                   <li className="font-quattro text-[#666666] text-xs sm:text-base mb-[10px]">
-                    Lorem Ipsum is simply dummy text of the printing and
-                    typesetting.
-                  </li>
-                  <li className="font-quattro text-[#666666] text-xs sm:text-base mb-[10px]">
-                    Lorem Ipsum is simply dummy text of the printing.
-                  </li>
-                  <li className="font-quattro text-[#666666] text-xs sm:text-base mb-[10px]">
-                    Lorem Ipsum is simply dummy text of the printing and
-                    typesetting.
-                  </li>
+                    {b.title}
+                  </li> ))}
                 </ul>
               </div>
+             )}
               <div>
-                <h3 className="text-[#282828] text-lg sm:text-[22px] leading-[24px] italic font-muli mb-[15px] sm:mb-[30px]">
-                  "An ancient healing therapy for body & mind."
-                </h3>
+                {treatment.slogan && <h3 className="text-[#282828] text-lg sm:text-[22px] leading-[24px] italic font-muli mb-[15px] sm:mb-[30px]">
+                  "{treatment.slogan}"
+                </h3>}
+                
                 <p className="text-sm text-[#666666] sm:text-base mb-[5px] sm:mb-[10px] font-quattro">
                   Please call us or book online
                 </p>
@@ -110,26 +102,44 @@ function OilMassage() {
                   </div>
                   <span className="text-lg text-[#282828] font-quattro">0208 371 6922</span>
                 </div>
+                 {data.pricing?.length > 0 && (
                 <div className="flex items-center text-[18px] font-mulish text-[#666666] tracking-wide mb-[37px]">
+                  {data.pricing.map((p: any, i: number) => (
+                    <>
                   <div className="px-[10px]">
-                    60 min:{" "}
-                    <span className="font-semibold text-black mt-5 sm:mt-0">£60.00</span>
+                    {p.minute} min:{" "}
+                    <span className="font-semibold text-black mt-5 sm:mt-0">£{p.price}</span>
                   </div>
-                  <div className="h-6 w-px bg-gray-300" />
-                  <div className="px-[10px]">
-                    90 min:{" "}
-                    <span className="font-semibold text-black mt-5 sm:mt-0">£80.00</span>
-                  </div>
-                  <div className="h-6 w-px bg-gray-300" />
-                  <div className="px-[10px]">
-                    120 min:{" "}
-                    <span className="font-semibold text-black mt-5 sm:mt-0">£100.00</span>
-                  </div>
+                   {i !== data.pricing.length - 1 && (
+                     <div className="h-6 w-px bg-gray-300" />
+                    )}
+                    </>
+                  ))}
+                  
                 </div>
+                )} 
+                {data.buttons?.length > 0 && (
                   <div className="flex gap-5 md:gap-10 flex-wrap justify-center">
-                    <CommonButton>Book Now</CommonButton>
-                    <CommonButton>Buy a Gift</CommonButton>
+                    {/* <CommonButton>Book Now</CommonButton>
+                    <CommonButton>Buy a Gift</CommonButton> */}
+                     {data.buttons.map((btn: any) => (
+              <a
+                key={btn.id}
+                href={btn.button_link}
+                target="_blank"
+                className=" border border-black px-2
+                  md:w-[260px] h-[50px] md:h-[70px]
+                  flex items-center justify-center
+                  font-mulish text-[12px]
+                  tracking-[0.25em] uppercase
+                  transition
+                  hover:bg-black hover:text-white cursor-pointer"
+              >
+                {btn.button_text}
+              </a>
+            ))}
                   </div>
+                )}
               </div>
             </div>
           </div>
@@ -137,14 +147,18 @@ function OilMassage() {
       </section>
 
       {/* ---- */}
+      {faqItems.length > 0 && (
       <section className="bg-[#F6F6F6] py-[50px]">
         <div className="container mx-auto">
-          <Faq items={faqData} title="Frequently Asked Questions" />
+              <Faq
+        items={faqItems}
+        title="Frequently Asked Questions"
+      />
         </div>
-      </section>
+      </section> )}
 
       {/* ----- */}
-      <section className="pt-12 lg:pt-[110px]">
+      <section className="">
         <div className="container mx-auto">
           <h3 className="text-[28px] sm:text-4xl mb-[50px] text-center font-mulish font-light">
             You might also like...
@@ -157,6 +171,7 @@ function OilMassage() {
                 <MassageCard
                   key={index}
                   title={item.title}
+                    slug=""
                   image={item.image}
                   bgColor={CARD_COLORS[index % CARD_COLORS.length]}
                 />
@@ -165,7 +180,7 @@ function OilMassage() {
 
           {/* Browse all button */}
           <div className="flex justify-center">
-            <CommonButton to="/treatments/massage">
+            <CommonButton to="/websiteurl/treatments/massage">
               Browse All Treatments
             </CommonButton>
           </div>

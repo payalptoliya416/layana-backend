@@ -5,9 +5,10 @@ type Props = {
   role: string;
   image: string;
   index: number;
+   description?: string | null;
 };
 
-export default function TeamCard({ name, role, image, index }: Props) {
+export default function TeamCard({ name, role, image, index, description, }: Props) {
   return (
     <div
       className={`
@@ -46,6 +47,9 @@ export default function TeamCard({ name, role, image, index }: Props) {
       <h3 className="font-quattro text-[22px] text-[#1e2b3a]">
         {name}
       </h3>
+        {description && (
+          <p className="text-sm leading-[22px] text-[#666666] font-quattro">{description}</p>
+        )}
     </div>
   );
 }

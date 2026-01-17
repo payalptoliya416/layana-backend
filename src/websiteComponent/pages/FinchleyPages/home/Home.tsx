@@ -1,22 +1,6 @@
 import im1 from "@/assets/im1.png";
 import im2 from "@/assets/im2.png";
-import ever from "@/assets/ever.png";
-import home_banner from "@/assets/home-banner.png";
 import { Link } from "react-router-dom";
-import home_bg from "@/assets/home_bg.png";
-
-import ban1 from "@/assets/ban1.png";
-import ban2 from "@/assets/ban2.png";
-import ban3 from "@/assets/ban3.png";
-import ban4 from "@/assets/ban4.png";
-
-
-import team1 from "@/assets/team1.png";
-import team2 from "@/assets/team2.png";
-import team3 from "@/assets/team3.png";
-import team4 from "@/assets/team4.png";
-import slide1 from "@/assets/hero1.png";
-import slide2 from "@/assets/hero2.jpeg";
 import CommonHeroSlider from "@/websiteComponent/common/home/CommonHeroSlider";
 import SplitContentSection from "@/websiteComponent/common/home/SplitContentSection";
 import PageBanner from "@/websiteComponent/common/home/PageBanner";
@@ -24,57 +8,53 @@ import ServiceCard from "@/websiteComponent/common/home/ServiceCard";
 import TeamCard from "@/websiteComponent/common/home/TeamCard";
 import CommonButton from "@/websiteComponent/common/home/CommonButton";
 import BrandSlider from "@/websiteComponent/common/home/BrandSlider";
+import { useEffect, useState } from "react";
+import { getHomePageData } from "@/websiteComponent/api/pricing.api";
+import HomeOfferModal from "./HomeOfferModal";
 
-const homeSlides = [
-  {
-    image: slide1,
-    title: "Your Wellness in\nYour Control",
-    text: "A team of professional hairstylists with more than fifteen years of experience in fashioning memorable and creative looks",
-  },
-  {
-    image: slide2,
-    title: "Luxury Spa\nExperience",
-    text: "Indulge in premium treatments designed to relax your body and rejuvenate your skin.",
-  },
-];
-
-const services = [
-  { title: "Beauty", image: ban1 },
-  { title: "Advanced Skin Care", image: ban2 },
-  { title: "Massage", image: ban3 },
-  { title: "Laser Hair Removal", image: ban4 },
-];
-
-const team = [
-  {
-    name: "JOHN DOE",
-    role: "Massage Therapist",
-    bio: "I am massage therapist and I completed formal training and certificate and diploma programs in USA.",
-    image: team1,
-  },
-  {
-    name: "JOHN DOE",
-    role: "Massage Therapist",
-    bio: "I am massage therapist and I completed formal training and certificate and diploma programs in USA.",
-    image: team2,
-  },
-  {
-    name: "JOHN DOE",
-    role: "Massage Therapist",
-    bio: "I am massage therapist and I completed formal training and certificate and diploma programs in USA.",
-    image: team3,
-  },
-  {
-    name: "JOHN DOE",
-    role: "Massage Therapist",
-    bio: "I am massage therapist and I completed formal training and certificate and diploma programs in USA.",
-    image: team4,
-  },
-];
 function Home() {
+  const [homeData, setHomeData] = useState<any>(null);
+  const [loading, setLoading] = useState(true);
+  const [showOfferModal, setShowOfferModal] = useState(false);
+
+useEffect(() => {
+  const seen = localStorage.getItem("home_offer_modal_seen");
+
+  if (!seen) {
+    setShowOfferModal(true);
+  }
+}, []);
+
+  useEffect(() => {
+    getHomePageData()
+      .then((res) => {
+        setHomeData(res.data);
+      })
+      .finally(() => setLoading(false));
+  }, []);
+
+  const slides = homeData?.slider?.map((item: any) => ({
+  image: item.image,
+  title: item.title,
+  text: item.description,
+  buttonText: item.btn_text,
+  buttonLink: item.btn_link,
+})) ?? [];
+
+const handleCloseOfferModal = () => {
+  localStorage.setItem("home_offer_modal_seen", "true");
+  setShowOfferModal(false);
+};
+
+  if (loading) return <div className="py-20 text-center"></div>;
   return (
     <>
-    <CommonHeroSlider slides={homeSlides} />
+     {showOfferModal && (
+    <HomeOfferModal onClose={handleCloseOfferModal} />
+  )}
+    {slides.length > 0 && (
+  <CommonHeroSlider slides={slides} />
+)}
       <section className="pt-12 lg:pt-[110px]">
         <div className="container mx-auto">
           <div className="grid grid-cols-12 lg:gap-[50px]">
@@ -149,59 +129,81 @@ function Home() {
         </div>
       </section>
       {/* --- */}
+   
       <SplitContentSection
-        tag="Beauty"
-        title="Do even more for your skin in less steps than ever"
-        description="Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation."
-        image={ever}
-         buttons={[{ label: "Read More" }]}
+        tag={homeData.promo_1.sub_title}
+        title={homeData.promo_1.title}
+        description={
+          <div
+            dangerouslySetInnerHTML={{ __html: homeData.promo_1.description }}
+          />
+        }
+        image={homeData.visuals.promo_1_image}
+        bgColor={homeData.promo_1.bg_color}
+        buttons={[
+          {
+            label: homeData.promo_1.btn_text,
+            link: homeData.promo_1.btn_link,
+          },
+        ]}
       />
+
       {/* --- */}
       <section className="py-12 lg:py-[110px]">
         <div className="container mx-auto">
-          <img src={home_banner} alt="banner" className="w-full" />
+          <img src={homeData.visuals.promo_2_image} alt="banner" className="w-full" />
         </div>
       </section>
+
       {/* ------ */}
       <PageBanner
         title="Your wellness in"
         subtitle="your control"
-        backgroundImage={home_bg}
+        backgroundImage={homeData.visuals.promo_3_image}
       />
       {/* --- */}
       <section className="w-full">
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4">
-          {services.map((item) => (
+          {homeData.treatments.map((item: any) => (
             <ServiceCard
-              key={item.title}
-              title={item.title}
-              image={item.image}
+              key={item.id}
+              title={item.name}
+              image={item.thumbnail_image}
+              link={`/treatments/${item.slug}`}
+              id={item.id}
             />
           ))}
         </div>
       </section>
+      
       {/* -------- */}
       <section className="py-12 lg:py-[110px]">
         <div className="container mx-auto">
-
           <h2 className="font-quattro text-center text-[36px] mb-14">
             Our Team
           </h2>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-x-10 gap-y-12 sm:gap-y-14 md:gap-y-16 lg:gap-y-24">
-            {team.map((member, index) => (
-              <TeamCard key={member.name} {...member} index={index} />
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-x-10 gap-y-12">
+            {homeData.teams.map((member: any, index: number) => (
+              <TeamCard
+                key={index}
+                name={member.name}
+                role={member.role}
+                image={member.image}
+                index={index}
+              />
             ))}
           </div>
 
           <div className="flex justify-center mt-24">
             <CommonButton to="/websiteurl/team">View All</CommonButton>
           </div>
-
         </div>
       </section>
       {/* -------- */}
-      <BrandSlider />
+      {homeData?.visuals?.partner_image?.length > 0 && (
+        <BrandSlider images={homeData.visuals.partner_image} />
+      )}
       {/* ---- */}
     </>
   );

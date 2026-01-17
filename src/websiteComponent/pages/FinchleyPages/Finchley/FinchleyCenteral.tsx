@@ -16,6 +16,11 @@ import PageBanner from "@/websiteComponent/common/home/PageBanner";
 import ServiceCard from "@/websiteComponent/common/home/ServiceCard";
 import SplitContentSection from "@/websiteComponent/common/home/SplitContentSection";
 import CommonHeroSlider from "@/websiteComponent/common/home/CommonHeroSlider";
+import { useParams } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { getLandingPageByLocation, getLocations } from "@/websiteComponent/api/webLocationService";
+import Loader from "@/websiteComponent/common/Loader";
+import banner_home from '@/assets/banner_home.jpg';
 
 const homeSlides = [
   {
@@ -42,14 +47,82 @@ const services = [
 ];
 
 function FinchleyCenteral() {
+  const { locationSlug } = useParams<{ locationSlug: string }>();
+
+const [loading, setLoading] = useState(true);
+const [landingData, setLandingData] = useState<any>(null);
+useEffect(() => {
+  if (!locationSlug) return;
+
+  const fetchData = async () => {
+    setLoading(true); // 🔥 important
+
+    try {
+      // 1️⃣ get all locations
+      const locRes = await getLocations();
+
+      // ✅ FIXED: correct path
+      const selectedLocation = locRes.data.find(
+        (loc: any) => loc.slug === locationSlug
+      );
+
+      if (!selectedLocation) {
+        console.error("Invalid location slug");
+        setLandingData(null);
+        return;
+      }
+
+      // 2️⃣ call landing page API with ID
+      const landingRes = await getLandingPageByLocation(
+        selectedLocation.id
+      );
+
+      // ✅ FIXED: actually set data
+      setLandingData(landingRes.data);
+    } catch (err) {
+      console.error(err);
+      setLandingData(null);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  fetchData();
+}, [locationSlug]);
+
+ if (loading) {
+  return <div className="py-20 text-center"><Loader/></div>;
+}
+
+if (!landingData) {
+  return <div className="py-20 text-center"></div>;
+}
+
+const treatmentCount = landingData?.treatments?.length ?? 0;
+const gridClass =
+  treatmentCount === 1
+    ? "lg:grid-cols-1"
+    : treatmentCount === 2
+    ? "lg:grid-cols-2"
+    : treatmentCount === 3
+    ? "lg:grid-cols-3"
+    : "lg:grid-cols-4";
   return (
     <>
-      <CommonHeroSlider slides={homeSlides} />
+      <CommonHeroSlider
+  slides={landingData.sliders.map((s: any) => ({
+    image: s.image,
+    title: s.title,
+    text: s.description ?? "",
+    buttonText: s.btn_text,
+    buttonLink: s.btn_link,
+  }))}
+/>
       <section className="w-full bg-white py-12 lg:py-[110px]">
         <div className="max-w-7xl mx-auto px-6 grid grid-cols-1 lg:grid-cols-2 gap-14 items-center">
           <div className="w-full">
             <img
-              src={finchley_im1}
+              src={landingData?.about?.image}
               alt="Finchley Central Spa"
               className="w-full h-full object-cover rounded-sm"
             />
@@ -57,40 +130,22 @@ function FinchleyCenteral() {
 
           <div>
             <h2 className="font-mulish text-4xl font-light tracking-wide mb-[15px]">
-              Finchley Central
+             {landingData.location.name}
             </h2>
 
             <p className="font-mulish uppercase text-sm tracking-widest mb-5">
-              Ballards Lane, London
+              {landingData.location.city}, {landingData.location.country}
             </p>
+            <div
+            className="font-quattro text-[#666666] text-base leading-relaxed mb-[15px]"
+              dangerouslySetInnerHTML={{
+                __html: landingData.about?.description ?? "",
+              }}
+            />
 
-            <p className="font-quattro text-[#666666] text-base leading-relaxed mb-[15px]">
-              Welcome to the Thai Maneee Spa established by experienced team in
-              the industry to bring one-stop destination for relaxation and
-              beauty at one place! Located in the heart of Finchley Central, our
-              Massage Spa offers a unique and authentic experience.
-            </p>
-
-            <p className="mb-[15px] text-[#666666] text-base leading-relaxed">
-              With our fully trained therapists who specialise in various
-              massage techniques such as Thai Yoga Massage, Aromatherapy, Hot
-              Stone Therapy, Deep Tissue or Sports Massage – we promise you'll
-              emerge feeling rejuvenated. But wait… our services don't stop
-              there! We also offer exceptional Beauty Treatments including Hydra
-              facial and facials using high-end skincare products by Crystal
-              Clear and Environ which cater to all skin types.
-            </p>
-
-            <p className="mb-[15px] text-[#666666] text-base leading-relaxed">
-              Struggling with body hair? Look no further than our Laser Hair
-              Removal treatments that use state of the art technology ensuring
-              painless hair removal leaving you with smooth skin like never
-              before.
-            </p>
-
-            <button className="font-mulish underline cursor-pointer border-black tracking-widest hover:text-[#666666] text-base transition">
-              Treatment Menu
-            </button>
+            <a href={landingData.about?.btn_link} className="font-mulish underline cursor-pointer border-black tracking-widest hover:text-[#666666] text-base transition">
+               {landingData.about?.btn_text}
+            </a>
           </div>
         </div>
       </section>
@@ -105,9 +160,15 @@ function FinchleyCenteral() {
             <Clock className="w-[18px] h-[18px] text-black" />
           </div>
           <h4 className="tracking-[0.2em] text-[22px] leading-[24px] uppercase mb-3">Hours</h4>
-          <p className="text-[#666666] text-lg font-quattro">
-            Mon To Sun <br />
-            10:00 am to 09:00 pm
+          <p className="text-[#666666] text-lg font-quattro flex flex-wrap justify-center gap-1">
+              {landingData.opening_hours.map((day: any) => (
+    <div key={day.id}>
+       {day.day.charAt(0).toUpperCase() + day.day.slice(1)} :{" "}
+      {day.is_closed
+        ? "Closed"
+        : `${day.start_time} - ${day.end_time}`}
+    </div>
+  ))}
           </p>
         </div>
 
@@ -136,8 +197,8 @@ function FinchleyCenteral() {
           </div>
           <h4 className="tracking-[0.2em] text-[22px] leading-[24px] uppercase mb-3">Contact</h4>
           <p className="text-[#666666] text-lg font-quattro">
-            0208 371 6922 <br />
-            finchley@layana.co.uk
+            {landingData.location.phone} <br />
+            {landingData.location.email}
           </p>
         </div>
 
@@ -149,33 +210,48 @@ function FinchleyCenteral() {
 <PageBanner
   title="Your wellness in"
   subtitle="your control"
-  backgroundImage={home_bg}
+  backgroundImage={landingData.promotion.promotion_1_image}
 />
 {/* -------- */}
   <section className="w-full">
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4">
-        {services.map((item) => (
+      <div  className={`grid grid-cols-1 sm:grid-cols-2 ${gridClass}`}>
+         {landingData.treatments.map((item: any) => (
           <ServiceCard
-            key={item.title}
-            title={item.title}
-            image={item.image}
+            key={item.id}
+            title={item.name}
+            image={item.thumbnail_image}
           />
         ))}
       </div>
     </section>
     <div className="py-12 lg:pb-[110px]"/>
     {/* --------- */}
-        <SplitContentSection
-        tag="SERVICES"
-        title="Cosmetic beauty treatments perfect for your nails"
-        description="Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation."
-        image={ever2}
-         buttons={[{ label: "Read More" }]}
+     {landingData.promotion3 && (
+  <SplitContentSection
+    tag={landingData.sub_title}
+    title={landingData.promotion3.title}
+    description={
+      <div
+        dangerouslySetInnerHTML={{
+          __html: landingData.promotion3.description,
+        }}
       />
+    }
+    image={landingData.promotion3.image}
+    buttons={[
+      {
+        label: landingData.promotion3.btn_text,
+        link: landingData.promotion3.btn_link, // 🔥 button link added
+      },
+    ]}
+  />
+)}
+
       {/* --------- */}
-           <section className="py-12 lg:py-[110px]">
+           <section className="pt-12 lg:pt-[110px]">
         <div className="container mx-auto">
-          <img src={home_banner} alt="banner" className="w-full" />
+          <img src={banner_home} alt="banner" className="w-full" />
+          {/* <img src={landingData.promotion.promotion_2_image} alt="banner" className="w-full" /> */}
         </div>
       </section>
     </>

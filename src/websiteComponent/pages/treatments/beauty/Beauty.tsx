@@ -9,8 +9,8 @@ import SimpleHeroBanner from "@/websiteComponent/common/home/SimpleHeroBanner";
 const tabs: MassageTreatmentTabs[] = [
   "Skin",
   "Massage",
-  "Laser Hair Removal",
-  "Beauty",
+  // "Laser Hair Removal",
+  // "Beauty",
 ];
 
 const CARD_COLORS = [
@@ -85,7 +85,7 @@ function Beauty() {
                 {/* Grid */}
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-10">
                   {massageBeautyData[activeTab].map((item, index) => (
-                    <MassageCard key={index} title={item.title} image={item.image} bgColor={CARD_COLORS[index % CARD_COLORS.length]} />
+                    <MassageCard key={index} title={item.title} image={item.image} bgColor={CARD_COLORS[index % CARD_COLORS.length]}   slug="" />
                   ))}
                 </div>
               </div>

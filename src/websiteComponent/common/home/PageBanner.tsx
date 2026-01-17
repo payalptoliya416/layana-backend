@@ -17,7 +17,7 @@ const PageBanner: React.FC<PageBannerProps> = ({
       style={{ backgroundImage: `url(${backgroundImage})` }}
     >
       <div className="container mx-auto text-center px-4">
-        <h1 className="font-mulish text-white text-[28px] sm:text-[42px] lg:text-[65px] leading-[42px] sm:leading-[1.1]">
+        <h1 className="font-mulish text-white text-[34px] sm:text-[42px] lg:text-[65px] leading-[42px] sm:leading-[1.1]">
           {title}
           {subtitle && (
             <>

@@ -16,7 +16,7 @@ type WorkingOutput = {
     day: string;
     start_time: string;
     end_time: string;
-    is_closed: "0" | "1" | 1;
+       is_closed: boolean;
   }[];
 };
 
@@ -48,7 +48,7 @@ const LocationWorkingHr = forwardRef<any, Props>(
     /* ---------- STATE ---------- */
     const [times, setTimes] = useState<Record<string, DayState>>(() =>
       DAYS.reduce((acc, day) => {
-        acc[day] = { start: "", end: "" ,is_closed: false};
+        acc[day] = { start: "", end: "" , is_closed: false,};
         return acc;
       }, {} as Record<string, DayState>)
     );
@@ -77,13 +77,13 @@ useEffect(() => {
     const day =
       o.day.charAt(0).toUpperCase() + o.day.slice(1).toLowerCase();
 
-    const isClosed = o.is_closed === "1" || o.is_closed === 1;
+    const isClosed = Boolean(o.is_closed);
 
-    mapped[day] = {
-      start: isClosed ? "" : o.start_time ?? "",
-      end: isClosed ? "" : o.end_time ?? "",
-      is_closed: isClosed,
-    };
+   mapped[day] = {
+  start: o.is_closed ? "" : o.start_time ?? "",
+  end: o.is_closed ? "" : o.end_time ?? "",
+  is_closed: o.is_closed,
+};
 
     closedMap[day] = isClosed;
   });
@@ -124,7 +124,8 @@ useEffect(() => {
       mapped[day] = {
         start: o.start_time === "closed" ? "" : o.start_time,
         end: o.end_time === "closed" ? "" : o.end_time,
-       is_closed: o.is_closed === "1" || o.is_closed === 1
+       is_closed: Boolean(o.is_closed)
+       
       };
     });
 
@@ -150,7 +151,7 @@ useEffect(() => {
         day: day.toLowerCase(),
         start_time: t.is_closed ? null : t.start,
         end_time: t.is_closed ? null : t.end,
-        is_closed: t.is_closed ? "1" : "0",
+       is_closed: t.is_closed,
       };
     }),
   });
@@ -346,19 +347,7 @@ useEffect(() => {
                       <label className="flex items-center gap-2 text-sm cursor-pointer mb-0">
         <Checkbox
   checked={d.is_closed}
-  // onCheckedChange={(v) => {
-  //   const checked = Boolean(v);
 
-  //   setTimes((p) => ({
-  //     ...p,
-  //     [day]: {
-  //       ...p[day],
-  //       is_closed: checked,
-  //       start: checked ? "" : p[day].start,
-  //       end: checked ? "" : p[day].end,
-  //     },
-  //   }));
-  // }}
     onCheckedChange={(v) => {
     const checked = Boolean(v);
 
@@ -471,7 +460,7 @@ useEffect(() => {
                             updated[day] = {
                               start: source.start,
                               end: source.end,
-                              is_closed :false
+                              is_closed: false,
                             };
                           }
                         }

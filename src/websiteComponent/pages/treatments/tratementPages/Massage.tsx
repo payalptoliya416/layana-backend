@@ -1,20 +1,8 @@
-import { useState } from "react";
-
+import { useEffect, useState } from "react";
 import massage_bg from "@/assets/massage_bg.png";
-
-import {
-  massageTreatmentsData,
-  type MassageTreatmentTabs,
-} from "./massageTreatmentsData";
 import SimpleHeroBanner from "@/websiteComponent/common/home/SimpleHeroBanner";
 import MassageCard from "@/websiteComponent/common/home/MasssageCard";
-
-const tabs: MassageTreatmentTabs[] = [
-  "Skin",
-  "Massage",
-  "Laser Hair Removal",
-  "Beauty",
-];
+import { getTreatmentCategories, getTreatmentsByCategory } from "@/websiteComponent/api/treatments.api";
 
 const CARD_COLORS = [
   "#F5EEE9",
@@ -32,7 +20,36 @@ const CARD_COLORS = [
 ];
 
 function Massage() {
-  const [activeTab, setActiveTab] = useState<MassageTreatmentTabs>("Massage");
+const [categories, setCategories] = useState<any[]>([]);
+  const [activeCategory, setActiveCategory] = useState<number | null>(null);
+  const [treatments, setTreatments] = useState<any[]>([]);
+  const [loading, setLoading] = useState(true);
+  /* Load categories */
+  useEffect(() => {
+    getTreatmentCategories().then((res) => {
+      setCategories(res.data);
+
+      if (res.data.length > 0) {
+        setActiveCategory(res.data[0].id);
+      }
+    });
+  }, []);
+
+  /* Load treatments on tab change */
+useEffect(() => {
+  if (!activeCategory) return;
+
+  setLoading(true);
+  getTreatmentsByCategory(activeCategory)
+    .then((res) => {
+      setTreatments(res.data.treatments || []);
+    })
+    .catch((err) => {
+      console.error("Treatment API error", err);
+      setTreatments([]);
+    })
+    .finally(() => setLoading(false));
+}, [activeCategory]);
 
   return (
     <>
@@ -44,37 +61,35 @@ function Massage() {
 
       <section className="pt-12 lg:pt-[110px]">
         <div className="container mx-auto">
+
+          {/* Tabs */}
           <div className="mb-10">
-            {/* Tabs */}
-            <div className="flex flex-col sm:flex-row sm:justify-center sm:gap-14">
-              {tabs.map((tab) => {
-                const isActive = activeTab === tab;
+            <div className="flex flex-col sm:flex-row sm:justify-center sm:gap-14 border-b pb-2 sm:w-max mx-auto">
+              {categories.map((cat) => {
+                const isActive = activeCategory === cat.id;
 
                 return (
                   <button
-                    key={tab}
-                    onClick={() => setActiveTab(tab)}
+                    key={cat.id}
+                    onClick={() => setActiveCategory(cat.id)}
                     className="group relative w-full sm:w-auto text-center py-4 sm:py-0"
                   >
-                    {/* Label */}
                     <span
                       className={`block text-sm tracking-widest uppercase transition
-                        ${
-                            isActive ? "text-black" : "text-[#666666] group-hover:text-black"
-                        }
-                        `}
+                        ${isActive ? "text-black" : "text-[#666] group-hover:text-black"}
+                      `}
                     >
-                      {tab}
+                      {cat.name}
                     </span>
 
-                    {/* Mobile divider */}
+                    {/* mobile divider */}
                     <span
                       className={`absolute left-0 bottom-0 w-full h-[1px] sm:hidden
-              ${isActive ? "bg-black" : "bg-gray-200"}
-            `}
+                        ${isActive ? "bg-black" : "bg-gray-200"}
+                      `}
                     />
 
-                    {/* Desktop underline */}
+                    {/* desktop underline */}
                     {isActive && (
                       <span className="hidden sm:block absolute left-0 -bottom-[10px] w-full h-[2px] bg-black" />
                     )}
@@ -83,16 +98,25 @@ function Massage() {
               })}
             </div>
 
-            {/* Desktop long baseline */}
-            <div className="hidden sm:block w-full h-[1px] bg-gray-200 mt-2" />
           </div>
 
           {/* Grid */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-10">
-            {massageTreatmentsData[activeTab].map((item, index) => (
-              <MassageCard key={index} title={item.title} image={item.image} bgColor={CARD_COLORS[index % CARD_COLORS.length]} />
-            ))}
-          </div>
+          {loading ? (
+            <div className="text-center py-20">Loading...</div>
+          ) : (
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-10">
+               {treatments.map((item, index) => (
+                    <MassageCard
+                      key={item.id}
+                      title={item.name}
+                      slug={item.slug}
+                      id={item.id}
+                      image={item.thumbnail_image || massage_bg}
+                      bgColor={CARD_COLORS[index % CARD_COLORS.length]}
+                    />
+                  ))}
+            </div>
+          )}
         </div>
       </section>
     </>

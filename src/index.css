@@ -582,17 +582,17 @@ input[type="time"]::-webkit-datetime-edit-ampm-field {
   border-color: #046d73 !important;
 }
 .ant-picker input {
-  color: #ffffff !important;
+  /* color: #ffffff !important; */
 }
 
 /* Placeholder → soft grey (proper visible) */
 .ant-picker input::placeholder {
-  color: #bfcfd4 !important; /* 👈 best for dark theme */
+  /* color: #bfcfd4 !important;  */
   opacity: 1 !important;     /* AntD sometimes sets low opacity */
 }
 .ant-picker:hover input::placeholder,
 .ant-picker-focused input::placeholder {
-  color: #e2f1f4 !important;
+  /* color: #e2f1f4 !important; */
 }
 /* Default editor font */
 /* ================= DEFAULT EDITOR FONT ================= */
@@ -830,4 +830,42 @@ body {
   .swiper-button-prev{
     margin-left: -5px;
   }
+}
+
+/* ---locader=--- */
+@keyframes barBounce {
+  0% {
+    transform: scaleY(0.4);
+    opacity: 0.5;
+  }
+  50% {
+    transform: scaleY(1.3);
+    opacity: 1;
+  }
+  100% {
+    transform: scaleY(0.4);
+    opacity: 0.5;
+  }
+}
+
+.loader-bar {
+  width: 8px;
+  height: 40px;
+  background-color: #a29793; /* green */
+  border-radius: 9999px;
+  animation: barBounce 0.8s infinite ease-in-out;
+  transform-origin: bottom;
+}
+
+.delay-0 {
+  animation-delay: 0s;
+}
+.delay-1 {
+  animation-delay: 0.15s;
+}
+.delay-2 {
+  animation-delay: 0.3s;
+}
+.delay-3 {
+  animation-delay: 0.45s;
 }

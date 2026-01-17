@@ -6,7 +6,7 @@ export type MassageTreatment = {
 export type MassageBeautyTabs =
   | "Skin"
   | "Massage"
-  | "Laser Hair Removal"
+  // | "Laser Hair Removal"
   | "Beauty";
 
 // Beauty images
@@ -35,11 +35,11 @@ export const massageBeautyData: Record<
     { title: "Hot Stone Massage", image: beauty7 },
   ],
 
-  "Laser Hair Removal": [
-    { title: "Full Body Laser", image: beauty7 },
-    { title: "Face Laser", image: beauty6 },
-    { title: "Underarm Laser", image: beauty1 },
-  ],
+  // "Laser Hair Removal": [
+  //   { title: "Full Body Laser", image: beauty7 },
+  //   { title: "Face Laser", image: beauty6 },
+  //   { title: "Underarm Laser", image: beauty1 },
+  // ],
 
   Beauty: [
     { title: "Nails", image: beauty1 },

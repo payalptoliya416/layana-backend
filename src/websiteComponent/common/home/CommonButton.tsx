@@ -7,6 +7,7 @@ type Props = {
   to?: string;           // for routing
   href?: string;         // for external links
   onClick?: () => void;  // normal click
+    state?: any;   
 };
 
 export default function CommonButton({
@@ -15,6 +16,8 @@ export default function CommonButton({
   to,
   href,
   onClick,
+  state
+  
 }: Props) {
   const baseClass = `
     border border-black px-2
@@ -30,7 +33,7 @@ export default function CommonButton({
   // React Router navigation
   if (to) {
     return (
-      <Link to={to} className={baseClass}>
+      <Link to={to} state={state} className={baseClass} >
         {children}
       </Link>
     );

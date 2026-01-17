@@ -1,4 +1,4 @@
-import NotFound from "@/pages/NotFound"
+
 import ContactUs from "@/websiteComponent/pages/FinchleyPages/contact-us/ContactUs"
 import FinchleyCenteral from "@/websiteComponent/pages/FinchleyPages/Finchley/FinchleyCenteral"
 import Home from "@/websiteComponent/pages/FinchleyPages/home/Home"
@@ -12,17 +12,19 @@ import BeautyNail from "@/websiteComponent/pages/treatments/beauty/BeautyNail"
 import BeautyWaxing from "@/websiteComponent/pages/treatments/beauty/BeautyWaxing"
 import Massage from "@/websiteComponent/pages/treatments/tratementPages/Massage"
 import OilMassage from "@/websiteComponent/pages/treatments/tratementPages/OilMassage"
-import {  Route, Routes } from "react-router-dom"
+import {  Navigate, Route, Routes } from "react-router-dom"
 import WebsiteLayout from "./WebsiteLayout"
 import PricingPage from "@/websiteComponent/pages/pricing/PricingPage"
+import ScrollToTop from "./ScrollToTop"
 
 function WebsiteRoutes() {
   return (
     <>
+     <ScrollToTop />
       <Routes>
          <Route element={<WebsiteLayout />}>
         <Route path="/" element={<Home/>}/>
-        <Route path="/finchley" element={<FinchleyCenteral/>}/>
+       <Route path="/:locationSlug" element={<FinchleyCenteral />} /> 
         <Route path="/team" element={<Team/>}/>
         <Route path="/term-condition" element={<TermCondition/>}/>
 
@@ -32,9 +34,12 @@ function WebsiteRoutes() {
         <Route path="/treatments/finchley-central" element={<Massage/>}/>
         <Route path="/treatments/muswell-hill" element={<Massage/>}/>
 
-
         <Route path="/treatments/oil-massage" element={<OilMassage/>}/>
         
+        <Route path="/treatments">
+        <Route index element={<Massage />} />
+        <Route path=":slug" element={<OilMassage />} />
+      </Route>
         {/* ---- */}
         <Route path="/treatments/beauty" element={<Beauty/>}/>
         <Route path="/treatments/beauty-nail" element={<BeautyNail/>}/>
@@ -57,9 +62,10 @@ function WebsiteRoutes() {
         <Route path="/prices/finchley-central/laser" element={<PricingPage/>}/>
         <Route path="/prices/muswell-hill/massage-beauty" element={<PricingPage/>}/>
         <Route path="/prices/belsize-park/massage-beauty" element={<PricingPage/>}/>
-         </Route>
+        </Route>
    
-      <Route path="*" element={<NotFound />} />
+         <Route path="*" element={<Navigate to="#" replace />} />
+      {/* <Route path="*" element={<NotFound />} /> */}
       </Routes>
     </>
   )

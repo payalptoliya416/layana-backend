@@ -123,7 +123,7 @@ function Beautyinviron() {
             ))}
           </div>
           <div className="flex justify-center mt-10">
-            <CommonButton to="/treatments/massage">
+            <CommonButton to="/websiteurl/treatments/massage">
               Browse All Treatments
             </CommonButton>
           </div>

@@ -10,7 +10,7 @@ type OpeningHour = {
   day: string;
   start_time: string | null;
   end_time: string | null;
-    is_closed: 0 | 1;
+   is_closed: boolean;
 };
 
 type LocationData = {
@@ -58,10 +58,19 @@ const [parkingDetails, setParkingDetails] = useState("");
   return `${hour}:${m.toString().padStart(2, "0")} ${ampm}`;
 };
 const [locationName, setLocationName] = useState<string>("");
+const normalizeOpeningHours = (hours = []) =>
+  hours.map((o) => ({
+    ...o,
+    is_closed: Boolean(o.is_closed),
+    start_time: o.is_closed ? null : o.start_time || null,
+    end_time: o.is_closed ? null : o.end_time || null,
+  }));
+
 useEffect(() => {
   const fetchData = async () => {
     try {
       const data = await getLocationById(id);
+      data.opening_hours = normalizeOpeningHours(data.opening_hours);
       setLocation(data);
       setParkingDetails(data.parking_details || "");
        setLocationName(data.name)
@@ -225,10 +234,8 @@ location?.opening_hours?.forEach((o) => {
                   <div className="space-y-[15px] mt-5">
                     {DAYS.map((day) => {
                         const o = openingMap[day.toLowerCase()];
-                          const isClosed =
-    !o ||
-    o.is_closed === 1 ||
-    (!o.start_time && !o.end_time);
+                const isClosed = !o || o.is_closed;
+
                         return (
                      <div
   key={day}
