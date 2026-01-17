@@ -2,7 +2,7 @@ import { Instagram, Mail } from "lucide-react";
 
 export default function FixedSocialBar() {
   return (
-    <div className="fixed right-0 top-72 -translate-y-1/2 z-40 flex flex-col">
+    <div className="fixed right-0 top-52 xl:top-72 -translate-y-1/2 z-40 flex flex-col">
       {/* Instagram */}
       <a
         href="https://www.instagram.com/layana.uk/"
