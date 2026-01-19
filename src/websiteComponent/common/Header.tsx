@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { X, MapPin, ChevronDown } from "lucide-react";
 import { Link, useParams } from "react-router-dom";
-import white_logo from "@/assets/white_logo.png";
+import white_logo from "@/assets/logo.svg";
 import menuimg from "@/assets/menu.png";
 import { WEBSITE_BASE } from "@/route/config";
 import { getLocations } from "../api/webLocationService";

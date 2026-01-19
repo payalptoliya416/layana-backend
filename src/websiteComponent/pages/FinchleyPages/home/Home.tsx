@@ -86,7 +86,7 @@ const cardHeightClass =
     ? "h-[420px] lg:h-[642px]"
     : "h-[420px]";
 
-    
+
 useEffect(() => {
   if (!homeData?.seo?.analytics) return;
 
@@ -177,13 +177,8 @@ useEffect(() => {
               </p>
             </div>
             <div className="col-span-12 lg:col-span-6">
-              <p className="text-base leading-[26px] font-normal text-justify font-quattro text-para">
-                Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do
-                eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
-                enim ad minim veniam, quis nostrud exercitation ullamco laboris
-                nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor
-                in reprehenderit in voluptate velit esse cillum dolore eu fugiat
-                nulla pariatur. Excepteur sint occaecat cupidatat non proident.
+              <p className="text-base leading-[26px] font-normal text-justify font-quattro text-[#666666]">
+               At Layana by Thai Manee, we are here to reveal the luxurious self-care of pampering and revival. If you're seeking a retreat that harmoniously combines non-surgical proficiency and spa luxury, then look no further. Immerse yourself in our tranquil environment where cutting-edge procedures harmonise perfectly with serene surroundings for wellness. Join us to experience the magical experience.
               </p>
             </div>
           </div>
