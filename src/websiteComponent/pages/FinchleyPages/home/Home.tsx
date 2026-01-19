@@ -119,9 +119,9 @@ const cardHeightClass =
   </Helmet>
 )}
 
-     {showOfferModal && (
+     {/* {showOfferModal && (
     <HomeOfferModal onClose={handleCloseOfferModal} />
-  )}
+  )} */}
     {slides.length > 0 && (
   <CommonHeroSlider slides={slides} />
 )}

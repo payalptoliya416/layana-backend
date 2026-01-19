@@ -426,7 +426,7 @@ const disableClick =
     selectedLocation={selectedLocation}
      locations={locations}
        onSelectLocation={(loc) => setSelectedLocation(loc)}
-     basePath={withBase("/treatments")}
+     basePath="/treatments"
      onClose={() => {
        setOpen(false);
        setActiveDropdown(null);

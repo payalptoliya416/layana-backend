@@ -80,6 +80,7 @@ function WebsiteRoutes() {
           <Route path="/:locationSlug" element={<FinchleyCenteral />} />
 
           {/* ---------- TREATMENTS ---------- */}
+          <Route path="/treatments" element={<Massage/>}/>
           <Route path="/finchley-central/:treatmentSlug" element={<Massage/>}/>
           <Route path="/:locationSlug/:treatmentSlug" element={<Massage/>}/>
           <Route path="/:locationSlug/treatments" element={<Massage />} />
