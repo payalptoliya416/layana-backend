@@ -1,6 +1,8 @@
 import { ArrowRight, Headset } from "lucide-react";
 import white_logo from "@/assets/white_logo.png";
 import blog from "@/assets/blog.png";
+import blog2 from "@/assets/blog2.png";
+import blog3 from "@/assets/blog3.png";
 import copy_img from "@/assets/copy_img.png";
 import footerbanner from "@/assets/footerbanner.png";
 import {
@@ -13,6 +15,9 @@ import {
   Mail,
   ChevronRight,
 } from "lucide-react";
+import { useEffect, useState } from "react";
+import { getLocations } from "../api/webLocationService";
+import Loader from "./Loader";
 
 const socialLinks = [
   {
@@ -34,6 +39,26 @@ const socialLinks = [
 ];
 
 function Footer() {
+const [locations, setLocations] = useState<any[]>([]);
+const [loading, setLoading] = useState(true);
+const locationImages = [blog, blog2, blog3];
+
+useEffect(() => {
+  const fetchData = async () => {
+    setLoading(true);
+    try {
+      const locRes = await getLocations();
+      setLocations(locRes.data); 
+    } catch (err) {
+      console.error(err);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  fetchData();
+}, []);
+
   return (
     <>
       {/* <SocialStrip /> */}
@@ -43,7 +68,6 @@ function Footer() {
           backgroundImage: `url(${footerbanner})`,
         }}
       >
-        {/* <div className="absolute inset-0 bg-[#c9ab8d]/30" /> */}
         {/* content */}
         <div className="relative z-10 max-w-3xl px-6">
           {/* arrow */}
@@ -237,39 +261,42 @@ function Footer() {
                   OUR LOCATIONS
                 </h4>
                 <div className="space-y-3">
-                  {[
-                    {
-                      title: "Finchley Central",
-                      address: "400, Muswell Hill Broadway, London, N10 1DJ",
-                    },
-                    {
-                      title: "Finchley Central",
-                      address: "92 – 94, Ballards Lane, London, N3 2DL",
-                    },
-                    {
-                      title: "Belsize Park",
-                      address: "18, England’s Lane, London NW3 4TG",
-                    },
-                  ].map((loc, i) => (
-                    <a
-                      key={i}
-                      href="#"
-                      className="flex gap-4 border-b border-[#9A563A] pb-[21px] items-center"
-                    >
-                      <div className="w-[68px] h-[68px] rounded-full overflow-hidden flex-shrink-0">
-                        <img
-                          src={blog}
-                          alt="Layana"
-                          className="w-full h-full object-cover"
-                        />
-                      </div>
-                      <div>
-                        <p className="text-white font-quattro">{loc.title}</p>
-                        <p className="text-sm text-[#BEBEBE]">{loc.address}</p>
-                      </div>
-                    </a>
-                  ))}
-                </div>
+  {loading ? (
+    <div className="py-6 flex justify-center">
+      <Loader />
+    </div>
+  ) : (
+    locations.map((loc , index) => (
+      <a
+        key={loc.id}
+        href={`/locations/${loc.slug}`}
+        className="flex gap-4 border-b border-[#9A563A] pb-[21px] items-center"
+      >
+        {/* image */}
+        <div className="w-[68px] h-[68px] rounded-full overflow-hidden flex-shrink-0">
+          <img
+            src={locationImages[index % locationImages.length]}
+            alt={loc.name}
+            className="w-full h-full object-cover"
+          />
+        </div>
+
+        {/* text */}
+        <div>
+          <p className="text-white font-quattro">
+            {loc.name}
+          </p>
+          <p className="text-sm text-[#BEBEBE]">
+            {loc.address_line_1},{" "}
+            {loc.address_line_2},{" "}
+            {loc.postcode}
+          </p>
+        </div>
+      </a>
+    ))
+  )}
+</div>
+
               </div>
             </div>
           </div>

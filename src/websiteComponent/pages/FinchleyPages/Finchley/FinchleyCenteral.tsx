@@ -119,12 +119,12 @@ const gridClass =
   }))}
 />
       <section className="w-full bg-white py-12 lg:py-[110px]">
-        <div className="max-w-7xl mx-auto px-6 grid grid-cols-1 lg:grid-cols-2 gap-14 items-center">
+        <div className="container mx-auto px-6 grid grid-cols-1 lg:grid-cols-2 gap-14 items-center">
           <div className="w-full">
             <img
               src={landingData?.about?.image}
               alt="Finchley Central Spa"
-              className="w-full h-full object-cover rounded-sm"
+              className="w-full h-full object-cover"
             />
           </div>
 

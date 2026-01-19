@@ -1,5 +1,6 @@
-import im1 from "@/assets/im1.png";
-import im2 from "@/assets/im2.png";
+import l1 from "@/assets/l1.jpg";
+import l2 from "@/assets/l2.jpg";
+import l3 from "@/assets/l3.jpg";
 import { Link } from "react-router-dom";
 import CommonHeroSlider from "@/websiteComponent/common/home/CommonHeroSlider";
 import SplitContentSection from "@/websiteComponent/common/home/SplitContentSection";
@@ -17,8 +18,6 @@ function Home() {
   const [homeData, setHomeData] = useState<any>(null);
   const [loading, setLoading] = useState(true);
   const [showOfferModal, setShowOfferModal] = useState(false);
-const [imagesLoaded, setImagesLoaded] = useState(0);
-const [totalImages, setTotalImages] = useState(0);
 
 useEffect(() => {
   const seen = localStorage.getItem("home_offer_modal_seen");
@@ -83,45 +82,80 @@ const handleCloseOfferModal = () => {
       {/* ---- */}
       <section className="py-12 lg:py-[110px]">
         <div className="container mx-auto">
-          <div className="grid grid-cols-12 lg:gap-[50px]">
-            <div className="col-span-12 lg:col-span-6 mb-[50px] lg:mb-0">
-              <div>
-                <img src={im1} alt="finchley" className="w-full mb-5" />
-                <h3 className="font-mulish text-[12px] leading-[14px] font-normal tracking-[0.1em] uppercase mb-[15px]">
+         <div className="grid grid-cols-12 lg:gap-[50px] items-stretch">
+            <div className="col-span-12 lg:col-span-4 mb-[50px] lg:mb-0">
+             <div className="h-full">
+                <div className="w-full h-full mb-5">
+                <img
+                  src={l1}
+                  alt="finchley"
+                  className="w-full h-full object-fill"
+                />
+              </div>
+                              
+                <div className="flex justify-between items-center">
+                  <h3 className="font-mulish text-[12px] leading-[14px] font-normal tracking-[0.1em] uppercase mb-[15px]">
                   FINCHLEY CENTRAL
                 </h3>
-                <div className="flex justify-between items-center">
-                  <h2 className="text-[32px] leading-[32px] font-quattro font-normal tracking-[0.2em] text-black mb-[15px]">
-                    Layana
-                  </h2>
                   <h2 className="font-mulish text-base leading-[16px] font-normal text-[#282828] text-right">
                     medispa
                   </h2>
                 </div>
                 <Link
-                  to="#"
+                  to="https://layana.co.uk/finchley"
                   className="font-mulish text-xs leading-[14px] font-normal tracking-[0.1em] uppercase underline underline-offset-1 text-black"
                 >
                   EXPLORE NOW
                 </Link>
               </div>
             </div>
-            <div className="col-span-12 lg:col-span-6">
-              <div>
-                <img src={im2} alt="finchley" className="w-full mb-5" />
-                <h3 className="font-mulish text-[12px] leading-[14px] font-normal tracking-[0.1em] uppercase mb-[15px]">
+            <div className="col-span-12 lg:col-span-4">
+                <div className="h-full">
+
+                <div className="w-full h-full mb-5">
+                <img
+                  src={l2}
+                  alt="finchley"
+                  className="w-full h-full object-fill"
+                />
+              </div>
+                
+                <div className="flex justify-between items-center">
+                 <h3 className="font-mulish text-[12px] leading-[14px] font-normal tracking-[0.1em] uppercase mb-[15px]">
                   MUSWELL HILL
                 </h3>
-                <div className="flex justify-between items-center">
-                  <h2 className="text-[32px] leading-[32px] font-quattro font-normal tracking-[0.2em] text-black mb-[15px]">
-                    Layana
-                  </h2>
                   <h2 className="font-mulish text-base leading-[16px] font-normal text-[#282828] text-right">
                     spa on the hill
                   </h2>
                 </div>
                 <Link
-                  to="#"
+                  to="https://layana.co.uk/muswell"
+                  className="font-mulish text-xs leading-[14px] font-normal tracking-[0.1em] uppercase underline underline-offset-1 text-black"
+                >
+                  EXPLORE NOW
+                </Link>
+              </div>
+            </div>
+            <div className="col-span-12 lg:col-span-4">
+               <div className="h-full">
+               <div className="w-full h-full mb-5">
+                <img
+                  src={l3}
+                  alt="finchley"
+                  className="w-full h-full object-fill"
+                />
+              </div>
+               
+                <div className="flex justify-between items-center">
+                  <h3 className="font-mulish text-[12px] leading-[14px] font-normal tracking-[0.1em] uppercase mb-[15px]">
+                BELSIZE PAR
+                </h3>
+                  <h2 className="font-mulish text-base leading-[16px] font-normal text-[#282828] text-right">
+                    spa on the hill
+                  </h2>
+                </div>
+                <Link
+                  to="https://layana.co.uk/belsize"
                   className="font-mulish text-xs leading-[14px] font-normal tracking-[0.1em] uppercase underline underline-offset-1 text-black"
                 >
                   EXPLORE NOW

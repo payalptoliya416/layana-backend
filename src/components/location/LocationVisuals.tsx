@@ -33,10 +33,10 @@ const IMAGE_CONFIG = {
   },
   promo_2_image: {
     label: "Promotion 2 Offer Image",
-    size: "600 × 600",
+    size: "1170 × 406",
     aspect: 1,
-    width: 600,
-    height: 600,
+    width: 1170,
+    height: 406,
     uploadType: "location",
   },
     promo_3_image: {
