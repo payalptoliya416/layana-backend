@@ -41,16 +41,16 @@ const SplitContentSection: React.FC<SplitContentSectionProps> = ({
         <div className="grid grid-cols-1 lg:grid-cols-12 items-center gap-12">
           
           {/* TEXT */}
-          <div className="lg:col-span-6 relative z-10 text-center px-6">
-            <p className="font-mulish text-[12px] tracking-[0.2em] uppercase mb-3">
+          <div className="lg:col-span-6 relative z-10 text-center px-12">
+            <p className="font-muli text-[12px] tracking-[0.2em] uppercase mb-3 font-muli">
               {tag}
             </p>
 
-            <h2 className="font-mulish text-2xl md:text-[28px] sm:text-4xl sm:leading-[55px] mb-[25px]">
+            <h2 className="font-mulish text-2xl md:text-[36px] sm:leading-[55px] mb-[25px] font-semibold">
               {title}
             </h2>
 
-            <div className="font-quattro text-[#666666] text-base leading-[26px] mb-[35px] max-w-[498px] mx-auto">
+            <div className="font-quattro text-[#666666] text-base leading-[26px] mb-[35px] max-w-[480px] mx-auto">
               {description}
             </div>
 
@@ -64,7 +64,7 @@ const SplitContentSection: React.FC<SplitContentSectionProps> = ({
       href={btn.link}
       target="_blank"
       rel="noopener noreferrer"
-      className="border-black text-black bg-transparent hover:bg-black hover:text-white border px-2 md:w-[174px] h-[42px] md:h-[70px] flex items-center justify-center font-mulish text-[12px] tracking-[0.25em] uppercase transition"
+      className="border-black text-black bg-transparent hover:bg-black hover:text-white border px-2 md:w-[174px] h-[42px] md:h-[62px] flex items-center justify-center font-mulish text-[12px] tracking-[0.25em] uppercase transition"
     >
       {btn.label}
     </a>
@@ -72,7 +72,7 @@ const SplitContentSection: React.FC<SplitContentSectionProps> = ({
     <button
       key={i}
       onClick={btn.onClick}
-      className="border-black text-black bg-transparent hover:bg-black hover:text-white border px-2 md:w-[174px] h-[42px] md:h-[70px] flex items-center justify-center font-mulish text-[12px] tracking-[0.25em] uppercase transition"
+      className="border-black text-black bg-transparent hover:bg-black hover:text-white border px-2 md:w-[174px] h-[42px] md:h-[62px] flex items-center justify-center font-mulish text-[12px] tracking-[0.25em] uppercase transition"
     >
       {btn.label}
     </button>

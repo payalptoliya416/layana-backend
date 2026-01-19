@@ -9,15 +9,15 @@ export default function BrandSlider({ images }: BrandSliderProps) {
   if (!images || images.length === 0) return null;
 
   return (
-    <section className="bg-[#F6F6F6] py-[65px] px-5 sm:px-1">
+    <section className="bg-[#F6F6F6] py-[65px] px-5 sm:px-12">
       <Swiper
         loop
         slidesPerView={2}
-        spaceBetween={60}
+        spaceBetween={50}
         breakpoints={{
           640: { slidesPerView: 3 },
           1024: { slidesPerView: 5 },
-          1280: { slidesPerView: 6 },
+          1280: { slidesPerView: 5 },
         }}
       >
         {images.map((img, i) => (

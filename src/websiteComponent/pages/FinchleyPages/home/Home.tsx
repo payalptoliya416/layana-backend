@@ -11,7 +11,6 @@ import CommonButton from "@/websiteComponent/common/home/CommonButton";
 import BrandSlider from "@/websiteComponent/common/home/BrandSlider";
 import { useEffect, useMemo, useState } from "react";
 import { getHomePageData } from "@/websiteComponent/api/pricing.api";
-import HomeOfferModal from "./HomeOfferModal";
 import Loader from "@/websiteComponent/common/Loader";
 import { getLocations, Locationweb } from "@/websiteComponent/api/webLocationService";
 import { withBase } from "@/websiteComponent/common/Header";
@@ -19,11 +18,10 @@ import { Helmet } from "react-helmet-async";
 
 function Home() {
   const [homeData, setHomeData] = useState<any>(null);
-  console.log("homeData",homeData?.seo)
   const [loading, setLoading] = useState(true);
   const [showOfferModal, setShowOfferModal] = useState(false);
 const [locations, setLocations] = useState<Locationweb[]>([]);
-const locationImages = [l1, l2, l3];
+const locationImages = [ l1, l2 ,l3];
 
 useEffect(() => {
   const seen = localStorage.getItem("home_offer_modal_seen");
@@ -171,7 +169,7 @@ useEffect(() => {
         <div className="container mx-auto">
           <div className="grid grid-cols-12 lg:gap-[50px]">
             <div className="col-span-12 lg:col-span-6 mb-5 lg:mb-0">
-              <p className="text-[25px] leading-[36px] font-light text-justify">
+              <p className="text-[25px] leading-[36px] text-justify">
                 A team of professional hairstylists with more than fifteen years
                 of experience in fashioning memorable and creative looks
               </p>
@@ -195,7 +193,7 @@ useEffect(() => {
                 <img
                   src={locationImages[index % locationImages.length]}
                   alt="finchley"
-                  className="w-full h-full object-cover md:object-fill"
+                  className="w-full h-full object-cover"
                 />
               </div>
                               
@@ -249,8 +247,8 @@ useEffect(() => {
 
       {/* ------ */}
       <PageBanner
-        title="Your wellness in"
-        subtitle="your control"
+        title="Your wellness in your"
+        subtitle="control"
         backgroundImage={homeData.visuals.promo_3_image}
       />
       {/* --- */}
@@ -272,7 +270,7 @@ useEffect(() => {
       {/* -------- */}
       <section className="py-12 lg:py-[110px]">
         <div className="container mx-auto">
-          <h2 className="font-quattro text-center text-[36px] mb-14">
+          <h2 className="font-muli text-center text-[42px] mb-10">
             Our Team
           </h2>
 

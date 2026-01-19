@@ -198,11 +198,11 @@ if (!landingData) {
           </div>
 
           <div>
-            <h2 className="font-mulish text-4xl font-light tracking-wide mb-[15px]">
+            <h2 className="font-muli text-4xl tracking-wide mb-[15px]">
              {landingData.location.name}
             </h2>
 
-            <p className="font-mulish uppercase text-sm tracking-widest mb-5">
+            <p className="font-muli uppercase text-sm tracking-widest mb-5">
               {landingData.location.city}, {landingData.location.country}
             </p>
             <div
@@ -225,7 +225,7 @@ if (!landingData) {
 
         {/* Hours */}
         <div className="flex flex-col items-center text-center px-6">
-          <div className="w-[45px] h-[45px] rounded-full bg-[#f6efec] flex items-center justify-center mb-[15px]">
+          <div className="w-[44px] h-[44px] rounded-full bg-[#f6efec] flex items-center justify-center mb-[15px]">
             <Clock className="w-[18px] h-[18px] text-black" />
           </div>
           <h4 className="tracking-[0.2em] text-[22px] leading-[24px] uppercase mb-3">Hours</h4>
@@ -267,7 +267,7 @@ if (!landingData) {
       )}`}
       target="_blank"
       rel="noopener noreferrer"
-      className="mt-[10px] text-sm tracking-widest underline hover:text-para"
+      className="mt-[10px] text-base font-normal tracking-widest underline hover:text-para"
     >
       Get Directions
     </a>
@@ -292,8 +292,8 @@ if (!landingData) {
        {/* ------ */}
              
 <PageBanner
-  title="Your wellness in"
-  subtitle="your control"
+  title="Your wellness in your"
+  subtitle="control"
   backgroundImage={landingData.promotion.promotion_1_image}
 />
 {/* -------- */}
