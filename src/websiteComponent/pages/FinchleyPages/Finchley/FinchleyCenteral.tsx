@@ -108,6 +108,12 @@ const gridClass =
     : treatmentCount === 3
     ? "lg:grid-cols-3"
     : "lg:grid-cols-4";
+
+    const cardHeightClass =
+  treatmentCount === 2 || treatmentCount === 3
+    ? "h-[642px]"
+    : "h-[420px]";
+    
   return (
     <>
       <CommonHeroSlider
@@ -153,7 +159,7 @@ const gridClass =
 
       {/* --- */}
         <section className="w-full bg-white pb-12 lg:pb-[110px]">
-      <div className="max-w-7xl mx-auto px-6 grid grid-cols-1 md:grid-cols-3">
+      <div className="container mx-auto px-6 grid grid-cols-1 md:grid-cols-3">
 
         {/* Hours */}
         <div className="flex flex-col items-center text-center px-6">
@@ -236,6 +242,7 @@ const gridClass =
             key={item.id}
             title={item.name}
             image={item.thumbnail_image}
+              heightClass={cardHeightClass} 
           />
         ))}
       </div>

@@ -6,11 +6,14 @@ type Props = {
   image: string;
   link?: string; // ✅ ADD
    id?: number; 
+    heightClass?: string;
 };
 
-export default function ServiceCard({ title, image, link,id }: Props) {
+export default function ServiceCard({ title, image, link,id , heightClass = "h-[420px]"}: Props) {
   return (
-    <div className="relative group overflow-hidden h-[420px] bg-[#f7efe8] mb-10 lg:mb-0">
+     <div
+      className={`relative group overflow-hidden ${heightClass} bg-[#f7efe8] mb-10 lg:mb-0`}
+    >
       <div className="absolute inset-0 bg-cover bg-center scale-100 opacity-0 group-hover:opacity-100 group-hover:scale-110 transition-all duration-700"
         style={{ backgroundImage: `url(${image})` }}
       />

@@ -68,6 +68,21 @@ const handleCloseOfferModal = () => {
   setShowOfferModal(false);
 };
 
+const treatmentCount = homeData?.treatments?.length ?? 0;
+const gridClass =
+  treatmentCount === 1
+    ? "lg:grid-cols-1"
+    : treatmentCount === 2
+    ? "lg:grid-cols-2"
+    : treatmentCount === 3
+    ? "lg:grid-cols-3"
+    : "lg:grid-cols-4";
+    
+const cardHeightClass =
+  treatmentCount === 2 || treatmentCount === 3
+    ? "h-[642px]"
+    : "h-[420px]";
+
   if (loading || !homeData) {
   return (
     <div className="py-20 text-center">
@@ -75,6 +90,7 @@ const handleCloseOfferModal = () => {
     </div>
   );
 }
+
   return (
     <>
      {showOfferModal && (
@@ -176,7 +192,7 @@ const handleCloseOfferModal = () => {
       />
       {/* --- */}
       <section className="w-full">
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4">
+         <div  className={`grid grid-cols-1 sm:grid-cols-2 ${gridClass}`}>
           {homeData.treatments.map((item: any) => (
             <ServiceCard
               key={item.id}
@@ -184,6 +200,7 @@ const handleCloseOfferModal = () => {
               image={item.thumbnail_image}
               link={`/treatments/${item.slug}`}
               id={item.id}
+                heightClass={cardHeightClass} 
             />
           ))}
         </div>
