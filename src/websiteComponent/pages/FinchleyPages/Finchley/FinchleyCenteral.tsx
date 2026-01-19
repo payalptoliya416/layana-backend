@@ -52,7 +52,7 @@ function FinchleyCenteral() {
 
 const [loading, setLoading] = useState(true);
 const [landingData, setLandingData] = useState<any>(null);
-console.log("landingData",landingData)
+console.log("landingData",landingData?.treatments)
 useEffect(() => {
   if (!locationSlug) return;
 
@@ -267,6 +267,7 @@ const gridClass =
           <ServiceCard
             key={item.id}
             title={item.name}
+            link={`/finchley-central/${item.slug}`}
             image={item.thumbnail_image}
               heightClass={cardHeightClass} 
           />

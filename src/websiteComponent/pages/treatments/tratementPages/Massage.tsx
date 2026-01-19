@@ -55,7 +55,7 @@ useEffect(() => {
     <>
       <SimpleHeroBanner
         background={massage_bg}
-        title="Terms & Conditions"
+        title="Treatment"
         subtitle="Finchley Central"
       />
 

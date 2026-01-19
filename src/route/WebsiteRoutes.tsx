@@ -16,6 +16,8 @@ import WebsiteLayout from "./WebsiteLayout";
 import PricingPage from "@/websiteComponent/pages/pricing/PricingPage";
 import ScrollToTop from "./ScrollToTop";
 
+export const DEFAULT_LOCATION = "finchley-central";
+
 function WebsiteRoutes() {
   return (
     <>
@@ -78,6 +80,8 @@ function WebsiteRoutes() {
           <Route path="/:locationSlug" element={<FinchleyCenteral />} />
 
           {/* ---------- TREATMENTS ---------- */}
+          <Route path="/finchley-central/:treatmentSlug" element={<Massage/>}/>
+          <Route path="/:locationSlug/:treatmentSlug" element={<Massage/>}/>
           <Route path="/:locationSlug/treatments" element={<Massage />} />
           <Route
             path="/:locationSlug/treatments/:treatmentSlug"

@@ -224,7 +224,7 @@ const cardHeightClass =
               key={item.id}
               title={item.name}
               image={item.thumbnail_image}
-              link={`/treatments/${item.slug}`}
+              link={`/finchley-central/${item.slug}`}
               id={item.id}
                 heightClass={cardHeightClass} 
             />
