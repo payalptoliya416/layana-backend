@@ -82,14 +82,14 @@ const handleCloseOfferModal = () => {
       {/* ---- */}
       <section className="py-12 lg:py-[110px]">
         <div className="container mx-auto">
-         <div className="grid grid-cols-12 lg:gap-[50px] items-stretch">
-            <div className="col-span-12 lg:col-span-4 mb-[50px] lg:mb-0">
+         <div className="grid grid-cols-12 md:gap-[50px] items-stretch">
+            <div className="col-span-12 md:col-span-4 mb-[50px] md:mb-0">
              <div className="h-full">
-                <div className="w-full h-full mb-5">
+                <div className="w-full h-[200px] md:h-[600px] mb-5 overflow-hidden">
                 <img
                   src={l1}
                   alt="finchley"
-                  className="w-full h-full object-fill"
+                  className="w-full h-full object-cover md:object-fill"
                 />
               </div>
                               
@@ -109,14 +109,13 @@ const handleCloseOfferModal = () => {
                 </Link>
               </div>
             </div>
-            <div className="col-span-12 lg:col-span-4">
+            <div className="col-span-12 md:col-span-4 mb-[50px] md:mb-0">
                 <div className="h-full">
-
-                <div className="w-full h-full mb-5">
+                <div className="w-full h-[200px] md:h-[600px] mb-5 overflow-hidden">
                 <img
                   src={l2}
                   alt="finchley"
-                  className="w-full h-full object-fill"
+                  className="w-full h-full object-cover md:object-fill"
                 />
               </div>
                 
@@ -136,13 +135,13 @@ const handleCloseOfferModal = () => {
                 </Link>
               </div>
             </div>
-            <div className="col-span-12 lg:col-span-4">
+            <div className="col-span-12 md:col-span-4">
                <div className="h-full">
-               <div className="w-full h-full mb-5">
+              <div className="w-full h-[200px] md:h-[600px] mb-5 overflow-hidden">
                 <img
                   src={l3}
                   alt="finchley"
-                  className="w-full h-full object-fill"
+                  className="w-full h-full object-cover md:object-fill"
                 />
               </div>
                
