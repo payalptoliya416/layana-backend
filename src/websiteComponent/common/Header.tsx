@@ -108,8 +108,6 @@ export default function Header() {
   const [activeDropdown, setActiveDropdown] = useState<string | null>(null);
 const [locations, setLocations] = useState<UILocation[]>([]);
 const [selectedLocation, setSelectedLocation] = useState<string | null>(null);
-const [selectedLocationSlug, setSelectedLocationSlug] = useState<string | null>(null);
-const [selectedLocationId, setSelectedLocationId] = useState<number | null>(null);
 
 useEffect(() => {
   getLocations().then((res) => {

@@ -41,6 +41,7 @@ const handleButtonClick = (link?: string) => {
 
   window.open(link, "_blank", "noopener,noreferrer");
 };
+const showNavigation = slides.length > 1;
 
   return (
     <section className={`relative w-full ${height} overflow-hidden`}>
@@ -104,6 +105,7 @@ const handleButtonClick = (link?: string) => {
       </Swiper>
 
       {/* Prev Button - Outside Swiper */}
+      {showNavigation && (
       <button
         type="button"
         onClick={handlePrev}
@@ -116,9 +118,10 @@ const handleButtonClick = (link?: string) => {
         <span className="opacity-0 group-hover:opacity-100 text-white text-sm tracking-widest -ml-5 sm:-ml-10 group-hover:-ml-5 transition-all duration-500 hidden md:block">
           PREV
         </span>
-      </button>
+      </button> )}
 
       {/* Next Button - Outside Swiper */}
+      {showNavigation && (
       <button
         type="button"
         onClick={handleNext}
@@ -131,7 +134,7 @@ const handleButtonClick = (link?: string) => {
         <div className="flex items-center justify-center">
           <span className="w-5 sm:w-9 h-5 sm:h-9 border-t-2 border-r-2 border-white rotate-[45deg] -mr-3 sm:mr-auto transition-transform duration-300" />
         </div>
-      </button>
+      </button>)}
     </section>
   );
 }
