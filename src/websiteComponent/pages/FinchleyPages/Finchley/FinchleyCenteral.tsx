@@ -51,6 +51,7 @@ function FinchleyCenteral() {
 
 const [loading, setLoading] = useState(true);
 const [landingData, setLandingData] = useState<any>(null);
+console.log("landingData",landingData)
 useEffect(() => {
   if (!locationSlug) return;
 
@@ -173,22 +174,37 @@ const gridClass =
         </div>
 
         {/* Location */}
-        <div className="flex flex-col items-center text-center px-6 border-y md:border-y-0 md:border-x border-gray-200 py-5 md:py-0 md:my-0 my-5">
-          <div className="w-[45px] h-[45px] rounded-full bg-[#f6efec] flex items-center justify-center mb-[15px]">
-            <MapPin className="w-[18px] h-[18px] text-black" />
-          </div>
-          <h4 className="tracking-[0.2em] text-[22px] leading-[24px] uppercase mb-3">Location</h4>
-          <p className="text-[#666666] text-lg font-quattro">
-            92 – 94, Ballards Lane, London, <br />
-            N3 2DL
-          </p>
-          <a
-            href="#"
-            className="mt-[10px] text-sm tracking-widest underline underline-offset-0 hover:text-para"
-          >
-            Get Directions
-          </a>
-        </div>
+       {/* Location */}
+{landingData?.location && (
+  <div className="flex flex-col items-center text-center px-6 border-y md:border-y-0 md:border-x border-gray-200 py-5 md:py-0 md:my-0 my-5">
+    <div className="w-[45px] h-[45px] rounded-full bg-[#f6efec] flex items-center justify-center mb-[15px]">
+      <MapPin className="w-[18px] h-[18px] text-black" />
+    </div>
+
+    <h4 className="tracking-[0.2em] text-[22px] leading-[24px] uppercase mb-3">
+      Location
+    </h4>
+
+    <p className="text-[#666666] text-lg font-quattro">
+      {landingData.location.address_line_1}
+      <br />
+      {landingData.location.address_line_2}
+      <br />
+      {landingData.location.postcode}
+    </p>
+
+    <a
+      href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(
+        `${landingData.location.address_line_1}, ${landingData.location.address_line_2}, ${landingData.location.postcode}`
+      )}`}
+      target="_blank"
+      rel="noopener noreferrer"
+      className="mt-[10px] text-sm tracking-widest underline hover:text-para"
+    >
+      Get Directions
+    </a>
+  </div>
+)}
 
         {/* Contact */}
         <div className="flex flex-col items-center text-center px-6">
