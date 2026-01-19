@@ -9,7 +9,7 @@ import ServiceCard from "@/websiteComponent/common/home/ServiceCard";
 import TeamCard from "@/websiteComponent/common/home/TeamCard";
 import CommonButton from "@/websiteComponent/common/home/CommonButton";
 import BrandSlider from "@/websiteComponent/common/home/BrandSlider";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { getHomePageData } from "@/websiteComponent/api/pricing.api";
 import HomeOfferModal from "./HomeOfferModal";
 import Loader from "@/websiteComponent/common/Loader";
@@ -24,6 +24,7 @@ function Home() {
   const [showOfferModal, setShowOfferModal] = useState(false);
 const [locations, setLocations] = useState<Locationweb[]>([]);
 const locationImages = [l1, l2, l3];
+
 useEffect(() => {
   const seen = localStorage.getItem("home_offer_modal_seen");
 
@@ -85,6 +86,45 @@ const cardHeightClass =
     ? "h-[420px] lg:h-[642px]"
     : "h-[420px]";
 
+    
+useEffect(() => {
+  if (!homeData?.seo?.analytics) return;
+
+  const raw = homeData.seo.analytics;
+  const cleanText = raw.replace(/<[^>]*>/g, "").trim();
+
+  const jsonLd = {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    name: "Layana",
+    description: cleanText,
+  };
+
+  const script = document.createElement("script");
+  script.type = "application/ld+json";
+  script.text = JSON.stringify(jsonLd);
+
+  document.head.appendChild(script);
+
+  return () => {
+    document.head.removeChild(script);
+  };
+}, [homeData?.seo?.analytics]);
+
+  const decodeHtmlEntities = (str: string): string => {
+    const textarea = document.createElement('textarea');
+    textarea.innerHTML = str;
+    return textarea.value;
+  };
+
+  const processAnalytics = (analytics: string): string => {
+    // Check if content appears to be HTML-encoded
+    if (analytics.includes('&lt;') || analytics.includes('&gt;')) {
+      return decodeHtmlEntities(analytics);
+    }
+    return analytics;
+  };
+
   if (loading || !homeData) {
   return (
     <div className="py-20 text-center">
@@ -97,7 +137,6 @@ const cardHeightClass =
     <>
  {homeData?.seo && (
   <Helmet>
-    {/* <title>{homeData?.seo.seo_title}</title> */}
 
     <meta
       name="description"
@@ -111,11 +150,14 @@ const cardHeightClass =
       />
     )}
 
-    {homeData?.seo.analytics && (
-      <script type="application/ld+json">
-        {homeData?.seo.analytics}
-      </script>
-    )}
+    {/* {homeData?.seo.analytics && (
+     <script 
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ 
+            __html: processAnalytics(homeData?.seo.analytics) 
+          }}
+        />
+    )} */}
   </Helmet>
 )}
 

@@ -92,13 +92,37 @@ useEffect(() => {
   fetchData();
 }, [locationSlug]);
 
- if (loading) {
-  return <div className="py-20 text-center"><Loader/></div>;
-}
+useEffect(() => {
+  if (!landingData?.seo?.analytics) return;
 
-if (!landingData) {
-  return <div className="py-20 text-center"></div>;
-}
+  const raw = landingData.seo.analytics;
+  const cleanText = raw.replace(/<[^>]*>/g, "").trim();
+
+  const jsonLd = {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    name: "Layana",
+    description: cleanText,
+  };
+
+  // 🔥 Remove existing JSON-LD if any
+  const existingScript = document.getElementById("landing-jsonld");
+  if (existingScript) {
+    existingScript.remove();
+  }
+
+  // 🔥 Create fresh JSON-LD script
+  const script = document.createElement("script");
+  script.id = "landing-jsonld";
+  script.type = "application/ld+json";
+  script.textContent = JSON.stringify(jsonLd);
+
+  document.head.appendChild(script);
+
+  return () => {
+    script.remove();
+  };
+}, [landingData?.seo?.analytics]);
 
 const treatmentCount = landingData?.treatments?.length ?? 0;
 const gridClass =
@@ -115,12 +139,20 @@ const gridClass =
     ? "h-[420px] lg:h-[642px]"
     : "h-[420px]";
 
+
+ if (loading) {
+  return <div className="py-20 text-center"><Loader/></div>;
+}
+
+if (!landingData) {
+  return <div className="py-20 text-center"></div>;
+}
+  
   return (
     <>
 
      {landingData?.seo && (
       <Helmet>
-        {/* <title>{landingData?.seo.seo_title}</title> */}
     
         <meta
           name="description"
@@ -134,11 +166,15 @@ const gridClass =
           />
         )}
     
-        {landingData?.seo.analytics && (
-          <script type="application/ld+json">
-            {landingData?.seo.analytics}
-          </script>
-        )}
+
+         {/* {landingData.seo.analytics && (
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: landingData.seo.analytics,
+        }}
+      />
+    )} */}
       </Helmet>
     )}
 
