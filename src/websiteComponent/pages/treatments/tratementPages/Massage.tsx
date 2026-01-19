@@ -3,6 +3,7 @@ import massage_bg from "@/assets/massage_bg.png";
 import SimpleHeroBanner from "@/websiteComponent/common/home/SimpleHeroBanner";
 import MassageCard from "@/websiteComponent/common/home/MasssageCard";
 import { getTreatmentCategories, getTreatmentsByCategory } from "@/websiteComponent/api/treatments.api";
+import Loader from "@/websiteComponent/common/Loader";
 
 const CARD_COLORS = [
   "#F5EEE9",
@@ -50,7 +51,14 @@ useEffect(() => {
     })
     .finally(() => setLoading(false));
 }, [activeCategory]);
-
+ 
+  if (loading || !treatments) {
+  return (
+    <div className="py-20 text-center">
+      <Loader />
+    </div>
+  );
+}
   return (
     <>
       <SimpleHeroBanner
