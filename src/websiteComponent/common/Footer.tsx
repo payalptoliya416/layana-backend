@@ -18,6 +18,8 @@ import {
 import { useEffect, useState } from "react";
 import { getLocations } from "../api/webLocationService";
 import Loader from "./Loader";
+import { withBase } from "./Header";
+import { Link } from "react-router-dom";
 
 const socialLinks = [
   {
@@ -72,7 +74,7 @@ useEffect(() => {
         <div className="relative z-10 max-w-3xl px-6">
           {/* arrow */}
           <a
-            href="#"
+            href={withBase("#")}
             className="w-[53px] h-[53px] mx-auto rounded-full bg-[#9A563A] flex items-center justify-center mb-[41px]"
           >
             <ArrowRight className="text-white" size={20} />
@@ -130,7 +132,9 @@ useEffect(() => {
 
               {/* Logo */}
               <div className="col-span-12 sm:col-span-6 lg:col-span-4 flex justify-center sm:border-l lg:border-y-0 lg:border border-[#9A563A]  py-[36px]">
+                <Link to={withBase("/")}>
                 <img src={white_logo} alt="Layana" className="h-[80px]" />
+                </Link>
               </div>
 
               {/* Newsletter */}
@@ -212,11 +216,11 @@ useEffect(() => {
                 </h4>
                 <ul className="space-y-3 text-sm">
                   {[
-                    { label: "Services", href: "/services" },
-                    { label: "About Us", href: "/about-us" },
-                    { label: "Price Plan", href: "/prices" },
-                    { label: "Contact", href: "/contact-us" },
-                    { label: "Terms & Conditions", href: "/terms" },
+                    { label: "Services", href: "#" },
+                    { label: "About Us", href: "#" },
+                    { label: "Price Plan", href: "#" },
+                    { label: "Contact", href: "#" },
+                    { label: "Terms & Conditions", href: "#" },
                   ].map((item) => (
                     <li key={item.label}>
                       <a
@@ -245,7 +249,7 @@ useEffect(() => {
                   ].map((item) => (
                     <li key={item}>
                       <a
-                        href="#"
+                        href={withBase("#")}
                         className="flex items-center gap-2 uppercase text-[#BEBEBE] hover:text-white cursor-pointer"
                       >
                         <ChevronRight size={14} className="text-[#9A563A]" />
@@ -269,7 +273,7 @@ useEffect(() => {
     locations.map((loc , index) => (
       <a
         key={loc.id}
-        href={`/locations/${loc.slug}`}
+        href={withBase(`${loc.slug}`)}
         className="flex gap-4 border-b border-[#9A563A] pb-[21px] items-center"
       >
         {/* image */}
