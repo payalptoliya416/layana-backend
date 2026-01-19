@@ -13,7 +13,7 @@ export default function BrandSlider({ images }: BrandSliderProps) {
       <Swiper
         loop
         slidesPerView={2}
-        spaceBetween={80}
+        spaceBetween={60}
         breakpoints={{
           640: { slidesPerView: 3 },
           1024: { slidesPerView: 5 },

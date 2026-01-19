@@ -21,6 +21,7 @@ import { useEffect, useState } from "react";
 import { getLandingPageByLocation, getLocations } from "@/websiteComponent/api/webLocationService";
 import Loader from "@/websiteComponent/common/Loader";
 import banner_home from '@/assets/banner_home.jpg';
+import { Helmet } from "react-helmet-async";
 
 const homeSlides = [
   {
@@ -116,6 +117,31 @@ const gridClass =
 
   return (
     <>
+
+     {landingData?.seo && (
+      <Helmet>
+        {/* <title>{landingData?.seo.seo_title}</title> */}
+    
+        <meta
+          name="description"
+          content={landingData?.seo.meta_description}
+        />
+    
+        {landingData?.seo.seo_keyword?.length > 0 && (
+          <meta
+            name="keywords"
+            content={landingData?.seo.seo_keyword.join(", ")}
+          />
+        )}
+    
+        {landingData?.seo.analytics && (
+          <script type="application/ld+json">
+            {landingData?.seo.analytics}
+          </script>
+        )}
+      </Helmet>
+    )}
+
       <CommonHeroSlider
   slides={landingData.sliders.map((s: any) => ({
     image: s.image,
@@ -264,7 +290,7 @@ const gridClass =
     buttons={[
       {
         label: landingData.promotion3.btn_text,
-        link: landingData.promotion3.btn_link, // 🔥 button link added
+        link: landingData.promotion3.btn_link, 
       },
     ]}
   />

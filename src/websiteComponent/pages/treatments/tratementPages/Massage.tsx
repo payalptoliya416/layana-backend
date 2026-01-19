@@ -21,8 +21,8 @@ const CARD_COLORS = [
 
 function Massage() {
 const [categories, setCategories] = useState<any[]>([]);
-  const [activeCategory, setActiveCategory] = useState<number | null>(null);
-  const [treatments, setTreatments] = useState<any[]>([]);
+const [activeCategory, setActiveCategory] = useState<number | null>(null);
+const [treatments, setTreatments] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
   /* Load categories */
   useEffect(() => {
@@ -102,7 +102,7 @@ useEffect(() => {
 
           {/* Grid */}
           {loading ? (
-            <div className="text-center py-20">Loading...</div>
+            <div className="text-center py-20"></div>
           ) : (
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-10">
                {treatments.map((item, index) => (

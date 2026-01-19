@@ -5,6 +5,17 @@ import { useState } from "react";
 import { Clock, MapPin, Phone } from "lucide-react";
 import SimpleHeroBanner from "@/websiteComponent/common/home/SimpleHeroBanner";
 import SplitContentSection from "@/websiteComponent/common/home/SplitContentSection";
+import { useLocation } from "react-router-dom";
+import PhoneInput from "react-phone-input-2";
+import { submitEnquiry } from "@/websiteComponent/api/enquiryService";
+import { toast } from "sonner";
+
+type FormErrors = {
+  name?: string;
+  email?: string;
+  phone?: string;
+  message?: string;
+};
 
 const locations = {
   belsize: {
@@ -34,8 +45,108 @@ function ContactUs() {
   const [active, setActive] = useState<"belsize" | "finchley" | "muswell">(
     "belsize"
   );
-
   const data = locations[active];
+  const { state } = useLocation();
+  const [loading, setLoading] = useState(false);
+   const locationId = state?.locationId;
+
+const [errors, setErrors] = useState<FormErrors>({});
+  const [formData, setFormData] = useState({
+    name: "",
+    email: "",
+    phone: "",
+    message: "",
+  });
+
+  const handleChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
+    setFormData({
+      ...formData,
+      [e.target.name]: e.target.value,
+    });
+  };
+
+const validateForm = () => {
+  const newErrors: FormErrors = {};
+
+  if (!formData.name.trim()) {
+    newErrors.name = "Name is required";
+  }
+
+  if (!formData.email.trim()) {
+    newErrors.email = "Email is required";
+  } else if (
+    !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)
+  ) {
+    newErrors.email = "Enter valid email address";
+  }
+
+  if (!formData.phone.trim()) {
+    newErrors.phone = "Mobile number is required";
+  }
+
+  if (!formData.message.trim()) {
+    newErrors.message = "Message is required";
+  }
+
+  setErrors(newErrors);
+
+  return Object.keys(newErrors).length === 0;
+};
+
+const handleSubmit = async (e: React.FormEvent) => {
+  e.preventDefault();
+
+  if (!locationId) {
+    toast.error("Location not selected");
+    return;
+  }
+
+  // Frontend validation
+  if (!validateForm()) return;
+
+  try {
+    setLoading(true);
+    setErrors({});
+
+    const res = await submitEnquiry({
+      location_id: locationId,
+      name: formData.name,
+      email: formData.email,
+      mobile: formData.phone,
+      message: formData.message,
+    });
+
+    // ✅ SUCCESS (backend message)
+    toast.success(res.message || "Enquiry submitted successfully");
+
+    setFormData({
+      name: "",
+      email: "",
+      phone: "",
+      message: "",
+    });
+  } catch (err: any) {
+    console.error(err);
+
+    if (err?.errors) {
+      const backendErrors: FormErrors = {};
+
+      if (err.errors.name) backendErrors.name = err.errors.name[0];
+      if (err.errors.email) backendErrors.email = err.errors.email[0];
+      if (err.errors.mobile) backendErrors.phone = err.errors.mobile[0];
+      if (err.errors.message) backendErrors.message = err.errors.message[0];
+
+      setErrors(backendErrors);
+    }
+
+    toast.error(err?.message || "Something went wrong");
+  } finally {
+    setLoading(false);
+  }
+};
+
   return (
     <>
       <SimpleHeroBanner
@@ -159,54 +270,107 @@ function ContactUs() {
       <div className="container mx-auto text-center">
         <div className="max-w-4xl mx-auto">
         <h2 className="text-[28px] leading-[28px] mb-[25px]">Enquire</h2>
-        <form className="space-y-[35px]">
+        <form className="space-y-[35px]" onSubmit={handleSubmit}>
           {/* Name */}
           <div className="text-left">
             <label className="block text-base mb-[15px] leading-[16px]">Name</label>
             <input
+               name="name"
+              value={formData.name}
+              onChange={handleChange}
               type="text"
               placeholder="Enter Your Name"
               className="w-full border-b border-[#666666]/30 pb-[10px] outline-none text-sm text-[#666666] font-quattro"
             />
+            {errors.name && (
+  <p className="text-red-500 text-xs mt-2">{errors.name}</p>
+)}
           </div>
 
           {/* Email */}
           <div className="text-left">
             <label className="block text-base mb-[15px] leading-[16px]">Email Address</label>
             <input
+               name="email"
+              value={formData.email}
+              onChange={handleChange}
               type="email"
               placeholder="Enter Your Email Address"
               className="w-full border-b border-[#666666]/30 pb-[10px] outline-none text-sm text-[#666666] font-quattro"
             />
+            {errors.email && (
+  <p className="text-red-500 text-xs mt-2">{errors.email}</p>
+)}
           </div>
 
           {/* Phone */}
-          <div className="text-left">
-            <label className="block text-base mb-[15px] leading-[16px]">Phone Number</label>
-            <input
-              type="tel"
-              placeholder="Enter Your Mobile Number"
-              className="w-full border-b border-[#666666]/30 pb-[10px] outline-none text-sm text-[#666666] font-quattro"
-            />
-          </div>
+        <div className="text-left">
+          <label className="block text-base mb-[15px] leading-[16px]">
+            Mobile Number
+          </label>
+
+          <PhoneInput
+            country="gb"
+            enableSearch
+            value={formData.phone}
+            onChange={(value) =>
+            setFormData((prev) => ({
+              ...prev,
+              phone: `+${value}`,
+            }))
+          }
+            containerClass="!w-full"
+            inputClass="
+              !w-full
+              !h-[48px]
+              !pl-[60px]
+              !border-0
+              !border-b
+              !border-[#666666]/30
+              !rounded-none
+              !text-sm
+              !text-[#666666]
+              !font-quattro
+              focus:!outline-none
+            "
+            buttonClass="
+              !border-0
+              !border-b
+              !border-[#666666]/30
+              !rounded-none
+              !bg-transparent
+            "
+            dropdownClass="!text-sm"
+          />
+          {errors.phone && (
+  <p className="text-red-500 text-xs mt-2">{errors.phone}</p>
+)}
+        </div>
 
           {/* Message */}
           <div className="text-left">
             <label className="block text-base mb-[15px] leading-[16px]">Messages</label>
             <textarea
-              placeholder="Messages"
-              rows={4}
+             name="message"
+            value={formData.message}
+            onChange={handleChange}
+            placeholder="Messages"
+            rows={4}
               className="w-full border-b border-[#666666]/30 pb-[10px] outline-none text-sm resize-none text-[#666666] font-quattro"
             />
+            {errors.message && (
+  <p className="text-red-500 text-xs mt-2">{errors.message}</p>
+)}
           </div>
 
           {/* Button */}
           <div className="pt-10">
             <button
               type="submit"
+               disabled={loading}
               className="border border-black px-16 py-4 text-xs tracking-widest hover:bg-black hover:text-white transition h-[60px]"
             >
-              SEND
+              {loading ? "SENDING..." : "SEND"}
             </button>
           </div>
         </form>

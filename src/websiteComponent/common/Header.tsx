@@ -1,12 +1,13 @@
 import { useEffect, useState } from "react";
 import { X, MapPin, ChevronDown } from "lucide-react";
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import white_logo from "@/assets/white_logo.png";
 import menuimg from "@/assets/menu.png";
 import { WEBSITE_BASE } from "@/route/config";
 import { getLocations } from "../api/webLocationService";
 
 type UILocation = {
+    id?: number;
   label: string;
   slug: string;
 };
@@ -21,68 +22,46 @@ export const withBase = (path?: string) => {
   if (!path) return WEBSITE_BASE;
   return `${WEBSITE_BASE}${path.startsWith("/") ? path : `/${path}`}`;
 };
+
 const menu = [
   {
     label: "Book Now",
     href: "https://www.fresha.com/providers/rmxjfmmk",
     external: true,
   },
-
   {
     label: "Treatments",
     dropdownKey: "treatments",
     basePath: "/treatments",
-    dropdownData: [
-      { label: "Belsize Park", slug: "belsize-park" },
-      { label: "Finchley Central", slug: "finchley-central" },
-      { label: "Musswell Hill", slug: "muswell-hill" },
-    ],
   },
-
   {
     label: "Prices",
     dropdownKey: "prices",
     basePath: "/prices",
   },
-
   {
     label: "Memberships",
     dropdownKey: "memberships",
     basePath: "/memberships",
-    dropdownData: [
-      { label: "Belsize Park", slug: "belsize-park" },
-      { label: "Finchley Central", slug: "finchley-central" },
-      { label: "Musswell Hill", slug: "muswell-hill" },
-    ],
   },
-
   {
     label: "Spa Packages",
     dropdownKey: "spa",
     basePath: "/spa-packages",
-    dropdownData: [
-      { label: "Belsize Park", slug: "belsize-park" },
-      { label: "Finchley Central", slug: "finchley-central" },
-      { label: "Musswell Hill", slug: "muswell-hill" },
-    ],
   },
-
   {
     label: "Gift Cards",
     href: "https://www.fresha.com/vouchers/provider/rmxjfmmk",
     external: true,
   },
-  { label: "Contact Us", href: "/contact-us" },
+  { label: "Contact Us", basePath: "/contact-us" },
 ];
 
 /* ================= DATA ================= */
-
-// const locations = [
-//   { label: "Belsize Park", slug: "belsize-park" },
-//   { label: "Finchley Central", slug: "finchley-central" },
-//   { label: "Muswell Hill", slug: "muswell-hill" },
-// ];
-
+const pricesServices = [
+  { label: "Massage & Beauty", slug: "massage-beauty" },
+  { label: "Skin", slug: "skin" },
+];
 const pricesData = [
   {
     location: "Finchley Central",
@@ -101,18 +80,42 @@ const pricesData = [
   },
 ];
 
+const getAvailableLocations = (
+  locations: UILocation[],
+  selectedLocation: UILocation | null
+) => {
+  if (!selectedLocation) return locations;
+  return locations.filter(
+    (loc) => loc.slug !== selectedLocation.slug
+  );
+};
 /* ================= COMPONENT ================= */
 
 export default function Header() {
   const [open, setOpen] = useState(false);
   const [activeDropdown, setActiveDropdown] = useState<string | null>(null);
 const [locations, setLocations] = useState<UILocation[]>([]);
-const [selectedLocation, setSelectedLocation] = useState<string | null>(null);
+const [selectedLocation, setSelectedLocation] = useState<UILocation | null>(null);
+
+const { locationSlug } = useParams();
+
+useEffect(() => {
+  if (!locationSlug) {
+    setSelectedLocation(null);
+    return;
+  }
+
+  if (locations.length) {
+    const found = locations.find((l) => l.slug === locationSlug);
+    setSelectedLocation(found ?? null);
+  }
+}, [locationSlug, locations]);
 
 useEffect(() => {
   getLocations().then((res) => {
     const formatted: UILocation[] = res.data.map(
       (item: LocationApi) => ({
+           id: item.id,
         label: item.name,
         slug: item.slug,
       })
@@ -121,6 +124,7 @@ useEffect(() => {
     setLocations(formatted);
   });
 }, []);
+
 
 const underlineClass =
   "relative uppercase after:content-[''] after:absolute after:left-0 after:-bottom-1 after:h-[1px] after:w-0 after:bg-[#e6c9a2] after:transition-all after:duration-300 hover:after:w-full";
@@ -135,38 +139,144 @@ const underlineClass =
 
         {/* Desktop Nav */}
         <nav className="hidden lg:flex items-center gap-[25px] text-sm tracking-widest font-muli">
-          {menu.map((item) => (
-            <div
-              key={item.label}
-              className="relative"
-              onMouseEnter={() =>
-                item.dropdownKey && setActiveDropdown(item.dropdownKey)
-              }
-              onMouseLeave={() => setActiveDropdown(null)}
-            >
-              {item.external ? (
-                <a
-                  href={item.href}
-                  target="_blank"
-                   className={`hover:text-[#e6c9a2] ${underlineClass}`}
-                >
-                  {item.label}
-                </a>
-              ) : item.dropdownKey ? (
-                <span className="cursor-pointer hover:text-[#e6c9a2] uppercase">
-                  {item.label}
-                </span>
-              ) : (
-                <Link to={withBase(item.href)} className="uppercase">
-                  {item.label}
-                </Link>
-              )}
+     {menu.map((item) => {
+  const hasLocation = !!selectedLocation;
 
-              {activeDropdown === item.dropdownKey && (
-                <DesktopDropdown item={item} />
-              )}
-            </div>
-          ))}
+const resolvedPath =
+  hasLocation && item.basePath
+    ? `/${selectedLocation.slug}${item.basePath}`
+    : item.basePath;
+const isPrice = item.dropdownKey === "prices";
+const hasDropdown = !!item.dropdownKey;
+
+const disableClick =
+  isPrice || (hasDropdown && !hasLocation);
+  return (
+    <div
+      key={item.label}
+      className="relative"
+     onMouseEnter={() => {
+  if (!item.dropdownKey) return;
+
+  if (item.dropdownKey === "prices") {
+    setActiveDropdown("prices");
+    return;
+  }
+
+  if (!selectedLocation) {
+    setActiveDropdown(item.dropdownKey);
+  }
+}}
+      onMouseLeave={() => setActiveDropdown(null)}
+    >
+      {/* {item.external ? (
+  <a href={item.href} target="_blank" className={underlineClass}>
+    {item.label}
+  </a>
+) : item.basePath ? (
+  item.basePath === "/contact-us" ? (
+    <Link
+      to={withBase(
+        selectedLocation
+          ? `/${selectedLocation.slug}/contact-us`
+          : "/contact-us"
+      )}
+      state={
+        selectedLocation
+          ? {
+              locationId: selectedLocation.id,
+              locationSlug: selectedLocation.slug,
+            }
+          : undefined
+      }
+      className="uppercase hover:text-[#e6c9a2]"
+    >
+      {item.label}
+    </Link>
+  ) : (
+    <Link
+      to={withBase(resolvedPath)}
+      className="uppercase hover:text-[#e6c9a2]"
+    >
+      {item.label}
+    </Link>
+  )
+) : (
+  <span className="uppercase">{item.label}</span>
+)} */}
+
+{item.external ? (
+  <a href={item.href} target="_blank" className={underlineClass}>
+    {item.label}
+  </a>
+) : (
+  (() => {
+    const isPrice = item.dropdownKey === "prices";
+    const hasDropdown = !!item.dropdownKey;
+    const hasLocation = !!selectedLocation;
+
+    const disableClick =
+      isPrice || (hasDropdown && !hasLocation);
+
+    if (disableClick) {
+      // ⛔ CLICK DISABLED CASES
+      return (
+        <button
+          type="button"
+          className="uppercase cursor-default hover:text-[#e6c9a2]"
+        >
+          {item.label}
+        </button>
+      );
+    }
+
+    // ✅ CLICK ENABLED
+    if (item.basePath === "/contact-us") {
+      return (
+        <Link
+          to={withBase(
+            selectedLocation
+              ? `/${selectedLocation.slug}/contact-us`
+              : "/contact-us"
+          )}
+          state={
+            selectedLocation
+              ? {
+                  locationId: selectedLocation.id,
+                  locationSlug: selectedLocation.slug,
+                }
+              : undefined
+          }
+          className="uppercase hover:text-[#e6c9a2]"
+        >
+          {item.label}
+        </Link>
+      );
+    }
+
+    return (
+      <Link
+        to={withBase(resolvedPath)}
+        className="uppercase hover:text-[#e6c9a2]"
+      >
+        {item.label}
+      </Link>
+    );
+  })()
+)}
+
+      {/* Dropdown only if NO location selected */}
+       {activeDropdown === item.dropdownKey && (
+  <DesktopDropdown
+    item={item}
+    locations={locations}
+    selectedLocation={selectedLocation}
+    onSelectLocation={(loc) => setSelectedLocation(loc)}
+  />
+)}
+        </div>
+    );
+    })}
         </nav>
 
         {/* Desktop Location */}
@@ -183,9 +293,9 @@ const underlineClass =
 
   <span
     className="block truncate whitespace-nowrap overflow-hidden"
-    title={selectedLocation ?? "Choose Location"}
+    title={selectedLocation?.label ?? "Choose Location"}
   >
-    {selectedLocation ?? "Choose Location"}
+  {selectedLocation?.label ?? "Choose Location"}
   </span>
 </button>
 
@@ -193,10 +303,11 @@ const underlineClass =
             <DesktopLocations
             baseUrl={withBase("")}
             locations={locations}
-            onSelect={(label) => {
-              setSelectedLocation(label);
-              setActiveDropdown(null);
-            }}
+              selectedLocation={selectedLocation}
+            onSelect={(loc) => {
+    setSelectedLocation(loc);
+    setActiveDropdown(null);
+  }}
           />
           )}
         </div>
@@ -210,17 +321,18 @@ const underlineClass =
         >
           <button className="flex items-center gap-2 text-xs tracking-widest hover:text-[#e6c9a2]">
             <MapPin size={14} />
-            {selectedLocation ?? "Choose Location"}
+           {selectedLocation?.label ?? "Choose Location"}
           </button>
 
           {activeDropdown === "location" && (
             <DesktopLocations
               baseUrl={withBase("")}
+              selectedLocation={selectedLocation}
                locations={locations}
-              onSelect={(label) => {
-                setSelectedLocation(label);
-                setActiveDropdown(null);
-              }}
+              onSelect={(loc) => {
+    setSelectedLocation(loc);
+    setActiveDropdown(null);
+  }}
             />
           )}
         </div>
@@ -293,30 +405,38 @@ const underlineClass =
               <ChevronDown size={14} />
             </button>
           ) : (
-            <Link
-              to={withBase(item.href)}
-              className="block uppercase"
-               onClick={() => {
-                  setOpen(false);
-                  setActiveDropdown(null);
-                }}
-            >
-              {item.label}
-            </Link>
+            <>
+            {item.basePath && selectedLocation && (
+  <Link
+    to={withBase(`${selectedLocation.slug}/${item.basePath}`)}
+    onClick={() => setOpen(false)}
+    className="block uppercase"
+  >
+    {item.label}
+  </Link>
+)}
+</>
           )}
 
           {/* Dropdowns */}
           {item.dropdownKey === "treatments" &&
-            activeDropdown === "treatments" && (
-              <MobileLocations   locations={locations} baseUrl={withBase("/treatments")} onClose={() => {
-    setOpen(false);
-    setActiveDropdown(null);
-  }} />
-            )}
+ !selectedLocation &&
+ activeDropdown === "treatments" && (
+   <MobileLocations
+    selectedLocation={selectedLocation}
+     locations={locations}
+       onSelectLocation={(loc) => setSelectedLocation(loc)}
+     basePath={withBase("/treatments")}
+     onClose={() => {
+       setOpen(false);
+       setActiveDropdown(null);
+     }}
+   />
+ )}
 
           {item.dropdownKey === "memberships" &&
             activeDropdown === "memberships" && (
-              <MobileLocations   locations={locations} baseUrl={withBase("/memberships")} onClose={() => {
+              <MobileLocations   selectedLocation={selectedLocation}  onSelectLocation={(loc) => setSelectedLocation(loc)} locations={locations} basePath={withBase("/memberships")} onClose={() => {
     setOpen(false);
     setActiveDropdown(null);
   }} />
@@ -324,7 +444,7 @@ const underlineClass =
 
           {item.dropdownKey === "spa" &&
             activeDropdown === "spa" && (
-              <MobileLocations   locations={locations} baseUrl={withBase("/spa-packages")} onClose={() => {
+              <MobileLocations  selectedLocation={selectedLocation}  onSelectLocation={(loc) => setSelectedLocation(loc)} locations={locations} basePath={withBase("/spa-packages")} onClose={() => {
     setOpen(false);
     setActiveDropdown(null);
   }} />
@@ -352,21 +472,27 @@ const underlineClass =
 type DesktopLocationsProps = {
   baseUrl: string;
   locations: UILocation[];
-  onSelect: (label: string) => void;
+    onSelect: (loc: UILocation) => void;
 };
 
 const DesktopLocations = ({
   baseUrl,
   locations,
+  selectedLocation,
   onSelect,
-}: DesktopLocationsProps) => (
+}: {
+  baseUrl: string;
+  locations: UILocation[];
+  selectedLocation: UILocation | null;
+  onSelect: (loc: UILocation) => void;
+}) => (
   <div className="absolute left-0 top-full pt-2">
     <div className="w-[130px] sm:w-[160px] bg-white rounded-b-md overflow-hidden">
-      {locations.map((loc) => (
+      {getAvailableLocations(locations, selectedLocation).map((loc) => (
         <Link
           key={loc.slug}
           to={`${baseUrl}/${loc.slug}`}
-          onClick={() => onSelect(loc.label)}
+          onClick={() => onSelect(loc)}
           className="block px-3 py-2 text-sm text-black hover:bg-[#f6efec]"
         >
           {loc.label}
@@ -376,56 +502,39 @@ const DesktopLocations = ({
   </div>
 );
 
-const DesktopPrices = () => (
-  <div className="absolute left-0 top-full pt-2">
-    <div className="w-[165px] bg-white rounded-b-md overflow-hidden">
-      {pricesData.map((block) => (
-        <div key={block.location}>
-          <div className="px-3 py-2 text-sm font-semibold text-black">
-            {block.location}
-          </div>
-
-          {block.services.map((s) => (
-            <Link
-              key={s.slug}
-              to={withBase(
-                `/prices/${block.location.toLowerCase().replace(/ /g, "-")}/${s.slug}`
-              )}
-              className="block px-4 py-2 text-xs text-black hover:bg-[#f6efec]"
-            >
-              {s.label}
-            </Link>
-          ))}
-        </div>
-      ))}
-    </div>
-  </div>
-);
 
 /* ================= MOBILE DROPDOWNS ================= */
 
 const MobileLocations = ({
-  baseUrl,
+  basePath,
   locations,
+  selectedLocation,
   onClose,
+  onSelectLocation,
 }: {
-  baseUrl: string;
+  basePath: string;
   locations: UILocation[];
+  selectedLocation: UILocation | null;
   onClose: () => void;
+  onSelectLocation: (loc: UILocation) => void;
 }) => (
   <div className="ml-4 mt-2 space-y-2">
-    {locations.map((loc) => (
+    {getAvailableLocations(locations, selectedLocation).map((loc) => (
       <Link
         key={loc.slug}
-        to={`${baseUrl}/${loc.slug}`}
+        to={withBase(`/${loc.slug}${basePath}`)}
+        onClick={() => {
+          onSelectLocation(loc);
+          onClose();
+        }}
         className="block text-sm"
-        onClick={onClose}
       >
         {loc.label}
       </Link>
     ))}
   </div>
 );
+
 
 const MobilePrices = ({ onClose }: { onClose: () => void }) => (
   <div className="ml-4 mt-2 space-y-3">
@@ -451,47 +560,79 @@ const MobilePrices = ({ onClose }: { onClose: () => void }) => (
   </div>
 );
 
-const DesktopDropdown = ({ item }: { item: any }) => {
+const DesktopDropdown = ({
+  item,
+  locations,
+  selectedLocation,
+  onSelectLocation,
+}: {
+  item: any;
+  locations: UILocation[];
+  selectedLocation: UILocation | null;
+  onSelectLocation: (loc: UILocation) => void;
+}) => {
+  // ================= PRICES =================
   if (item.dropdownKey === "prices") {
-    return <DesktopPrices />;
+    const blocksToShow = selectedLocation
+      ? pricesData.filter(
+          (p) =>
+            p.location.toLowerCase() ===
+            selectedLocation.label.toLowerCase()
+        )
+      : pricesData;
+
+    return (
+      <div className="absolute left-0 top-full pt-2">
+        <div className="w-[165px] bg-white rounded-b-md overflow-hidden">
+          {blocksToShow.map((block) => {
+            const loc = locations.find(
+              (l) =>
+                l.label.toLowerCase() ===
+                block.location.toLowerCase()
+            );
+
+            if (!loc) return null;
+
+            return (
+              <div key={block.location}>
+                <div className="px-3 py-2 text-sm font-semibold text-black">
+                  {block.location}
+                </div>
+                {block.services.map((s) => (
+                  <Link
+                    key={s.slug}
+                    to={withBase(`/${loc.slug}/prices/${s.slug}`)}
+                    onClick={() => onSelectLocation(loc)}
+                    className="block px-4 py-2 text-xs text-black hover:bg-[#f6efec]"
+                  >
+                    {s.label}
+                  </Link>
+                ))}
+              </div>
+            );
+          })}
+        </div>
+      </div>
+    );
   }
 
-  if (!item.dropdownData) return null;
+  // ================= OTHER DROPDOWNS =================
   return (
-    <div className="absolute left-0 top-full pt-2 w-[160px] overflow-hidden">
-      <div className="bg-white rounded-b-md">
-      {item.dropdownKey === "prices"
-        ? item.dropdownData.map((block: any) => (
-            <div key={block.title} className="border-b last:border-0">
-              <div className="px-3 py-2 font-semibold text-black">
-                {block.title}
-              </div>
-
-              {block.items.map((s: any) => (
-                <Link
-                  key={s.slug}
-                  to={withBase(
-                    `${item.basePath}/${block.title
-                      .toLowerCase()
-                      .replace(/ /g, "-")}/${s.slug}`
-                  )}
-                  className="block px-2 py-2 text-sm text-black hover:bg-[#f6efec]"
-                >
-                  {s.label}
-                </Link>
-              ))}
-            </div>
-          ))
-        : item.dropdownData.map((d: any) => (
-            <Link
-              key={d.slug}
-              to={withBase(`${item.basePath}/${d.slug}`)}
-              className="block px-2 py-2 text-sm text-black hover:bg-[#f6efec]"
-            >
-              {d.label}
-            </Link>
-          ))}
+    <div className="absolute left-0 top-full pt-2 w-[160px]">
+      <div className="bg-white rounded-b-md overflow-hidden">
+        {locations.map((loc) => (
+          <Link
+            key={loc.slug}
+            to={withBase(`/${loc.slug}${item.basePath}`)}
+            onClick={() => onSelectLocation(loc)}
+            className="block px-3 py-2 text-sm text-black hover:bg-[#f6efec]"
+          >
+            {loc.label}
+          </Link>
+        ))}
       </div>
     </div>
   );
 };
+
+

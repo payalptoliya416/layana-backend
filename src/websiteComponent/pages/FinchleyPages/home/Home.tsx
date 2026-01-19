@@ -15,9 +15,11 @@ import HomeOfferModal from "./HomeOfferModal";
 import Loader from "@/websiteComponent/common/Loader";
 import { getLocations, Locationweb } from "@/websiteComponent/api/webLocationService";
 import { withBase } from "@/websiteComponent/common/Header";
+import { Helmet } from "react-helmet-async";
 
 function Home() {
   const [homeData, setHomeData] = useState<any>(null);
+  console.log("homeData",homeData?.seo)
   const [loading, setLoading] = useState(true);
   const [showOfferModal, setShowOfferModal] = useState(false);
 const [locations, setLocations] = useState<Locationweb[]>([]);
@@ -93,6 +95,30 @@ const cardHeightClass =
 
   return (
     <>
+ {homeData?.seo && (
+  <Helmet>
+    {/* <title>{homeData?.seo.seo_title}</title> */}
+
+    <meta
+      name="description"
+      content={homeData?.seo.meta_description}
+    />
+
+    {homeData?.seo.seo_keyword?.length > 0 && (
+      <meta
+        name="keywords"
+        content={homeData?.seo.seo_keyword.join(", ")}
+      />
+    )}
+
+    {homeData?.seo.analytics && (
+      <script type="application/ld+json">
+        {homeData?.seo.analytics}
+      </script>
+    )}
+  </Helmet>
+)}
+
      {showOfferModal && (
     <HomeOfferModal onClose={handleCloseOfferModal} />
   )}
@@ -225,7 +251,7 @@ const cardHeightClass =
             ))}
           </div>
 
-          <div className="flex justify-center mt-24">
+          <div className="flex justify-center mt-16 lg:mt-24">
             <CommonButton to="/websiteurl/team">View All</CommonButton>
           </div>
         </div>
