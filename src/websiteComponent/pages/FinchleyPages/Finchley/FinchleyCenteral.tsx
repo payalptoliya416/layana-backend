@@ -111,9 +111,9 @@ const gridClass =
 
     const cardHeightClass =
   treatmentCount === 2 || treatmentCount === 3
-    ? "h-[642px]"
+    ? "h-[420px] sm:h-[642px]"
     : "h-[420px]";
-    
+
   return (
     <>
       <CommonHeroSlider

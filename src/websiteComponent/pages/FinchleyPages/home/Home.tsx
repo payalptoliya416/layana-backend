@@ -77,10 +77,10 @@ const gridClass =
     : treatmentCount === 3
     ? "lg:grid-cols-3"
     : "lg:grid-cols-4";
-    
+
 const cardHeightClass =
   treatmentCount === 2 || treatmentCount === 3
-    ? "h-[642px]"
+    ? "h-[420px] sm:h-[642px]"
     : "h-[420px]";
 
   if (loading || !homeData) {
