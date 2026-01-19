@@ -250,8 +250,7 @@ const gridClass =
       {/* --------- */}
            <section className="pt-12 lg:pt-[110px]">
         <div className="container mx-auto">
-          <img src={banner_home} alt="banner" className="w-full" />
-          {/* <img src={landingData.promotion.promotion_2_image} alt="banner" className="w-full" /> */}
+          <img src={landingData.promotion.promotion_2_image} alt="banner" className="w-full" />
         </div>
       </section>
     </>
