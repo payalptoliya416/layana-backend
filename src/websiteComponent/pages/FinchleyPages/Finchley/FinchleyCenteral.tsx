@@ -111,7 +111,7 @@ const gridClass =
 
     const cardHeightClass =
   treatmentCount === 2 || treatmentCount === 3
-    ? "h-[420px] sm:h-[642px]"
+    ? "h-[420px] lg:h-[642px]"
     : "h-[420px]";
 
   return (
