@@ -72,7 +72,7 @@ useEffect(() => {
 
           {/* Tabs */}
           <div className="mb-10">
-            <div className="flex flex-col sm:flex-row sm:justify-center sm:gap-14 border-b pb-2 sm:w-max mx-auto">
+            <div className="flex flex-col sm:flex-row sm:justify-center sm:gap-14 sm:border-b pb-2 sm:w-max mx-auto">
               {categories.map((cat) => {
                 const isActive = activeCategory === cat.id;
 
