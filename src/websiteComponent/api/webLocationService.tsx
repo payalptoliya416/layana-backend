@@ -1,13 +1,22 @@
 import { publicApi } from "./publicApi";
-type Location = {
+export interface Locationweb {
   id: number;
   name: string;
+  email: string;
+  phone: string;
   slug: string;
-};
+  address_line_1: string;
+  address_line_2: string;
+  city: string;
+  state: string;
+  country: string;
+  postcode: string;
+  parking_details: string;
+}
 
 export type LocationResponse = {
   status: string;
-  data: Location[];
+  data: Locationweb[];
 };
 
 export const getLocations = () => {

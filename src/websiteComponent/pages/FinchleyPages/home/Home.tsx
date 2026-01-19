@@ -13,12 +13,15 @@ import { useEffect, useState } from "react";
 import { getHomePageData } from "@/websiteComponent/api/pricing.api";
 import HomeOfferModal from "./HomeOfferModal";
 import Loader from "@/websiteComponent/common/Loader";
+import { getLocations, Locationweb } from "@/websiteComponent/api/webLocationService";
+import { withBase } from "@/websiteComponent/common/Header";
 
 function Home() {
   const [homeData, setHomeData] = useState<any>(null);
   const [loading, setLoading] = useState(true);
   const [showOfferModal, setShowOfferModal] = useState(false);
-
+const [locations, setLocations] = useState<Locationweb[]>([]);
+const locationImages = [l1, l2, l3];
 useEffect(() => {
   const seen = localStorage.getItem("home_offer_modal_seen");
 
@@ -35,6 +38,23 @@ useEffect(() => {
       .finally(() => setLoading(false));
   }, []);
 
+  useEffect(() => {
+    const fetchData = async () => {
+      setLoading(true);
+      try {
+        const locRes = await getLocations();
+       setLocations(locRes.data);
+      } catch (err) {
+        console.error(err);
+      } finally {
+        setLoading(false);
+      }
+    };
+  
+    fetchData();
+  }, []);
+  
+
   const slides = homeData?.slider?.map((item: any) => ({
   image: item.image,
   title: item.title,
@@ -48,7 +68,13 @@ const handleCloseOfferModal = () => {
   setShowOfferModal(false);
 };
 
-  if (loading) return <div className="py-20 text-center"><Loader/></div>;
+  if (loading || !homeData) {
+  return (
+    <div className="py-20 text-center">
+      <Loader />
+    </div>
+  );
+}
   return (
     <>
      {showOfferModal && (
@@ -83,84 +109,35 @@ const handleCloseOfferModal = () => {
       <section className="py-12 lg:py-[110px]">
         <div className="container mx-auto">
          <div className="grid grid-cols-12 md:gap-[50px] items-stretch">
-            <div className="col-span-12 md:col-span-4 mb-[50px] md:mb-0">
+            {locations?.map((loc, index) => (
+            <div   key={loc.id} className="col-span-12 md:col-span-4 mb-[50px] md:mb-0">
              <div className="h-full">
                 <div className="w-full h-[200px] md:h-[600px] mb-5 overflow-hidden">
                 <img
-                  src={l1}
+                  src={locationImages[index % locationImages.length]}
                   alt="finchley"
                   className="w-full h-full object-cover md:object-fill"
                 />
               </div>
                               
-                <div className="flex justify-between items-center">
-                  <h3 className="font-mulish text-[12px] leading-[14px] font-normal tracking-[0.1em] uppercase mb-[15px]">
-                  FINCHLEY CENTRAL
+                <div className="flex justify-between items-center  mb-[15px]">
+                  <h3 className="font-mulish text-[12px] leading-[14px] font-normal tracking-[0.1em] uppercase">
+                  {loc.name}
                 </h3>
                   <h2 className="font-mulish text-base leading-[16px] font-normal text-[#282828] text-right">
-                    medispa
+                     {loc.city}
                   </h2>
                 </div>
                 <Link
-                  to="https://layana.co.uk/finchley"
+                   to={withBase(`/${loc.slug}`)}
+                state={{ id: loc.id, slug: loc.slug }}
                   className="font-mulish text-xs leading-[14px] font-normal tracking-[0.1em] uppercase underline underline-offset-1 text-black"
                 >
                   EXPLORE NOW
                 </Link>
               </div>
             </div>
-            <div className="col-span-12 md:col-span-4 mb-[50px] md:mb-0">
-                <div className="h-full">
-                <div className="w-full h-[200px] md:h-[600px] mb-5 overflow-hidden">
-                <img
-                  src={l2}
-                  alt="finchley"
-                  className="w-full h-full object-cover md:object-fill"
-                />
-              </div>
-                
-                <div className="flex justify-between items-center">
-                 <h3 className="font-mulish text-[12px] leading-[14px] font-normal tracking-[0.1em] uppercase mb-[15px]">
-                  MUSWELL HILL
-                </h3>
-                  <h2 className="font-mulish text-base leading-[16px] font-normal text-[#282828] text-right">
-                    spa on the hill
-                  </h2>
-                </div>
-                <Link
-                  to="https://layana.co.uk/muswell"
-                  className="font-mulish text-xs leading-[14px] font-normal tracking-[0.1em] uppercase underline underline-offset-1 text-black"
-                >
-                  EXPLORE NOW
-                </Link>
-              </div>
-            </div>
-            <div className="col-span-12 md:col-span-4">
-               <div className="h-full">
-              <div className="w-full h-[200px] md:h-[600px] mb-5 overflow-hidden">
-                <img
-                  src={l3}
-                  alt="finchley"
-                  className="w-full h-full object-cover md:object-fill"
-                />
-              </div>
-               
-                <div className="flex justify-between items-center">
-                  <h3 className="font-mulish text-[12px] leading-[14px] font-normal tracking-[0.1em] uppercase mb-[15px]">
-                BELSIZE PAR
-                </h3>
-                  <h2 className="font-mulish text-base leading-[16px] font-normal text-[#282828] text-right">
-                    spa on the hill
-                  </h2>
-                </div>
-                <Link
-                  to="https://layana.co.uk/belsize"
-                  className="font-mulish text-xs leading-[14px] font-normal tracking-[0.1em] uppercase underline underline-offset-1 text-black"
-                >
-                  EXPLORE NOW
-                </Link>
-              </div>
-            </div>
+            ))}
           </div>
         </div>
       </section>

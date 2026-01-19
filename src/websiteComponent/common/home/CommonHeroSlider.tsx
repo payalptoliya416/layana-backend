@@ -63,7 +63,7 @@ const handleButtonClick = (link?: string) => {
               
               <div className="relative z-10 h-full flex items-center pt-[35px] md:pt-0">
                 <div className="container mx-auto text-white">
-                  <div className="grid grid-cols-12 px-3 sm:px-0">
+                  <div className="grid grid-cols-12 px-3 sm:px-6 lg:px-0">
                     <div className="col-span-12 lg:col-span-6 text-center md:text-left">
                       <h1 className="text-3xl sm:text-[42px] leading-[52px] md:text-[65px] md:leading-[75px] font-normal mb-[25px]">
                         {slide.title.split("\n").map((line, idx) => (
@@ -113,7 +113,7 @@ const handleButtonClick = (link?: string) => {
         <div className="flex items-center justify-center">
           <span className="w-5 sm:w-9 h-5 sm:h-9 border-t-2 border-l-2 border-white rotate-[-45deg] -ml-3 sm:ml-auto transition-transform duration-300" />
         </div>
-        <span className="opacity-0 group-hover:opacity-100 text-white text-sm tracking-widest -ml-5 sm:-ml-10 group-hover:-ml-5 transition-all duration-500">
+        <span className="opacity-0 group-hover:opacity-100 text-white text-sm tracking-widest -ml-5 sm:-ml-10 group-hover:-ml-5 transition-all duration-500 hidden md:block">
           PREV
         </span>
       </button>
@@ -125,7 +125,7 @@ const handleButtonClick = (link?: string) => {
         className="hero-next group absolute right-6 top-1/2 -translate-y-1/2 z-20 cursor-pointer flex items-center gap-4 bg-transparent border-none p-0"
         aria-label="Next slide"
       >
-        <span className="opacity-0 group-hover:opacity-100 text-white text-sm tracking-widest -mr-5 sm:-mr-10 group-hover:-mr-5 transition-all duration-500">
+        <span className="opacity-0 group-hover:opacity-100 text-white text-sm tracking-widest -mr-5 sm:-mr-10 group-hover:-mr-5 transition-all duration-500 hidden md:block">
           NEXT
         </span>
         <div className="flex items-center justify-center">
