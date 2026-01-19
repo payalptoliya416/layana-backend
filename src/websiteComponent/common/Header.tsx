@@ -179,7 +179,7 @@ const underlineClass =
         >
           <button
   className="flex items-center gap-2 text-sm tracking-widest hover:text-[#e6c9a2]
-             max-w-[150px] overflow-hidden"
+             max-w-[160px] overflow-hidden"
 >
   <MapPin size={14} className="shrink-0" />
 

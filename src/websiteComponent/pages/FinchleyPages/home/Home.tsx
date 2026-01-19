@@ -11,11 +11,14 @@ import BrandSlider from "@/websiteComponent/common/home/BrandSlider";
 import { useEffect, useState } from "react";
 import { getHomePageData } from "@/websiteComponent/api/pricing.api";
 import HomeOfferModal from "./HomeOfferModal";
+import Loader from "@/websiteComponent/common/Loader";
 
 function Home() {
   const [homeData, setHomeData] = useState<any>(null);
   const [loading, setLoading] = useState(true);
   const [showOfferModal, setShowOfferModal] = useState(false);
+const [imagesLoaded, setImagesLoaded] = useState(0);
+const [totalImages, setTotalImages] = useState(0);
 
 useEffect(() => {
   const seen = localStorage.getItem("home_offer_modal_seen");
@@ -46,7 +49,7 @@ const handleCloseOfferModal = () => {
   setShowOfferModal(false);
 };
 
-  if (loading) return <div className="py-20 text-center"></div>;
+  if (loading) return <div className="py-20 text-center"><Loader/></div>;
   return (
     <>
      {showOfferModal && (
