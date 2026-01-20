@@ -209,7 +209,7 @@ if (!landingData) {
               {landingData.location.city}, {landingData.location.country}
             </p>
             <div
-            className="font-quattro text-[#666666] text-base leading-relaxed mb-[15px]"
+            className="font-quattro text-[#666666] text-sm sm:text-base leading-relaxed mb-[15px]"
               dangerouslySetInnerHTML={{
                 __html: landingData.about?.description ?? "",
               }}
@@ -231,59 +231,83 @@ if (!landingData) {
           <div className="w-[44px] h-[44px] rounded-full bg-[#f6efec] flex items-center justify-center mb-[15px]">
             <FaClock className="w-[16px] h-[16px] text-black" />
           </div>
-          <h4 className="tracking-[0.2em] text-[22px] leading-[24px] uppercase mb-3">Hours</h4>
-          <p className="text-[#666666] text-lg font-quattro flex flex-wrap justify-center gap-1">
+          <h4 className="tracking-[0.2em] text-sm sm:text-[22px] leading-[24px] uppercase mb-3">Hours</h4>
+          <p className="text-[#666666] text-sm sm:text-lg font-quattro flex flex-wrap justify-center gap-1">
               {landingData.opening_hours.map((day: any) => (
-    <div key={day.id}>
-       {day.day.charAt(0).toUpperCase() + day.day.slice(1)} :{" "}
-      {day.is_closed
-        ? "Closed"
-        : `${day.start_time} - ${day.end_time}`}
-    </div>
-  ))}
+            <div key={day.id}>
+              {day.day.charAt(0).toUpperCase() + day.day.slice(1)} :{" "}
+              {day.is_closed
+                ? "Closed"
+                : `${day.start_time} - ${day.end_time}`}
+            </div>
+          ))}
           </p>
         </div>
 
-        {/* Location */}
        {/* Location */}
-{landingData?.location && (
-  <div className="flex flex-col items-center text-center px-6 border-y md:border-y-0 md:border-x border-gray-200 py-5 md:py-0 md:my-0 my-5">
-    <div className="w-[45px] h-[45px] rounded-full bg-[#f6efec] flex items-center justify-center mb-[15px]">
-      <IoLocationSharp  className="w-[18px] h-[18px] text-black" />
-    </div>
+        {landingData?.location && (
+          <div  className="
+  relative
+  flex flex-col items-center text-center px-6
+  py-5 md:py-0
+  my-5 md:my-0
 
-    <h4 className="tracking-[0.2em] text-[22px] leading-[24px] uppercase mb-3">
-      Location
-    </h4>
+  /* LEFT LINE */
+  md:before:content-['']
+  md:before:absolute
+  md:before:left-0
+  md:before:top-1/2
+  md:before:-translate-y-1/2
+  md:before:h-32
+  md:before:w-px
+  md:before:bg-gray-300
 
-    <p className="text-[#666666] text-lg font-quattro">
-      {landingData.location.address_line_1}
-      <br />
-      {landingData.location.address_line_2}
-      <br />
-      {landingData.location.postcode}
-    </p>
+  /* RIGHT LINE */
+  md:after:content-['']
+  md:after:absolute
+  md:after:right-0
+  md:after:top-1/2
+  md:after:-translate-y-1/2
+  md:after:h-32
+  md:after:w-px
+  md:after:bg-gray-300
+">
+            <div className="w-[42px] sm:w-[45px] h-[42px] sm:h-[45px] rounded-full bg-[#f6efec] flex items-center justify-center mb-[15px]">
+              <IoLocationSharp  className="w-[16px] h-[16px] text-black" />
+            </div>
 
-    <a
-      href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(
-        `${landingData.location.address_line_1}, ${landingData.location.address_line_2}, ${landingData.location.postcode}`
-      )}`}
-      target="_blank"
-      rel="noopener noreferrer"
-      className="mt-[10px] text-base font-normal tracking-widest underline hover:text-para"
-    >
-      Get Directions
-    </a>
-  </div>
-)}
+            <h4 className="tracking-[0.2em] text-sm sm:text-[22px] leading-[24px] uppercase mb-3">
+              Location
+            </h4>
+
+            <p className="text-[#666666] text-sm sm:text-lg font-quattro">
+              {landingData.location.address_line_1}
+              <br />
+              {landingData.location.address_line_2}
+              <br />
+              {landingData.location.postcode}
+            </p>
+
+            <a
+              href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(
+                `${landingData.location.address_line_1}, ${landingData.location.address_line_2}, ${landingData.location.postcode}`
+              )}`}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="mt-[10px] text-base font-normal tracking-widest underline hover:text-para"
+            >
+              Get Directions
+            </a>
+          </div>
+        )}
 
         {/* Contact */}
         <div className="flex flex-col items-center text-center px-6">
           <div className="w-[45px] h-[45px] rounded-full bg-[#f6efec] flex items-center justify-center mb-[15px]">
-            <BsFillTelephoneFill  className="w-[18px] h-[18px] text-black" />
+            <BsFillTelephoneFill  className="w-[16px] h-[16px] text-black" />
           </div>
-          <h4 className="tracking-[0.2em] text-[22px] leading-[24px] uppercase mb-3">Contact</h4>
-          <p className="text-[#666666] text-lg font-quattro">
+          <h4 className="tracking-[0.2em] text-sm sm:text-[22px] leading-[24px] uppercase mb-3">Contact</h4>
+          <p className="text-[#666666] text-sm sm:text-lg font-quattro">
             {landingData.location.phone} <br />
             {landingData.location.email}
           </p>
@@ -313,7 +337,7 @@ if (!landingData) {
         ))}
       </div>
     </section>
-    <div className="py-12 lg:pb-[110px]"/>
+    <div className="pb-12 lg:pb-[110px]"/>
     {/* --------- */}
      {landingData.promotion3 && (
   <SplitContentSection

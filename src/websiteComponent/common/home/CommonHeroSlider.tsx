@@ -66,7 +66,7 @@ const showNavigation = slides.length > 1;
                 <div className="container mx-auto text-white">
                   <div className="grid grid-cols-12 px-3 sm:px-6 lg:px-0">
                     <div className="col-span-12 lg:col-span-6 text-center md:text-left">
-                      <h1 className="text-3xl sm:text-[42px] leading-[52px] md:text-[65px] md:leading-[75px] font-normal mb-[25px] pr-10">
+                      <h1 className="text-3xl sm:text-[42px] leading-[52px] md:text-[65px] md:leading-[75px] font-normal mb-[25px] pr-5">
                         {slide.title.split("\n").map((line, idx) => (
                           <div key={idx}>{line}</div>
                         ))}
@@ -84,12 +84,12 @@ const showNavigation = slides.length > 1;
     }}
     className="
       border border-white
-      px-10 sm:px-[50px]
-      py-5 sm:py-[23px]
+      px-7 sm:px-[50px]
+      py-4 sm:py-[23px]
       uppercase tracking-[0.15em]
       text-xs
       hover:bg-white hover:text-black
-      transition-all duration-300
+      transition-all duration-300 font-muli
     "
   >
     {slide.buttonText}

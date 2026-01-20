@@ -70,38 +70,39 @@ useEffect(() => {
           backgroundImage: `url(${footerbanner})`,
         }}
       >
+         <div className="absolute inset-0 bg-[#282828]/40 md:bg-transparent"></div>
         {/* content */}
         <div className="relative z-10 max-w-3xl px-6">
           {/* arrow */}
           <a
             href={withBase("#")}
-            className="w-[53px] h-[53px] mx-auto rounded-full border border-[#000] flex items-center justify-center mb-[41px]"
+            className="w-[53px] h-[53px] mx-auto rounded-full border bg-white md:bg-transparent md:border-[#000] flex items-center justify-center mb-[41px]"
           >
             <ArrowRight className="" size={20} />
           </a>
 
           {/* heading */}
-          <h1 className="font-quattro text-[28px] md:text-[36px] lg:text-[40px] md:leading-[36px] lg:leading-[48px] tracking-wide mb-8">
+          <h1 className="font-quattro text-[28px] md:text-[36px] lg:text-[40px] md:leading-[36px] lg:leading-[48px] tracking-wide mb-8 text-white md:text-[#282828]">
             YOUR WELLNESS IN YOUR CONTROL
           </h1>
 
           {/* buttons */}
           <div className="flex gap-4 justify-center flex-wrap">
-            <button className="border border-[#000] bg-[#282828] text-white px-[37px] py-[23px] text-sm  font-bold tracking-widest uppercase transition">
+            <button className="border border-white md:border-[#282828] bg-white md:bg-[#282828] md:text-white px-[37px] py-[23px] text-sm  font-bold tracking-widest uppercase transition">
               Appointment
             </button>
 
             <button
-              className="flex items-center border border-black uppercase
+              className="flex items-center border border-white md:border-[#282828] uppercase
               tracking-widest text-xs hover:bg-transparent transition p-2"
             >
               {/* left icon box */}
-              <span className="flex items-center justify-center w-[50px] h-[50px] bg-[#000]">
-                <Headset size={20} className="text-white" />
+              <span className="flex items-center justify-center w-[50px] h-[50px] bg-white md:bg-[#282828]">
+                <Headset size={20} className="text-[#282828] md:text-white" />
               </span>
 
               {/* text */}
-              <span className="px-3 py-3 text-sm font-bold">Make a Call</span>
+              <span className="px-3 py-3 text-sm font-bold text-white md:text-[#282828] ">Make a Call</span>
             </button>
           </div>
         </div>
