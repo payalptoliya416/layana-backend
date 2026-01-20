@@ -128,7 +128,7 @@ useEffect(() => {
 
 
 const underlineClass =
-  "relative uppercase after:content-[''] after:absolute after:left-0 after:-bottom-1 after:h-[1px] after:w-0 after:bg-[#e6c9a2] after:transition-all after:duration-300 hover:after:w-full";
+  "relative uppercase after:content-[''] after:absolute after:left-0 after:-bottom-1 after:h-[1px] after:w-0 after:bg-white after:transition-all after:duration-300 hover:after:w-full";
 
   return (
     <header className="absolute top-0 left-0 w-full z-50">
@@ -287,7 +287,7 @@ const disableClick =
           onMouseLeave={() => setActiveDropdown(null)}
         >
           <button
-  className="flex items-center gap-2 text-sm tracking-widest hover:text-[#e6c9a2]
+  className="flex items-center gap-2 text-sm tracking-widest
              max-w-[160px] overflow-hidden"
 >
   <FaLocationDot size={18} className="shrink-0" />
@@ -320,7 +320,7 @@ const disableClick =
           onMouseEnter={() => setActiveDropdown("location")}
           onMouseLeave={() => setActiveDropdown(null)}
         >
-          <button className="flex items-center gap-2 text-xs tracking-widest hover:text-[#e6c9a2]">
+          <button className="flex items-center gap-2 text-xs tracking-widest hover:text-white">
             <FaLocationDot size={14} />
            {selectedLocation?.label ?? "Choose Location"}
           </button>

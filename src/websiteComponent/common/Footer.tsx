@@ -312,7 +312,7 @@ useEffect(() => {
           <div className="container mx-auto flex justify-center sm:justify-between items-center flex-wrap gap-5 py-6">
             <div className="text-center text-sm ">
               Copyright © {new Date().getFullYear()}{" "} <span className="text-[#f6eee9]">LAYANA</span>.
-              All Rights Reserved By ALEX
+              All Rights Reserved By Layana © 2015 - {new Date().getFullYear()}
             </div>
             <img src={copy_img} alt="" />
           </div>
