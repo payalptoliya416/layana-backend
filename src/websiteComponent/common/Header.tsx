@@ -224,7 +224,7 @@ const disableClick =
       return (
         <button
           type="button"
-          className="uppercase cursor-default"
+          className="uppercase cursor-default cursor-pointer"
         >
           {item.label}
         </button>
@@ -494,7 +494,7 @@ const DesktopLocations = ({
           key={loc.slug}
           to={`${baseUrl}/${loc.slug}`}
           onClick={() => onSelect(loc)}
-          className="block px-3 py-2 text-sm text-black hover:bg-[#f6efec]"
+          className="block px-3 py-2 text-sm text-black "
         >
           {loc.label}
         </Link>
@@ -604,7 +604,7 @@ const DesktopDropdown = ({
                     key={s.slug}
                     to={withBase(`/${loc.slug}/prices/${s.slug}`)}
                     onClick={() => onSelectLocation(loc)}
-                    className="block px-4 py-2 text-xs text-black hover:bg-[#f6efec]"
+                    className="block px-4 py-2 text-xs text-black "
                   >
                     {s.label}
                   </Link>
@@ -626,7 +626,7 @@ const DesktopDropdown = ({
             key={loc.slug}
             to={withBase(`/${loc.slug}${item.basePath}`)}
             onClick={() => onSelectLocation(loc)}
-            className="block px-3 py-1 text-sm text-black hover:bg-[#f6efec]"
+            className="block px-[15px] py-2 text-sm text-black "
           >
             {loc.label}
           </Link>
