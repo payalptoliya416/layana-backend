@@ -283,7 +283,7 @@ if (!landingData) {
 
             <p className="text-[#666666] text-sm sm:text-lg font-quattro">
               {landingData.location.address_line_1}
-              <br />
+             , {""}
               {landingData.location.address_line_2}
               <br />
               {landingData.location.postcode}
@@ -344,7 +344,7 @@ if (!landingData) {
     {/* --------- */}
      {landingData.promotion3 && (
   <SplitContentSection
-    tag={landingData.sub_title}
+    tag={landingData.promotion3.sub_title}
     title={landingData.promotion3.title}
     description={
       <div
