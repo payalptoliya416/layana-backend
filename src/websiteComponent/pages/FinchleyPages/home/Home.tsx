@@ -259,7 +259,7 @@ useEffect(() => {
               key={item.id}
               title={item.name}
               image={item.thumbnail_image}
-              link={`/finchley-central/${item.slug}`}
+                link={`/finchley-central/treatments/${item.slug}`}
               id={item.id}
                 heightClass={cardHeightClass} 
             />

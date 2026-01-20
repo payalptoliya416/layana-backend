@@ -18,6 +18,8 @@ import { useLocation } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { getTreatmentById } from "@/websiteComponent/api/treatments.api";
 import Loader from "@/websiteComponent/common/Loader";
+import { useBreadcrumb } from "./useBreadcrumb";
+import { Breadcrumb } from "./Breadcrumb";
 
 export const images = [img1, img2, img3, img4];
 
@@ -56,7 +58,7 @@ function OilMassage() {
       <SimpleHeroBanner
           background={data.visuals?.banners?.[0]}
          title={treatment.name}
-          subtitle={`Finchley Central / Treatments / ${treatment.category}`}
+        breadcrumb={<Breadcrumb />}
       />
       {/* ----- */}
       <section className="py-12 lg:py-[110px]">

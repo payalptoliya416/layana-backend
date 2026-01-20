@@ -4,13 +4,15 @@ type Props = {
   background: string;
   title: string;
   subtitle?: string;
-  height?: string; // default h-[350px]
+  breadcrumb?: React.ReactNode;
+  height?: string;
 };
 
 export default function SimpleHeroBanner({
   background,
   title,
   subtitle,
+  breadcrumb,
   height = "h-[400px]",
 }: Props) {
   return (
@@ -23,11 +25,11 @@ export default function SimpleHeroBanner({
           {title}
         </h1>
 
-        {subtitle && (
-          <p className="mt-[5px] text-2xl">
-            {subtitle}
-          </p>
-        )}
+        {subtitle ? (
+          <p className="mt-[5px] text-2xl">{subtitle}</p>
+        ) : breadcrumb ? (
+          breadcrumb
+        ) : null}
       </div>
     </section>
   );

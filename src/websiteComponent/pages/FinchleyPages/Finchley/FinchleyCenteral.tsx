@@ -330,7 +330,7 @@ if (!landingData) {
           <ServiceCard
             key={item.id}
             title={item.name}
-            link={`/finchley-central/${item.slug}`}
+             link={`/finchley-central/treatments/${item.slug}`} 
             image={item.thumbnail_image}
               heightClass={cardHeightClass} 
           />
