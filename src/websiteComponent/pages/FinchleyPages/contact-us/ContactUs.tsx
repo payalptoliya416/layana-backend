@@ -1,7 +1,7 @@
 
 import contact_us_bg from "@/assets/contact_us_bg.png";
 import contactus from "@/assets/contactus.png";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Clock, MapPin, Phone } from "lucide-react";
 import SimpleHeroBanner from "@/websiteComponent/common/home/SimpleHeroBanner";
 import SplitContentSection from "@/websiteComponent/common/home/SplitContentSection";
@@ -9,6 +9,7 @@ import { useLocation } from "react-router-dom";
 import PhoneInput from "react-phone-input-2";
 import { submitEnquiry } from "@/websiteComponent/api/enquiryService";
 import { toast } from "sonner";
+import { getLocations } from "@/websiteComponent/api/webLocationService";
 
 type FormErrors = {
   name?: string;
@@ -48,7 +49,10 @@ function ContactUs() {
   const data = locations[active];
   const { state } = useLocation();
   const [loading, setLoading] = useState(false);
-   const locationId = state?.locationId;
+  //  const locationId = state?.locationId;
+const [locationId, setLocationId] = useState<number | null>(
+  state?.locationId ?? null
+);
 
 const [errors, setErrors] = useState<FormErrors>({});
   const [formData, setFormData] = useState({
@@ -57,7 +61,20 @@ const [errors, setErrors] = useState<FormErrors>({});
     phone: "",
     message: "",
   });
+useEffect(() => {
+  // Jo already state mathi locationId aavi gayo hoy to kai karvani jarur nathi
+  if (locationId) return;
 
+  getLocations().then((res) => {
+    const finchley = res.data.find(
+      (item: any) => item.slug === "finchley-central"
+    );
+
+    if (finchley) {
+      setLocationId(finchley.id);
+    }
+  });
+}, []);
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
@@ -266,10 +283,10 @@ const handleSubmit = async (e: React.FormEvent) => {
         ]}
       />
       {/* ------ */}
-       <section className="pt-12 lg:pt-[110px]">
+       <section className="py-12 lg:py-[110px]">
       <div className="container mx-auto text-center">
         <div className="max-w-4xl mx-auto">
-        <h2 className="text-[28px] leading-[28px] mb-[25px]">Enquire</h2>
+        <h2 className="text-[28px] leading-[28px] mb-[25px] font-bold">Enquire</h2>
         <form className="space-y-[35px]" onSubmit={handleSubmit}>
           {/* Name */}
           <div className="text-left">
