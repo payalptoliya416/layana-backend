@@ -70,7 +70,7 @@ useEffect(() => {
           backgroundImage: `url(${footerbanner})`,
         }}
       >
-         <div className="absolute inset-0 bg-[#282828]/40 md:bg-transparent"></div>
+         <div className="absolute inset-0 bg-[#282828]/40 xl:bg-transparent"></div>
         {/* content */}
         <div className="relative z-10 max-w-3xl px-6">
           {/* arrow */}
@@ -79,7 +79,7 @@ useEffect(() => {
           className="
             group
             w-[53px] h-[53px] mx-auto rounded-full
-            border bg-white md:bg-transparent md:border-[#000]
+            border bg-white xl:bg-transparent xl:border-[#000]
             flex items-center justify-center
             mb-[41px]
             transition-all duration-300 ease-in-out
@@ -98,27 +98,27 @@ useEffect(() => {
           />
         </a>
           {/* heading */}
-          <h1 className="font-quattro text-[28px] md:text-[36px] lg:text-[40px] md:leading-[36px] lg:leading-[48px] tracking-wide mb-8 text-white md:text-[#282828]">
+          <h1 className="font-quattro text-[28px] md:text-[36px] lg:text-[40px] md:leading-[36px] lg:leading-[48px] tracking-wide mb-8 text-white xl:text-[#282828]">
             YOUR WELLNESS IN YOUR CONTROL
           </h1>
 
           {/* buttons */}
           <div className="flex gap-4 justify-center flex-wrap">
             <button className="
-              border border-white md:border-[#282828]
-              bg-white md:bg-[#282828]
-              text-[#282828] md:text-white
+              border border-white xl:border-[#282828]
+              bg-white xl:bg-[#282828]
+              text-[#282828] xl:text-white
               px-[37px] py-[23px]
               text-sm font-bold tracking-widest uppercase
               transition-all duration-300 ease-in-out
               hover:bg-transparent
-              hover:text-white md:hover:text-[#282828]
+              hover:text-white xlmd:hover:text-[#282828]
             ">
               Appointment
             </button>
 
             <button
-  className="group flex items-center border border-white md:border-[#282828] uppercase
+  className="group flex items-center border border-white xl:border-[#282828] uppercase
   tracking-widest text-xs p-2
   transition-all duration-300
   hover:bg-[#282828]"
@@ -126,13 +126,13 @@ useEffect(() => {
   {/* left icon box */}
   <span
     className="flex items-center justify-center w-[50px] h-[50px]
-    bg-white md:bg-[#282828]
+    bg-white xlmd:bg-[#282828]
     transition-colors duration-300
     group-hover:bg-white"
   >
     <Headset
       size={20}
-      className="text-[#282828] md:text-white
+      className="text-[#282828] xl:text-white
       transition-colors duration-300
       group-hover:text-[#282828]"
     />
@@ -141,7 +141,7 @@ useEffect(() => {
   {/* text */}
   <span
     className="px-3 py-3 text-sm font-bold
-    text-white md:text-[#282828]
+    text-white xl:text-[#282828]
     transition-colors duration-300
     group-hover:text-white"
   >

@@ -380,84 +380,114 @@ const disableClick =
 
     {/* Menu */}
     <div className="h-full flex flex-col px-4 space-y-6 tracking-widest text-sm">
-      {menu.map((item) => (
-        <div key={item.label}>
-          {item.external ? (
-            <a
-              href={item.href}
-              target="_blank"
-              className="block uppercase"
-               onClick={() => setOpen(false)}
-            >
-              {item.label}
-            </a>
-          ) : item.dropdownKey ? (
-            <button
-              onClick={() =>
-                setActiveDropdown(
-                  activeDropdown === item.dropdownKey
-                    ? null
-                    : item.dropdownKey
-                )
-              }
-              className="w-full flex justify-between items-center uppercase"
-            >
-              <span>{item.label}</span>
-              <ChevronDown size={14} />
-            </button>
-          ) : (
-            <>
-            {item.basePath && selectedLocation && (
-  <Link
-    to={withBase(`${selectedLocation.slug}/${item.basePath}`)}
-    onClick={() => setOpen(false)}
-    className="block uppercase"
-  >
-    {item.label}
-  </Link>
+     {menu.map((item) => {
+  const isPrice = item.dropdownKey === "prices";
+  const hasDropdown = !!item.dropdownKey;
+  const hasLocation = !!selectedLocation;
+
+  return (
+    <div key={item.label}>
+      {/* ================= EXTERNAL ================= */}
+      {item.external && (
+        <a
+          href={item.href}
+          target="_blank"
+          className="block uppercase"
+          onClick={() => setOpen(false)}
+        >
+          {item.label}
+        </a>
+      )}
+
+      {/* ================= PRICES (always dropdown) ================= */}
+     {isPrice && (
+  <>
+    <button
+      onClick={() =>
+        setActiveDropdown(
+          activeDropdown === "prices" ? null : "prices"
+        )
+      }
+      className="w-full flex justify-between items-center uppercase"
+    >
+      <span>{item.label}</span>
+      <ChevronDown size={14} />
+    </button>
+
+    {activeDropdown === "prices" && (
+      <MobilePrices
+        selectedLocation={selectedLocation}   // ✅ ADD
+        onClose={() => {
+          setOpen(false);
+          setActiveDropdown(null);
+        }}
+      />
+    )}
+  </>
 )}
-</>
+
+
+      {/* ================= DROPDOWN ITEMS ================= */}
+      {!isPrice && hasDropdown && !hasLocation && (
+        <>
+          <button
+            onClick={() =>
+              setActiveDropdown(
+                activeDropdown === item.dropdownKey
+                  ? null
+                  : item.dropdownKey
+              )
+            }
+            className="w-full flex justify-between items-center uppercase"
+          >
+            <span>{item.label}</span>
+            <ChevronDown size={14} />
+          </button>
+
+          {activeDropdown === item.dropdownKey && (
+            <MobileLocations
+              locations={locations}
+              selectedLocation={selectedLocation}
+              basePath={item.basePath!}
+              onSelectLocation={(loc) => setSelectedLocation(loc)}
+              onClose={() => {
+                setOpen(false);
+                setActiveDropdown(null);
+              }}
+            />
           )}
+        </>
+      )}
 
-          {/* Dropdowns */}
-          {item.dropdownKey === "treatments" &&
- !selectedLocation &&
- activeDropdown === "treatments" && (
-   <MobileLocations
-    selectedLocation={selectedLocation}
-     locations={locations}
-       onSelectLocation={(loc) => setSelectedLocation(loc)}
-     basePath="/treatments"
-     onClose={() => {
-       setOpen(false);
-       setActiveDropdown(null);
-     }}
-   />
- )}
+      {/* ================= DIRECT LINK (location selected) ================= */}
+      {!isPrice && item.basePath && hasLocation && (
+        <Link
+          to={withBase(`/${selectedLocation.slug}${item.basePath}`)}
+          onClick={() => setOpen(false)}
+          className="block uppercase"
+        >
+          {item.label}
+        </Link>
+      )}
 
-          {item.dropdownKey === "memberships" &&
-            activeDropdown === "memberships" && (
-              <MobileLocations   selectedLocation={selectedLocation}  onSelectLocation={(loc) => setSelectedLocation(loc)} locations={locations} basePath={withBase("/memberships")} onClose={() => {
-    setOpen(false);
-    setActiveDropdown(null);
-  }} />
-            )}
+      {/* ================= NORMAL LINK ================= */}
+      {!item.external && !hasDropdown && item.basePath && (
+        <Link
+          to={withBase(
+            hasLocation
+              ? `/${selectedLocation.slug}${item.basePath}`
+              : item.basePath
+          )}
+          onClick={() => setOpen(false)}
+          className="block uppercase"
+        >
+          {item.label}
+        </Link>
+      )}
+    </div>
+  );
+})}
 
-          {item.dropdownKey === "spa" &&
-            activeDropdown === "spa" && (
-              <MobileLocations  selectedLocation={selectedLocation}  onSelectLocation={(loc) => setSelectedLocation(loc)} locations={locations} basePath={withBase("/spa-packages")} onClose={() => {
-    setOpen(false);
-    setActiveDropdown(null);
-  }} />
-            )}
-
-          {item.dropdownKey === "prices" &&
-            activeDropdown === "prices" && <MobilePrices onClose={() => {
-    setOpen(false);
-    setActiveDropdown(null);
-  }} />}
-        </div>
-      ))}
     </div>
   </div>
 </div>
@@ -537,29 +567,51 @@ const MobileLocations = ({
 );
 
 
-const MobilePrices = ({ onClose }: { onClose: () => void }) => (
-  <div className="ml-4 mt-2 space-y-3">
-    {pricesData.map((block) => (
-      <div key={block.location}>
-        <div className="text-sm font-semibold">{block.location}</div>
-        {block.services.map((s) => (
-          <Link
-            key={s.slug}
-            to={withBase(
-              `/prices/${block.location.toLowerCase().replace(/ /g, "-")}/${
-                s.slug
-              }`
-            )}
-             onClick={onClose}
-            className="block text-sm ml-3 py-2"
-          >
-            {s.label}
-          </Link>
-        ))}
-      </div>
-    ))}
-  </div>
-);
+const MobilePrices = ({
+  selectedLocation,
+  onClose,
+}: {
+  selectedLocation: UILocation | null;
+  onClose: () => void;
+}) => {
+  const blocksToShow = selectedLocation
+    ? pricesData.filter(
+        (p) =>
+          p.location.toLowerCase() ===
+          selectedLocation.label.toLowerCase()
+      )
+    : pricesData;
+
+  return (
+    <div className="ml-4 mt-2 space-y-3">
+      {blocksToShow.map((block) => (
+        <div key={block.location}>
+          <div className="text-sm font-semibold">
+            {block.location}
+          </div>
+
+          {block.services.map((s) => (
+            <Link
+              key={s.slug}
+              to={withBase(
+                selectedLocation
+                  ? `/${selectedLocation.slug}/prices/${s.slug}`
+                  : `/prices/${block.location
+                      .toLowerCase()
+                      .replace(/ /g, "-")}/${s.slug}`
+              )}
+              onClick={onClose}
+              className="block text-sm ml-3 py-2"
+            >
+              {s.label}
+            </Link>
+          ))}
+        </div>
+      ))}
+    </div>
+  );
+};
+
 
 const DesktopDropdown = ({
   item,
