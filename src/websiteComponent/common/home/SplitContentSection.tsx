@@ -46,7 +46,7 @@ const SplitContentSection: React.FC<SplitContentSectionProps> = ({
               {tag}
             </p>
 
-            <h2 className="font-mulish text-2xl md:text-[36px] sm:leading-[55px] mb-[25px]">
+            <h2 className="font-muli text-2xl md:text-[36px] sm:leading-[55px] mb-[25px]">
               {title}
             </h2>
 
