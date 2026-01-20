@@ -205,7 +205,7 @@ if (!landingData) {
              {landingData.location.name}
             </h2>
 
-            <p className="font-muli uppercase text-sm tracking-widest mb-5">
+            <p className="font-muli uppercase text-base tracking-widest mb-5">
               {landingData.location.city}, {landingData.location.country}
             </p>
 
@@ -216,7 +216,7 @@ if (!landingData) {
               }}
             />
 
-            <a href={landingData.about?.btn_link} className="font-mulish underline cursor-pointer border-black tracking-widest hover:text-[#666666] text-base transition">
+            <a href={landingData.about?.btn_link} className="underline cursor-pointer border-black tracking-widest hover:text-[#666666] text-base transition">
                {landingData.about?.btn_text}
             </a>
           </div>
@@ -232,7 +232,7 @@ if (!landingData) {
           <div className="w-[44px] h-[44px] rounded-full bg-[#f6efec] flex items-center justify-center mb-[15px]">
             <FaClock className="w-[16px] h-[16px] text-black" />
           </div>
-          <h4 className="tracking-[0.2em] text-sm sm:text-[22px] leading-[24px] uppercase mb-3">Hours</h4>
+          <h4 className="tracking-[2px] text-sm sm:text-[22px] leading-[24px] mb-4">Hours</h4>
           <p className="text-[#666666] text-sm sm:text-lg font-quattro flex flex-wrap justify-center gap-1">
               {landingData.opening_hours.map((day: any) => (
             <div key={day.id}>
@@ -274,10 +274,10 @@ if (!landingData) {
   md:after:bg-gray-300
 ">
             <div className="w-[42px] sm:w-[45px] h-[42px] sm:h-[45px] rounded-full bg-[#f6efec] flex items-center justify-center mb-[15px]">
-              <IoLocationSharp  className="w-[16px] h-[16px] text-black" />
+              <IoLocationSharp  className="w-[18px] h-[18px] text-black" />
             </div>
 
-            <h4 className="tracking-[0.2em] text-sm sm:text-[22px] leading-[24px] uppercase mb-3">
+            <h4 className="tracking-[2px] text-sm sm:text-[22px] leading-[24px] mb-4">
               Location
             </h4>
 
@@ -295,7 +295,7 @@ if (!landingData) {
               )}`}
               target="_blank"
               rel="noopener noreferrer"
-              className="mt-[10px] text-base font-normal tracking-widest underline hover:text-para"
+              className="mt-[10px] text-base font-semibold tracking-[2px] underline hover:text-para font-mulish"
             >
               Get Directions
             </a>
@@ -307,7 +307,7 @@ if (!landingData) {
           <div className="w-[45px] h-[45px] rounded-full bg-[#f6efec] flex items-center justify-center mb-[15px]">
             <BsFillTelephoneFill  className="w-[16px] h-[16px] text-black" />
           </div>
-          <h4 className="tracking-[0.2em] text-sm sm:text-[22px] leading-[24px] uppercase mb-3">Contact</h4>
+          <h4 className="tracking-[2px] text-sm sm:text-[22px] leading-[24px] mb-4">Contact</h4>
           <p className="text-[#666666] text-sm sm:text-lg font-quattro">
             {landingData.location.phone} <br />
             {landingData.location.email}
