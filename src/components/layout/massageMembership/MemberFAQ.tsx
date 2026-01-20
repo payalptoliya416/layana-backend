@@ -104,9 +104,9 @@
       </div>
           {isOpen && faq.answer && (
             <div className="flex gap-2 text-sm text-muted-foreground  border-t  px-4 py-4">
-              <span className="font-semibold text-foreground">
+              {/* <span className="font-semibold text-foreground">
                 Ans.
-              </span>
+              </span> */}
               {faq.answer}
             </div>
           )}

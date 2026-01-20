@@ -155,7 +155,7 @@ function SortableFAQ({
   </div>
       {faq.answer && isOpen && (
         <div className="flex gap-2 text-sm text-muted-foreground border-t px-4 py-4">
-          <span className="font-semibold text-foreground">Ans.</span>
+          {/* <span className="font-semibold text-foreground">Ans.</span> */}
           {faq.answer}
         </div>
       )}
