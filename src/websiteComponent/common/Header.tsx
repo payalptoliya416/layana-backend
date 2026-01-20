@@ -551,7 +551,7 @@ const MobilePrices = ({ onClose }: { onClose: () => void }) => (
               }`
             )}
              onClick={onClose}
-            className="block text-smml-3 py-1"
+            className="block text-sm ml-3 py-1"
           >
             {s.label}
           </Link>
