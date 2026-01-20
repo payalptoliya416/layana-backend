@@ -471,18 +471,18 @@ const disableClick =
       )}
 
       {/* ================= NORMAL LINK ================= */}
-      {!item.external && !hasDropdown && item.basePath && (
-        <Link
-          to={withBase(
-            hasLocation
-              ? `/${selectedLocation.slug}${item.basePath}`
-              : item.basePath
-          )}
-          onClick={() => setOpen(false)}
-          className="block uppercase"
-        >
-          {item.label}
-        </Link>
+{!item.external && !hasDropdown && item.basePath && (
+         <Link
+    to={withBase(
+      selectedLocation
+        ? `/${selectedLocation.slug}${item.basePath}`
+        : item.basePath
+    )}
+    onClick={() => setOpen(false)}
+    className="block uppercase"
+  >
+    {item.label}
+  </Link>
       )}
     </div>
   );
