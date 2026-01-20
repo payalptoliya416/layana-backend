@@ -23,7 +23,7 @@ export default function ServiceCard({
   link,
   id = 0,
   index,
-  heightClass = "h-[482px]",
+  heightClass = "h-[420px] md:h-[482px]",
 }: Props) {
   const bgColor = CARD_COLORS[index % CARD_COLORS.length];
   return (
