@@ -191,7 +191,7 @@ if (!landingData) {
   }))}
 />
       <section className="w-full bg-white py-12 lg:py-[110px]">
-        <div className="container mx-auto px-6 grid grid-cols-1 lg:grid-cols-2 gap-14 items-center">
+        <div className="container mx-auto px-6 grid grid-cols-1 lg:grid-cols-2 gap-14 items-start">
           <div className="w-full">
             <img
               src={landingData?.about?.image}
