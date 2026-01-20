@@ -327,13 +327,14 @@ if (!landingData) {
 {/* -------- */}
   <section className="w-full">
       <div  className={`grid grid-cols-1 sm:grid-cols-2 ${gridClass}`}>
-         {landingData.treatments.map((item: any,index) => (
+         {landingData.treatments.map((item: any, index) => (
           <ServiceCard
             key={item.id}
             index={index}
             title={item.name}
-             link={`/finchley-central/treatments/${item.slug}`} 
+           link={`/finchley-central/treatments/${item.slug}`}
             image={item.thumbnail_image}
+            id={item.id}
               heightClass={cardHeightClass} 
           />
         ))}
