@@ -33,7 +33,7 @@ const SplitContentSection: React.FC<SplitContentSectionProps> = ({
       <div
         className={`absolute inset-y-0 ${
           reverse ? "right-0" : "left-0"
-        } w-full lg:w-[55%] `}
+        } w-full lg:w-[59%] `}
          style={{ backgroundColor: bgColor || "#f6eee9" }}
       />
 

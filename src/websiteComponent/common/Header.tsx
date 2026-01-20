@@ -139,7 +139,7 @@ const underlineClass =
         </Link>
 
         {/* Desktop Nav */}
-        <nav className="hidden lg:flex items-center gap-[20px] text-xs xl:text-sm tracking-widest font-muli mx-10">
+        <nav className="hidden lg:flex items-center gap-4 xl:gap-[20px] text-[11px] xl:text-sm tracking-widest font-muli mx-8 xl:mx-10">
      {menu.map((item) => {
   const hasLocation = !!selectedLocation;
 
@@ -293,7 +293,7 @@ const disableClick =
   <FaLocationDot size={18} className="shrink-0" />
 
   <span
-    className="block truncate whitespace-nowrap overflow-hidden font-quattro"
+    className="block truncate whitespace-nowrap overflow-hidden font-quattro text-xs xl:text-sm"
     title={selectedLocation?.label ?? "Choose Location"}
   >
   {selectedLocation?.label ?? "Choose Location"}
