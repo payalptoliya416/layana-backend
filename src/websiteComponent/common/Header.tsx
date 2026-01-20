@@ -488,13 +488,13 @@ const DesktopLocations = ({
   onSelect: (loc: UILocation) => void;
 }) => (
   <div className="absolute left-0 top-full pt-2">
-    <div className="w-[130px] sm:w-[160px] bg-white rounded-b-md overflow-hidden">
+    <div className="w-[130px] sm:w-[160px] bg-white rounded-b-md overflow-hidden pt-[10px]">
       {getAvailableLocations(locations, selectedLocation).map((loc) => (
         <Link
           key={loc.slug}
           to={`${baseUrl}/${loc.slug}`}
           onClick={() => onSelect(loc)}
-          className="block px-3 py-2 text-sm text-black"
+          className="block px-3 mb-[10px] text-sm text-black"
         >
           {loc.label}
         </Link>
@@ -551,7 +551,7 @@ const MobilePrices = ({ onClose }: { onClose: () => void }) => (
               }`
             )}
              onClick={onClose}
-            className="block text-sm ml-3 py-1"
+            className="block text-sm ml-3 py-2"
           >
             {s.label}
           </Link>
@@ -583,8 +583,8 @@ const DesktopDropdown = ({
       : pricesData;
 
     return (
-      <div className="absolute left-0 top-full pt-2">
-        <div className="w-[165px] bg-white rounded-b-md overflow-hidden">
+      <div className="absolute left-0 top-full ">
+        <div className="w-[165px] bg-white rounded-b-md overflow-hidden pt-[10px]">
           {blocksToShow.map((block) => {
             const loc = locations.find(
               (l) =>
@@ -595,8 +595,8 @@ const DesktopDropdown = ({
             if (!loc) return null;
 
             return (
-              <div key={block.location}>
-                <div className="px-3 py-2 text-sm text-black">
+              <div key={block.location} >
+                <div className="px-3 mb-[10px] text-sm text-black">
                   {block.location}
                 </div>
                 {block.services.map((s) => (
@@ -604,7 +604,7 @@ const DesktopDropdown = ({
                     key={s.slug}
                     to={withBase(`/${loc.slug}/prices/${s.slug}`)}
                     onClick={() => onSelectLocation(loc)}
-                    className="block pl-4 py-1 text-[12px] text-black"
+                    className="block pl-4 mb-[10px] text-[12px] text-black"
                   >
                     {s.label}
                   </Link>
@@ -620,13 +620,13 @@ const DesktopDropdown = ({
   // ================= OTHER DROPDOWNS =================
   return (
     <div className="absolute left-0 top-full pt-2 w-[160px]">
-      <div className="bg-white rounded-b-md overflow-hidden pt-1">
+      <div className="bg-white rounded-b-md overflow-hidden pt-[10px]">
         {locations.map((loc) => (
           <Link
             key={loc.slug}
             to={withBase(`/${loc.slug}${item.basePath}`)}
             onClick={() => onSelectLocation(loc)}
-            className="block px-3 py-2 text-xs text-black "
+            className="block px-3 mb-[10px] text-xs text-black "
           >
             {loc.label}
           </Link>
