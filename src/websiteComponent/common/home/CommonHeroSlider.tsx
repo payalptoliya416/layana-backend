@@ -109,7 +109,7 @@ const showNavigation = slides.length > 1;
       <button
         type="button"
         onClick={handlePrev}
-        className="hero-prev group absolute left-6 top-1/2 -translate-y-1/2 z-20 cursor-pointer flex items-center gap-4 bg-transparent border-none p-0"
+        className="hero-prev group absolute left-4 xl:left-6 top-1/2 -translate-y-1/2 z-20 cursor-pointer flex items-center gap-4 bg-transparent border-none p-0"
         aria-label="Previous slide"
       >
         <div className="flex items-center justify-center">
@@ -125,7 +125,7 @@ const showNavigation = slides.length > 1;
       <button
         type="button"
         onClick={handleNext}
-        className="hero-next group absolute right-6 top-1/2 -translate-y-1/2 z-20 cursor-pointer flex items-center gap-4 bg-transparent border-none p-0"
+        className="hero-next group absolute right-4 xl:right-6 top-1/2 -translate-y-1/2 z-20 cursor-pointer flex items-center gap-4 bg-transparent border-none p-0"
         aria-label="Next slide"
       >
         <span className="opacity-0 group-hover:opacity-100 text-white text-sm tracking-widest -mr-5 sm:-mr-10 group-hover:-mr-5 transition-all duration-500 hidden xl:block">
