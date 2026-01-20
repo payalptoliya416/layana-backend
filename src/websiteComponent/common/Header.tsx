@@ -620,13 +620,13 @@ const DesktopDropdown = ({
   // ================= OTHER DROPDOWNS =================
   return (
     <div className="absolute left-0 top-full pt-2 w-[160px]">
-      <div className="bg-white rounded-b-md overflow-hidden pb-1">
+      <div className="bg-white rounded-b-md overflow-hidden pt-1">
         {locations.map((loc) => (
           <Link
             key={loc.slug}
             to={withBase(`/${loc.slug}${item.basePath}`)}
             onClick={() => onSelectLocation(loc)}
-            className="block px-3 py-1 text-sm text-black "
+            className="block px-3 py-2 text-xs text-black "
           >
             {loc.label}
           </Link>
