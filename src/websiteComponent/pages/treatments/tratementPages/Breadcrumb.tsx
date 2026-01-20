@@ -9,17 +9,14 @@ export function Breadcrumb() {
 
   return (
     <div className="mt-[5px] text-xl text-white/90 flex items-center justify-center gap-2 flex-wrap">
-      <Link
-        to={`/${locationSlug}`}
-        className="hover:underline"
-      >
+      <Link to={withBase(`/${locationSlug}`)} className="hover:underline">
         {slugToTitle(locationSlug)}
       </Link>
 
       <span>/</span>
 
       <Link
-        to={withBase(`${locationSlug}/treatments`)}
+        to={withBase(`/${locationSlug}/treatments`)}
         className="hover:underline"
       >
         Treatments
@@ -28,9 +25,7 @@ export function Breadcrumb() {
       {treatmentSlug && (
         <>
           <span>/</span>
-          <span className="opacity-90">
-            {slugToTitle(treatmentSlug)}
-          </span>
+          <span className="opacity-90">{slugToTitle(treatmentSlug)}</span>
         </>
       )}
     </div>

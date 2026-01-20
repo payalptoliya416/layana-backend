@@ -170,8 +170,7 @@ useEffect(() => {
           <div className="grid grid-cols-12 lg:gap-[24px]">
             <div className="col-span-12 lg:col-span-6 mb-5 lg:mb-0">
               <p className="text-[25px] leading-[36px] text-justify">
-                A team of professional hairstylists with more than fifteen years
-                of experience in fashioning memorable and creative looks
+               A team of skilled wellness, beauty and aesthetic experts with over a decade of expertise in delivering the treatments.
               </p>
             </div>
             <div className="col-span-12 lg:col-span-6">
