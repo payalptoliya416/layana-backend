@@ -223,7 +223,7 @@ useEffect(() => {
         tag={homeData.promo_1.sub_title}
         title={homeData.promo_1.title}
         description={
-          <div
+          <div className="leading-[27px] text-base"
             dangerouslySetInnerHTML={{ __html: homeData.promo_1.description }}
           />
         }
