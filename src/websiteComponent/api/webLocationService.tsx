@@ -7,6 +7,7 @@ export interface Locationweb {
   slug: string;
   address_line_1: string;
   address_line_2: string;
+  free_text: string;
   city: string;
   state: string;
   country: string;

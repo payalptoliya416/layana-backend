@@ -185,7 +185,7 @@ useEffect(() => {
       {/* ---- */}
       <section className="py-12 lg:py-[110px]">
         <div className="container mx-auto">
-         <div className="grid grid-cols-12 md:gap-[50px] items-stretch">
+         <div className="grid grid-cols-12 md:gap-[24px] items-stretch">
             {locations?.map((loc, index) => (
             <div   key={loc.id} className="col-span-12 md:col-span-4 mb-[50px] md:mb-0">
              <div className="h-full">
@@ -202,7 +202,7 @@ useEffect(() => {
                   {loc.name}
                 </h3>
                   <h2 className="font-muli text-base leading-[16px] font-normal text-[#282828] text-right">
-                     {loc.city}
+                     {loc.free_text}
                   </h2>
                 </div>
                 <Link
