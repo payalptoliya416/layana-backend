@@ -626,7 +626,7 @@ const DesktopDropdown = ({
             key={loc.slug}
             to={withBase(`/${loc.slug}${item.basePath}`)}
             onClick={() => onSelectLocation(loc)}
-            className="block px-3 py-2 text-sm text-black hover:bg-[#f6efec]"
+            className="block px-3 py-1 text-sm text-black hover:bg-[#f6efec]"
           >
             {loc.label}
           </Link>
