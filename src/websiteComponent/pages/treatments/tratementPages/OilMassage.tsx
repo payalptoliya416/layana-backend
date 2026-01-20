@@ -63,7 +63,7 @@ function OilMassage() {
       {/* ----- */}
       <section className="py-12 lg:py-[110px]">
         <div className="container mx-auto !px-0 lg:px-4">
-          <div className="grid grid-cols-12 lg:gap-[50px]">
+          <div className="grid grid-cols-12 lg:gap-[24px]">
             <div className="col-span-12 lg:col-span-6 mb-6 lg:mb-0">
                <MassageGallery images={images} />
             </div>

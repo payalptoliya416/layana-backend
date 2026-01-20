@@ -25,7 +25,7 @@ function BeautyNail() {
       {/* ------- */}
       <section className="pt-12 lg:pt-[110px]">
         <div className="container mx-auto !px-0 lg:px-4">
-          <div className="grid grid-cols-12 lg:gap-[50px]">
+          <div className="grid grid-cols-12 lg:gap-[24px]">
             <div className="col-span-12 lg:col-span-8 mb-6 lg:mb-0">
               <MassageGallery images={images} />
               <div className="mt-[30px] px-4 lg:px-0">

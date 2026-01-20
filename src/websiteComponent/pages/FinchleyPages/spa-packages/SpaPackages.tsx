@@ -18,7 +18,7 @@ function SpaPackages() {
       {/* ----- */}
       <section className="py-12 lg:py-[110px]">
         <div className="container mx-auto">
-          <div className="grid grid-cols-12 lg:gap-[50px]">
+          <div className="grid grid-cols-12 lg:gap-[24px]">
             <div className="col-span-12 lg:col-span-6 mb-5 lg:mb-0">
               <img src={spa} alt="spa-package" />
             </div>
