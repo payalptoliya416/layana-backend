@@ -135,7 +135,7 @@ const underlineClass =
       <div className="container mx-auto pt-[25px] pb-[22px] flex items-center justify-between text-white">
         {/* Logo */}
         <Link to={withBase("/")}>
-          <img src={white_logo} alt="Layana" className="w-[126px]" />
+          <img src={white_logo} alt="Layana" className="w-[100px] sm:w-[126px]" />
         </Link>
 
         {/* Desktop Nav */}
