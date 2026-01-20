@@ -494,7 +494,7 @@ const DesktopLocations = ({
           key={loc.slug}
           to={`${baseUrl}/${loc.slug}`}
           onClick={() => onSelect(loc)}
-          className="block px-3 mb-[10px] text-sm text-black"
+          className="block px-3 mb-[10px] text-[12px] text-black tracking-[2px]"
         >
           {loc.label}
         </Link>
