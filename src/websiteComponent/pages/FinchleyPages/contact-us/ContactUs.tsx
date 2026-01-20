@@ -62,7 +62,6 @@ const [errors, setErrors] = useState<FormErrors>({});
     message: "",
   });
 useEffect(() => {
-  // Jo already state mathi locationId aavi gayo hoy to kai karvani jarur nathi
   if (locationId) return;
 
   getLocations().then((res) => {
