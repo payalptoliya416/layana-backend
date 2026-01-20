@@ -293,7 +293,7 @@ const disableClick =
   <FaLocationDot size={18} className="shrink-0" />
 
   <span
-    className="block truncate whitespace-nowrap overflow-hidden"
+    className="block truncate whitespace-nowrap overflow-hidden font-quattro"
     title={selectedLocation?.label ?? "Choose Location"}
   >
   {selectedLocation?.label ?? "Choose Location"}
