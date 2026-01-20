@@ -13,7 +13,7 @@ const PageBanner: React.FC<PageBannerProps> = ({
 }) => {
   return (
     <section
-      className="relative w-full py-[150px] bg-center bg-cover flex items-center justify-center"
+      className="relative w-full py-[84px] md:py-[150px] bg-center bg-cover flex items-center justify-center"
       style={{ backgroundImage: `url(${backgroundImage})` }}
     >
       <div className="container mx-auto text-center px-4">
