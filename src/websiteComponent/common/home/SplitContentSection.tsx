@@ -33,7 +33,7 @@ const SplitContentSection: React.FC<SplitContentSectionProps> = ({
       <div
         className={`absolute inset-y-0 ${
           reverse ? "right-0" : "left-0"
-        } w-full lg:w-[58%] `}
+        } w-full lg:w-[57%] `}
          style={{ backgroundColor: bgColor || "#f6eee9" }}
       />
 
@@ -46,7 +46,7 @@ const SplitContentSection: React.FC<SplitContentSectionProps> = ({
               {tag}
             </p>
 
-            <h2 className="font-mulish text-2xl md:text-[36px] sm:leading-[55px] mb-[25px] font-semibold">
+            <h2 className="font-mulish text-2xl md:text-[36px] sm:leading-[55px] mb-[25px]">
               {title}
             </h2>
 
@@ -85,7 +85,7 @@ const SplitContentSection: React.FC<SplitContentSectionProps> = ({
 
           {/* IMAGE */}
           <div className={`lg:col-span-6 relative z-10 mx-auto ${reverse ? "lg:order-first" : ""}`}>
-            <img src={image} alt={title} className="!max-w-none  lg:-ml-[18px] " />
+            <img src={image} alt={title} className="!max-w-none lg:-ml-10 " />
           </div>
 
         </div>
