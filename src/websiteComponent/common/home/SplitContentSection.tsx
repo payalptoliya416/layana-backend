@@ -85,7 +85,7 @@ const SplitContentSection: React.FC<SplitContentSectionProps> = ({
 
           {/* IMAGE */}
           <div className={`lg:col-span-6 relative z-10 ${reverse ? "lg:order-first" : ""}`}>
-            <img src={image} alt={title} className="w-full h-auto object-cover" />
+            <img src={image} alt={title} className="!max-w-none" />
           </div>
 
         </div>

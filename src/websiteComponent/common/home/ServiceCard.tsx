@@ -22,9 +22,11 @@ export default function ServiceCard({ title, image, link,id , heightClass = "h-[
         <h3 className="font-mulish text-2xl lg:text-[28px] lg:leading-[28px] mb-5 font-normal">
           {title}
         </h3>
-        <CommonButton  to={withBase(link)} state={{ treatmentId: id }} className="px-10 py-3 text-[10px]">
+        <div>
+          <CommonButton  to={withBase(link)} state={{ treatmentId: id }} className="px-10 py-3 text-[10px] !-w-auto">
           Read More
         </CommonButton>
+        </div>
       </div>
     </div>
   );

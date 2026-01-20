@@ -19,9 +19,10 @@ export default function CommonButton({
   state
   
 }: Props) {
+  //  md:w-[260px]
   const baseClass = `
-    border border-black px-2
-    md:w-[260px] h-[50px] md:h-[70px]
+    border border-black px-[50px] py-[23px]
+    h-[50px] md:h-[70px]
     flex items-center justify-center
     font-mulish text-[12px]
     tracking-[0.25em] uppercase
