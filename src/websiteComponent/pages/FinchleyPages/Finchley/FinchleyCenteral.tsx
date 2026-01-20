@@ -208,6 +208,7 @@ if (!landingData) {
             <p className="font-muli uppercase text-sm tracking-widest mb-5">
               {landingData.location.city}, {landingData.location.country}
             </p>
+            
             <div
             className="font-quattro text-[#666666] text-sm sm:text-base leading-relaxed mb-[15px]"
               dangerouslySetInnerHTML={{

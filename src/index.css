@@ -744,39 +744,19 @@ input[type="time"]::-webkit-datetime-edit-ampm-field {
 /* 400 - Regular */
 @font-face {
   font-family: "Muli";
-  src: url("/fonts/muli-regular.woff2") format("woff2");
+  src: url("/fonts/Muli.ttf") format("truetype");
   font-weight: 400;
   font-style: normal;
   font-display: swap;
 }
 
-/* 500 */
 @font-face {
   font-family: "Muli";
-  src: url("/fonts/muli-500.woff2") format("woff2");
-  font-weight: 500;
-  font-style: normal;
-  font-display: swap;
-}
-
-/* 600 */
-@font-face {
-  font-family: "Muli";
-  src: url("/fonts/muli-600.woff2") format("woff2");
-  font-weight: 600;
-  font-style: normal;
-  font-display: swap;
-}
-
-/* 700 */
-@font-face {
-  font-family: "Muli";
-  src: url("/fonts/muli-700.woff2") format("woff2");
+  src: url("/fonts/Muli-Bold.ttf") format("truetype");
   font-weight: 700;
   font-style: normal;
   font-display: swap;
 }
-
 
 .container {
   width: 100%;
