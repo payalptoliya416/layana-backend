@@ -22,6 +22,9 @@ import { getLandingPageByLocation, getLocations } from "@/websiteComponent/api/w
 import Loader from "@/websiteComponent/common/Loader";
 import banner_home from '@/assets/banner_home.jpg';
 import { Helmet } from "react-helmet-async";
+import { FaClock } from "react-icons/fa6";
+import { IoLocationSharp } from "react-icons/io5";
+import { BsFillTelephoneFill } from "react-icons/bs";
 
 const homeSlides = [
   {
@@ -226,7 +229,7 @@ if (!landingData) {
         {/* Hours */}
         <div className="flex flex-col items-center text-center px-6">
           <div className="w-[44px] h-[44px] rounded-full bg-[#f6efec] flex items-center justify-center mb-[15px]">
-            <Clock className="w-[18px] h-[18px] text-black" />
+            <FaClock className="w-[16px] h-[16px] text-black" />
           </div>
           <h4 className="tracking-[0.2em] text-[22px] leading-[24px] uppercase mb-3">Hours</h4>
           <p className="text-[#666666] text-lg font-quattro flex flex-wrap justify-center gap-1">
@@ -246,7 +249,7 @@ if (!landingData) {
 {landingData?.location && (
   <div className="flex flex-col items-center text-center px-6 border-y md:border-y-0 md:border-x border-gray-200 py-5 md:py-0 md:my-0 my-5">
     <div className="w-[45px] h-[45px] rounded-full bg-[#f6efec] flex items-center justify-center mb-[15px]">
-      <MapPin className="w-[18px] h-[18px] text-black" />
+      <IoLocationSharp  className="w-[18px] h-[18px] text-black" />
     </div>
 
     <h4 className="tracking-[0.2em] text-[22px] leading-[24px] uppercase mb-3">
@@ -277,7 +280,7 @@ if (!landingData) {
         {/* Contact */}
         <div className="flex flex-col items-center text-center px-6">
           <div className="w-[45px] h-[45px] rounded-full bg-[#f6efec] flex items-center justify-center mb-[15px]">
-            <Phone className="w-[18px] h-[18px] text-black" />
+            <BsFillTelephoneFill  className="w-[18px] h-[18px] text-black" />
           </div>
           <h4 className="tracking-[0.2em] text-[22px] leading-[24px] uppercase mb-3">Contact</h4>
           <p className="text-[#666666] text-lg font-quattro">
