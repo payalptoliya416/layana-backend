@@ -464,7 +464,10 @@ const disableClick =
       )}
 
       {/* ================= DIRECT LINK (location selected) ================= */}
-      {!isPrice && item.basePath && hasLocation && (
+      {!isPrice &&
+  item.basePath &&
+  hasLocation &&
+  item.basePath !== "/contact-us" && ( 
         <Link
           // to={withBase(`/${selectedLocation.slug}${item.basePath}`)}
           to={withBase("/")}
