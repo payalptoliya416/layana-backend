@@ -41,7 +41,7 @@ const SplitContentSection: React.FC<SplitContentSectionProps> = ({
         <div className="grid grid-cols-1 lg:grid-cols-12 items-center gap-12">
           
           {/* TEXT */}
-          <div className="lg:col-span-6 relative z-10 text-center px-20 lg:pr-[84px]">
+          <div className="lg:col-span-6 relative z-10 text-center px-10 lg:pr-[84px]">
             <p className="font-muli text-xs tracking-[0.2em] uppercase mb-3 font-muli">
               {tag}
             </p>
