@@ -169,12 +169,12 @@ useEffect(() => {
         <div className="container mx-auto">
           <div className="grid grid-cols-12 lg:gap-[24px]">
             <div className="col-span-12 lg:col-span-6 mb-5 lg:mb-0">
-              <p className="text-[25px] leading-[36px] font-light text-justify font-muli">
+              <p className="text-lg sm:text-[25px] sm:leading-[36px] font-light text-justify font-muli">
                A team of skilled wellness, beauty and aesthetic experts with over a decade of expertise in delivering the treatments.
               </p>
             </div>
             <div className="col-span-12 lg:col-span-6">
-              <p className="text-base leading-[26px] font-normal text-justify font-quattro text-[#666666]">
+              <p className="text-sm sm:text-base sm:leading-[26px] font-normal text-justify font-quattro text-[#666666]">
                At Layana by Thai Manee, we are here to reveal the luxurious self-care of pampering and revival. If you're seeking a retreat that harmoniously combines non-surgical proficiency and spa luxury, then look no further. Immerse yourself in our tranquil environment where cutting-edge procedures harmonise perfectly with serene surroundings for wellness. Join us to experience the magical experience.
               </p>
             </div>
@@ -186,7 +186,7 @@ useEffect(() => {
         <div className="container mx-auto">
          <div className="grid grid-cols-12 md:gap-[24px] items-stretch">
             {locations?.map((loc, index) => (
-            <div   key={loc.id} className="col-span-12 md:col-span-4 mb-[50px] md:mb-0">
+            <div   key={loc.id} className="col-span-12 md:col-span-4 mb-[50px] md:mb-0 last:mb-0">
              <div className="h-full">
                 <div className="w-full h-[200px] md:h-[600px] mb-5 overflow-hidden">
                 <img
