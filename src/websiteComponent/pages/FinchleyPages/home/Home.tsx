@@ -198,17 +198,17 @@ useEffect(() => {
               </div>
                               
                 <div className="flex justify-between items-center  mb-[15px]">
-                  <h3 className="font-mulish text-[12px] leading-[14px] font-normal tracking-[0.1em] uppercase">
+                  <h3 className="font-muli text-[12px] font-normal tracking-[0.1em] uppercase">
                   {loc.name}
                 </h3>
-                  <h2 className="font-mulish text-base leading-[16px] font-normal text-[#282828] text-right">
+                  <h2 className="font-muli text-base leading-[16px] font-normal text-[#282828] text-right">
                      {loc.city}
                   </h2>
                 </div>
                 <Link
                    to={withBase(`/${loc.slug}`)}
                 state={{ id: loc.id, slug: loc.slug }}
-                  className="font-mulish text-xs leading-[14px] font-normal tracking-[0.1em] uppercase underline underline-offset-1 text-black"
+                  className="font-muli text-xs font-bold tracking-[0.1em] uppercase underline underline-offset-1 text-black"
                 >
                   EXPLORE NOW
                 </Link>

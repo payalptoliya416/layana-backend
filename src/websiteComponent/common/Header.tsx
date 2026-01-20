@@ -5,6 +5,7 @@ import white_logo from "@/assets/logo.svg";
 import menuimg from "@/assets/menu.png";
 import { WEBSITE_BASE } from "@/route/config";
 import { getLocations } from "../api/webLocationService";
+import { FaLocationDot } from "react-icons/fa6";
 
 type UILocation = {
     id?: number;
@@ -131,14 +132,14 @@ const underlineClass =
 
   return (
     <header className="absolute top-0 left-0 w-full z-50">
-      <div className="container mx-auto py-[22px] flex items-center justify-between text-white">
+      <div className="container mx-auto pt-[25px] pb-[22px] flex items-center justify-between text-white">
         {/* Logo */}
         <Link to={withBase("/")}>
-          <img src={white_logo} alt="Layana" className="w-[114px]" />
+          <img src={white_logo} alt="Layana" className="w-[126px]" />
         </Link>
 
         {/* Desktop Nav */}
-        <nav className="hidden lg:flex items-center gap-[25px] text-sm tracking-widest font-muli">
+        <nav className="hidden lg:flex items-center gap-[20px] text-sm tracking-widest font-muli mx-10">
      {menu.map((item) => {
   const hasLocation = !!selectedLocation;
 
@@ -223,7 +224,7 @@ const disableClick =
       return (
         <button
           type="button"
-          className="uppercase cursor-default hover:text-[#e6c9a2]"
+          className="uppercase cursor-default"
         >
           {item.label}
         </button>
@@ -247,7 +248,7 @@ const disableClick =
                 }
               : undefined
           }
-          className="uppercase hover:text-[#e6c9a2]"
+          className="uppercase "
         >
           {item.label}
         </Link>
@@ -257,7 +258,7 @@ const disableClick =
     return (
       <Link
         to={withBase(resolvedPath)}
-        className="uppercase hover:text-[#e6c9a2]"
+        className="uppercase"
       >
         {item.label}
       </Link>
@@ -289,7 +290,7 @@ const disableClick =
   className="flex items-center gap-2 text-sm tracking-widest hover:text-[#e6c9a2]
              max-w-[160px] overflow-hidden"
 >
-  <MapPin size={14} className="shrink-0" />
+  <FaLocationDot size={18} className="shrink-0" />
 
   <span
     className="block truncate whitespace-nowrap overflow-hidden"
@@ -313,14 +314,14 @@ const disableClick =
         </div>
 
         {/* Mobile Toggle */}
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-2 lg:hidden">
            <div
           className="relative block lg:hidden group"
           onMouseEnter={() => setActiveDropdown("location")}
           onMouseLeave={() => setActiveDropdown(null)}
         >
           <button className="flex items-center gap-2 text-xs tracking-widest hover:text-[#e6c9a2]">
-            <MapPin size={14} />
+            <FaLocationDot size={14} />
            {selectedLocation?.label ?? "Choose Location"}
           </button>
 
