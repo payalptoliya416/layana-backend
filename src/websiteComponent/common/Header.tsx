@@ -150,7 +150,11 @@ const hasSingleDropdownItem = (
   return locations.length === 1;
 };
 
-const isHomeWithoutLocation = !locationSlug && !selectedLocation;
+const canShowDropdown = (item: any, selectedLocation: UILocation | null) => {
+  if (!selectedLocation) return false;      // ❌ no location → no dropdown
+  if (item.dropdownKey === "prices") return true; // ✅ only prices
+  return false;                             // ❌ others
+};
 
 const underlineClass =
   "relative uppercase after:content-[''] after:absolute after:left-0 after:-bottom-1 after:h-[1px] after:w-0 after:bg-white after:transition-all after:duration-300 hover:after:w-full";
@@ -185,27 +189,14 @@ const disableClick =
     <div
       key={item.label}
       className="relative"
-    onMouseEnter={() => {
-  if (!item.dropdownKey) return;
-
-  // ✅ If only one dropdown item → NO dropdown
-  if (
-    hasSingleDropdownItem(item, locations, selectedLocation)
-  ) {
+  onMouseEnter={() => {
+  if (!canShowDropdown(item, selectedLocation)) {
     setActiveDropdown(null);
     return;
   }
-
-  if (item.dropdownKey === "prices") {
-    setActiveDropdown("prices");
-    return;
-  }
-
-  if (!selectedLocation) {
-    setActiveDropdown(item.dropdownKey);
-  }
+  setActiveDropdown(item.dropdownKey);
 }}
-      onMouseLeave={() => setActiveDropdown(null)}
+onMouseLeave={() => setActiveDropdown(null)}
     >
 
 {item.external ? (
@@ -225,14 +216,16 @@ const disableClick =
       !singleDropdown &&
       (isPrice || (hasDropdown && !hasLocation));
       
-        if (disableClick) {
-      return (
-        <span className="uppercase">
-          {item.label}
-        </span>
-      );
-    }
-
+    //     if (disableClick) {
+    //   return (
+    //     <span className="uppercase">
+    //       {item.label}
+    //     </span>
+    //   );
+    // }
+if (!canShowDropdown(item, selectedLocation) && item.dropdownKey) {
+  return <span className="uppercase">{item.label}</span>;
+}
     // ✅ CLICK ENABLED
     if (item.basePath === "/contact-us") {
       return (
@@ -271,7 +264,8 @@ const disableClick =
 )}
 
       {/* Dropdown only if NO location selected */}
-       {activeDropdown === item.dropdownKey && (
+{canShowDropdown(item, selectedLocation) &&
+ activeDropdown === item.dropdownKey && (
   <DesktopDropdown
     item={item}
     locations={locations}
@@ -448,7 +442,8 @@ const disableClick =
             <ChevronDown size={14} />
           </button>
 
-          {activeDropdown === item.dropdownKey && (
+     {canShowDropdown(item, selectedLocation) &&
+ activeDropdown === item.dropdownKey && (
             <MobileLocations
               locations={locations}
               selectedLocation={selectedLocation}
