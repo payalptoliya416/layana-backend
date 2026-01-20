@@ -1,17 +1,4 @@
-import finchley_im1 from "@/assets/finchley-im1.png";
-import { Clock, MapPin, Phone } from "lucide-react";
-import home_bg from "@/assets/home_bg.png";
-import ban3 from "@/assets/ban3.png";
-import ban2 from "@/assets/ban2.png";
-import ban5 from "@/assets/ban5.png";
-import ban6 from "@/assets/ban6.png";
-import ban7 from "@/assets/ban7.png";
-import ban8 from "@/assets/ban8.png";
-import ban9 from "@/assets/ban9.png";
-import ban10 from "@/assets/ban10.png";
-import ever2 from "@/assets/ever2.png";
-import home_banner from "@/assets/home-banner.png";
-import slide3 from "@/assets/slide3.png";
+
 import PageBanner from "@/websiteComponent/common/home/PageBanner";
 import ServiceCard from "@/websiteComponent/common/home/ServiceCard";
 import SplitContentSection from "@/websiteComponent/common/home/SplitContentSection";
@@ -20,35 +7,10 @@ import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { getLandingPageByLocation, getLocations } from "@/websiteComponent/api/webLocationService";
 import Loader from "@/websiteComponent/common/Loader";
-import banner_home from '@/assets/banner_home.jpg';
 import { Helmet } from "react-helmet-async";
 import { FaClock } from "react-icons/fa6";
 import { IoLocationSharp } from "react-icons/io5";
 import { BsFillTelephoneFill } from "react-icons/bs";
-
-const homeSlides = [
-  {
-    image: slide3,
-    title: "Relax, Indulge, Enjoy and  Love Yourself.",
-    text: "",
-  },
-  {
-    image: slide3,
-    title: "Luxury Spa\nExperience",
-    text: "",
-  },
-];
-
-const services = [
-  { title: "Massage", image: ban3 },
-  { title: "Spa Programs", image: ban5 },
-  { title: "Facials & Peels", image: ban6 },
-  { title: "Skin", image: ban2 },
-  { title: "Laser Hair Removal", image: ban7 },
-  { title: "For your Eyes", image: ban8 },
-  { title: "Waxing", image: ban9 },
-  { title: "Nails", image: ban10 },
-];
 
 function FinchleyCenteral() {
   const { locationSlug } = useParams<{ locationSlug: string }>();
@@ -195,7 +157,7 @@ if (!landingData) {
             <img
               src={landingData?.about?.image}
               alt="Finchley Central Spa"
-              className="w-full h-full object-cover"
+              className="lg:!max-w-none"
             />
           </div>
 
