@@ -67,19 +67,15 @@ function WebsiteRoutes() {
 
       <Routes>
         <Route element={<WebsiteLayout />}>
-          {/* ---------- GLOBAL ---------- */}
           <Route path="/" element={<Home />} />
           <Route path="/team" element={<Team />} />
           <Route path="/term-condition" element={<TermCondition />} />
 
-          {/* ---------- LOCATION CONTACT ---------- */}
           <Route path="/contact-us" element={<ContactUs />} />
           <Route path="/:locationSlug/contact-us" element={<ContactUs />} />
 
-          {/* ---------- LOCATION ROOT ---------- */}
           <Route path="/:locationSlug" element={<FinchleyCenteral />} />
 
-          {/* ---------- TREATMENTS ---------- */}
           <Route path="/treatments" element={<Massage/>}/>
           <Route path="/finchley-central/:treatmentSlug" element={<Massage/>}/>
           <Route path="/:locationSlug/:treatmentSlug" element={<Massage/>}/>
@@ -89,7 +85,6 @@ function WebsiteRoutes() {
             element={<OilMassage />}
           />
 
-          {/* Beauty sub-pages (if required separately) */}
           <Route path="/:locationSlug/treatments/beauty" element={<Beauty />} />
           <Route
             path="/:locationSlug/treatments/beauty-nail"
@@ -104,20 +99,16 @@ function WebsiteRoutes() {
             element={<Beautyinviron />}
           />
 
-          {/* ---------- MEMBERSHIPS ---------- */}
           <Route path="/:locationSlug/memberships" element={<MemberShip />} />
 
-          {/* ---------- SPA PACKAGES ---------- */}
           <Route path="/:locationSlug/spa-packages" element={<SpaPackages />} />
 
-          {/* ---------- PRICES ---------- */}
           <Route
             path="/:locationSlug/prices/:serviceSlug"
             element={<PricingPage />}
           />
         </Route>
 
-        {/* ---------- FALLBACK ---------- */}
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
     </>

@@ -112,7 +112,7 @@ useEffect(() => {
               text-sm font-bold tracking-widest uppercase
               transition-all duration-300 ease-in-out
               hover:bg-transparent
-              hover:text-white xlmd:hover:text-[#282828]
+              hover:text-white xl:hover:text-[#282828]
             ">
               Appointment
             </button>
@@ -126,7 +126,7 @@ useEffect(() => {
   {/* left icon box */}
   <span
     className="flex items-center justify-center w-[50px] h-[50px]
-    bg-white xlmd:bg-[#282828]
+    bg-white xl:bg-[#282828]
     transition-colors duration-300
     group-hover:bg-white"
   >

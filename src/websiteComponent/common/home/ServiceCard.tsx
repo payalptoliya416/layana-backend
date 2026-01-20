@@ -49,7 +49,8 @@ export default function ServiceCard({
         </h3>
 
         <CommonButton
-          to={withBase(link)}
+          to={withBase("/#")}
+          // to={withBase(link)}
           state={{ treatmentId: id }}
           className="px-10 py-3 !tracking-0"
         >
