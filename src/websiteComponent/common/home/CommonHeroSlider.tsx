@@ -59,7 +59,7 @@ const showNavigation = slides.length > 1;
           <SwiperSlide key={i}>
             <div
               className="w-full h-full bg-cover relative"
-              style={{ backgroundImage: `url(${slide.image})` }}
+              style={{ backgroundImage: `url(${slide.image})`,  backgroundPosition: "center center", }}
             >
               
               <div className="relative z-10 h-full flex items-center pt-[35px] md:pt-0">
