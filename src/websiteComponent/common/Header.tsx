@@ -139,7 +139,7 @@ const underlineClass =
         </Link>
 
         {/* Desktop Nav */}
-        <nav className="hidden lg:flex items-center gap-4 xl:gap-[24px] text-[11px] xl:text-xs tracking-[2px] font-muli mx-8">
+        <nav className="hidden lg:flex items-center gap-4 xl:gap-[20px] text-[11px] xl:text-xs tracking-[2px] font-muli ml-12 pr-8">
      {menu.map((item) => {
   const hasLocation = !!selectedLocation;
 
