@@ -75,28 +75,28 @@ useEffect(() => {
           {/* arrow */}
           <a
             href={withBase("#")}
-            className="w-[53px] h-[53px] mx-auto rounded-full bg-[#9A563A] flex items-center justify-center mb-[41px]"
+            className="w-[53px] h-[53px] mx-auto rounded-full border border-[#000] flex items-center justify-center mb-[41px]"
           >
-            <ArrowRight className="text-white" size={20} />
+            <ArrowRight className="" size={20} />
           </a>
 
           {/* heading */}
-          <h1 className="text-white font-quattro text-[28px] md:text-[36px] lg:text-[40px] md:leading-[36px] lg:leading-[48px] tracking-wide mb-8">
+          <h1 className="font-quattro text-[28px] md:text-[36px] lg:text-[40px] md:leading-[36px] lg:leading-[48px] tracking-wide mb-8">
             YOUR WELLNESS IN YOUR CONTROL
           </h1>
 
           {/* buttons */}
           <div className="flex gap-4 justify-center flex-wrap">
-            <button className="bg-[#9A563A] text-white px-[37px] py-[23px] text-sm  font-bold tracking-widest uppercase hover:bg-[#84462f] transition">
+            <button className="border border-[#000] bg-[#282828] text-white px-[37px] py-[23px] text-sm  font-bold tracking-widest uppercase transition">
               Appointment
             </button>
 
             <button
-              className="flex items-center border border-white bg-white text-[#9A563A] uppercase
-              tracking-widest text-xs hover:bg-transparent hover:text-white transition p-2"
+              className="flex items-center border border-black uppercase
+              tracking-widest text-xs hover:bg-transparent transition p-2"
             >
               {/* left icon box */}
-              <span className="flex items-center justify-center w-[50px] h-[50px] bg-[#9A563A]">
+              <span className="flex items-center justify-center w-[50px] h-[50px] bg-[#000]">
                 <Headset size={20} className="text-white" />
               </span>
 
@@ -109,7 +109,7 @@ useEffect(() => {
 
       <footer className=" text-[#cfd6da]">
         {/* ================= TOP STRIP ================= */}
-        <div className="bg-[#1F262B] border-b border-[#9A563A]">
+        <div className="bg-[#1F262B] border-b border-[#f6eee9]">
           <div className="container mx-auto">
             <div className="grid grid-cols-12 lg:gap-6 items-center ">
               {/* Social icons */}
@@ -122,7 +122,7 @@ useEffect(() => {
                     rel="noopener noreferrer"
                     className="w-[55px] h-[55px] rounded-full border border-[#BEBEBE]
       flex items-center justify-center
-      hover:bg-[#9A563A] hover:border-[#9A563A]
+      hover:bg-[#f6eee9] hover:text-[#282828]
       transition cursor-pointer"
                   >
                     <Icon size={22} />
@@ -131,7 +131,7 @@ useEffect(() => {
               </div>
 
               {/* Logo */}
-              <div className="col-span-12 sm:col-span-6 lg:col-span-4 flex justify-center sm:border-l lg:border-y-0 lg:border border-[#9A563A]  py-[36px]">
+              <div className="col-span-12 sm:col-span-6 lg:col-span-4 flex justify-center sm:border-l lg:border-y-0 lg:border border-[#f6eee9]  py-[36px]">
                 <Link to={withBase("/")}>
                 <img src={white_logo} alt="Layana" className="h-[80px]" />
                 </Link>
@@ -148,7 +148,7 @@ useEffect(() => {
                     placeholder="Enter your email..."
                     className="flex-1 bg-transparent border-b border-[#FDE6D8]/30 text-[#BEBEBE] pr-4 py-2 text-sm focus:outline-none"
                   />
-                  <button className="bg-[#9A563A] px-[23px] py-[14px] text-xs tracking-widest uppercase text-white">
+                  <button className="bg-[#f6eee9] px-[23px] py-[14px] text-xs tracking-widest uppercase text-black">
                     Subscribe
                   </button>
                 </div>
@@ -162,7 +162,7 @@ useEffect(() => {
           <div className="container mx-auto">
             <div className="grid grid-cols-12 sm:gap-10 lg:gap-1 py-[39px]">
               <div className="col-span-12 sm:col-span-6 lg:col-span-3 mb-10 sm:mb-0">
-                <h4 className="relative text-white tracking-widest mb-6 text-xl font-quattro after:content-[''] after:block after:w-12 after:h-[2px] after:bg-[#9A563A] after:mt-3">
+                <h4 className="relative text-white tracking-widest mb-6 text-xl font-quattro after:content-[''] after:block after:w-12 after:h-[2px] after:bg-[#f6eee9] after:mt-3">
                   ABOUT LAYANA
                 </h4>
 
@@ -173,7 +173,7 @@ useEffect(() => {
                       target="_blank"
                       className="flex gap-3 items-center text-[#A3A2A2] hover:text-white cursor-pointer"
                     >
-                      <MapPin size={16} className="text-[#9A563A]" />
+                      <MapPin size={16} className="text-[#f6eee9]" />
                       Centerl Park West La, New York
                     </a>
                   </li>
@@ -183,7 +183,7 @@ useEffect(() => {
                       href="tel:+01234567890"
                       className="flex gap-3 items-center text-[#A3A2A2] hover:text-white cursor-pointer"
                     >
-                      <Phone size={16} className="text-[#9A563A]" />
+                      <Phone size={16} className="text-[#f6eee9]" />
                       +0 123 456 7890
                     </a>
                   </li>
@@ -193,7 +193,7 @@ useEffect(() => {
                       href="mailto:info@example.com"
                       className="flex gap-3 items-center text-[#A3A2A2] hover:text-white cursor-pointer"
                     >
-                      <Mail size={16} className="text-[#9A563A]" />
+                      <Mail size={16} className="text-[#f6eee9]" />
                       info@example.com
                     </a>
                   </li>
@@ -211,7 +211,7 @@ useEffect(() => {
               </div>
 
               <div className="col-span-12 sm:col-span-6 lg:col-span-3 mb-10 sm:mb-0">
-                <h4 className="relative text-white tracking-widest mb-6 text-xl font-quattro after:content-[''] after:block after:w-12 after:h-[2px] after:bg-[#9A563A] after:mt-3">
+                <h4 className="relative text-white tracking-widest mb-6 text-xl font-quattro after:content-[''] after:block after:w-12 after:h-[2px] after:bg-[#f6eee9] after:mt-3">
                   IMPORTANT LINKS
                 </h4>
                 <ul className="space-y-3 text-sm">
@@ -227,7 +227,7 @@ useEffect(() => {
                         href={item.href}
                         className="flex items-center gap-2 uppercase text-[#BEBEBE] hover:text-white cursor-pointer"
                       >
-                        <ChevronRight size={14} className="text-[#9A563A]" />
+                        <ChevronRight size={14} className="text-[#f6eee9]" />
                         {item.label}
                       </a>
                     </li>
@@ -236,7 +236,7 @@ useEffect(() => {
               </div>
 
               <div className="col-span-12 sm:col-span-6 lg:col-span-3 mb-10 sm:mb-0">
-                <h4 className="relative text-white tracking-widest mb-6 text-xl font-quattro after:content-[''] after:block after:w-12 after:h-[2px] after:bg-[#9A563A] after:mt-3">
+                <h4 className="relative text-white tracking-widest mb-6 text-xl font-quattro after:content-[''] after:block after:w-12 after:h-[2px] after:bg-[#f6eee9] after:mt-3">
                   CATEGORIES
                 </h4>
                 <ul className="space-y-3 text-sm">
@@ -252,7 +252,7 @@ useEffect(() => {
                         href={withBase("#")}
                         className="flex items-center gap-2 uppercase text-[#BEBEBE] hover:text-white cursor-pointer"
                       >
-                        <ChevronRight size={14} className="text-[#9A563A]" />
+                        <ChevronRight size={14} className="text-[#f6eee9]" />
                         {item}
                       </a>
                     </li>
@@ -261,7 +261,7 @@ useEffect(() => {
               </div>
 
               <div className="col-span-12 sm:col-span-6 lg:col-span-3">
-                <h4 className="relative text-white tracking-widest mb-6 text-xl font-quattro after:content-[''] after:block after:w-12 after:h-[2px] after:bg-[#9A563A] after:mt-3">
+                <h4 className="relative text-white tracking-widest mb-6 text-xl font-quattro after:content-[''] after:block after:w-12 after:h-[2px] after:bg-[#f6eee9] after:mt-3">
                   OUR LOCATIONS
                 </h4>
                 <div className="space-y-3">
@@ -274,7 +274,7 @@ useEffect(() => {
       <a
         key={loc.id}
         href={withBase(`${loc.slug}`)}
-        className="flex gap-4 border-b border-[#9A563A] pb-[21px] items-center"
+        className="flex gap-4 border-b border-[#f6eee9] pb-[21px] items-center"
       >
         {/* image */}
         <div className="w-[68px] h-[68px] rounded-full overflow-hidden flex-shrink-0">
@@ -310,7 +310,7 @@ useEffect(() => {
         <div className="bg-[#1D2429]">
           <div className="container mx-auto flex justify-center sm:justify-between items-center flex-wrap gap-5 py-6">
             <div className="text-center text-sm ">
-              Copyright © {new Date().getFullYear()}{" "} <span className="text-[#9A563A]">LAYANA</span>.
+              Copyright © {new Date().getFullYear()}{" "} <span className="text-[#f6eee9]">LAYANA</span>.
               All Rights Reserved By ALEX
             </div>
             <img src={copy_img} alt="" />
