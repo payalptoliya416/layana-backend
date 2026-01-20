@@ -803,8 +803,8 @@ unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+
 /* Desktop */
 @media (min-width: 1280px) {
   .container {
-    padding-left: 0;
-    padding-right: 0;
+    padding-left: 12px;
+    padding-right: 12px;
   }
 }
 /* ================= GLOBAL ================= */

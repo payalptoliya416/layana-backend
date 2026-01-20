@@ -132,14 +132,14 @@ const underlineClass =
 
   return (
     <header className="absolute top-0 left-0 w-full z-50">
-      <div className="container mx-auto pt-[25px] pb-[22px] flex items-center justify-between text-white">
+      <div className="container mx-auto pt-[25px] pb-[20px] flex items-center justify-between text-white">
         {/* Logo */}
         <Link to={withBase("/")}>
           <img src={white_logo} alt="Layana" className="w-[100px] sm:w-[126px]" />
         </Link>
 
         {/* Desktop Nav */}
-        <nav className="hidden lg:flex items-center gap-4 xl:gap-[20px] text-[11px] xl:text-xs tracking-[2px] font-muli mx-8 xl:mx-7">
+        <nav className="hidden lg:flex items-center gap-4 xl:gap-[24px] text-[11px] xl:text-xs tracking-[2px] font-muli mx-8">
      {menu.map((item) => {
   const hasLocation = !!selectedLocation;
 

@@ -7,16 +7,13 @@ type Props = {
   link?: string; // ✅ ADD
   id?: number;
   heightClass?: string;
+  index? : number
 };
 
 const CARD_COLORS = [
   "#FDF8F4",
   "#FBF3EC",
   "#FFF6F0",
-  "#FFF4E9",
-  "#FFF6F0",
-  "#FBF3EC",
-  "#FDF8F4",
   "#FFF4E9",
 ];
 
@@ -25,10 +22,10 @@ export default function ServiceCard({
   image,
   link,
   id = 0,
+  index,
   heightClass = "h-[482px]",
 }: Props) {
-  const bgColor = CARD_COLORS[id % CARD_COLORS.length];
-
+  const bgColor = CARD_COLORS[index % CARD_COLORS.length];
   return (
     <div
       className={`relative group overflow-hidden ${heightClass} mb-10 lg:mb-0`}

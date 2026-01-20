@@ -24,7 +24,7 @@ export default function CommonButton({
     border border-black px-[50px] py-[23px]
     h-[50px] md:h-[70px]
     flex items-center justify-center
-    font-mulish text-[13px] leading-[12px]
+    font-muli text-[13px] leading-[12px]
     tracking-[2px] uppercase
     transition
     hover:bg-black hover:text-white cursor-pointer

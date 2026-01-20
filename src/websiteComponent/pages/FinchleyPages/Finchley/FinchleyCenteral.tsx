@@ -139,8 +139,8 @@ const gridClass =
 
     const cardHeightClass =
   treatmentCount === 2 || treatmentCount === 3
-    ? "h-[420px] lg:h-[642px]"
-    : "h-[420px]";
+    ? "h-[482px] lg:h-[642px]"
+    : "h-[482px]";
 
 
  if (loading) {
@@ -208,7 +208,7 @@ if (!landingData) {
             <p className="font-muli uppercase text-sm tracking-widest mb-5">
               {landingData.location.city}, {landingData.location.country}
             </p>
-            
+
             <div
             className="font-quattro text-[#666666] text-sm sm:text-base leading-relaxed mb-[15px]"
               dangerouslySetInnerHTML={{
@@ -327,9 +327,10 @@ if (!landingData) {
 {/* -------- */}
   <section className="w-full">
       <div  className={`grid grid-cols-1 sm:grid-cols-2 ${gridClass}`}>
-         {landingData.treatments.map((item: any) => (
+         {landingData.treatments.map((item: any,index) => (
           <ServiceCard
             key={item.id}
+            index={index}
             title={item.name}
              link={`/finchley-central/treatments/${item.slug}`} 
             image={item.thumbnail_image}
@@ -362,7 +363,7 @@ if (!landingData) {
 )}
 
       {/* --------- */}
-           <section className="pt-12 lg:pt-[110px]">
+           <section className="py-12 lg:py-[110px]">
         <div className="container mx-auto">
           <img src={landingData.promotion.promotion_2_image} alt="banner" className="w-full" />
         </div>

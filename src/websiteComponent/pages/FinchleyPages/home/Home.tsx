@@ -253,9 +253,10 @@ useEffect(() => {
       {/* --- */}
       <section className="w-full">
          <div  className={`grid grid-cols-1 sm:grid-cols-2 ${gridClass}`}>
-          {homeData.treatments.map((item: any) => (
+          {homeData.treatments.map((item: any,index) => (
             <ServiceCard
               key={item.id}
+               index={index}
               title={item.name}
               image={item.thumbnail_image}
                 link={`/finchley-central/treatments/${item.slug}`}
