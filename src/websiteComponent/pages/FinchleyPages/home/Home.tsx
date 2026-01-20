@@ -81,8 +81,8 @@ const gridClass =
 
 const cardHeightClass =
   treatmentCount === 2 || treatmentCount === 3
-    ? "h-[420px] lg:h-[642px]"
-    : "h-[420px]";
+    ? "h-[482px] lg:h-[642px]"
+    : "h-[482px]";
 
 
 useEffect(() => {
@@ -207,7 +207,7 @@ useEffect(() => {
                 <Link
                    to={withBase(`/${loc.slug}`)}
                 state={{ id: loc.id, slug: loc.slug }}
-                  className="font-muli text-xs font-bold tracking-[0.1em] uppercase underline underline-offset-1 text-black"
+                  className="text-[13px] font-bold tracking-[0.1em] uppercase underline underline-offset-1 text-black"
                 >
                   EXPLORE NOW
                 </Link>

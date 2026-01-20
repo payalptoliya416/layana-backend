@@ -74,13 +74,29 @@ useEffect(() => {
         {/* content */}
         <div className="relative z-10 max-w-3xl px-6">
           {/* arrow */}
-          <a
-            href={withBase("#")}
-            className="w-[53px] h-[53px] mx-auto rounded-full border bg-white md:bg-transparent md:border-[#000] flex items-center justify-center mb-[41px]"
-          >
-            <ArrowRight className="" size={20} />
-          </a>
-
+         <a
+          href={withBase("#")}
+          className="
+            group
+            w-[53px] h-[53px] mx-auto rounded-full
+            border bg-white md:bg-transparent md:border-[#000]
+            flex items-center justify-center
+            mb-[41px]
+            transition-all duration-300 ease-in-out
+            hover:bg-[#282828]
+            hover:border-[#282828]
+          "
+        >
+          <ArrowRight
+            size={20}
+            className="
+              text-[#000]
+              transition-all duration-300
+              group-hover:text-white
+              group-hover:translate-x-[2px]
+            "
+          />
+        </a>
           {/* heading */}
           <h1 className="font-quattro text-[28px] md:text-[36px] lg:text-[40px] md:leading-[36px] lg:leading-[48px] tracking-wide mb-8 text-white md:text-[#282828]">
             YOUR WELLNESS IN YOUR CONTROL
@@ -88,22 +104,52 @@ useEffect(() => {
 
           {/* buttons */}
           <div className="flex gap-4 justify-center flex-wrap">
-            <button className="border border-white md:border-[#282828] bg-white md:bg-[#282828] md:text-white px-[37px] py-[23px] text-sm  font-bold tracking-widest uppercase transition">
+            <button className="
+              border border-white md:border-[#282828]
+              bg-white md:bg-[#282828]
+              text-[#282828] md:text-white
+              px-[37px] py-[23px]
+              text-sm font-bold tracking-widest uppercase
+              transition-all duration-300 ease-in-out
+              hover:bg-transparent
+              hover:text-white md:hover:text-[#282828]
+            ">
               Appointment
             </button>
 
             <button
-              className="flex items-center border border-white md:border-[#282828] uppercase
-              tracking-widest text-xs hover:bg-transparent transition p-2"
-            >
-              {/* left icon box */}
-              <span className="flex items-center justify-center w-[50px] h-[50px] bg-white md:bg-[#282828]">
-                <Headset size={20} className="text-[#282828] md:text-white" />
-              </span>
+  className="group flex items-center border border-white md:border-[#282828] uppercase
+  tracking-widest text-xs p-2
+  transition-all duration-300
+  hover:bg-[#282828]"
+>
+  {/* left icon box */}
+  <span
+    className="flex items-center justify-center w-[50px] h-[50px]
+    bg-white md:bg-[#282828]
+    transition-colors duration-300
+    group-hover:bg-white"
+  >
+    <Headset
+      size={20}
+      className="text-[#282828] md:text-white
+      transition-colors duration-300
+      group-hover:text-[#282828]"
+    />
+  </span>
 
-              {/* text */}
-              <span className="px-3 py-3 text-sm font-bold text-white md:text-[#282828] ">Make a Call</span>
-            </button>
+  {/* text */}
+  <span
+    className="px-3 py-3 text-sm font-bold
+    text-white md:text-[#282828]
+    transition-colors duration-300
+    group-hover:text-white"
+  >
+    Make a Call
+  </span>
+</button>
+
+
           </div>
         </div>
       </section>
@@ -122,9 +168,9 @@ useEffect(() => {
                     target="_blank"
                     rel="noopener noreferrer"
                     className="w-[55px] h-[55px] rounded-full border border-[#BEBEBE]
-      flex items-center justify-center
-      hover:bg-[#f6eee9] hover:text-[#282828]
-      transition cursor-pointer"
+                  flex items-center justify-center
+                  hover:bg-[#f6eee9] hover:text-[#282828]
+                  transition cursor-pointer"
                   >
                     <Icon size={22} />
                   </a>
@@ -309,11 +355,10 @@ useEffect(() => {
 
         {/* ================= BOTTOM BAR ================= */}
         <div className="bg-[#1D2429]">
-          <div className="container mx-auto flex justify-center sm:justify-between items-center flex-wrap gap-5 py-6">
+          <div className="container mx-auto flex justify-center items-center flex-wrap gap-5 py-6">
             <div className="text-center text-sm ">
               Layana © 2015 - {new Date().getFullYear()}
             </div>
-            <img src={copy_img} alt="" />
           </div>
         </div>
       </footer>

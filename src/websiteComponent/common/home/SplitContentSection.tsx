@@ -33,7 +33,7 @@ const SplitContentSection: React.FC<SplitContentSectionProps> = ({
       <div
         className={`absolute inset-y-0 ${
           reverse ? "right-0" : "left-0"
-        } w-full lg:w-[59%] `}
+        } w-full lg:w-[58%] `}
          style={{ backgroundColor: bgColor || "#f6eee9" }}
       />
 
@@ -64,7 +64,7 @@ const SplitContentSection: React.FC<SplitContentSectionProps> = ({
       href={btn.link}
       target="_blank"
       rel="noopener noreferrer"
-      className="border-black text-black bg-transparent hover:bg-black hover:text-white border px-2 md:w-[174px] h-[42px] md:h-[62px] flex items-center justify-center font-muli text-xs tracking-[0.25em] uppercase transition"
+      className="border-black text-black bg-transparent hover:bg-black hover:text-white border px-2 md:w-[186px] h-[42px] md:h-[62px] flex items-center justify-center font-muli text-xs tracking-[0.25em] uppercase transition"
     >
       {btn.label}
     </a>
@@ -72,7 +72,7 @@ const SplitContentSection: React.FC<SplitContentSectionProps> = ({
     <button
       key={i}
       onClick={btn.onClick}
-      className="border-black text-black bg-transparent hover:bg-black hover:text-white border px-2 md:w-[174px] h-[42px] md:h-[62px] flex items-center justify-center font-muli text-xs tracking-[0.25em] uppercase transition"
+      className="border-black text-black bg-transparent hover:bg-black hover:text-white border px-2 md:w-[186px] h-[42px] md:h-[62px] flex items-center justify-center font-muli text-xs tracking-[0.25em] uppercase transition"
     >
       {btn.label}
     </button>
@@ -84,8 +84,8 @@ const SplitContentSection: React.FC<SplitContentSectionProps> = ({
           </div>
 
           {/* IMAGE */}
-          <div className={`lg:col-span-6 relative z-10 ${reverse ? "lg:order-first" : ""}`}>
-            <img src={image} alt={title} className="!max-w-none" />
+          <div className={`lg:col-span-6 relative z-10 mx-auto ${reverse ? "lg:order-first" : ""}`}>
+            <img src={image} alt={title} className="!max-w-none  lg:-ml-[18px] " />
           </div>
 
         </div>
