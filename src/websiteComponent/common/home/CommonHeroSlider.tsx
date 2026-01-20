@@ -72,7 +72,7 @@ const showNavigation = slides.length > 1;
                         ))}
                       </h1>
 
-                      <p className="text-sm sm:text-lg text-white/90 mb-[25px] max-w-[476px] mx-auto md:mx-0 font-quattro">
+                      <p className="text-sm sm:text-lg text-white/90 mb-[25px] max-w-[530px] mx-auto md:mx-0 font-quattro tracking-[1px]">
                         {slide.text}
                       </p>
 
