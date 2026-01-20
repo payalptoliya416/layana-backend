@@ -235,6 +235,7 @@ useEffect(() => {
             link: homeData.promo_1.btn_link,
           },
         ]}
+          titleClassName="font-bold"
       />
 
       {/* --- */}

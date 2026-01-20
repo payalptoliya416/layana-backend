@@ -16,6 +16,8 @@ type SplitContentSectionProps = {
     bgColor?: string; 
   onButtonClick?: () => void;
   reverse?: boolean; // image left, text right karva
+
+    titleClassName?: string; 
 };
 
 const SplitContentSection: React.FC<SplitContentSectionProps> = ({
@@ -25,6 +27,7 @@ const SplitContentSection: React.FC<SplitContentSectionProps> = ({
   image,
   bgColor,
   buttons = [],
+  titleClassName,
   reverse = false,
 }) => {
   return (
@@ -46,7 +49,11 @@ const SplitContentSection: React.FC<SplitContentSectionProps> = ({
               {tag}
             </p>
 
-            <h2 className="font-muli text-2xl md:text-[36px] sm:leading-[55px] mb-[25px]">
+            <h2
+  className={`font-muli text-2xl md:text-[36px] sm:leading-[55px] mb-[25px] ${
+    titleClassName ?? "font-semibold"
+  }`}
+>
               {title}
             </h2>
 
