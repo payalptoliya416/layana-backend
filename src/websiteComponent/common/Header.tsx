@@ -583,7 +583,7 @@ const DesktopDropdown = ({
       : pricesData;
 
     return (
-      <div className="absolute left-0 top-full ">
+      <div className="absolute left-0 top-full pt-2">
         <div className="w-[165px] bg-white rounded-b-md overflow-hidden pt-[10px]">
           {blocksToShow.map((block) => {
             const loc = locations.find(
@@ -595,8 +595,8 @@ const DesktopDropdown = ({
             if (!loc) return null;
 
             return (
-              <div key={block.location} >
-                <div className="px-3 mb-[10px] text-xs text-black">
+              <div key={block.location} className="pb-2">
+                <div className="px-3 mb-[10px] text-[14px] text-black font-medium">
                   {block.location}
                 </div>
                 {block.services.map((s) => (
@@ -604,7 +604,7 @@ const DesktopDropdown = ({
                     key={s.slug}
                     to={withBase(`/${loc.slug}/prices/${s.slug}`)}
                     onClick={() => onSelectLocation(loc)}
-                    className="block pl-4 mb-[10px] text-[12px] text-black"
+                    className="block pl-5 mb-[10px] text-[12px] text-black"
                   >
                     {s.label}
                   </Link>

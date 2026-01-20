@@ -65,7 +65,7 @@ useEffect(() => {
     <>
       {/* <SocialStrip /> */}
       <section
-        className="relative w-full min-h-[520px] flex items-center justify-center text-center  bg-[left_center] md:bg-[center] bg-no-repeat bg-cover"
+        className="relative w-full min-h-[520px] flex items-center justify-center text-center  bg-[left_center] xl:bg-[center] bg-no-repeat bg-cover"
         style={{
           backgroundImage: `url(${footerbanner})`,
         }}

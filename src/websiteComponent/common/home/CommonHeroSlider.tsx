@@ -58,7 +58,7 @@ const showNavigation = slides.length > 1;
         {slides.map((slide, i) => (
           <SwiperSlide key={i}>
             <div
-              className="w-full h-full bg-cover relative bg-center sm:bg-[position:100%_33%]"
+              className="w-full h-full bg-cover relative bg-center xl:bg-[position:100%_33%]"
               style={{ backgroundImage: `url(${slide.image})`,  }}
             >
               
@@ -115,7 +115,7 @@ const showNavigation = slides.length > 1;
         <div className="flex items-center justify-center">
           <span className="w-5 sm:w-9 h-5 sm:h-9 border-t-2 border-l-2 border-white rotate-[-45deg] -ml-3 sm:ml-auto transition-transform duration-300" />
         </div>
-        <span className="opacity-0 group-hover:opacity-100 text-white text-sm tracking-widest -ml-5 sm:-ml-10 group-hover:-ml-5 transition-all duration-500 hidden md:block">
+        <span className="opacity-0 group-hover:opacity-100 text-white text-sm tracking-widest -ml-5 sm:-ml-10 group-hover:-ml-5 transition-all duration-500 hidden xl:block">
           PREV
         </span>
       </button> )}
@@ -128,7 +128,7 @@ const showNavigation = slides.length > 1;
         className="hero-next group absolute right-6 top-1/2 -translate-y-1/2 z-20 cursor-pointer flex items-center gap-4 bg-transparent border-none p-0"
         aria-label="Next slide"
       >
-        <span className="opacity-0 group-hover:opacity-100 text-white text-sm tracking-widest -mr-5 sm:-mr-10 group-hover:-mr-5 transition-all duration-500 hidden md:block">
+        <span className="opacity-0 group-hover:opacity-100 text-white text-sm tracking-widest -mr-5 sm:-mr-10 group-hover:-mr-5 transition-all duration-500 hidden xl:block">
           NEXT
         </span>
         <div className="flex items-center justify-center">
