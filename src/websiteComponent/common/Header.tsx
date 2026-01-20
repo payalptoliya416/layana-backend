@@ -139,7 +139,7 @@ const underlineClass =
         </Link>
 
         {/* Desktop Nav */}
-        <nav className="hidden lg:flex items-center gap-4 xl:gap-[20px] text-[11px] xl:text-xs tracking-[2px] font-muli mx-8 xl:mx-10">
+        <nav className="hidden lg:flex items-center gap-4 xl:gap-[20px] text-[11px] xl:text-xs tracking-[2px] font-muli mx-8 xl:mx-7">
      {menu.map((item) => {
   const hasLocation = !!selectedLocation;
 
@@ -596,7 +596,7 @@ const DesktopDropdown = ({
 
             return (
               <div key={block.location} >
-                <div className="px-3 mb-[10px] text-sm text-black">
+                <div className="px-3 mb-[10px] text-xs text-black">
                   {block.location}
                 </div>
                 {block.services.map((s) => (

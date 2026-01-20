@@ -58,7 +58,7 @@ const showNavigation = slides.length > 1;
         {slides.map((slide, i) => (
           <SwiperSlide key={i}>
             <div
-              className="w-full h-full bg-cover bg-center relative"
+              className="w-full h-full bg-cover relative"
               style={{ backgroundImage: `url(${slide.image})` }}
             >
               
