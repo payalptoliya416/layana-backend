@@ -169,7 +169,7 @@ useEffect(() => {
         <div className="container mx-auto">
           <div className="grid grid-cols-12 lg:gap-[24px]">
             <div className="col-span-12 lg:col-span-6 mb-5 lg:mb-0">
-              <p className="text-[25px] leading-[36px] text-justify font-muli">
+              <p className="text-[25px] leading-[36px] font-light text-justify font-muli">
                A team of skilled wellness, beauty and aesthetic experts with over a decade of expertise in delivering the treatments.
               </p>
             </div>
@@ -197,7 +197,7 @@ useEffect(() => {
               </div>
                               
                 <div className="flex justify-between items-center  mb-[15px]">
-                  <h3 className="font-muli text-[12px] font-normal tracking-[0.1em] uppercase">
+                  <h3 className="font-muli text-[13px] font-normal tracking-[0.1em] uppercase">
                   {loc.name}
                 </h3>
                   <h2 className="font-muli text-base leading-[16px] font-normal text-[#282828] text-right">

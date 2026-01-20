@@ -86,8 +86,8 @@ const showNavigation = slides.length > 1;
       border border-white
       px-7 sm:px-[50px]
       py-4 sm:py-[23px]
-      uppercase tracking-[0.15em] leading-[12px]
-      text-xs
+      uppercase tracking-[2px] leading-[12px]
+      text-sm
       hover:bg-white hover:text-black
       transition-all duration-300 font-muli
     "

@@ -19,11 +19,11 @@ export default function ServiceCard({ title, image, link,id , heightClass = "h-[
       />
       <div className="absolute inset-0 bg-[#f7efe8]/80 group-hover:bg-[#f7efe8]/60 transition duration-700" />
       <div className="relative z-10 h-full flex flex-col items-center justify-center text-center px-6 cursor-pointer">
-        <h3 className="font-mulish text-2xl lg:text-[28px] lg:leading-[28px] mb-5 font-normal">
+        <h3 className="font-muli text-2xl lg:text-[28px] lg:leading-[28px] mb-5 font-normal">
           {title}
         </h3>
         <div>
-          <CommonButton  to={withBase(link)} state={{ treatmentId: id }} className="px-10 py-3 text-[10px] !-w-auto">
+          <CommonButton  to={withBase(link)} state={{ treatmentId: id }} className="px-10 py-3 !tracking-0">
           Read More
         </CommonButton>
         </div>

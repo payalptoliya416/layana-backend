@@ -139,7 +139,7 @@ const underlineClass =
         </Link>
 
         {/* Desktop Nav */}
-        <nav className="hidden lg:flex items-center gap-4 xl:gap-[20px] text-[11px] xl:text-sm tracking-widest font-muli mx-8 xl:mx-10">
+        <nav className="hidden lg:flex items-center gap-4 xl:gap-[20px] text-[11px] xl:text-xs tracking-[2px] font-muli mx-8 xl:mx-10">
      {menu.map((item) => {
   const hasLocation = !!selectedLocation;
 
@@ -224,7 +224,7 @@ const disableClick =
       return (
         <button
           type="button"
-          className="uppercase cursor-default cursor-pointer"
+          className="uppercase cursor-pointer"
         >
           {item.label}
         </button>
@@ -494,7 +494,7 @@ const DesktopLocations = ({
           key={loc.slug}
           to={`${baseUrl}/${loc.slug}`}
           onClick={() => onSelect(loc)}
-          className="block px-3 py-2 text-sm text-black "
+          className="block px-3 py-2 text-sm text-black"
         >
           {loc.label}
         </Link>
@@ -596,7 +596,7 @@ const DesktopDropdown = ({
 
             return (
               <div key={block.location}>
-                <div className="px-3 py-2 text-sm font-semibold text-black">
+                <div className="px-3 py-2 text-sm text-black">
                   {block.location}
                 </div>
                 {block.services.map((s) => (
@@ -604,7 +604,7 @@ const DesktopDropdown = ({
                     key={s.slug}
                     to={withBase(`/${loc.slug}/prices/${s.slug}`)}
                     onClick={() => onSelectLocation(loc)}
-                    className="block px-4 py-2 text-xs text-black "
+                    className="block pl-4 py-1 text-[12px] text-black"
                   >
                     {s.label}
                   </Link>
@@ -620,13 +620,13 @@ const DesktopDropdown = ({
   // ================= OTHER DROPDOWNS =================
   return (
     <div className="absolute left-0 top-full pt-2 w-[160px]">
-      <div className="bg-white rounded-b-md overflow-hidden">
+      <div className="bg-white rounded-b-md overflow-hidden pb-1">
         {locations.map((loc) => (
           <Link
             key={loc.slug}
             to={withBase(`/${loc.slug}${item.basePath}`)}
             onClick={() => onSelectLocation(loc)}
-            className="block px-[15px] py-2 text-sm text-black "
+            className="block px-3 py-1 text-sm text-black "
           >
             {loc.label}
           </Link>

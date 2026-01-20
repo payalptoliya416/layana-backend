@@ -42,7 +42,7 @@ const SplitContentSection: React.FC<SplitContentSectionProps> = ({
           
           {/* TEXT */}
           <div className="lg:col-span-6 relative z-10 text-center px-12">
-            <p className="font-muli text-[12px] tracking-[0.2em] uppercase mb-3 font-muli">
+            <p className="font-muli text-xs tracking-[0.2em] uppercase mb-3 font-muli">
               {tag}
             </p>
 
@@ -64,7 +64,7 @@ const SplitContentSection: React.FC<SplitContentSectionProps> = ({
       href={btn.link}
       target="_blank"
       rel="noopener noreferrer"
-      className="border-black text-black bg-transparent hover:bg-black hover:text-white border px-2 md:w-[174px] h-[42px] md:h-[62px] flex items-center justify-center font-mulish text-[12px] tracking-[0.25em] uppercase transition"
+      className="border-black text-black bg-transparent hover:bg-black hover:text-white border px-2 md:w-[174px] h-[42px] md:h-[62px] flex items-center justify-center font-muli text-xs tracking-[0.25em] uppercase transition"
     >
       {btn.label}
     </a>
@@ -72,7 +72,7 @@ const SplitContentSection: React.FC<SplitContentSectionProps> = ({
     <button
       key={i}
       onClick={btn.onClick}
-      className="border-black text-black bg-transparent hover:bg-black hover:text-white border px-2 md:w-[174px] h-[42px] md:h-[62px] flex items-center justify-center font-mulish text-[12px] tracking-[0.25em] uppercase transition"
+      className="border-black text-black bg-transparent hover:bg-black hover:text-white border px-2 md:w-[174px] h-[42px] md:h-[62px] flex items-center justify-center font-muli text-xs tracking-[0.25em] uppercase transition"
     >
       {btn.label}
     </button>

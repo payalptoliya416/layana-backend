@@ -39,7 +39,7 @@ export default function TeamCard({ name, role, image, index, description, }: Pro
       </div>
 
       {/* role */}
-      <p className="text-[12px] tracking-[0.25em] text-[#9A563A] mb-2 uppercase">
+      <p className="text-xs tracking-[0.25em] text-[#9A563A] mb-2 uppercase">
         {role}
       </p>
 
