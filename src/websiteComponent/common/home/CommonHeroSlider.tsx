@@ -66,7 +66,7 @@ const showNavigation = slides.length > 1;
                 <div className="container mx-auto text-white">
                   <div className="grid grid-cols-12 px-3 sm:px-6 lg:px-0">
                     <div className="col-span-12 lg:col-span-6 text-center md:text-left px-5 sm:px-0">
-                      <h1 className="text-3xl sm:text-[42px] leading-[52px] md:text-[65px] md:leading-[75px] font-normal mb-[25px] pr-5 font-muli">
+                      <h1 className="text-3xl sm:text-[42px] leading-[52px] md:text-[65px] md:leading-[75px] font-normal mb-[25px] md:pr-5 font-muli">
                         {slide.title.split("\n").map((line, idx) => (
                           <div key={idx}>{line}</div>
                         ))}
