@@ -210,7 +210,7 @@ if (!landingData) {
             </p>
 
             <div
-            className="font-quattro text-[#666666] text-sm sm:text-base leading-relaxed mb-[15px]"
+            className="font-quattro text-[#666666] text-sm sm:text-base leading-[26px] mb-[15px] text-justify"
               dangerouslySetInnerHTML={{
                 __html: landingData.about?.description ?? "",
               }}
