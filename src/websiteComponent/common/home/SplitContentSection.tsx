@@ -41,7 +41,7 @@ const SplitContentSection: React.FC<SplitContentSectionProps> = ({
         <div className="grid grid-cols-1 lg:grid-cols-12 items-center gap-12">
           
           {/* TEXT */}
-          <div className="lg:col-span-6 relative z-10 text-center px-12">
+          <div className="lg:col-span-6 relative z-10 text-center pr-[84px]">
             <p className="font-muli text-xs tracking-[0.2em] uppercase mb-3 font-muli">
               {tag}
             </p>
@@ -85,7 +85,7 @@ const SplitContentSection: React.FC<SplitContentSectionProps> = ({
 
           {/* IMAGE */}
           <div className={`lg:col-span-6 relative z-10 mx-auto ${reverse ? "lg:order-first" : ""}`}>
-            <img src={image} alt={title} className="!max-w-none lg:-ml-10 " />
+            <img src={image} alt={title} className="!max-w-none lg:-ml-[54px] " />
           </div>
 
         </div>

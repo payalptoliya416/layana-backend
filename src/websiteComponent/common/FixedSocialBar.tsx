@@ -7,7 +7,7 @@ export default function FixedSocialBar() {
       <a
         href="https://www.instagram.com/layana.uk/"
         target="_blank"
-        className="w-[55px] h-[55px] bg-pink-600 flex items-center justify-center text-white mb-2"
+        className="w-[55px] h-[51px] bg-pink-600 flex items-center justify-center text-white mb-2"
       >
         <Instagram size={24} />
       </a>
@@ -16,7 +16,7 @@ export default function FixedSocialBar() {
       <a
         href="https://wa.me/message/QZVCD34TB4OKC1"
         target="_blank"
-        className="w-[55px] h-[55px] bg-green-500 flex items-center justify-center text-white mb-2"
+        className="w-[55px] h-[51px] bg-green-500 flex items-center justify-center text-white mb-2"
       >
         <img
           src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg"
@@ -28,7 +28,7 @@ export default function FixedSocialBar() {
       {/* Email */}
       <a
         href="mailto:info@layana.co.uk"
-        className="w-[55px] h-[55px] bg-red-500 flex items-center justify-center text-white"
+        className="w-[55px] h-[51px] bg-red-500 flex items-center justify-center text-white"
       >
         <Mail size={24} />
       </a>
