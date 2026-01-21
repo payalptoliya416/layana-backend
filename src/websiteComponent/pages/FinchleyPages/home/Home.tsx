@@ -288,7 +288,8 @@ useEffect(() => {
           </div>
 
           <div className="flex justify-center mt-16 lg:mt-24">
-            <CommonButton to="/websiteurl/team">View All</CommonButton>
+            <CommonButton  to={withBase("/")}>View All</CommonButton>
+            {/* // <CommonButton to="/websiteurl/team">View All</CommonButton> */}
           </div>
         </div>
       </section>
