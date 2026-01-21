@@ -9,6 +9,8 @@ import { Phone } from "lucide-react";
 import SimpleHeroBanner from "@/websiteComponent/common/home/SimpleHeroBanner";
 import MassageGallery from "@/websiteComponent/common/massage/MassageGallery";
 import CommonButton from "@/websiteComponent/common/home/CommonButton";
+import { Breadcrumb } from "../tratementPages/Breadcrumb";
+import { IoCall } from "react-icons/io5";
 
 export const images = [waxing1, waxing2, waxing3];
 
@@ -18,7 +20,7 @@ function BeautyWaxing() {
       <SimpleHeroBanner
         background={beauty_waxing_bg}
         title="Waxing"
-        subtitle="Finchley Central / Treatments / Beauty"
+        breadcrumb={<Breadcrumb />}
       />
       {/* ------- */}
       <section className="pt-12 lg:pt-[110px]">
@@ -31,13 +33,13 @@ function BeautyWaxing() {
                 <p className="text-[#666666] text-sm sm:text-base leading-[24px] sm:leading-[26px] text-justify mb-[25px] font-quattro">
                 Beautifully presented salon based in Finchley, North London offering a selection of waxing services for women and men. Thai Manee beauty salon is easy to get to via public transport, Finchley Central train station is a 2-minute walk away, via bus is almost at the door of our luxurious beauty salon and paid parking is nearby. Our mission is to give you quick, efficient, affordable waxing without compromising on quality. Our professionally qualified therapists have many years of experience in the beauty industry and specialises in waxing, eyebrows threading as pain-free as possible. greatest professionalism. Book your next waxing appointment at Thai Manee beauty salon.
                 </p>
-                <p className="text-sm text-[#666666] sm:text-base mb-[5px] sm:mb-[10px] font-quattro">
+                <p className="text-sm text-[#666666] sm:text-base mb-[5px] sm:mb-[16px] font-quattro">
                   Please call us or book online
                 </p>
                 <div className="flex justify-between items-center">
                   <div className="flex gap-[10px] items-center">
                     <div className="w-9 h-9 rounded-full flex justify-center items-center bg-[#F7EFEC] ">
-                      <Phone size={16} />
+                      <IoCall size={16} />
                     </div>
                     <span className="text-lg text-[#282828] font-quattro">
                       0208 371 6922

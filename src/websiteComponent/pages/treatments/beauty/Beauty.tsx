@@ -5,6 +5,7 @@ import { useState } from "react";
 import { massageBeautyData, type MassageBeautyTabs } from "./massageBeautyData";
 import MassageCard from "@/websiteComponent/common/home/MasssageCard";
 import SimpleHeroBanner from "@/websiteComponent/common/home/SimpleHeroBanner";
+import { Breadcrumb } from "../tratementPages/Breadcrumb";
 
 const tabs: MassageTreatmentTabs[] = [
   "Skin",
@@ -35,11 +36,11 @@ function Beauty() {
       <SimpleHeroBanner
         background={beauty_bg}
         title="Treatments"
-        subtitle="Finchley Central"
+         breadcrumb={<Breadcrumb />}
       />
-        <section className="pt-12 lg:pt-[110px]">
+        <section className="py-12 lg:py-[110px]">
               <div className="container mx-auto">
-                <div className="mb-10">
+                <div className="mb-8 sm:mb-10">
                   {/* Tabs */}
                   <div className="flex flex-col sm:flex-row sm:justify-center sm:gap-14">
                     {tabs.map((tab) => {
@@ -49,7 +50,7 @@ function Beauty() {
                         <button
                           key={tab}
                           onClick={() => setActiveTab(tab)}
-                          className="group relative w-full sm:w-auto text-center py-4 sm:py-0"
+                          className="group relative w-full sm:w-auto text-center py-[10px] sm:py-0"
                         >
                           {/* Label */}
                           <span

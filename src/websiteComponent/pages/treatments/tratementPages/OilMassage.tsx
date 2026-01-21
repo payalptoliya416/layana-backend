@@ -1,5 +1,4 @@
 import { Phone } from "lucide-react";
-import oilMassage from "@/assets/oilMassage.png";
 import {
   massageTreatmentsData,
   type MassageTreatmentTabs,
@@ -9,29 +8,56 @@ import img1 from "@/assets/slider1.png";
 import img2 from "@/assets/slider2.png";
 import img3 from "@/assets/slider3.png";
 import img4 from "@/assets/slider4.png";
-import Faq, { FaqItem } from "@/websiteComponent/common/massage/FAQ";
+import Faq from "@/websiteComponent/common/massage/FAQ";
 import SimpleHeroBanner from "@/websiteComponent/common/home/SimpleHeroBanner";
 import MassageGallery from "@/websiteComponent/common/massage/MassageGallery";
 import CommonButton from "@/websiteComponent/common/home/CommonButton";
 import MassageCard from "@/websiteComponent/common/home/MasssageCard";
 import { useLocation } from "react-router-dom";
-import { useEffect, useState } from "react";
-import { getTreatmentById } from "@/websiteComponent/api/treatments.api";
+import { useEffect, useMemo, useState } from "react";
+import { getTreatmentById, getViewTreatmentById, TreatmentView } from "@/websiteComponent/api/treatments.api";
 import Loader from "@/websiteComponent/common/Loader";
-import { useBreadcrumb } from "./useBreadcrumb";
 import { Breadcrumb } from "./Breadcrumb";
+import { IoCall } from "react-icons/io5";
 
 export const images = [img1, img2, img3, img4];
 
 const CARD_COLORS = ["#FBF3EC", "#F9EEE7", "#FFF4E9"];
 
 function OilMassage() {
-  const activeTab: MassageTreatmentTabs = "Massage";
   const location = useLocation();
   const treatmentId = location.state?.treatmentId;
-
   const [data, setData] = useState<any>(null);
   const [loading, setLoading] = useState(true);
+const storedIds = localStorage.getItem("activeTreatmentIds");
+
+const treatmentsBaseUrl = useMemo(() => {
+  const parts = location.pathname.split("/").filter(Boolean);
+  // last slug remove
+  parts.pop();
+  return "/" + parts.join("/");
+}, [location.pathname]);
+
+const treatmentViewIds = useMemo<number[]>(() => {
+  return storedIds
+    ? JSON.parse(storedIds)
+        .map((id: any) => Number(id))
+        .filter(Boolean)
+    : [];
+}, [storedIds]);
+
+const [viewData, setviewData] = useState<TreatmentView[]>([]);
+useEffect(() => {
+ if (!treatmentViewIds.length) return;
+
+  setLoading(true);
+
+  getViewTreatmentById(treatmentViewIds)
+    .then((res) => {
+      setviewData(res.data ?? []);
+    })
+    .finally(() => setLoading(false));
+}, [treatmentViewIds]);
 
    useEffect(() => {
     if (!treatmentId) return;
@@ -43,10 +69,25 @@ function OilMassage() {
       .finally(() => setLoading(false));
   }, [treatmentId]);
 
+
+  // --view data---
+
+  const getRandomItems = <T,>(arr: T[], count: number): T[] => {
+  return [...arr].sort(() => 0.5 - Math.random()).slice(0, count);
+};
+const filteredTreatments = viewData.filter(
+  (item) => item.id !== treatmentId  
+);
+
+const treatmentsToShow =
+  filteredTreatments.length > 3
+    ? getRandomItems(filteredTreatments, 3)
+    : filteredTreatments;
+
   if (loading) return <div className="py-20 text-center"><Loader/></div>;
   if (!data) return <div className="py-20 text-center"></div>;
 
-  const treatment = data.treatment;
+ const treatment = data.treatment;
   const faqItems =
   data?.faqs?.map((faq: any) => ({
     question: faq.question,
@@ -63,13 +104,13 @@ function OilMassage() {
       {/* ----- */}
       <section className="py-12 lg:py-[110px]">
         <div className="container mx-auto !px-0 lg:px-4">
-          <div className="grid grid-cols-12 lg:gap-[24px]">
-            <div className="col-span-12 lg:col-span-6 mb-6 lg:mb-0">
+          <div className="grid grid-cols-12 lg:gap-10">
+            <div className="col-span-12 lg:col-span-6 mb-6 lg:mb-0  px-3">
                <MassageGallery images={images} />
             </div>
-            <div className="col-span-12 lg:col-span-6 px-4 lg:px-0">
-              <div className="mb-[42px]">
-                <h3 className="text-[28px] md:text-4xl mb-[15px] md:mb-5 leading-[36px] font-light">
+            <div className="col-span-12 lg:col-span-6 px-4">
+              <div className="mb-7 lg:mb-[42px]">
+                <h3 className="text-[26px] md:text-4xl mb-[15px] md:mb-5 leading-[36px] font-light">
                   {treatment.name}
                 </h3>
                  <div
@@ -95,17 +136,17 @@ function OilMassage() {
                   "{treatment.slogan}"
                 </h3>}
                 
-                <p className="text-sm text-[#666666] sm:text-base mb-[5px] sm:mb-[10px] font-quattro">
+                <p className="text-sm text-[#666666] sm:text-base mb-[5px] sm:mb-[16px] font-quattro">
                   Please call us or book online
                 </p>
                 <div className="flex gap-[10px] items-center mb-[30px]">
                   <div className="w-9 h-9 rounded-full flex justify-center items-center bg-[#F7EFEC] ">
-                    <Phone size={16} />
+                    <IoCall size={16} />
                   </div>
                   <span className="text-lg text-[#282828] font-quattro">0208 371 6922</span>
                 </div>
                  {data.pricing?.length > 0 && (
-                <div className="flex items-center text-[18px] font-mulish text-[#666666] tracking-wide mb-[37px]">
+                <div className="flex items-center text-[18px] font-quattro text-[#666666] tracking-wide mb-[37px] justify-center">
                   {data.pricing.map((p: any, i: number) => (
                     <>
                   <div className="px-[10px]">
@@ -121,18 +162,15 @@ function OilMassage() {
                 </div>
                 )} 
                 {data.buttons?.length > 0 && (
-                  <div className="flex gap-5 md:gap-10 flex-wrap justify-center">
-                    {/* <CommonButton>Book Now</CommonButton>
-                    <CommonButton>Buy a Gift</CommonButton> */}
+                  <div className="flex gap-3 md:gap-10 flex-wrap justify-center">
                      {data.buttons.map((btn: any) => (
               <a
                 key={btn.id}
                 href={btn.button_link}
                 target="_blank"
-                className=" border border-black px-2
-                  md:w-[260px] h-[50px] md:h-[70px]
+                className=" border border-black px-5 sm:px-[50px] py-[15px] sm:py-[23px]
                   flex items-center justify-center
-                  font-mulish text-[12px]
+                  font-mulish text-[13px]
                   tracking-[0.25em] uppercase
                   transition
                   hover:bg-black hover:text-white cursor-pointer"
@@ -150,7 +188,7 @@ function OilMassage() {
 
       {/* ---- */}
       {faqItems.length > 0 && (
-      <section className="bg-[#F6F6F6] py-[50px]">
+      <section className="bg-[#F3F3F3] py-[50px] mb-12 lg:mb-[110px]">
         <div className="container mx-auto">
               <Faq
         items={faqItems}
@@ -160,34 +198,35 @@ function OilMassage() {
       </section> )}
 
       {/* ----- */}
-      <section className="">
+      {treatmentsToShow.length > 0 && (
+      <section className="pb-12 lg:pb-[110px]">
         <div className="container mx-auto">
-          <h3 className="text-[28px] sm:text-4xl mb-[50px] text-center font-mulish font-light">
+          <h3 className="text-[26px] sm:text-[28px] sm:text-4xl mb-5 sm:mb-[35px] text-center font-muli">
             You might also like...
           </h3>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-10 mb-16">
-            {massageTreatmentsData[activeTab]
-              .slice(0, 3) 
-              .map((item, index) => (
-                <MassageCard
-                  key={index}
-                  title={item.title}
-                    slug=""
-                  image={item.image}
-                  bgColor={CARD_COLORS[index % CARD_COLORS.length]}
-                />
-              ))}
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-[48px] mb-16">
+             {treatmentsToShow.map((item, index) => (
+              <MassageCard
+              id={item.id}
+                key={item.id}
+                title={item.name}
+                slug={item.slug}
+                image={item.thumbnail_image}
+                bgColor={CARD_COLORS[index % CARD_COLORS.length]}
+              />
+            ))}
           </div>
 
           {/* Browse all button */}
           <div className="flex justify-center">
-            <CommonButton to="/websiteurl/treatments/massage">
+            <CommonButton to={treatmentsBaseUrl}>
               Browse All Treatments
             </CommonButton>
           </div>
         </div>
       </section>
+        )}
     </>
   );
 }

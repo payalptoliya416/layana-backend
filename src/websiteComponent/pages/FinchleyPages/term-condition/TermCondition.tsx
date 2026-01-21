@@ -1,5 +1,6 @@
 import termbg from "@/assets/termbg.png";
 import SimpleHeroBanner from "@/websiteComponent/common/home/SimpleHeroBanner";
+import { Breadcrumb } from "../../treatments/tratementPages/Breadcrumb";
 type TermItem = {
   title?: string;
   description?: string | string[];
@@ -51,7 +52,7 @@ function TermCondition() {
        <SimpleHeroBanner
         background={termbg}
         title="Terms & Conditions"
-        subtitle="Finchley Central"
+         breadcrumb={<Breadcrumb />}
       />
      <section className="pt-12 lg:pt-[110px]">
       <div className="container mx-auto">

@@ -20,30 +20,30 @@ export default function Faq({
   return (
     <>
       {/* Title */}
-      <h2 className="text-center font-mulish font-light text-3xl md:text-[36px] mb-8 md:mb-[50px]">
+      <h2 className="text-center font-muli font-light text-[26px] sm:text-3xl md:text-[36px] mb-5">
         {title}
       </h2>
 
       {/* FAQ List */}
-      <div className="divide-y divide-gray-300">
+      <div className="divide-y divide-gray-300 font-muli">
         {items.map((item, index) => {
           const open = index === openIndex;
 
           return (
-            <div key={index} className="py-6">
+            <div key={index} className="py-5">
               {/* Question */}
               <button
                 onClick={() => setOpenIndex(open ? -1 : index)}
                 className="w-full flex justify-between items-center text-left"
               >
-                <h4 className="font-quattro text-[18px] text-black">
+                <h4 className="font-bold text-base sm:text-lg text-[#282828]">
                   {item.question}
                 </h4>
                <div>
                 {open ? (
-                  <Minus className="w-4 sm:w-5 h-4 sm:h-5 text-black cursor-pointer" />
+                  <Minus className="w-4 sm:w-7 h-4 sm:h-8 text-black cursor-pointer" />
                 ) : (
-                  <Plus className="w-4 sm:w-5 h-4 sm:h-5 text-black cursor-pointer" />
+                  <Plus className="w-4 sm:w-7 h-4 sm:h-8 text-black cursor-pointer" />
                 )}
                </div>
               </button>
@@ -55,7 +55,7 @@ export default function Faq({
                 }`}
               >
                 <div className="overflow-hidden">
-                  <p className="font-muli text-[14px] leading-[24px] text-[#777] max-w-[750px]">
+                  <p className="font-muli text-sm sm:text-lg leading-[24px] text-[#666666] max-w-[750px]">
                     {item.answer}
                   </p>
                 </div>

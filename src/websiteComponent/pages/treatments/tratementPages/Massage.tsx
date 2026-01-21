@@ -4,6 +4,8 @@ import SimpleHeroBanner from "@/websiteComponent/common/home/SimpleHeroBanner";
 import MassageCard from "@/websiteComponent/common/home/MasssageCard";
 import { getTreatmentCategories, getTreatmentsByCategory } from "@/websiteComponent/api/treatments.api";
 import Loader from "@/websiteComponent/common/Loader";
+import { Breadcrumb } from "./Breadcrumb";
+import { useLocation } from "react-router-dom";
 
 const CARD_COLORS = [
   "#F5EEE9",
@@ -21,6 +23,9 @@ const CARD_COLORS = [
 ];
 
 function Massage() {
+  const routerLocation = useLocation();
+    const locationId = routerLocation.state?.locationId ?? 1;
+
 const [categories, setCategories] = useState<any[]>([]);
 const [activeCategory, setActiveCategory] = useState<number | null>(null);
 const [treatments, setTreatments] = useState<any[]>([]);
@@ -29,7 +34,6 @@ const [treatments, setTreatments] = useState<any[]>([]);
   useEffect(() => {
     getTreatmentCategories().then((res) => {
       setCategories(res.data);
-
       if (res.data.length > 0) {
         setActiveCategory(res.data[0].id);
       }
@@ -41,7 +45,8 @@ useEffect(() => {
   if (!activeCategory) return;
 
   setLoading(true);
-  getTreatmentsByCategory(activeCategory)
+
+  getTreatmentsByCategory(activeCategory, locationId)
     .then((res) => {
       setTreatments(res.data.treatments || []);
     })
@@ -50,7 +55,7 @@ useEffect(() => {
       setTreatments([]);
     })
     .finally(() => setLoading(false));
-}, [activeCategory]);
+}, [activeCategory, locationId]);
  
   if (loading || !treatments) {
   return (
@@ -64,15 +69,15 @@ useEffect(() => {
       <SimpleHeroBanner
         background={massage_bg}
         title="Treatment"
-        subtitle="Finchley Central"
+         breadcrumb={<Breadcrumb />}
       />
 
-      <section className="pt-12 lg:pt-[110px]">
+      <section className="py-12 lg:py-[110px]">
         <div className="container mx-auto">
 
           {/* Tabs */}
-          <div className="mb-10">
-            <div className="flex flex-col sm:flex-row sm:justify-center sm:gap-14 sm:border-b pb-2 sm:w-max mx-auto">
+          <div className="mb-8 sm:mb-10">
+            <div className="flex flex-col sm:flex-row sm:justify-center sm:border-b pb-[10px] w-max mx-auto">
               {categories.map((cat) => {
                 const isActive = activeCategory === cat.id;
 
@@ -80,11 +85,11 @@ useEffect(() => {
                   <button
                     key={cat.id}
                     onClick={() => setActiveCategory(cat.id)}
-                    className="group relative w-full sm:w-auto text-center py-4 sm:py-0"
+                    className="group relative w-full sm:w-auto text-center py-[10px] sm:py-0"
                   >
                     <span
-                      className={`block text-sm tracking-widest uppercase transition
-                        ${isActive ? "text-black" : "text-[#666] group-hover:text-black"}
+                      className={`block text-base leading-[28px] tracking-[2px] transition  px-5
+                        ${isActive ? "text-black  font-semibold" : "text-[#666] group-hover:text-black"}
                       `}
                     >
                       {cat.name}
@@ -112,7 +117,7 @@ useEffect(() => {
           {loading ? (
             <div className="text-center py-20"></div>
           ) : (
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-10">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-[48px]">
                {treatments.map((item, index) => (
                     <MassageCard
                       key={item.id}

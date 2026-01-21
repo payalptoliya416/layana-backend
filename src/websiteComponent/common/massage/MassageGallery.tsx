@@ -39,27 +39,28 @@ export default function MassageGallery({ images }: Props) {
   watchSlidesProgress
   breakpoints={{
     0: {        // mobile
-      spaceBetween: 16,
+      spaceBetween: 10,
     },
     768: {      // tablet
-      spaceBetween: 20,
+      spaceBetween: 10,
     },
     1024: {     // desktop
-      spaceBetween: 30,
+      spaceBetween: 10,
     },
   }}
   className="w-full"
 >
-        {images.map((img, i) => (
-          <SwiperSlide key={i}>
-            <div className="cursor-pointer overflow-hidden">
-              <img
-                src={img}
-                className="w-full h-[120px] sm:h-[168px] object-cover hover:scale-110 transition"
-              />
-            </div>
-          </SwiperSlide>
-        ))}
+       {images.map((img, i) => (
+  <SwiperSlide key={i}>
+    <div className="cursor-pointer overflow-hidden aspect-square">
+      <img
+        src={img}
+        alt=""
+        className="w-full h-full object-cover transition-transform duration-300 hover:scale-110"
+      />
+    </div>
+  </SwiperSlide>
+))}
       </Swiper>
     </div>
   );

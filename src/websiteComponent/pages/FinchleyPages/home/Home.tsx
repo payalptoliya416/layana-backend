@@ -72,15 +72,15 @@ const handleCloseOfferModal = () => {
 const treatmentCount = homeData?.treatments?.length ?? 0;
 const gridClass =
   treatmentCount === 1
-    ? "lg:grid-cols-1"
+    ? "lg:grid-cols-4"
     : treatmentCount === 2
-    ? "lg:grid-cols-2"
+    ? "lg:grid-cols-4"
     : treatmentCount === 3
     ? "lg:grid-cols-3"
     : "lg:grid-cols-4";
 
 const cardHeightClass =
-  treatmentCount === 2 || treatmentCount === 3
+   treatmentCount === 3
     ? "h-[420px] md:h-[482px] lg:h-[642px]"
     : "h-[420px] md:h-[482px]";
 
@@ -235,7 +235,6 @@ useEffect(() => {
             link: homeData.promo_1.btn_link,
           },
         ]}
-          titleClassName="font-bold"
       />
 
       {/* --- */}
@@ -257,12 +256,12 @@ useEffect(() => {
           {homeData.treatments.map((item: any,index) => (
             <ServiceCard
               key={item.id}
-               index={index}
+              index={index}
               title={item.name}
               image={item.thumbnail_image}
-                link={`/finchley-central/treatments/${item.slug}`}
+              link={`/${item.location_slug}/treatments/${item.slug}`}
               id={item.id}
-                heightClass={cardHeightClass} 
+              heightClass={cardHeightClass} 
             />
           ))}
         </div>
@@ -288,8 +287,8 @@ useEffect(() => {
           </div>
 
           <div className="flex justify-center mt-16 lg:mt-24">
-            <CommonButton  to={withBase("/")}>View All</CommonButton>
-            {/* // <CommonButton to="/websiteurl/team">View All</CommonButton> */}
+             <CommonButton to="/websiteurl">View All</CommonButton>
+             {/* <CommonButton to="/websiteurl/team">View All</CommonButton> */}
           </div>
         </div>
       </section>

@@ -3,6 +3,7 @@ import pricing_bg from "@/assets/pricing_bg.jpeg";
 import PricingTabs from "@/websiteComponent/common/pricing/PricingTabs";
 import PricingAccordion from "@/websiteComponent/common/pricing/PricingAccordion";
 import { useState } from "react";
+import { Breadcrumb } from "../treatments/tratementPages/Breadcrumb";
 
 function MassageHeader() {
   return (
@@ -301,7 +302,7 @@ function PricingPage() {
       <SimpleHeroBanner
         background={pricing_bg}
         title="Treatments Price"
-        subtitle="Finchley Central"
+        breadcrumb={<Breadcrumb />}
       />
 
       {/* ---- */}

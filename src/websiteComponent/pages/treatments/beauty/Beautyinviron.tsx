@@ -9,6 +9,8 @@ import b4 from "@/assets/b4.png";
 import CommonButton from "@/websiteComponent/common/home/CommonButton";
 import SimpleHeroBanner from "@/websiteComponent/common/home/SimpleHeroBanner";
 import BeautyCard from "@/websiteComponent/common/massage/BeautyCard";
+import { Breadcrumb } from "../tratementPages/Breadcrumb";
+import { IoCall } from "react-icons/io5";
 
 export const skinTreatments = [
   {
@@ -58,7 +60,7 @@ function Beautyinviron() {
       <SimpleHeroBanner
         background={environ_bg}
         title="Environ Professional Electro-Sonic"
-        subtitle="Finchley Central / Treatments / Beauty"
+         breadcrumb={<Breadcrumb />}
       />
       {/* ----------- */}
       <section className="py-12 lg:py-[110px]">
@@ -94,12 +96,12 @@ function Beautyinviron() {
                 <h3 className="text-[#282828] text-lg sm:text-[22px] leading-[24px] italic font-muli mb-[15px] sm:mb-[25px]">
                   "Pamper Your Way to Beautiful Skin."
                 </h3>
-                <p className="text-sm text-[#666666] sm:text-base mb-[5px] sm:mb-[10px] font-quattro">
+                <p className="text-sm text-[#666666] sm:text-base mb-[5px] sm:mb-[16px] font-quattro">
                   Please call us or book online
                 </p>
                 <div className="flex gap-[10px] items-center">
                   <div className="w-9 h-9 rounded-full flex justify-center items-center bg-[#F7EFEC] ">
-                    <Phone size={16} />
+                    <IoCall size={16} />
                   </div>
                   <span className="text-lg text-[#282828] font-quattro">
                     0208 371 6922

@@ -51,7 +51,7 @@ const SplitContentSection: React.FC<SplitContentSectionProps> = ({
 
             <h2
   className={`font-muli text-2xl md:text-[36px] sm:leading-[55px] mb-[25px] ${
-    titleClassName ?? "font-semibold"
+    titleClassName ?? ""
   }`}
 >
               {title}

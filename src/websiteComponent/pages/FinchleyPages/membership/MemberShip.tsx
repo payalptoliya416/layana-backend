@@ -4,6 +4,8 @@ import MembershipCard, { membershipPlans } from "./MembershipPricing";
 import { Mail, Phone } from "lucide-react";
 import SimpleHeroBanner from "@/websiteComponent/common/home/SimpleHeroBanner";
 import CommonButton from "@/websiteComponent/common/home/CommonButton";
+import { Breadcrumb } from "../../treatments/tratementPages/Breadcrumb";
+import { IoCall } from "react-icons/io5";
 
 function MemberShip() {
   return (
@@ -11,7 +13,7 @@ function MemberShip() {
       <SimpleHeroBanner
         background={membership_bg}
         title="Memberships"
-        subtitle="Finchley Central"
+       breadcrumb={<Breadcrumb />}
       />
       {/* ---- */}
       <section className="py-12 lg:py-[110px]">
@@ -101,7 +103,7 @@ function MemberShip() {
                 <div className="flex items-center gap-[15px] flex-wrap">
                   <div className="flex gap-[10px] items-center">
                     <div className="w-9 h-9 rounded-full flex justify-center items-center bg-[#F7EFEC] ">
-                      <Phone size={16} />
+                      <IoCall size={16} />
                     </div>
                     <span className="text-base md:text-lg text-[#282828] font-quattro">
                       0208 371 6922
@@ -125,7 +127,7 @@ function MemberShip() {
       </section>
 
       {/* ----- */}
-       <section className="bg-[#F6F6F6] py-[50px]">
+       <section className="bg-[#F3F3F3] py-[50px] mb-12 lg:mb-[110px]">
       <div className="container mx-auto">
 
         {/* Top */}

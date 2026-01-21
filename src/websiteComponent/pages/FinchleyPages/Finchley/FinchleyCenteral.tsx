@@ -91,18 +91,30 @@ useEffect(() => {
 const treatmentCount = landingData?.treatments?.length ?? 0;
 const gridClass =
   treatmentCount === 1
-    ? "lg:grid-cols-1"
+    ? "lg:grid-cols-4"
     : treatmentCount === 2
-    ? "lg:grid-cols-2"
+    ? "lg:grid-cols-4"
     : treatmentCount === 3
     ? "lg:grid-cols-3"
     : "lg:grid-cols-4";
 
     const cardHeightClass =
-  treatmentCount === 2 || treatmentCount === 3
+  treatmentCount === 3
     ? "h-[420px] md:h-[482px] lg:h-[642px]"
     : "h-[420px] md:h-[482px]";
 
+const formatTo12Hour = (time: string) => {
+  if (!time) return "";
+
+  const [hourStr, minute] = time.split(":");
+  let hour = Number(hourStr);
+  const ampm = hour >= 12 ? "pm" : "am";
+
+  hour = hour % 12;
+  hour = hour === 0 ? 12 : hour;
+
+  return `${hour}:${minute} ${ampm}`;
+};
 
  if (loading) {
   return <div className="py-20 text-center"><Loader/></div>;
@@ -194,16 +206,15 @@ if (!landingData) {
             <FaClock className="w-[16px] h-[16px] text-black" />
           </div>
           <h4 className="tracking-[2px] text-sm sm:text-[22px] leading-[24px] mb-4">Hours</h4>
-          <p className="text-[#666666] text-sm sm:text-lg font-quattro flex flex-wrap justify-center gap-1">
-              {/* {landingData.opening_hours.map((day: any) => (
+          <p className="text-[#666666] text-sm sm:text-lg font-quattro flex flex-col justify-center gap-1">
+              {landingData.opening_hours.map((day: any) => (
             <div key={day.id}>
-              {day.day.charAt(0).toUpperCase() + day.day.slice(1)} :{" "}
+              {day.day.charAt(0).toUpperCase() + day.day.slice(1)} - {" "}
               {day.is_closed
                 ? "Closed"
-                : `${day.start_time} - ${day.end_time}`}
+                 : `${formatTo12Hour(day.start_time)} - ${formatTo12Hour(day.end_time)}`}
             </div>
-          ))} */}
-           06:20 - 06:50
+          ))}
           </p>
         </div>
 
@@ -294,7 +305,7 @@ if (!landingData) {
             key={item.id}
             index={index}
             title={item.name}
-           link={`/finchley-central/treatments/${item.slug}`}
+             link={item.slug}  
             image={item.thumbnail_image}
             id={item.id}
               heightClass={cardHeightClass} 
@@ -322,6 +333,7 @@ if (!landingData) {
         link: landingData.promotion3.btn_link, 
       },
     ]}
+          titleClassName="font-bold"
   />
 )}
 

@@ -5,7 +5,8 @@ type Props = {
   children: ReactNode;
   className?: string;
   to?: string;           // for routing
-  href?: string;         // for external links
+  href?: string;    
+  onClickCapture?: () => void;     // for external links
   onClick?: () => void;  // normal click
     state?: any;   
 };
@@ -16,15 +17,15 @@ export default function CommonButton({
   to,
   href,
   onClick,
+  onClickCapture,
   state
   
 }: Props) {
   //  md:w-[260px]
   const baseClass = `
     border border-black px-[50px] py-[23px]
-    h-[50px] md:h-[70px]
     flex items-center justify-center
-    font-muli text-[13px] leading-[12px]
+    font-muli text-[12px] leading-[12px]
     tracking-[2px] uppercase
     transition
     hover:bg-black hover:text-white cursor-pointer
@@ -34,7 +35,7 @@ export default function CommonButton({
   // React Router navigation
   if (to) {
     return (
-      <Link to={to} state={state} className={baseClass} >
+      <Link to={to} state={state} onClick={onClick} onClickCapture={onClickCapture} className={baseClass} >
         {children}
       </Link>
     );
@@ -51,7 +52,7 @@ export default function CommonButton({
 
   // Normal button
   return (
-    <button onClick={onClick} className={baseClass}>
+    <button onClick={onClick} className={baseClass}  onClickCapture={onClickCapture}>
       {children}
     </button>
   );

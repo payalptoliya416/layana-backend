@@ -3,6 +3,7 @@ import TeamCard from "@/websiteComponent/common/home/TeamCard";
 import teambg from "@/assets/teambg.png";
 import { getTeams } from "@/websiteComponent/api/teams.api";
 import SimpleHeroBanner from "@/websiteComponent/common/home/SimpleHeroBanner";
+import { Breadcrumb } from "../../treatments/tratementPages/Breadcrumb";
 
 function Team() {
   const [teams, setTeams] = useState<any[]>([]);
@@ -23,7 +24,7 @@ function Team() {
       <SimpleHeroBanner
         background={teambg}
         title="Our Team"
-        subtitle="Finchley Central"
+        breadcrumb={<Breadcrumb />}
       />
 
       <section className="pt-12 lg:pt-[110px]">

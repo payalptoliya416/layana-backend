@@ -11,6 +11,8 @@ import PriceAccordion from "./PriceAccordion";
 import SimpleHeroBanner from "@/websiteComponent/common/home/SimpleHeroBanner";
 import MassageGallery from "@/websiteComponent/common/massage/MassageGallery";
 import CommonButton from "@/websiteComponent/common/home/CommonButton";
+import { Breadcrumb } from "../tratementPages/Breadcrumb";
+import { IoCall } from "react-icons/io5";
 
 export const images = [nail1, nail2, nail3];
 
@@ -20,7 +22,7 @@ function BeautyNail() {
       <SimpleHeroBanner
         background={beauty_nail_bg}
         title="Nails"
-        subtitle="Finchley Central / Treatments / Beauty"
+        breadcrumb={<Breadcrumb />}
       />
       {/* ------- */}
       <section className="pt-12 lg:pt-[110px]">
@@ -50,13 +52,13 @@ function BeautyNail() {
                 <h3 className="text-[#282828] text-lg sm:text-[22px] leading-[24px] italic font-muli mb-[15px] sm:mb-[25px]">
                   Happiness is a freshly painted nails.
                 </h3>
-                <p className="text-sm text-[#666666] sm:text-base mb-[5px] sm:mb-[10px] font-quattro">
+                <p className="text-sm text-[#666666] sm:text-base mb-[5px] sm:mb-[16px] font-quattro">
                   Please call us or book online
                 </p>
                 <div className="flex justify-between items-center">
                   <div className="flex gap-[10px] items-center">
                     <div className="w-9 h-9 rounded-full flex justify-center items-center bg-[#F7EFEC] ">
-                      <Phone size={16} />
+                      <IoCall size={16} />
                     </div>
                     <span className="text-lg text-[#282828] font-quattro">
                       0208 371 6922

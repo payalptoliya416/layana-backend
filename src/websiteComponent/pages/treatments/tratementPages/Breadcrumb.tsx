@@ -8,7 +8,7 @@ export function Breadcrumb() {
   if (!locationSlug) return null;
 
   return (
-    <div className="mt-[5px] text-xl text-white/90 flex items-center justify-center gap-2 flex-wrap">
+    <div className="mt-[5px] text-sm sm:text-xl lg:text-2xl text-white/90 flex items-center justify-center gap-2 flex-wrap">
       <Link to={withBase(`/${locationSlug}`)} className="hover:underline">
         {slugToTitle(locationSlug)}
       </Link>

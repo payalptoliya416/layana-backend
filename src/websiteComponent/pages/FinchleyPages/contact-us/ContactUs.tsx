@@ -10,6 +10,8 @@ import PhoneInput from "react-phone-input-2";
 import { submitEnquiry } from "@/websiteComponent/api/enquiryService";
 import { toast } from "sonner";
 import { getLocations } from "@/websiteComponent/api/webLocationService";
+import { Breadcrumb } from "../../treatments/tratementPages/Breadcrumb";
+import { IoCall } from "react-icons/io5";
 
 type FormErrors = {
   name?: string;
@@ -168,7 +170,7 @@ const handleSubmit = async (e: React.FormEvent) => {
       <SimpleHeroBanner
         background={contact_us_bg}
         title="Contact Us"
-        subtitle="Finchley Central"
+        breadcrumb={<Breadcrumb />}
       />
       {/* ------- */}
       <section className="pt-12 lg:pt-[110px]">
@@ -230,7 +232,7 @@ const handleSubmit = async (e: React.FormEvent) => {
             {/* Contact */}
             <div className="flex flex-col items-center">
               <div className="w-[45px] h-[45px] rounded-full bg-[#f7efe8] flex items-center justify-center mb-[15px]">
-                <Phone size={18} />
+                <IoCall size={18} />
               </div>
               <h4 className="text-[22px] leading-[24px] mb-3 font-normal">
                 Contact

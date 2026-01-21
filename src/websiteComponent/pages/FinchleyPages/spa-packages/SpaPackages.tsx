@@ -5,6 +5,7 @@ import PackageCard, { spaPackages, type PackageItem } from "./SpaPackagesData";
 import { useState } from "react";
 import { PackageModal } from "./PackageModal";
 import SimpleHeroBanner from "@/websiteComponent/common/home/SimpleHeroBanner";
+import { Breadcrumb } from "../../treatments/tratementPages/Breadcrumb";
 
 function SpaPackages() {
   const [activePopup, setActivePopup] = useState<PackageItem | null>(null);
@@ -13,7 +14,7 @@ function SpaPackages() {
       <SimpleHeroBanner
         background={spapackages_bg}
         title="Spa Packages"
-        subtitle="Finchley Central"
+         breadcrumb={<Breadcrumb />}
       />
       {/* ----- */}
       <section className="py-12 lg:py-[110px]">

@@ -64,8 +64,52 @@ function WebsiteRoutes() {
    
          <Route path="*" element={<Navigate to="#" replace />} />
       </Routes> */}
+<Routes>
+  <Route element={<WebsiteLayout />}>
 
-      <Routes>
+    <Route path="/" element={<Home />} />
+
+    {/* <Route path="/contact-us" element={<ContactUs />} /> */}
+    {/* <Route path="/:locationSlug/contact-us" element={<ContactUs />} /> */}
+
+    <Route path="/:locationSlug" element={<FinchleyCenteral />} />
+
+    {/* ================= TREATMENTS ================= */}
+    <Route path="/treatments" element={<Massage />} />
+    <Route path="/:locationSlug/treatments" element={<Massage />} />
+    <Route
+      path="/:locationSlug/treatments/:treatmentSlug"
+      element={<OilMassage />}
+    />
+    <Route
+      path="/treatments/:treatmentSlug"
+      element={<OilMassage />}
+    />
+
+    {/* ================= MEMBERSHIPS ================= */}
+    {/* <Route
+      path="/:locationSlug/memberships"
+      element={<MemberShip />}
+    /> */}
+
+    {/* ================= SPA PACKAGES ================= */}
+    {/* <Route
+      path="/:locationSlug/spa-packages"
+      element={<SpaPackages />}
+    /> */}
+
+    {/* ================= PRICES ================= */}
+    {/* <Route
+      path="/:locationSlug/prices/:serviceSlug"
+      element={<PricingPage />}
+    /> */}
+  
+  </Route>
+
+  <Route path="*" element={<Navigate to="/websiteurl" replace />} />
+</Routes>
+
+      {/* <Routes>
         <Route element={<WebsiteLayout />}>
           <Route path="/" element={<Home />} />
           <Route path="/team" element={<Team />} />
@@ -82,6 +126,10 @@ function WebsiteRoutes() {
           <Route path="/:locationSlug/treatments" element={<Massage />} />
           <Route
             path="/:locationSlug/treatments/:treatmentSlug"
+            element={<OilMassage />}
+          />
+          <Route
+            path="/treatments/:treatmentSlug"
             element={<OilMassage />}
           />
 
@@ -110,7 +158,7 @@ function WebsiteRoutes() {
         </Route>
 
         <Route path="*" element={<Navigate to="/" replace />} />
-      </Routes>
+      </Routes> */}
     </>
   );
 }

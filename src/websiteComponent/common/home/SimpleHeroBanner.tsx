@@ -13,7 +13,7 @@ export default function SimpleHeroBanner({
   title,
   subtitle,
   breadcrumb,
-  height = "h-[400px]",
+  height = "h-[500px]",
 }: Props) {
   return (
     <section
@@ -21,7 +21,7 @@ export default function SimpleHeroBanner({
       style={{ backgroundImage: `url(${background})` }}
     >
       <div className="relative z-10 text-center text-white px-6">
-        <h1 className="text-[36px] sm:text-[48px] lg:text-[65px] font-light leading-tight">
+        <h1 className="text-[28px] sm:text-[48px] lg:text-[65px] font-light leading-tight">
           {title}
         </h1>
 
