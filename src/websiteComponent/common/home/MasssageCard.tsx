@@ -29,7 +29,6 @@ const basePath = currentPath.split("/treatments")[0] + "/treatments";
   if (id) {
     saveTreatmentId(id);
   }
-console.log("newPath",newPath)
   navigate(newPath, {
     state: { treatmentId: id },
   });

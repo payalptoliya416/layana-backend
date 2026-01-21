@@ -19,6 +19,7 @@ import { getTreatmentById, getViewTreatmentById, TreatmentView } from "@/website
 import Loader from "@/websiteComponent/common/Loader";
 import { Breadcrumb } from "./Breadcrumb";
 import { IoCall } from "react-icons/io5";
+import { Helmet } from "react-helmet-async";
 
 export const images = [img1, img2, img3, img4];
 
@@ -96,6 +97,33 @@ const treatmentsToShow =
 
   return (
     <>
+    {data?.seo && (
+              <Helmet>
+            
+                <meta
+                  name="description"
+                  content={data?.seo.meta_description}
+                />
+            
+                {data?.seo.seo_keyword?.length > 0 && (
+                  <meta
+                    name="keywords"
+                    content={data?.seo.seo_keyword.join(", ")}
+                  />
+                )}
+            
+        
+                 {/* {landingData.seo.analytics && (
+              <script
+                type="application/ld+json"
+                dangerouslySetInnerHTML={{
+                  __html: landingData.seo.analytics,
+                }}
+              />
+            )} */}
+              </Helmet>
+            )}
+    
       <SimpleHeroBanner
           background={data.visuals?.banners?.[0]}
          title={treatment.name}

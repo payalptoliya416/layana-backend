@@ -29,6 +29,7 @@ function Massage() {
 const [categories, setCategories] = useState<any[]>([]);
 const [activeCategory, setActiveCategory] = useState<number | null>(null);
 const [treatments, setTreatments] = useState<any[]>([]);
+
   const [loading, setLoading] = useState(true);
   /* Load categories */
   useEffect(() => {
@@ -66,6 +67,7 @@ useEffect(() => {
 }
   return (
     <>
+     
       <SimpleHeroBanner
         background={massage_bg}
         title="Treatment"
