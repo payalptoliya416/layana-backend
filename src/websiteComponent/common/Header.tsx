@@ -55,7 +55,7 @@ const menu = [
     href: "https://www.fresha.com/vouchers/provider/rmxjfmmk",
     external: true,
   },
-  { label: "Contact Us", basePath: "/contact-us" },
+  { label: "Contact Us", basePath: "/#" },
 ];
 
 /* ================= DATA ================= */
@@ -582,8 +582,8 @@ export default function Header() {
                       {!isPrice &&
                         item.basePath &&
                         hasLocation &&
-                        // item.basePath !== "/#" && (
-                        item.basePath !== "/contact-us" && (
+                        item.basePath !== "/#" && (
+                        // item.basePath !== "/contact-us" && (
                           <Link
                             to={withBase(
                               `/${selectedLocation.slug}${item.basePath}`,
