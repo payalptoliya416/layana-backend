@@ -7,6 +7,7 @@ type Props = {
   bgColor: string;
   slug: string;
   id?: number;
+  locationId?: number
 };
 
 export default function MassageCard({
@@ -15,6 +16,7 @@ export default function MassageCard({
   bgColor,
   slug,
   id,
+  locationId
 }: Props) {
    const navigate = useNavigate();
   const location = useLocation();
@@ -30,14 +32,14 @@ const basePath = currentPath.split("/treatments")[0] + "/treatments";
     saveTreatmentId(id);
   }
   navigate(newPath, {
-    state: { treatmentId: id },
+    state: { treatmentId: id , locationId: locationId, },
   });
 };
 
   return (
     <div
       onClick={handleClick}
-      className="relative group overflow-hidden h-[300px] sm:h-[350px] cursor-pointer"
+      className="relative group overflow-hidden w-[358px] h-[300px] sm:h-[358px] cursor-pointer"
       style={{ backgroundColor: bgColor }}
     >
       {/* Hover Background Image */}

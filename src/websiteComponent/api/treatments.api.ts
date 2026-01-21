@@ -37,13 +37,22 @@ export const getTreatmentsByCategory = (
   });
 };
 
-export const getTreatmentById = (id: number) => {
+export const getTreatmentById = ({
+  id,
+  location_id,
+}: {
+  id: number;
+  location_id: number;
+}) => {
   return publicApi<{
     status: string;
     data: any;
   }>("/frontend/get-treatment", {
     method: "POST",
-    body: { id },
+    body: {
+      id,
+      location_id,
+    },
   });
 };
 

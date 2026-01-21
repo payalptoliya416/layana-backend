@@ -20,13 +20,23 @@ export default function MassageGallery({ images }: Props) {
       <Swiper
         modules={[Thumbs]}
         thumbs={{ swiper: thumbsSwiper }}
-        className="w-full h-full mb-5 sm:mb-[30px] overflow-hidden"
+        className="w-full
+        max-h-[524px]
+        object-cover
+        lg:max-w-[516px]
+        lg:max-h-[524px] mb-5 sm:mb-[30px] overflow-hidden"
       >
         {images.map((img, i) => (
           <SwiperSlide key={i}>
             <img
               src={img}
-              className="w-full h-full object-cover"
+             className="
+        w-full
+        h-auto
+        object-cover
+        lg:max-w-[516px]
+        lg:max-h-[524px]
+      "
             />
           </SwiperSlide>
         ))}

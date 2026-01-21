@@ -118,37 +118,35 @@ useEffect(() => {
             </button>
 
             <button
-  className="group flex items-center border border-white xl:border-[#282828] uppercase
-  tracking-widest text-xs p-2
-  transition-all duration-300
-  hover:bg-[#282828]"
->
-  {/* left icon box */}
-  <span
-    className="flex items-center justify-center w-[50px] h-[50px]
-    bg-white xl:bg-[#282828]
-    transition-colors duration-300
-    group-hover:bg-white"
-  >
-    <Headset
-      size={20}
-      className="text-[#282828] xl:text-white
-      transition-colors duration-300
-      group-hover:text-[#282828]"
-    />
-  </span>
+            className="group flex items-center border border-white xl:border-[#282828] uppercase
+            tracking-widest text-xs p-2
+            transition-all duration-300
+            xl:hover:bg-[#282828] hover:bg-white"
+          >
+            <span
+              className="flex items-center justify-center w-[50px] h-[50px]
+              bg-white  xl:bg-[#282828]
+              transition-colors duration-300
+              xl:group-hover:bg-white group-hover:bg-[#282828]"
+            >
+              <Headset
+                size={20}
+                className="text-[#282828] xl:text-white
+                transition-colors duration-300
+                xl:group-hover:text-[#282828] group-hover:text-white"
+              />
+            </span>
 
-  {/* text */}
-  <span
-    className="px-3 py-3 text-sm font-bold
-    text-white xl:text-[#282828]
-    transition-colors duration-300
-    group-hover:text-white"
-  >
-    Make a Call
-  </span>
-</button>
-
+            {/* text */}
+            <span
+              className="px-3 py-3 text-sm font-bold
+              text-white xl:text-[#282828]
+              transition-colors duration-300
+              xl:group-hover:text-white group-hover:text-[#282828]"
+            >
+              Make a Call
+            </span>
+          </button>
 
           </div>
         </div>

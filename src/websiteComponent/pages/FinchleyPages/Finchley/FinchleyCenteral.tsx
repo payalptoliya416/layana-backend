@@ -11,12 +11,15 @@ import { Helmet } from "react-helmet-async";
 import { FaClock } from "react-icons/fa6";
 import { IoLocationSharp } from "react-icons/io5";
 import { BsFillTelephoneFill } from "react-icons/bs";
+import { Location } from '../../../../services/locationService';
 
 function FinchleyCenteral() {
   const { locationSlug } = useParams<{ locationSlug: string }>();
 
 const [loading, setLoading] = useState(true);
 const [landingData, setLandingData] = useState<any>(null);
+
+
 useEffect(() => {
   if (!locationSlug) return;
 
@@ -309,6 +312,7 @@ if (!landingData) {
             image={item.thumbnail_image}
             id={item.id}
               heightClass={cardHeightClass} 
+             locationId={landingData.location.id}
           />
         ))}
       </div>

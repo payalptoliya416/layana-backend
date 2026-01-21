@@ -9,6 +9,7 @@ type Props = {
   link?: string;
   id?: number;
   heightClass?: string;
+    locationId?: number; 
   index?: number;
 };
 
@@ -21,6 +22,7 @@ export default function ServiceCard({
   id = 0,
   index,
   heightClass = "h-[420px] md:h-[482px]",
+  locationId
 }: Props) {
   const bgColor = CARD_COLORS[index % CARD_COLORS.length];
 
@@ -67,7 +69,7 @@ export default function ServiceCard({
           onClickCapture={() => {
             saveTreatmentIdData(id);
           }}
-          state={{ treatmentId: id }}
+          state={{ treatmentId: id , locationId: locationId,  }}
           className="px-10 py-3 !tracking-0"
         >
           Read More

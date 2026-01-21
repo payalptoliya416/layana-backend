@@ -262,6 +262,7 @@ useEffect(() => {
               link={`/${item.location_slug}/treatments/${item.slug}`}
               id={item.id}
               heightClass={cardHeightClass} 
+               locationId={item.location_id}
             />
           ))}
         </div>

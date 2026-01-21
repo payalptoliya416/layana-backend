@@ -128,6 +128,7 @@ useEffect(() => {
                       id={item.id}
                       image={item.thumbnail_image || massage_bg}
                       bgColor={CARD_COLORS[index % CARD_COLORS.length]}
+                      locationId={locationId}
                     />
                   ))}
             </div>

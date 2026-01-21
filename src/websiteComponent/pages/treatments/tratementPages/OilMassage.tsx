@@ -1,40 +1,56 @@
-import { Phone } from "lucide-react";
-import {
-  massageTreatmentsData,
-  type MassageTreatmentTabs,
-} from "./massageTreatmentsData";
-
-import img1 from "@/assets/slider1.png";
-import img2 from "@/assets/slider2.png";
-import img3 from "@/assets/slider3.png";
-import img4 from "@/assets/slider4.png";
 import Faq from "@/websiteComponent/common/massage/FAQ";
 import SimpleHeroBanner from "@/websiteComponent/common/home/SimpleHeroBanner";
 import MassageGallery from "@/websiteComponent/common/massage/MassageGallery";
 import CommonButton from "@/websiteComponent/common/home/CommonButton";
 import MassageCard from "@/websiteComponent/common/home/MasssageCard";
-import { useLocation } from "react-router-dom";
+import { useLocation, useParams } from "react-router-dom";
 import { useEffect, useMemo, useState } from "react";
 import { getTreatmentById, getViewTreatmentById, TreatmentView } from "@/websiteComponent/api/treatments.api";
 import Loader from "@/websiteComponent/common/Loader";
 import { Breadcrumb } from "./Breadcrumb";
 import { IoCall } from "react-icons/io5";
 import { Helmet } from "react-helmet-async";
-
-export const images = [img1, img2, img3, img4];
+import { getLocations } from "@/websiteComponent/api/webLocationService";
 
 const CARD_COLORS = ["#FBF3EC", "#F9EEE7", "#FFF4E9"];
 
 function OilMassage() {
   const location = useLocation();
   const treatmentId = location.state?.treatmentId;
+const locationId = location.state?.locationId;
+const { locationSlug, treatmentSlug } = useParams();
+const [resolvedLocationId, setResolvedLocationId] = useState<number | null>(null);
+useEffect(() => {
+  // jo already state mathi locationId aavi gayu hoy
+  if (locationId) {
+    setResolvedLocationId(locationId);
+    return;
+  }
+
+  // jo URL ma locationSlug nathi ( /treatments/:slug case )
+  if (!locationSlug) return;
+
+  getLocations()
+    .then((res) => {
+      const locations = res.data ?? [];
+
+      const matched = locations.find(
+        (loc: any) => loc.slug === locationSlug
+      );
+
+      if (matched) {
+        setResolvedLocationId(matched.id);
+      }
+    });
+}, [locationId, locationSlug]);
+
   const [data, setData] = useState<any>(null);
   const [loading, setLoading] = useState(true);
 const storedIds = localStorage.getItem("activeTreatmentIds");
 
 const treatmentsBaseUrl = useMemo(() => {
   const parts = location.pathname.split("/").filter(Boolean);
-  // last slug remove
+ 
   parts.pop();
   return "/" + parts.join("/");
 }, [location.pathname]);
@@ -48,6 +64,7 @@ const treatmentViewIds = useMemo<number[]>(() => {
 }, [storedIds]);
 
 const [viewData, setviewData] = useState<TreatmentView[]>([]);
+
 useEffect(() => {
  if (!treatmentViewIds.length) return;
 
@@ -60,25 +77,28 @@ useEffect(() => {
     .finally(() => setLoading(false));
 }, [treatmentViewIds]);
 
-   useEffect(() => {
-    if (!treatmentId) return;
-
-    getTreatmentById(treatmentId)
-      .then((res) => {
-        setData(res.data);
-      })
-      .finally(() => setLoading(false));
-  }, [treatmentId]);
-
+ useEffect(() => {
+  if (!treatmentId || !locationId) return;
+ setLoading(true);  
+  setData(null);
+  getTreatmentById({
+    id: treatmentId,
+    location_id: locationId,
+  })
+    .then((res) => {
+      setData(res.data);
+    })
+    .finally(() => setLoading(false));
+}, [treatmentId, locationId, location.pathname]);
 
   // --view data---
 
   const getRandomItems = <T,>(arr: T[], count: number): T[] => {
   return [...arr].sort(() => 0.5 - Math.random()).slice(0, count);
-};
-const filteredTreatments = viewData.filter(
-  (item) => item.id !== treatmentId  
-);
+  };
+  const filteredTreatments = viewData.filter(
+    (item) => item.id !== treatmentId  
+  );
 
 const treatmentsToShow =
   filteredTreatments.length > 3
@@ -132,11 +152,14 @@ const treatmentsToShow =
       {/* ----- */}
       <section className="py-12 lg:py-[110px]">
         <div className="container mx-auto !px-0 lg:px-4">
-          <div className="grid grid-cols-12 lg:gap-10">
-            <div className="col-span-12 lg:col-span-6 mb-6 lg:mb-0  px-3">
-               <MassageGallery images={images} />
+          <div className="grid grid-cols-12 lg:gap-10 px-5">
+            <div className="col-span-12 lg:col-span-6 mb-6 lg:mb-0 lg:px-3">
+                {Array.isArray(data?.visuals?.galleries) &&
+                data.visuals.galleries.length >= 1 && (
+                  <MassageGallery images={data.visuals.galleries} />
+                )}
             </div>
-            <div className="col-span-12 lg:col-span-6 px-4">
+            <div className="col-span-12 lg:col-span-6 lg:px-3">
               <div className="mb-7 lg:mb-[42px]">
                 <h3 className="text-[26px] md:text-4xl mb-[15px] md:mb-5 leading-[36px] font-light">
                   {treatment.name}
@@ -174,7 +197,7 @@ const treatmentsToShow =
                   <span className="text-lg text-[#282828] font-quattro">0208 371 6922</span>
                 </div>
                  {data.pricing?.length > 0 && (
-                <div className="flex items-center text-[18px] font-quattro text-[#666666] tracking-wide mb-[37px] justify-center">
+                <div className="flex items-center text-[18px] font-quattro text-[#666666] tracking-wide mb-[37px] justify-center flex-wrap">
                   {data.pricing.map((p: any, i: number) => (
                     <>
                   <div className="px-[10px]">
@@ -242,6 +265,7 @@ const treatmentsToShow =
                 slug={item.slug}
                 image={item.thumbnail_image}
                 bgColor={CARD_COLORS[index % CARD_COLORS.length]}
+                locationId={locationId}
               />
             ))}
           </div>
