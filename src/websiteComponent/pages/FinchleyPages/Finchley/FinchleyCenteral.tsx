@@ -195,14 +195,15 @@ if (!landingData) {
           </div>
           <h4 className="tracking-[2px] text-sm sm:text-[22px] leading-[24px] mb-4">Hours</h4>
           <p className="text-[#666666] text-sm sm:text-lg font-quattro flex flex-wrap justify-center gap-1">
-              {landingData.opening_hours.map((day: any) => (
+              {/* {landingData.opening_hours.map((day: any) => (
             <div key={day.id}>
               {day.day.charAt(0).toUpperCase() + day.day.slice(1)} :{" "}
               {day.is_closed
                 ? "Closed"
                 : `${day.start_time} - ${day.end_time}`}
             </div>
-          ))}
+          ))} */}
+          Monday : 06:20 - 06:50
           </p>
         </div>
 
