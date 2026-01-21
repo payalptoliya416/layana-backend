@@ -39,7 +39,7 @@ const basePath = currentPath.split("/treatments")[0] + "/treatments";
   return (
     <div
       onClick={handleClick}
-      className="relative group overflow-hidden w-[358px] h-[300px] sm:h-[358px] cursor-pointer"
+      className="relative group overflow-hidden sm:w-[358px] h-[300px] sm:h-[358px] cursor-pointer"
       style={{ backgroundColor: bgColor }}
     >
       {/* Hover Background Image */}

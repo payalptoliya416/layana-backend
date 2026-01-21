@@ -95,6 +95,19 @@ const getAvailableLocations = (
   if (!selectedLocation) return locations;
   return locations.filter((loc) => loc.slug !== selectedLocation.slug);
 };
+
+const isSinglePriceService = (selectedLocation: UILocation | null) => {
+  const blocks = selectedLocation
+    ? pricesData.filter(
+        (p) =>
+          p.location.toLowerCase() ===
+          selectedLocation.label.toLowerCase(),
+      )
+    : pricesData;
+
+  return blocks.length === 1 && blocks[0].services.length === 1;
+};
+
 /* ================= COMPONENT ================= */
 
 export default function Header() {
@@ -244,14 +257,17 @@ export default function Header() {
                     }
 
                     // ✅ CLICK ENABLED
-                    if (item.basePath === "/contact-us") {
+                    if (item.basePath === "/#") {
+                    // if (item.basePath === "/contact-us") {
                       return (
                         <Link
-                          to={withBase(
-                            selectedLocation
-                              ? `/${selectedLocation.slug}/contact-us`
-                              : "/contact-us",
+                          to={withBase("/"
                           )}
+                          // to={withBase(
+                          //   selectedLocation
+                          //     ? `/${selectedLocation.slug}/contact-us`
+                          //     : "/contact-us",
+                          // )}
                           state={
                             selectedLocation
                               ? {
@@ -355,7 +371,7 @@ export default function Header() {
         </button>
         </div> */}
 
-        <div className="flex items-center gap-2 lg:hidden">
+        <div className="flex items-center gap-5 sm:gap-2 lg:hidden">
           <div className="relative block lg:hidden">
             <button
               onClick={(e) => {
@@ -445,7 +461,7 @@ export default function Header() {
                       )}
 
                       {/* ================= PRICES (always dropdown) ================= */}
-                      {isPrice && (
+                      {/* {isPrice && (
                         <>
                           <button
                             onClick={() =>
@@ -469,7 +485,64 @@ export default function Header() {
                             />
                           )}
                         </>
-                      )}
+                      )} */}
+{isPrice && (() => {
+  const singlePrice = isSinglePriceService(selectedLocation);
+
+  // 🔹 SINGLE SERVICE → direct click
+  if (singlePrice) {
+    const block = selectedLocation
+      ? pricesData.find(
+          (p) =>
+            p.location.toLowerCase() ===
+            selectedLocation.label.toLowerCase(),
+        )
+      : pricesData[0];
+
+    const service = block!.services[0];
+
+    return (
+      <Link
+        to={withBase(
+          selectedLocation
+            ? `/${selectedLocation.slug}/prices/${service.slug}`
+            : `/prices/${service.slug}`,
+        )}
+        onClick={() => setOpen(false)}
+        className="block uppercase"
+      >
+        {item.label}
+      </Link>
+    );
+  }
+
+  // 🔹 MULTIPLE SERVICES → dropdown
+  return (
+    <>
+      <button
+        onClick={() =>
+          setActiveDropdown(
+            activeDropdown === "prices" ? null : "prices",
+          )
+        }
+        className="w-full flex justify-between items-center uppercase"
+      >
+        <span>{item.label}</span>
+        <ChevronDown size={14} />
+      </button>
+
+      {activeDropdown === "prices" && (
+        <MobilePrices
+          selectedLocation={selectedLocation}
+          onClose={() => {
+            setOpen(false);
+            setActiveDropdown(null);
+          }}
+        />
+      )}
+    </>
+  );
+})()}
 
                       {/* ================= DROPDOWN ITEMS ================= */}
                       {!isPrice && hasDropdown && !hasLocation && (
@@ -509,6 +582,7 @@ export default function Header() {
                       {!isPrice &&
                         item.basePath &&
                         hasLocation &&
+                        // item.basePath !== "/#" && (
                         item.basePath !== "/contact-us" && (
                           <Link
                             to={withBase(
@@ -567,7 +641,7 @@ const DesktopLocations = ({
   onSelect: (loc: UILocation) => void;
 }) => (
   <div className="absolute left-0 top-full pt-2 ">
-    <div className="w-[130px] sm:w-[160px] bg-white rounded-b-md overflow-hidden pt-[10px]">
+    <div className="w-[150px] sm:w-[160px] bg-white rounded-b-md overflow-hidden pt-[10px]">
       {getAvailableLocations(locations, selectedLocation).map((loc) => (
         <Link
           key={loc.slug}

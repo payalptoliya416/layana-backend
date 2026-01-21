@@ -5,7 +5,7 @@ import CommonButton from "@/websiteComponent/common/home/CommonButton";
 import MassageCard from "@/websiteComponent/common/home/MasssageCard";
 import { useLocation, useParams } from "react-router-dom";
 import { useEffect, useMemo, useState } from "react";
-import { getTreatmentById, getViewTreatmentById, TreatmentView } from "@/websiteComponent/api/treatments.api";
+import { getTreatmentById, getTreatmentIdBySlug, getViewTreatmentById, TreatmentView } from "@/websiteComponent/api/treatments.api";
 import Loader from "@/websiteComponent/common/Loader";
 import { Breadcrumb } from "./Breadcrumb";
 import { IoCall } from "react-icons/io5";
@@ -20,29 +20,51 @@ function OilMassage() {
 const locationId = location.state?.locationId;
 const { locationSlug, treatmentSlug } = useParams();
 const [resolvedLocationId, setResolvedLocationId] = useState<number | null>(null);
+const finalLocationId = locationId ?? resolvedLocationId;
+const [resolvedTreatmentId, setResolvedTreatmentId] = useState<number | null>(null);
+
+const finalTreatmentId = treatmentId ?? resolvedTreatmentId;
+console.log("finalTreatmentId",finalTreatmentId)
+
 useEffect(() => {
-  // jo already state mathi locationId aavi gayu hoy
+  // jo already treatmentId hoy to slug call na karo
+  if (treatmentId) {
+    setResolvedTreatmentId(treatmentId);
+    return;
+  }
+
+  if (!treatmentSlug) return;
+
+  // 🔹 API call by slug
+  getTreatmentIdBySlug(treatmentSlug)
+    .then((res) => {
+      const id = res?.data?.id;
+      if (id) {
+        setResolvedTreatmentId(id);
+      }
+    });
+}, [treatmentId, treatmentSlug]);
+
+useEffect(() => {
   if (locationId) {
     setResolvedLocationId(locationId);
     return;
   }
 
-  // jo URL ma locationSlug nathi ( /treatments/:slug case )
   if (!locationSlug) return;
 
-  getLocations()
-    .then((res) => {
-      const locations = res.data ?? [];
+  getLocations().then((res) => {
+    const locations = res.data ?? [];
 
-      const matched = locations.find(
-        (loc: any) => loc.slug === locationSlug
-      );
+    const matched = locations.find(
+      (loc: any) => loc.slug === locationSlug
+    );
 
-      if (matched) {
-        setResolvedLocationId(matched.id);
-      }
-    });
-}, [locationId, locationSlug]);
+    if (matched) {
+      setResolvedLocationId(matched.id);
+    }
+  });
+}, [locationId, locationSlug])
 
   const [data, setData] = useState<any>(null);
   const [loading, setLoading] = useState(true);
@@ -78,12 +100,13 @@ useEffect(() => {
 }, [treatmentViewIds]);
 
  useEffect(() => {
-  if (!treatmentId || !locationId) return;
+  if (!finalTreatmentId || !finalLocationId) return;
+
  setLoading(true);  
   setData(null);
-  getTreatmentById({
-    id: treatmentId,
-    location_id: locationId,
+   getTreatmentById({
+    id: finalTreatmentId,
+    location_id: finalLocationId,
   })
     .then((res) => {
       setData(res.data);

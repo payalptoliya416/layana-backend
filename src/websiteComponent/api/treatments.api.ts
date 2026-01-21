@@ -77,3 +77,15 @@ export const getViewTreatmentById = (ids: number[]) => {
     }
   );
 };
+export const getTreatmentIdBySlug = (slug: string) => {
+  return publicApi<{
+    status: string;
+    data: {
+      id: number;
+      name: string;
+      slug: string;
+    };
+  }>(`/frontend/treatment-id-by-slug?slug=${slug}`, {
+    method: "GET",
+  });
+};
