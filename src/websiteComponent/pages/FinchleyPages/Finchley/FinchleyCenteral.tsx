@@ -203,7 +203,7 @@ if (!landingData) {
                 : `${day.start_time} - ${day.end_time}`}
             </div>
           ))} */}
-          Monday : 06:20 - 06:50
+           06:20 - 06:50
           </p>
         </div>
 
