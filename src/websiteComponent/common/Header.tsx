@@ -313,7 +313,7 @@ if (!canShowDropdown(item, selectedLocation) && item.dropdownKey) {
 
         {/* Mobile Toggle */}
         <div className="flex items-center gap-2 lg:hidden">
-           <div
+           {/* <div
           className="relative block lg:hidden group"
           onMouseEnter={() => setActiveDropdown("location")}
           onMouseLeave={() => setActiveDropdown(null)}
@@ -334,7 +334,34 @@ if (!canShowDropdown(item, selectedLocation) && item.dropdownKey) {
   }}
             />
           )}
-        </div>
+        </div> */}
+        <div className="relative block lg:hidden">
+  <button
+    onClick={(e) => {
+      e.stopPropagation();
+      setActiveDropdown(
+        activeDropdown === "location" ? null : "location"
+      );
+    }}
+    className="flex items-center gap-2 text-xs tracking-widest"
+  >
+    <FaLocationDot size={14} />
+    {selectedLocation?.label ?? "Choose Location"}
+  </button>
+
+  {activeDropdown === "location" && (
+    <DesktopLocations
+      baseUrl={withBase("")}
+      locations={locations}
+      selectedLocation={selectedLocation}
+      onSelect={(loc) => {
+        setSelectedLocation(loc);
+        setActiveDropdown(null);
+      }}
+    />
+  )}
+</div>
+
         <button className="lg:hidden" onClick={() => setOpen(!open)}>
           {open ? <X size={28} /> : <img src={menuimg} alt="menu"/>}
         </button>
