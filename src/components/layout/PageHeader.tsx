@@ -126,7 +126,7 @@ const GlobalLoader = () => {
     <>
      {visibleLoader && <GlobalLoader />}
 
-    <header className="relative flex items-center px-2 justify-between sm:px-6 bg-card py-3 rounded-2xl gap-[1px] sm:gap-1">
+    <header className="relative flex items-center px-2 justify-between sm:px-6 bg-card py-3 rounded-2xl gap-[1px] sm:gap-1 overflow-x-hidden">
        <button
     onClick={onMenuClick}
     className="lg:hidden flex items-center justify-center
@@ -162,24 +162,22 @@ const GlobalLoader = () => {
       </button>
     )}
     {/* Page Title */}
-   <h1
-  className=" 
-    2xl:absolute
-    2xl:left-1/2
-    2xl:-translate-x-1/2
-    2xl:text-center
-    sm:flex-1
-    sm:p-2 lg:p-5
-    rounded-[20px]
-    text-base md:text-[28px]
-    font-semibold
-    text-foreground
-     max-w-[20%]  md:max-w-[60%]  lg:max-w-full     
-    truncate
-  "
->
-  {title}
-</h1> 
+      <h1
+      className="
+        flex-1 min-w-0
+        truncate
+        text-base md:text-[28px]
+        font-semibold text-foreground
+
+        2xl:absolute
+        2xl:left-1/2
+        2xl:-translate-x-1/2
+        2xl:text-center
+      "
+      title={title}
+    >
+      {title}
+    </h1>
 
       {/* Right Actions */}
       <div className="self-end lg:ml-auto flex items-center gap-2 sm:gap-3">
