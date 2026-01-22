@@ -82,6 +82,9 @@ const minInputRef = useRef<HTMLInputElement>(null);
       setDuration(String(item.duration));
       setPrice(String(item.price));
       setBold(item.bold);
+          setTimeout(() => {
+       minInputRef.current?.focus();
+     }, 0);
     }
   }, [isEditing, item]);
 
@@ -90,11 +93,7 @@ const minInputRef = useRef<HTMLInputElement>(null);
   setDuration(String(item.duration));
   setPrice(String(item.price));
   setBold(item.bold);
-    
-    setTimeout(() => {
-       minInputRef.current?.focus();
-     }, 0);
-
+  
   // parent ne bolo edit bandh karo
   onCancel();
 };

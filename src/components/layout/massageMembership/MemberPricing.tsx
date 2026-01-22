@@ -73,7 +73,7 @@ function PricingSortableRow({
   const [offer, setOffer] = useState(String(item.offer_price));
   const [each, setEach] = useState(String(item.each_price));
   const [price, setPrice] = useState(String(item.price));
-
+const minInputRef = useRef<HTMLInputElement>(null);
   /* ✅ reset when edit starts */
   useEffect(() => {
     if (isEditing) {
@@ -81,6 +81,10 @@ function PricingSortableRow({
       setOffer(String(item.offer_price));
       setEach(String(item.each_price));
       setPrice(String(item.price));
+
+       setTimeout(() => {
+       minInputRef.current?.focus();
+     }, 0);
     }
   }, [isEditing, item]);
 const handleCancel = () => {
@@ -111,7 +115,7 @@ const inputCls =
       >
         <div className="w-[20%]">
           {isEditing ? (
-            <input value={duration} onChange={(e) => setDuration(e.target.value)} className={inputCls} />
+            <input  ref={minInputRef} value={duration} onChange={(e) => setDuration(e.target.value)} className={inputCls} />
           ) : (
             <span>{item.duration} min</span>
           )}

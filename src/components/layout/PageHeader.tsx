@@ -186,7 +186,6 @@ const GlobalLoader = () => {
   {title}
 </h1>
 
-
       {/* Right Actions */}
       <div className="self-end lg:ml-auto flex items-center gap-1 sm:gap-3">
         {/* Theme Toggle */}
