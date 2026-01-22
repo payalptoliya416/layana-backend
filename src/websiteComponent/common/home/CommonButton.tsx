@@ -23,7 +23,7 @@ export default function CommonButton({
 }: Props) {
   //  md:w-[260px]
   const baseClass = `
-    border border-black px-[50px] py-[23px]
+    border border-black p-[15px] sm:px-[50px] sm:py-[23px]
     flex items-center justify-center
     font-muli text-[12px] leading-[12px]
     tracking-[2px] uppercase

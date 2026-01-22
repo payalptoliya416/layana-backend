@@ -24,7 +24,6 @@ const finalLocationId = locationId ?? resolvedLocationId;
 const [resolvedTreatmentId, setResolvedTreatmentId] = useState<number | null>(null);
 
 const finalTreatmentId = treatmentId ?? resolvedTreatmentId;
-console.log("finalTreatmentId",finalTreatmentId)
 
 useEffect(() => {
   // jo already treatmentId hoy to slug call na karo

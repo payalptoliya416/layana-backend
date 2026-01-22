@@ -87,10 +87,10 @@ function WebsiteRoutes() {
     />
 
     {/* ================= MEMBERSHIPS ================= */}
-    {/* <Route
+    <Route
       path="/:locationSlug/memberships"
       element={<MemberShip />}
-    /> */}
+    />
 
     {/* ================= SPA PACKAGES ================= */}
     {/* <Route

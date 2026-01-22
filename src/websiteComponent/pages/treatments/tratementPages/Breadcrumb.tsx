@@ -4,14 +4,13 @@ import { withBase } from "@/websiteComponent/common/Header";
 
 export function Breadcrumb() {
   const { locationSlug } = useParams();
-  const location = useLocation();
+  const { pathname } = useLocation();
 
   if (!locationSlug) return null;
 
-  const pathname = location.pathname.replace(/\/$/, "");
-
-  // 👉 check if treatments is LAST page
-  const isTreatmentsLast = pathname.endsWith(`/${locationSlug}/treatments`);
+  const cleanPath = pathname.replace(/\/$/, "");
+  const showTreatments =
+    cleanPath.includes(`/${locationSlug}/treatments/`);
 
   return (
     <div className="mt-[5px] text-sm sm:text-xl lg:text-2xl text-white/90 flex items-center justify-center gap-2 flex-wrap">
@@ -24,8 +23,8 @@ export function Breadcrumb() {
         {slugToTitle(locationSlug)}
       </Link>
 
-      {/* TREATMENTS (only if NOT last page) */}
-      {!isTreatmentsLast && (
+      {/* TREATMENTS */}
+      {showTreatments && (
         <>
           <span>/</span>
           <Link
