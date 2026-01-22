@@ -196,7 +196,6 @@ export default function PackageCard({
             item.pricing.options.map((opt, i) => (
               <span key={i}>
                 {opt.label} {opt.price}
-                 {/* {i !== item.pricing.options.length - 1 && " | "} */} | {""}
               </span>
             ))
           )}
@@ -218,7 +217,7 @@ export default function PackageCard({
           <p className="italic text-base leading-[16px] mb-5">"{item.quote}"</p>
         )}
 
-        <CommonButton className="mx-auto  md:!w-[178px] !h-[50px] md:!h-[60px]">
+        <CommonButton className="mx-auto">
           BOOK NOW
         </CommonButton>
       </div>

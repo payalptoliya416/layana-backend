@@ -114,7 +114,7 @@ const mapMembershipsToPlans = (memberships: Membership[]): MembershipPlan[] => {
                 How does it work?
               </h4>
 
-              <ul className="space-y-3 list-disc pl-5 text-justify text-[#666666] font-quattro">
+              <ul className="space-y-3 list-disc pl-5 text-justify text-[#666666] font-quattro text-base">
                 <li>
                   Select desired annual membership option, pay & activate, start
                   the programme.
@@ -194,7 +194,7 @@ const mapMembershipsToPlans = (memberships: Membership[]): MembershipPlan[] => {
 
         {/* Top */}
         <div className="sm:text-center max-w-3xl mx-auto mb-[50px] mt-[30px]">
-          <h2 className="text-lg mb-[15px] font-semibold">
+          <h2 className="text-lg mb-[15px] font-bold font-mulish">
             TERMS & CONDITIONS
           </h2>
 
@@ -209,10 +209,11 @@ const mapMembershipsToPlans = (memberships: Membership[]): MembershipPlan[] => {
         </div>
 
         {/* Bottom grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-y-4 sm:gap-y-10 md:gap-y-10 gap-x-40">
+        <div className="flex justify-center">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-y-4 sm:gap-y-10 md:gap-y-10 gap-x-40  max-w-4xl w-full">
 
           <div>
-            <h3 className="text-base sm:text-lg font-semibold uppercase mb-2">
+            <h3 className="text-base sm:text-lg font-bold uppercase mb-2 font-mulish">
               SESSION MINUTES
             </h3>
             <p className="text-[#666666] font-quattro text-sm sm:text-base">
@@ -221,7 +222,7 @@ const mapMembershipsToPlans = (memberships: Membership[]): MembershipPlan[] => {
           </div>
 
           <div>
-            <h3 className="text-base sm:text-lg font-semibold uppercase mb-2">
+            <h3 className="text-base sm:text-lg font-bold uppercase mb-2 font-mulish">
               PACKAGE
             </h3>
             <p className="text-[#666666] font-quattro text-sm sm:text-base">
@@ -230,7 +231,7 @@ const mapMembershipsToPlans = (memberships: Membership[]): MembershipPlan[] => {
           </div>
 
           <div>
-            <h3 className="text-base sm:text-lg font-semibold uppercase mb-2">
+            <h3 className="text-base sm:text-lg font-bold uppercase mb-2 font-mulish">
               REFUND / EXCHANGE
             </h3>
             <p className="text-[#666666] font-quattro text-sm sm:text-base">
@@ -239,7 +240,7 @@ const mapMembershipsToPlans = (memberships: Membership[]): MembershipPlan[] => {
           </div>
 
           <div>
-            <h3 className="text-base sm:text-lg font-semibold uppercase mb-2">
+            <h3 className="text-base sm:text-lg font-bold uppercase mb-2 font-mulish">
               NO SHOW OR CANCELLATION
             </h3>
             <p className="text-[#666666] font-quattro text-sm sm:text-base">
@@ -247,6 +248,7 @@ const mapMembershipsToPlans = (memberships: Membership[]): MembershipPlan[] => {
             </p>
           </div>
 
+        </div>
         </div>
       </div>
     </section>
