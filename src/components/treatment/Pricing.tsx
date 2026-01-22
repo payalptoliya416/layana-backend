@@ -1,7 +1,6 @@
   import { forwardRef, useEffect, useImperativeHandle, useRef, useState } from "react";
-  import { Check, GripVertical, Pencil, Send, Trash2, X } from "lucide-react";
+  import { Check, GripVertical, Pencil, Trash2, X } from "lucide-react";
   import SwitchToggle from "./Toggle";
-  import ActionsDropdown from "./ActionsDropdown";
   import BranchGrid from "../branches/BranchGrid";
 import { arrayMove } from "@dnd-kit/sortable";
 import {
@@ -54,6 +53,7 @@ function SortableRow({
     transform: CSS.Transform.toString(transform),
     transition,
   };
+const minInputRef = useRef<HTMLInputElement>(null);
 
  const [min, setMin] = useState<string>(String(item.min));
 const [price, setPrice] = useState<string>(String(item.price));
@@ -64,7 +64,12 @@ useEffect(() => {
     setMin(String(item.min));
     setPrice(String(item.price));
     setBold(item.bold);
+    
+    setTimeout(() => {
+       minInputRef.current?.focus();
+     }, 0);
   }
+
 }, [isEditing, item]);
 
 const handleCancel = () => {
@@ -97,6 +102,7 @@ const handleCancel = () => {
           </span>
 
           <input
+            ref={minInputRef}
             type="number"
             readOnly={!isEditing}
             value={min}

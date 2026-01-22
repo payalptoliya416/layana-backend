@@ -102,19 +102,6 @@ function SortableRow({
             ? item.status.charAt(0).toUpperCase() + item.status.slice(1)
             : ""}
         </div>
-
-        {/* <div className="w-[20%] pl-4">
-          {item.locations?.length ?? 0}
-        </div>
-
-        <div className="w-[20%] pl-4">
-          {item.pricing?.length ?? 0}
-        </div>
-
-        <div className="w-[10%] pl-4">
-          {item.faq?.length ?? 0}
-        </div> */}
-
         {/* ACTIONS */}
         <div className="w-[160px] flex justify-end gap-2 pl-4">
           <td className="w-[160px] flex justify-start gap-2 whitespace-nowrap pl-4">
@@ -155,18 +142,6 @@ function SortableRow({
                 </span>
             </p>
             <p className="font-medium">{item.name}</p>
-{/* 
-            <p className="text-sm text-muted-foreground mt-1">
-              Locations: {item.locations?.length ?? 0}
-            </p>
-
-            <p className="text-sm text-muted-foreground mt-1">
-              Pricing Plans: {item.pricing?.length ?? 0}
-            </p>
-
-            <p className="text-sm text-muted-foreground mt-1">
-              FAQs: {item.faq?.length ?? 0}
-            </p> */}
           </div>
 
           <div className="flex gap-2 self-start">

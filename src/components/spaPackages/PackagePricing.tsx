@@ -17,7 +17,6 @@
     } from "@dnd-kit/sortable";
     import { CSS } from "@dnd-kit/utilities";
     import SwitchToggle from "../treatment/Toggle";
-    import ActionsDropdown from "../treatment/ActionsDropdown";
 
     /* ================= TYPES ================= */
 
@@ -73,7 +72,7 @@ function SortableRow({
     transform: CSS.Transform.toString(transform),
     transition,
   };
-
+const minInputRef = useRef<HTMLInputElement>(null);
   const [duration, setDuration] = useState<string>(String(item.duration));
   const [price, setPrice] = useState<string>(String(item.price));
   const [bold, setBold] = useState(item.bold);
@@ -91,6 +90,10 @@ function SortableRow({
   setDuration(String(item.duration));
   setPrice(String(item.price));
   setBold(item.bold);
+    
+    setTimeout(() => {
+       minInputRef.current?.focus();
+     }, 0);
 
   // parent ne bolo edit bandh karo
   onCancel();
@@ -110,6 +113,7 @@ function SortableRow({
       {/* DURATION */}
       <td className="px-4 py-3 border-y border-border">
         <input
+        ref={minInputRef}
           type="number"
           readOnly={!isEditing}
           value={duration}

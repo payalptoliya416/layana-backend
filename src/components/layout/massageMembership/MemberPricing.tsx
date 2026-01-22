@@ -43,98 +43,6 @@ type ValidationResult = {
 
 /* ================= SORTABLE ROW ================= */
 
-// function PricingSortableRow({
-//   item,
-//   index,
-//   onEdit,
-//   onDelete,
-// }: {
-//   item: UIPricing;
-//   index: number;
-//   onEdit: () => void;
-//   onDelete: () => void;
-// }) {
-//   const { attributes, listeners, setNodeRef, transform, transition } =
-//     useSortable({ id: item.id });
-
-//   const style = {
-//     transform: CSS.Transform.toString(transform),
-//     transition,
-//   };
-
-//   return (
-//     <div ref={setNodeRef} style={style}>
-//       {/* ================= DESKTOP ROW ================= */}
-//       <div
-//         className={cn(
-//           "hidden xl:flex items-center px-4 py-3 mx-4 my-1 rounded-xl",
-//           index % 2 === 0 ? "bg-card" : "bg-muted",
-//           "hover:bg-muted/70"
-//         )}
-//       >
-//         <div className="w-[20%]">{item.duration} min</div>
-//         <div className="w-[20%]">£{item.offer_price}</div>
-//         <div className="w-[20%]">£{item.each_price}</div>
-//         <div className="w-[20%]">£{item.price}</div>
-
-//         {/* ACTIONS */}
-//         <div className="w-[120px] flex justify-end">
-//            <div className="flex gap-2">
-//             <button
-//               onClick={onEdit}
-//               className="h-7 w-7 rounded-full border flex items-center justify-center"
-//             >
-//               <Pencil size={14} />
-//             </button>
-//             <button
-//               onClick={onDelete}
-//               className="h-7 w-7 rounded-full border flex items-center justify-center"
-//             >
-//               <Trash2 size={14} />
-//             </button>
-//           </div>
-//         </div>
-//       </div>
-
-//       {/* ================= MOBILE CARD ================= */}
-//       <div className="xl:hidden mx-3 my-2 rounded-xl border bg-card p-4 space-y-2">
-//         <div className="flex justify-between items-start">
-
-//           <div className="flex-1 ml-3 space-y-1">
-//             <p className="font-medium">
-//               {item.duration} min
-//             </p>
-//             <p className="text-sm text-muted-foreground">
-//               Offer: £{item.offer_price}
-//             </p>
-//             <p className="text-sm text-muted-foreground">
-//               Each: £{item.each_price}
-//             </p>
-//             <p className="text-sm text-muted-foreground">
-//               Price: £{item.price}
-//             </p>
-//           </div>
-
-//           <div className="flex gap-2">
-//             <button
-//               onClick={onEdit}
-//               className="h-7 w-7 rounded-full border flex items-center justify-center"
-//             >
-//               <Pencil size={14} />
-//             </button>
-//             <button
-//               onClick={onDelete}
-//               className="h-7 w-7 rounded-full border flex items-center justify-center"
-//             >
-//               <Trash2 size={14} />
-//             </button>
-//           </div>
-//         </div>
-//       </div>
-//     </div>
-//   );
-// }
-
 function PricingSortableRow({
   item,
   index,
@@ -671,36 +579,29 @@ const handleDragEnd = (event: any) => {
         {/* ===== BODY ===== */}
         <div className="flex-1 overflow-y-auto scrollbar-thin">
           {uiPricing.map((item, index) => (
-            // <PricingSortableRow
-            //   key={item.id}
-            //   item={item}
-            //   index={index}
-            //   onEdit={() => handleEdit(index)}
-            //   onDelete={() => handleDelete(index)}
-            // />
             <PricingSortableRow
-  item={item}
-  index={index}
-  isEditing={editingRowId === item.id}
-  onEdit={() => setEditingRowId(item.id)}
-  onCancel={() => setEditingRowId(null)}
-onSave={(updated) => {
-  const globalIndex = findGlobalIndex(item);
-  if (globalIndex === -1) return;
+            item={item}
+            index={index}
+            isEditing={editingRowId === item.id}
+            onEdit={() => setEditingRowId(item.id)}
+            onCancel={() => setEditingRowId(null)}
+          onSave={(updated) => {
+            const globalIndex = findGlobalIndex(item);
+            if (globalIndex === -1) return;
 
-  const newValue = [...value];
-  newValue[globalIndex] = {
-    ...updated,
-    location_id: selectedBranchId!,
-    index: value[globalIndex].index,
-  };
+            const newValue = [...value];
+            newValue[globalIndex] = {
+              ...updated,
+              location_id: selectedBranchId!,
+              index: value[globalIndex].index,
+            };
 
-  onChange(newValue);
-  setEditingRowId(null);
-}}
+            onChange(newValue);
+            setEditingRowId(null);
+          }}
 
-  onDelete={() => handleDelete(index)}
-/>
+            onDelete={() => handleDelete(index)}
+          />
 
           ))}
         </div>
