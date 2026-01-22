@@ -475,52 +475,130 @@ useImperativeHandle(ref, () => ({
             key={item.id}
             className="rounded-xl border border-border bg-card p-4 space-y-3"
             >
-            <div className="flex items-center justify-between">
-                <span className="text-sm text-muted-foreground">Duration</span>
-                <span className="font-medium">{item.duration} min</span>
-            </div>
+          {/* DURATION */}
+<div className="flex items-center justify-between">
+  <span className="text-sm text-muted-foreground">Duration</span>
 
-            <div className="flex items-center justify-between">
-                <span className="text-sm text-muted-foreground">Price</span>
-                <span className="font-medium">£{item.price}</span>
-            </div>
+  {editingId === item.id ? (
+    <input
+      type="number"
+      value={duration}
+      onChange={(e) => setDuration(e.target.value)}
+      className="h-9 w-24 rounded-md border px-2 text-sm"
+    />
+  ) : (
+    <span className="font-medium">{item.duration} min</span>
+  )}
+</div>
 
-            <div className="flex items-center justify-between">
-                <span className="text-sm text-muted-foreground">Bold</span>
-                <SwitchToggle value={item.bold} onChange={() => {}} />
-            </div>
+{/* PRICE */}
+<div className="flex items-center justify-between">
+  <span className="text-sm text-muted-foreground">Price</span>
 
-            <div className="flex justify-end gap-2 pt-2">
-                <button
-                onClick={() => {
-                    setDuration(String(item.duration));
-                    setPrice(String(item.price));
-                    setBold(item.bold);
-                    setEditingId(item.id);
-                }}
-                className="text-sm px-3 py-1 rounded-md border border-border"
-                >
-                Edit
-                </button>
+  {editingId === item.id ? (
+    <input
+      type="number"
+      value={price}
+      onChange={(e) => setPrice(e.target.value)}
+      className="h-9 w-24 rounded-md border px-2 text-sm"
+    />
+  ) : (
+    <span className="font-medium">£{item.price}</span>
+  )}
+</div>
 
-                <button
-                onClick={() =>
-                    setPricingMap((p) => {
-                    const updated = {
-                        ...p,
-                        [selectedBranchId]: p[selectedBranchId].filter(
-                        (i) => i.id !== item.id
-                        ),
-                    };
-                    syncToApi(updated);
-                    return updated;
-                    })
-                }
-                className="text-sm px-3 py-1 rounded-md bg-destructive text-white"
-                >
-                Delete
-                </button>
-            </div>
+{/* BOLD */}
+<div className="flex items-center justify-between">
+  <span className="text-sm text-muted-foreground">Bold</span>
+
+  <SwitchToggle
+    value={editingId === item.id ? bold : item.bold}
+    onChange={() => editingId === item.id && setBold((b) => !b)}
+  />
+</div>
+
+{/* ACTIONS */}
+<div className="flex justify-end gap-2 pt-2">
+  {editingId === item.id ? (
+    <>
+      {/* SAVE */}
+      <button
+        onClick={() => {
+          setPricingMap((prev) => {
+            const updated = {
+              ...prev,
+              [selectedBranchId]: prev[selectedBranchId].map((i, idx) =>
+                i.id === item.id
+                  ? {
+                      ...i,
+                      duration: Number(duration),
+                      price: Number(price),
+                      bold,
+                      index: idx + 1,
+                    }
+                  : i
+              ),
+            };
+            syncToApi(updated);
+            return updated;
+          });
+          setEditingId(null);
+        }}
+        className="border rounded-full p-2 text-primary hover:bg-primary/10"
+      >
+        <Check size={16} />
+      </button>
+
+      {/* CANCEL */}
+      <button
+        onClick={() => {
+          setDuration(String(item.duration));
+          setPrice(String(item.price));
+          setBold(item.bold);
+          setEditingId(null);
+        }}
+        className="border rounded-full p-2 hover:bg-muted"
+      >
+        <X size={16} />
+      </button>
+    </>
+  ) : (
+    <>
+      {/* EDIT */}
+      <button
+        onClick={() => {
+          setDuration(String(item.duration));
+          setPrice(String(item.price));
+          setBold(item.bold);
+          setEditingId(item.id);
+        }}
+        className="border rounded-full p-2 hover:bg-muted"
+      >
+        <Pencil size={16} />
+      </button>
+
+      {/* DELETE */}
+      <button
+        onClick={() =>
+          setPricingMap((p) => {
+            const updated = {
+              ...p,
+              [selectedBranchId]: p[selectedBranchId].filter(
+                (i) => i.id !== item.id
+              ),
+            };
+            syncToApi(updated);
+            return updated;
+          })
+        }
+        className="border rounded-full p-2 text-destructive hover:bg-destructive/10"
+      >
+        <Trash2 size={16} />
+      </button>
+    </>
+  )}
+</div>
+
             </div>
         ))}
         </div>
