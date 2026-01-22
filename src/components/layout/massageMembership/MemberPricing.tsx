@@ -1,6 +1,6 @@
 "use client";
 
-import { forwardRef, useImperativeHandle, useRef, useState } from "react";
+import { forwardRef, useEffect, useImperativeHandle, useRef, useState } from "react";
 import {
   DndContext,
   closestCenter,
@@ -43,18 +43,116 @@ type ValidationResult = {
 
 /* ================= SORTABLE ROW ================= */
 
+// function PricingSortableRow({
+//   item,
+//   index,
+//   onEdit,
+//   onDelete,
+// }: {
+//   item: UIPricing;
+//   index: number;
+//   onEdit: () => void;
+//   onDelete: () => void;
+// }) {
+//   const { attributes, listeners, setNodeRef, transform, transition } =
+//     useSortable({ id: item.id });
+
+//   const style = {
+//     transform: CSS.Transform.toString(transform),
+//     transition,
+//   };
+
+//   return (
+//     <div ref={setNodeRef} style={style}>
+//       {/* ================= DESKTOP ROW ================= */}
+//       <div
+//         className={cn(
+//           "hidden xl:flex items-center px-4 py-3 mx-4 my-1 rounded-xl",
+//           index % 2 === 0 ? "bg-card" : "bg-muted",
+//           "hover:bg-muted/70"
+//         )}
+//       >
+//         <div className="w-[20%]">{item.duration} min</div>
+//         <div className="w-[20%]">£{item.offer_price}</div>
+//         <div className="w-[20%]">£{item.each_price}</div>
+//         <div className="w-[20%]">£{item.price}</div>
+
+//         {/* ACTIONS */}
+//         <div className="w-[120px] flex justify-end">
+//            <div className="flex gap-2">
+//             <button
+//               onClick={onEdit}
+//               className="h-7 w-7 rounded-full border flex items-center justify-center"
+//             >
+//               <Pencil size={14} />
+//             </button>
+//             <button
+//               onClick={onDelete}
+//               className="h-7 w-7 rounded-full border flex items-center justify-center"
+//             >
+//               <Trash2 size={14} />
+//             </button>
+//           </div>
+//         </div>
+//       </div>
+
+//       {/* ================= MOBILE CARD ================= */}
+//       <div className="xl:hidden mx-3 my-2 rounded-xl border bg-card p-4 space-y-2">
+//         <div className="flex justify-between items-start">
+
+//           <div className="flex-1 ml-3 space-y-1">
+//             <p className="font-medium">
+//               {item.duration} min
+//             </p>
+//             <p className="text-sm text-muted-foreground">
+//               Offer: £{item.offer_price}
+//             </p>
+//             <p className="text-sm text-muted-foreground">
+//               Each: £{item.each_price}
+//             </p>
+//             <p className="text-sm text-muted-foreground">
+//               Price: £{item.price}
+//             </p>
+//           </div>
+
+//           <div className="flex gap-2">
+//             <button
+//               onClick={onEdit}
+//               className="h-7 w-7 rounded-full border flex items-center justify-center"
+//             >
+//               <Pencil size={14} />
+//             </button>
+//             <button
+//               onClick={onDelete}
+//               className="h-7 w-7 rounded-full border flex items-center justify-center"
+//             >
+//               <Trash2 size={14} />
+//             </button>
+//           </div>
+//         </div>
+//       </div>
+//     </div>
+//   );
+// }
+
 function PricingSortableRow({
   item,
   index,
+  isEditing,
   onEdit,
+  onSave,
+  onCancel,
   onDelete,
 }: {
   item: UIPricing;
   index: number;
+  isEditing: boolean;
   onEdit: () => void;
+  onSave: (updated: UIPricing) => void;
+  onCancel: () => void;
   onDelete: () => void;
 }) {
-  const { attributes, listeners, setNodeRef, transform, transition } =
+  const { setNodeRef, transform, transition } =
     useSortable({ id: item.id });
 
   const style = {
@@ -62,79 +160,209 @@ function PricingSortableRow({
     transition,
   };
 
+  /* ✅ local edit state */
+  const [duration, setDuration] = useState(String(item.duration));
+  const [offer, setOffer] = useState(String(item.offer_price));
+  const [each, setEach] = useState(String(item.each_price));
+  const [price, setPrice] = useState(String(item.price));
+
+  /* ✅ reset when edit starts */
+  useEffect(() => {
+    if (isEditing) {
+      setDuration(String(item.duration));
+      setOffer(String(item.offer_price));
+      setEach(String(item.each_price));
+      setPrice(String(item.price));
+    }
+  }, [isEditing, item]);
+
+const inputCls =
+  "bg-transparent rounded px-2 xl:px-3 py-1 xl:py-2 text-sm outline-none focus:ring-2 focus:ring-ring/20 border-input" +
+  "w-[80px] xl:w-[100px] max-w-full " +
+  (isEditing
+    ? "border border-input"
+    : "border border-transparent");
+
   return (
     <div ref={setNodeRef} style={style}>
-      {/* ================= DESKTOP ROW ================= */}
+      {/* ================= DESKTOP ================= */}
       <div
         className={cn(
           "hidden xl:flex items-center px-4 py-3 mx-4 my-1 rounded-xl",
-          index % 2 === 0 ? "bg-card" : "bg-muted",
-          "hover:bg-muted/70"
+          index % 2 === 0 ? "bg-card" : "bg-muted"
         )}
       >
-        <div className="w-[20%]">{item.duration} min</div>
-        <div className="w-[20%]">£{item.offer_price}</div>
-        <div className="w-[20%]">£{item.each_price}</div>
-        <div className="w-[20%]">£{item.price}</div>
+        <div className="w-[20%]">
+          {isEditing ? (
+            <input value={duration} onChange={(e) => setDuration(e.target.value)} className={inputCls} />
+          ) : (
+            <span>{item.duration} min</span>
+          )}
+        </div>
+
+        <div className="w-[20%]">
+          {isEditing ? (
+            <input value={offer} onChange={(e) => setOffer(e.target.value)} className={inputCls} />
+          ) : (
+            <span>£{item.offer_price}</span>
+          )}
+        </div>
+
+        <div className="w-[20%]">
+          {isEditing ? (
+            <input value={each} onChange={(e) => setEach(e.target.value)} className={inputCls} />
+          ) : (
+            <span>£{item.each_price}</span>
+          )}
+        </div>
+
+        <div className="w-[20%]">
+          {isEditing ? (
+            <input value={price} onChange={(e) => setPrice(e.target.value)} className={inputCls} />
+          ) : (
+            <span>£{item.price}</span>
+          )}
+        </div>
 
         {/* ACTIONS */}
-        <div className="w-[120px] flex justify-end">
-           <div className="flex gap-2">
-            <button
-              onClick={onEdit}
-              className="h-7 w-7 rounded-full border flex items-center justify-center"
-            >
-              <Pencil size={14} />
-            </button>
-            <button
-              onClick={onDelete}
-              className="h-7 w-7 rounded-full border flex items-center justify-center"
-            >
-              <Trash2 size={14} />
-            </button>
-          </div>
+        <div className="w-[120px] flex justify-end gap-2">
+          {isEditing ? (
+            <>
+              <button
+                onClick={() =>
+                  onSave({
+                    ...item,
+                    duration: Number(duration),
+                    offer_price: Number(offer),
+                    each_price: Number(each),
+                    price: Number(price),
+                  })
+                }
+                className="h-7 w-7 rounded-full border text-primary flex justify-center items-center"
+              >
+                ✓
+              </button>
+              <button
+                onClick={onCancel}
+                className="h-7 w-7 rounded-full border flex justify-center items-center"
+              >
+                ✕
+              </button>
+            </>
+          ) : (
+            <>
+              <button onClick={onEdit} className="h-7 w-7 rounded-full border flex justify-center items-center">
+                <Pencil size={14} />
+              </button>
+              <button onClick={onDelete} className="h-7 w-7 rounded-full border text-destructive flex justify-center items-center">
+                <Trash2 size={14} />
+              </button>
+            </>
+          )}
         </div>
       </div>
 
-      {/* ================= MOBILE CARD ================= */}
-      <div className="xl:hidden mx-3 my-2 rounded-xl border bg-card p-4 space-y-2">
-        <div className="flex justify-between items-start">
+      {/* ================= MOBILE ================= */}
+    <div className="xl:hidden mx-3 my-2 rounded-xl border bg-card p-4 space-y-2">
 
-          <div className="flex-1 ml-3 space-y-1">
-            <p className="font-medium">
-              {item.duration} min
-            </p>
-            <p className="text-sm text-muted-foreground">
-              Offer: £{item.offer_price}
-            </p>
-            <p className="text-sm text-muted-foreground">
-              Each: £{item.each_price}
-            </p>
-            <p className="text-sm text-muted-foreground">
-              Price: £{item.price}
-            </p>
-          </div>
+  {/* DURATION */}
+  <div className="flex items-center gap-2 font-medium">
+    <span>min</span>
+    {isEditing ? (
+      <input
+        value={duration}
+        onChange={(e) => setDuration(e.target.value)}
+        className={inputCls}
+      />
+    ) : (
+      <span>{item.duration}</span>
+    )}
+  </div>
 
-          <div className="flex gap-2">
-            <button
-              onClick={onEdit}
-              className="h-7 w-7 rounded-full border flex items-center justify-center"
-            >
-              <Pencil size={14} />
-            </button>
-            <button
-              onClick={onDelete}
-              className="h-7 w-7 rounded-full border flex items-center justify-center"
-            >
-              <Trash2 size={14} />
-            </button>
-          </div>
-        </div>
-      </div>
+  {/* OFFER */}
+  <div className="flex items-center gap-2 text-sm text-muted-foreground">
+    <span>Offer:</span>
+    {isEditing ? (
+      <input
+        value={offer}
+        onChange={(e) => setOffer(e.target.value)}
+        className={inputCls}
+      />
+    ) : (
+      <span>£{item.offer_price}</span>
+    )}
+  </div>
+
+  {/* EACH */}
+  <div className="flex items-center gap-2 text-sm text-muted-foreground">
+    <span>Each:</span>
+    {isEditing ? (
+      <input
+        value={each}
+        onChange={(e) => setEach(e.target.value)}
+        className={inputCls}
+      />
+    ) : (
+      <span>£{item.each_price}</span>
+    )}
+  </div>
+
+  {/* PRICE */}
+  <div className="flex items-center gap-2 text-sm text-muted-foreground">
+    <span>Price:</span>
+    {isEditing ? (
+      <input
+        value={price}
+        onChange={(e) => setPrice(e.target.value)}
+        className={inputCls}
+      />
+    ) : (
+      <span>£{item.price}</span>
+    )}
+  </div>
+
+  {/* ACTIONS */}
+  <div className="flex justify-end gap-2 pt-2">
+    {isEditing ? (
+      <>
+        <button
+          onClick={() =>
+            onSave({
+              ...item,
+              duration: Number(duration),
+              offer_price: Number(offer),
+              each_price: Number(each),
+              price: Number(price),
+            })
+          }
+          className="h-7 w-7 rounded-full border text-primary flex justify-center items-center"
+        >
+          ✓
+        </button>
+        <button
+          onClick={onCancel}
+          className="h-7 w-7 rounded-full border flex justify-center items-center"
+        >
+          ✕
+        </button>
+      </>
+    ) : (
+      <>
+        <button onClick={onEdit} className="h-7 w-7 rounded-full border flex justify-center items-center">
+          <Pencil size={14} />
+        </button>
+        <button onClick={onDelete} className="h-7 w-7 rounded-full border text-destructive flex justify-center items-center">
+          <Trash2 size={14} />
+        </button>
+      </>
+    )}
+  </div>
+
+</div>
+
     </div>
   );
 }
-
 
 /* ================= MAIN COMPONENT ================= */
 
@@ -153,6 +381,7 @@ const MemberPricing = forwardRef<
   ref
 ) {
   const [editingId, setEditingId] = useState<number | null>(null);
+  const [editingRowId, setEditingRowId] = useState<string | null>(null);
 
   const [duration, setDuration] = useState("");
   const [offerPrice, setOfferPrice] = useState("");
@@ -215,6 +444,15 @@ const uiPricing: UIPricing[] = filteredPricing.map((p, i) => ({
     };
   },
 }));
+const findGlobalIndex = (row: UIPricing) =>
+  value.findIndex(
+    (v) =>
+      v.location_id === row.location_id &&
+      v.duration === row.duration &&
+      v.price === row.price &&
+      v.offer_price === row.offer_price &&
+      v.each_price === row.each_price
+  );
 
   /* ---------- ADD / UPDATE ---------- */
   const handleSave = () => {
@@ -331,7 +569,7 @@ const handleDragEnd = (event: any) => {
               value={duration}
               onChange={(e) => setDuration(e.target.value)}
               placeholder="Min"
-              className="h-10 w-full rounded-lg border border-input bg-card px-3 text-sm"
+              className="h-10 w-full rounded-lg border border-input bg-card px-3 text-sm focus:ring-2 focus:ring-ring/20 outline-none"
             />
           </div>
         </td>
@@ -344,7 +582,7 @@ const handleDragEnd = (event: any) => {
               value={offerPrice}
               onChange={(e) => setOfferPrice(e.target.value)}
               placeholder="£00"
-              className="h-10 w-full rounded-lg border border-input bg-card px-3 text-sm"
+              className="h-10 w-full rounded-lg border border-input bg-card px-3 text-sm focus:ring-2 focus:ring-ring/20 outline-none"
             />
           </div>
         </td>
@@ -357,7 +595,7 @@ const handleDragEnd = (event: any) => {
               value={eachPrice}
               onChange={(e) => setEachPrice(e.target.value)}
               placeholder="£00"
-              className="h-10 w-full rounded-lg border border-input bg-card px-3 text-sm"
+              className="h-10 w-full rounded-lg border border-input bg-card px-3 text-sm focus:ring-2 focus:ring-ring/20 outline-none"
             />
           </div>
         </td>
@@ -370,7 +608,7 @@ const handleDragEnd = (event: any) => {
               value={price}
               onChange={(e) => setPrice(e.target.value)}
               placeholder="£00"
-              className="h-10 w-full rounded-lg border border-input bg-card px-3 text-sm"
+              className="h-10 w-full rounded-lg border border-input bg-card px-3 text-sm focus:ring-2 focus:ring-ring/20 outline-none"
             />
           </div>
         </td>
@@ -423,13 +661,37 @@ const handleDragEnd = (event: any) => {
         {/* ===== BODY ===== */}
         <div className="flex-1 overflow-y-auto scrollbar-thin">
           {uiPricing.map((item, index) => (
+            // <PricingSortableRow
+            //   key={item.id}
+            //   item={item}
+            //   index={index}
+            //   onEdit={() => handleEdit(index)}
+            //   onDelete={() => handleDelete(index)}
+            // />
             <PricingSortableRow
-              key={item.id}
-              item={item}
-              index={index}
-              onEdit={() => handleEdit(index)}
-              onDelete={() => handleDelete(index)}
-            />
+  item={item}
+  index={index}
+  isEditing={editingRowId === item.id}
+  onEdit={() => setEditingRowId(item.id)}
+  onCancel={() => setEditingRowId(null)}
+onSave={(updated) => {
+  const globalIndex = findGlobalIndex(item);
+  if (globalIndex === -1) return;
+
+  const newValue = [...value];
+  newValue[globalIndex] = {
+    ...updated,
+    location_id: selectedBranchId!,
+    index: value[globalIndex].index,
+  };
+
+  onChange(newValue);
+  setEditingRowId(null);
+}}
+
+  onDelete={() => handleDelete(index)}
+/>
+
           ))}
         </div>
 

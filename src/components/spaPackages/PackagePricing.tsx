@@ -5,7 +5,7 @@
     useRef,
     useState,
     } from "react";
-    import { GripVertical } from "lucide-react";
+    import { Check, GripVertical, Pencil, Trash2, X } from "lucide-react";
     import BranchGrid from "../branches/BranchGrid";
 
     import { DndContext, closestCenter } from "@dnd-kit/core";
@@ -53,11 +53,17 @@
 
 function SortableRow({
   item,
+  isEditing,
   onEdit,
+  onSave,
+  onCancel,
   onDelete,
 }: {
   item: PricingItem;
+  isEditing: boolean;
   onEdit: () => void;
+  onSave: (updated: PricingItem) => void;
+  onCancel: () => void;
   onDelete: () => void;
 }) {
   const { attributes, listeners, setNodeRef, transform, transition } =
@@ -67,6 +73,18 @@ function SortableRow({
     transform: CSS.Transform.toString(transform),
     transition,
   };
+
+  const [duration, setDuration] = useState<string>(String(item.duration));
+  const [price, setPrice] = useState<string>(String(item.price));
+  const [bold, setBold] = useState(item.bold);
+
+  useEffect(() => {
+    if (isEditing) {
+      setDuration(String(item.duration));
+      setPrice(String(item.price));
+      setBold(item.bold);
+    }
+  }, [isEditing, item]);
 
   return (
     <tr ref={setNodeRef} style={style}>
@@ -80,47 +98,96 @@ function SortableRow({
         />
       </td>
 
-      {/* MIN */}
+      {/* DURATION */}
       <td className="px-4 py-3 border-y border-border">
-        <div className="flex items-center gap-3">
-          <span className="text-sm whitespace-nowrap text-muted-foreground">
-            Min
-          </span>
-          <input
-            readOnly
-            value={item.duration}
-            className="h-10 w-[180px] rounded-lg border border-input bg-card px-3 text-sm"
-          />
-        </div>
+        <input
+          type="number"
+          readOnly={!isEditing}
+          value={duration}
+          onChange={(e) => {
+            if (!isEditing) return;
+            const val = e.target.value;
+            if (val === "") return setDuration("");
+            if (/^\d+$/.test(val) && Number(val) > 0) setDuration(val);
+          }}
+          className="h-10 w-[180px] rounded-lg border px-3  focus:outline-none focus:ring-2 focus:ring-ring/20"
+        />
       </td>
 
       {/* PRICE */}
       <td className="px-4 py-3 border-y border-border">
-        <div className="flex items-center gap-3">
-          <span className="text-sm whitespace-nowrap text-muted-foreground">
-            Price
-          </span>
-          <input
-            readOnly
-            value={`£${item.price}`}
-            className="h-10 w-[180px] rounded-lg border border-input bg-card px-3 text-sm"
-          />
-        </div>
+        <input
+          type="number"
+          readOnly={!isEditing}
+          value={price}
+          onChange={(e) => {
+            if (!isEditing) return;
+            const val = e.target.value;
+            if (val === "") return setPrice("");
+            if (/^\d+$/.test(val) && Number(val) > 0) setPrice(val);
+          }}
+          className="h-10 w-[180px] rounded-lg border px-3  focus:outline-none focus:ring-2 focus:ring-ring/20"
+        />
       </td>
 
       {/* BOLD */}
       <td className="px-4 py-3 border-y border-border">
-        <div className="flex items-center gap-3">
-          <span className="text-sm whitespace-nowrap text-muted-foreground">
-            Bold
-          </span>
-          <SwitchToggle value={item.bold} onChange={() => {}} />
-        </div>
+        <SwitchToggle
+          value={bold}
+          onChange={() => isEditing && setBold((b) => !b)}
+        />
       </td>
 
-      {/* ACTION */}
+      {/* ACTIONS */}
       <td className="px-4 py-3 border-y border-border border-r rounded-tr-[10px] rounded-br-[10px] text-right">
-        <ActionsDropdown onEdit={onEdit} onDelete={onDelete} />
+        {isEditing ? (
+          <div className="inline-flex gap-2">
+            {/* SAVE */}
+            <button
+              onClick={() =>
+                onSave({
+                  ...item,
+                  duration: Number(duration),
+                  price: Number(price),
+                  bold,
+                })
+              }
+              className="border rounded-full p-2 text-primary hover:bg-primary/10"
+              title="Save"
+            >
+              <Check size={14} />
+            </button>
+
+            {/* CANCEL */}
+            <button
+              onClick={onCancel}
+              className="border rounded-full p-2 text-muted-foreground hover:bg-muted"
+              title="Cancel"
+            >
+              <X size={14} />
+            </button>
+          </div>
+        ) : (
+          <div className="inline-flex gap-2">
+            {/* EDIT */}
+            <button
+              onClick={onEdit}
+              className="border rounded-full p-2 hover:bg-muted"
+              title="Edit"
+            >
+              <Pencil size={14} />
+            </button>
+
+            {/* DELETE */}
+            <button
+              onClick={onDelete}
+              className="border rounded-full p-2 text-destructive hover:bg-destructive/10"
+              title="Delete"
+            >
+              <Trash2 size={14} />
+            </button>
+          </div>
+        )}
       </td>
     </tr>
   );
@@ -148,6 +215,7 @@ function SortableRow({
     const [price, setPrice] = useState("");
     const [bold, setBold] = useState(false);
     const [editingId, setEditingId] = useState<number | null>(null);
+    const [editingRowId, setEditingRowId] = useState<number | null>(null);
 
     const [pricingMap, setPricingMap] = useState<
         Record<number, PricingItem[]>
@@ -332,7 +400,7 @@ useImperativeHandle(ref, () => ({
                                         value={duration}
                                         onChange={(e) => setDuration(e.target.value)}
                                         placeholder="00"
-                                        className="h-10 w-full xl:w-[180px] rounded-lg border border-input bg-card px-3 text-sm"
+                                        className="h-10 w-full xl:w-[180px] rounded-lg border border-input bg-card px-3 text-sm  focus:outline-none focus:ring-2 focus:ring-ring/20"
                                         />
 
                                 </div>
@@ -452,7 +520,7 @@ useImperativeHandle(ref, () => ({
                 >
                 <table className="w-full border-separate border-spacing-y-2">
                     <tbody>
-                    {(pricingMap[selectedBranchId] || []).map((item) => (
+                    {/* {(pricingMap[selectedBranchId] || []).map((item) => (
                         <SortableRow
                         key={item.id}
                         item={item}
@@ -475,6 +543,40 @@ useImperativeHandle(ref, () => ({
                             })
                         }
                         />
+                    ))} */}
+                    {(pricingMap[selectedBranchId] || []).map((item) => (
+                      <SortableRow
+                        key={item.id}
+                        item={item}
+                        isEditing={editingRowId === item.id}
+                        onEdit={() => setEditingRowId(item.id)}
+                        onCancel={() => setEditingRowId(null)}
+                        onSave={(updated) => {
+                          setPricingMap((prev) => {
+                            const updatedMap = {
+                              ...prev,
+                              [selectedBranchId]: prev[selectedBranchId].map((i) =>
+                                i.id === updated.id ? updated : i
+                              ),
+                            };
+                            syncToApi(updatedMap);
+                            return updatedMap;
+                          });
+                          setEditingRowId(null);
+                        }}
+                        onDelete={() => {
+                          setPricingMap((prev) => {
+                            const updated = {
+                              ...prev,
+                              [selectedBranchId]: prev[selectedBranchId].filter(
+                                (i) => i.id !== item.id
+                              ),
+                            };
+                            syncToApi(updated);
+                            return updated;
+                          });
+                        }}
+                      />
                     ))}
                     </tbody>
                 </table>

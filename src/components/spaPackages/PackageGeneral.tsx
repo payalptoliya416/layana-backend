@@ -189,7 +189,6 @@ useEffect(() => {
         />
       </div>
 
-      {/* DESCRIPTION */}
       <div>
         <label className="text-sm font-medium">
           Description{" "}
