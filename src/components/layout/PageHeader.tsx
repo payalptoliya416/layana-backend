@@ -162,25 +162,33 @@ const GlobalLoader = () => {
       </button>
     )}
     {/* Page Title */}
-      <h1
-      className="
-        flex-1 min-w-0
-        truncate
-        text-base md:text-[28px]
-        font-semibold text-foreground
+ <h1
+  className="
+    flex-1 min-w-0
+    w-0 2xl:w-auto
 
-        2xl:absolute
-        2xl:left-1/2
-        2xl:-translate-x-1/2
-        2xl:text-center
-      "
-      title={title}
-    >
-      {title}
-    </h1>
+    truncate
+    text-base md:text-[28px]
+    leading-tight md:leading-[34px]
+    font-semibold text-foreground
+
+    max-w-full sm:max-w-[60%] lg:max-w-full
+
+    2xl:absolute
+    2xl:left-1/2
+    2xl:-translate-x-1/2
+    2xl:top-1/2
+    2xl:-translate-y-1/2
+    2xl:text-center
+  "
+  title={title}
+>
+  {title}
+</h1>
+
 
       {/* Right Actions */}
-      <div className="self-end lg:ml-auto flex items-center gap-2 sm:gap-3">
+      <div className="self-end lg:ml-auto flex items-center gap-1 sm:gap-3">
         {/* Theme Toggle */}
           {showBack && (
       <button
