@@ -67,6 +67,16 @@ useEffect(() => {
   }
 }, [isEditing, item]);
 
+const handleCancel = () => {
+  // 🔥 restore original values
+  setMin(String(item.min));
+  setPrice(String(item.price));
+  setBold(item.bold);
+
+  // parent ne bolavo ke edit bandh karo
+  onCancel();
+};
+
   return (
     <tr ref={setNodeRef} style={style}>
       {/* DRAG */}
@@ -178,7 +188,7 @@ useEffect(() => {
 
       {/* CANCEL */}
       <button
-        onClick={onCancel}
+          onClick={handleCancel}
         className="border rounded-full p-2 text-muted-foreground hover:bg-muted"
         title="Cancel"
       >

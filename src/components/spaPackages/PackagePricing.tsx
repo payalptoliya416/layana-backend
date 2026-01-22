@@ -86,6 +86,15 @@ function SortableRow({
     }
   }, [isEditing, item]);
 
+  const handleCancel = () => {
+  // 🔥 restore original values
+  setDuration(String(item.duration));
+  setPrice(String(item.price));
+  setBold(item.bold);
+
+  // parent ne bolo edit bandh karo
+  onCancel();
+};
   return (
     <tr ref={setNodeRef} style={style}>
       {/* DRAG */}
@@ -160,7 +169,7 @@ function SortableRow({
 
             {/* CANCEL */}
             <button
-              onClick={onCancel}
+               onClick={handleCancel}
               className="border rounded-full p-2 text-muted-foreground hover:bg-muted"
               title="Cancel"
             >

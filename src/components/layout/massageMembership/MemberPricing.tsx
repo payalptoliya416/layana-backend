@@ -12,7 +12,7 @@ import {
   arrayMove,
 } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
-import { Pencil, Trash2 } from "lucide-react";
+import { Check, Pencil, Trash2, X } from "lucide-react";
 import MemberSHipGrid from "./MemberSHipGrid";
 import { cn } from "@/lib/utils";
 
@@ -175,10 +175,19 @@ function PricingSortableRow({
       setPrice(String(item.price));
     }
   }, [isEditing, item]);
+const handleCancel = () => {
+  // 🔥 restore original item values
+  setDuration(String(item.duration));
+  setOffer(String(item.offer_price));
+  setEach(String(item.each_price));
+  setPrice(String(item.price));
 
+  // parent ne bolo edit bandh karo
+  onCancel();
+};
 const inputCls =
   "bg-transparent rounded px-2 xl:px-3 py-1 xl:py-2 text-sm outline-none focus:ring-2 focus:ring-ring/20 border-input" +
-  "w-[80px] xl:w-[100px] max-w-full " +
+  "w-[80px] xl:w-[100px] max-w-full rounded-lg " +
   (isEditing
     ? "border border-input"
     : "border border-transparent");
@@ -240,13 +249,14 @@ const inputCls =
                 }
                 className="h-7 w-7 rounded-full border text-primary flex justify-center items-center"
               >
-                ✓
+            <Check size={14} />
               </button>
               <button
-                onClick={onCancel}
+                  onClick={handleCancel}
+
                 className="h-7 w-7 rounded-full border flex justify-center items-center"
               >
-                ✕
+                 <X size={14} />
               </button>
             </>
           ) : (
@@ -337,13 +347,13 @@ const inputCls =
           }
           className="h-7 w-7 rounded-full border text-primary flex justify-center items-center"
         >
-          ✓
+         <Check size={14} />
         </button>
         <button
-          onClick={onCancel}
+            onClick={handleCancel}
           className="h-7 w-7 rounded-full border flex justify-center items-center"
         >
-          ✕
+          <X size={14} />
         </button>
       </>
     ) : (
