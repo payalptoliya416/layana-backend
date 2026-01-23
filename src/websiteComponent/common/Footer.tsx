@@ -324,7 +324,7 @@ useEffect(() => {
         {/* image */}
         <div className="w-[68px] h-[68px] rounded-full overflow-hidden flex-shrink-0">
           <img
-            src={locationImages[index % locationImages.length]}
+            src={loc.shop_banner_image}
             alt={loc.name}
             className="w-full h-full object-cover"
           />
