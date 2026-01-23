@@ -389,6 +389,7 @@ const allErrors = results
           promo_1_image: data.promotion?.promotion_1_image ?? "",
           promo_2_image: data.promotion?.promotion_2_image ?? "",
           promo_3_image: data.promotion3?.image ?? "",
+          shop_banner_image: data.shop_banner_image?.image ?? ""
         });
 
 

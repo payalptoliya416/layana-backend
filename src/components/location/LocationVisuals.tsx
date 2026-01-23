@@ -47,6 +47,14 @@ const IMAGE_CONFIG = {
     height: 600,
     uploadType: "location",
   },
+    shop_banner_image: {
+    label: "Shop Banner Image",
+    size: "358 × 600",
+    aspect: 358 / 600,
+    width: 358,
+    height: 600,
+    uploadType: "location",
+  },
 } as const;
 
 type ImageKey = keyof typeof IMAGE_CONFIG;
@@ -69,6 +77,7 @@ const LocationVisuals = forwardRef<any, Props>(
       promo_3_image: "",
       promo_1_image: "",
       promo_2_image: "",
+      shop_banner_image: ""
     });
 
     const [activeKey, setActiveKey] = useState<ImageKey | null>(null);
@@ -96,6 +105,7 @@ const LocationVisuals = forwardRef<any, Props>(
         promo_1_image: images.promo_1_image,
         promo_2_image: images.promo_2_image,
         promo_3_image: images.promo_3_image,
+        shop_banner_image: images.shop_banner_image
       }),
 
       /* EDIT MODE */
@@ -106,6 +116,7 @@ const LocationVisuals = forwardRef<any, Props>(
           promo_1_image: data.promo_1_image ?? "",
           promo_2_image: data.promo_2_image ?? "",
           promo_3_image: data.promo_3_image ?? "",
+          shop_banner_image : data.shop_banner_image ?? "",
         }));
       },
     }));

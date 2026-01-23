@@ -13,6 +13,7 @@ export interface Locationweb {
   country: string;
   postcode: string;
   parking_details: string;
+  shop_banner_image: string;
 }
 
 export type LocationResponse = {

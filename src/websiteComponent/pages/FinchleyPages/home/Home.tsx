@@ -1,6 +1,4 @@
-import l1 from "@/assets/l1.jpg";
-import l2 from "@/assets/l2.jpg";
-import l3 from "@/assets/l3.jpg";
+
 import { Link } from "react-router-dom";
 import CommonHeroSlider from "@/websiteComponent/common/home/CommonHeroSlider";
 import SplitContentSection from "@/websiteComponent/common/home/SplitContentSection";
@@ -21,7 +19,6 @@ function Home() {
   const [loading, setLoading] = useState(true);
   const [showOfferModal, setShowOfferModal] = useState(false);
 const [locations, setLocations] = useState<Locationweb[]>([]);
-const locationImages = [ l1, l2 ,l3];
 
 useEffect(() => {
   const seen = localStorage.getItem("home_offer_modal_seen");
@@ -185,12 +182,12 @@ useEffect(() => {
       <section className="py-12 lg:py-[110px]">
         <div className="container mx-auto">
          <div className="grid grid-cols-12 md:gap-[24px] items-stretch">
-            {locations?.map((loc, index) => (
+            {locations?.map((loc) => (
             <div   key={loc.id} className="col-span-12 md:col-span-4 mb-[50px] md:mb-0 last:mb-0">
              <div className="h-full">
                 <div className="w-full h-[200px] md:h-[600px] mb-5 overflow-hidden">
                 <img
-                  src={locationImages[index % locationImages.length]}
+                  src={loc.shop_banner_image}
                   alt="finchley"
                   className="w-full h-full object-cover"
                 />
