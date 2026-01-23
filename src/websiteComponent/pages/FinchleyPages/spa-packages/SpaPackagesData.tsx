@@ -34,11 +34,6 @@ const plainText = decodeAndStripHTML(item.description);
           {item.name}
         </h3>
 
-        {/* QUOTE */}
-        {/* <p className="italic text-sm mb-[15px] text-[#444]">
-          "{item.slogan}"
-        </p> */}
-
         {/* PRICING */}
       <div className="mb-5 text-lg text-[#282828]">
         {item.pricing.map((price, index) => (
@@ -66,23 +61,28 @@ const plainText = decodeAndStripHTML(item.description);
             Read More
           </span>
         </p> */}
-
-<p className="mb-[15px] text-base text-[#666666] font-quattro">
-  <span className="inline">
-   <p className="mb-[15px] text-base text-[#666666] font-quattro">
-  <span className="inline">
-    {plainText.slice(0, MAX_CHARS)}...
-    <span
-      onClick={onReadMore}
-      className="ml-1 cursor-pointer text-black font-bold whitespace-nowrap inline"
-    >
-      Read More
-    </span>
-  </span>
-</p>
-  </span>
-</p>
-
+  {/* QUOTE */}
+     
+    <p className="mb-[15px] text-base text-[#666666] font-quattro">
+      <span className="inline">
+      <p className="mb-[15px] text-base text-[#666666] font-quattro">
+      <span className="inline">
+        {plainText.slice(0, MAX_CHARS)}...
+        <span
+          onClick={onReadMore}
+          className="ml-1 cursor-pointer text-black font-bold whitespace-nowrap inline"
+        >
+          Read More
+        </span>
+      </span>
+    </p>
+      </span>
+    </p>
+    
+      <p className="italic text-sm mb-[15px] text-[#282828]">
+          "{item.slogan}"
+        </p>
+        
         {/* BUTTON – ALWAYS AT BOTTOM */}
         <div className="mt-auto">
           <CommonButton

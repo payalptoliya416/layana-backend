@@ -18,7 +18,6 @@ function SpaPackages() {
   const [resolvedLocationId, setResolvedLocationId] = useState<number | null>(null);
   const [packages, setPackages] = useState<SpaPackage[]>([]);
 
-  console.log("packages",packages)
   const [activePopup, setActivePopup] = useState<SpaPackage | null>(null);
 
   const finalLocationId = locationId ?? resolvedLocationId;
