@@ -12,16 +12,16 @@ export function PackageModal({
 
   return (
     <div
-      className="fixed inset-0 z-50 bg-black/60 flex items-center justify-center p-4 overflow-y-auto"
+      className="fixed inset-0 z-50 bg-black/60 flex items-center justify-center p-4 overflow-y-auto scrollbar-thin"
       onClick={onClose}
     >
       <div
-        className="relative w-full max-w-[574px] bg-white border-[10px] border-[#F3F3F3] max-h-[90vh] overflow-y-auto"
+        className="relative w-full max-w-[574px] bg-white border-[10px] border-[#F3F3F3] max-h-[90vh] overflow-y-auto p-1 sm:p-3"
         onClick={(e) => e.stopPropagation()}>
         {/* CLOSE */}
         <button
           onClick={onClose}
-          className="absolute top-0 right-0 w-[30px] h-[30px] bg-white/80 flex items-center justify-center text-lg font-bold z-10"
+          className="absolute top-1 sm:top-3 right-1 sm:right-3 w-[30px] h-[30px] bg-white/80 flex items-center justify-center text-lg font-bold z-10"
         >
           ✕
         </button>
@@ -29,40 +29,37 @@ export function PackageModal({
         {/* IMAGE */}
         <img
           src={data.visuals.image}
-          className=""
+          className="sm:mb-[15px]"
           alt={data.name}
         />
 
-        <div className="p-4 text-center">
+        <div className="py-5 px-[10px] text-center">
           {/* TITLE */}
-          <h3 className="text-xl mb-2 font-light">
+          <h3 className="text-lg sm:text-xl mb-3 font-light">
             {data.name}
           </h3>
 
           {/* SLOGAN */}
-          <p className="italic text-sm mb-3 text-[#444]">
+          {/* <p className="italic text-sm mb-3 text-[#444]">
             "{data.slogan}"
-          </p>
-
+          </p> */}
+      {/* DESCRIPTION (HTML) */}
+                <div
+                  className="text-[#666666] font-quattro text-sm leading-[24px] mb-[10px]"
+                  dangerouslySetInnerHTML={{ __html: data.description }}
+                />
           {/* PRICING */}
-          <div className="mb-4 space-y-1">
-            {data.pricing.map((price) => (
-              <p
-                key={price.id}
-                className={`text-base ${
-                  price.is_bold ? "font-bold" : "font-normal"
-                }`}
-              >
-                {price.duration} min – £{price.price}
-              </p>
-            ))}
-          </div>
-
-          {/* DESCRIPTION (HTML) */}
-          <div
-            className="text-[#666666] font-quattro text-sm leading-[24px] mb-5"
-            dangerouslySetInnerHTML={{ __html: data.description }}
-          />
+          <div className="mb-4 text-base text-[#212529]">
+              {data.pricing.map((price, index) => (
+                <span
+                  key={price.id}
+                  className={price.is_bold ? "font-bold" : "font-normal"}
+                >
+                  {price.duration} min: £{price.price}
+                  {index !== data.pricing.length - 1 && " | "}
+                </span>
+              ))}
+            </div>
 
           {/* BUTTON */}
           <CommonButton

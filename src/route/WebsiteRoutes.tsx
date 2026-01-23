@@ -93,17 +93,17 @@ function WebsiteRoutes() {
     />
 
     {/* ================= SPA PACKAGES ================= */}
-    {/* <Route
+    <Route
       path="/:locationSlug/spa-packages"
       element={<SpaPackages />}
-    /> */}
+    />
 
     {/* ================= PRICES ================= */}
     {/* <Route
       path="/:locationSlug/prices/:serviceSlug"
       element={<PricingPage />}
-    /> */}
-  
+    />
+   */}
   </Route>
 
   <Route path="*" element={<Navigate to="/websiteurl" replace />} />
