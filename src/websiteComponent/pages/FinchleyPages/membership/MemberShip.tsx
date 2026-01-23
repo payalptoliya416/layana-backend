@@ -196,7 +196,7 @@ const membershipBackground =
       <div className="container mx-auto">
 
         {/* Top */}
-        <div className="sm:text-center max-w-3xl mx-auto mb-[50px] mt-[30px]">
+        <div className="sm:text-center max-w-3xl mx-auto mb-[50px]">
           <h2 className="text-lg mb-[15px] font-bold font-mulish">
             TERMS & CONDITIONS
           </h2>
