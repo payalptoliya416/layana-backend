@@ -32,7 +32,7 @@ export default function MembershipCard({ plan }: Props) {
             </div>
 
             <div className="text-right">
-              <p className="text-base font-bold mb-[10px]">
+              <p className="text-base font-bold mb-[10px] font-muli text-[#282828]">
                 {item.price}
               </p>
               <p className="text-xs text-[#666666] line-through">

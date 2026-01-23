@@ -1,12 +1,11 @@
-
 import CommonButton from "@/websiteComponent/common/home/CommonButton";
-import type { PackageItem } from "./SpaPackagesData";
+import { SpaPackage } from "@/websiteComponent/api/spaPackage.api";
 
 export function PackageModal({
   data,
   onClose,
 }: {
-  data: PackageItem["popup"];
+  data: SpaPackage;
   onClose: () => void;
 }) {
   if (!data) return null;
@@ -14,13 +13,12 @@ export function PackageModal({
   return (
     <div
       className="fixed inset-0 z-50 bg-black/60 flex items-center justify-center p-4 overflow-y-auto"
-      onClick={onClose}   // 👈 outside click closes
+      onClick={onClose}
     >
       <div
         className="relative w-full max-w-[574px] bg-white border-[10px] border-[#F3F3F3] max-h-[90vh] overflow-y-auto"
-        onClick={(e) => e.stopPropagation()} // 👈 stop closing when clicking inside
-      >
-        {/* Close button */}
+        onClick={(e) => e.stopPropagation()}>
+        {/* CLOSE */}
         <button
           onClick={onClose}
           className="absolute top-0 right-0 w-[30px] h-[30px] bg-white/80 flex items-center justify-center text-lg font-bold z-10"
@@ -28,23 +26,52 @@ export function PackageModal({
           ✕
         </button>
 
+        {/* IMAGE */}
         <img
-          src={data.image}
-          className="w-full h-[238px] object-cover"
+          src={data.visuals.image}
+          className=""
+          alt={data.name}
         />
 
         <div className="p-4 text-center">
-          <h3 className="text-xl mb-3">{data.title}</h3>
-          <p className="text-sm mb-3">{data.subtitle}</p>
+          {/* TITLE */}
+          <h3 className="text-xl mb-2 font-light">
+            {data.name}
+          </h3>
 
-          <p className="text-[#666666] font-quattro text-sm leading-[24px] mb-4">
-            {data.description}
+          {/* SLOGAN */}
+          <p className="italic text-sm mb-3 text-[#444]">
+            "{data.slogan}"
           </p>
 
-          <p className="font-bold mb-5">{data.price}</p>
+          {/* PRICING */}
+          <div className="mb-4 space-y-1">
+            {data.pricing.map((price) => (
+              <p
+                key={price.id}
+                className={`text-base ${
+                  price.is_bold ? "font-bold" : "font-normal"
+                }`}
+              >
+                {price.duration} min – £{price.price}
+              </p>
+            ))}
+          </div>
 
-          <CommonButton className="mx-auto">
-            BOOK NOW
+          {/* DESCRIPTION (HTML) */}
+          <div
+            className="text-[#666666] font-quattro text-sm leading-[24px] mb-5"
+            dangerouslySetInnerHTML={{ __html: data.description }}
+          />
+
+          {/* BUTTON */}
+          <CommonButton
+            className="mx-auto"
+            onClick={() =>
+              window.open(data.visuals.btn_link, "_blank")
+            }
+          >
+            {data.visuals.btn_text}
           </CommonButton>
         </div>
       </div>

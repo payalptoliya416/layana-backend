@@ -1,7 +1,7 @@
 
 import spapackages_bg from "@/assets/spapackages_bg.png";
 import spa from "@/assets/spa.png";
-import PackageCard, { spaPackages, type PackageItem } from "./SpaPackagesData";
+import PackageCard from "./SpaPackagesData";
 import { useEffect, useState } from "react";
 import { PackageModal } from "./PackageModal";
 import SimpleHeroBanner from "@/websiteComponent/common/home/SimpleHeroBanner";
@@ -17,6 +17,8 @@ function SpaPackages() {
 
   const [resolvedLocationId, setResolvedLocationId] = useState<number | null>(null);
   const [packages, setPackages] = useState<SpaPackage[]>([]);
+
+  console.log("packages",packages)
   const [activePopup, setActivePopup] = useState<SpaPackage | null>(null);
 
   const finalLocationId = locationId ?? resolvedLocationId;
@@ -86,10 +88,10 @@ function SpaPackages() {
         </div>
       </section>
       {/* ---- */}
-      <section>
-        {/* <div className="container mx-auto">
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            {spaPackages.map((item, i) => (
+      <section className="pb-12 lg:pb-[110px]">
+        <div className="container mx-auto">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-[45px]">
+            {packages.map((item, i) => (
               <PackageCard
                 key={i}
                 item={item}
@@ -97,13 +99,13 @@ function SpaPackages() {
               />
             ))}
           </div>
-          {activePopup?.popup && (
-            <PackageModal
-              data={activePopup.popup}
-              onClose={() => setActivePopup(null)}
-            />
-          )}
-        </div> */}
+          {activePopup && (
+  <PackageModal
+    data={activePopup}
+    onClose={() => setActivePopup(null)}
+  />
+)}
+        </div>
       </section>
     </>
   );

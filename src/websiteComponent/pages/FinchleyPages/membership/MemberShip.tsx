@@ -1,7 +1,6 @@
-
 import membership_bg from "@/assets/membership_bg.png";
+import membership_bg1 from "@/assets/membership_bg1.png";
 import MembershipCard, { MembershipPlan } from "./MembershipPricing";
-import { Mail } from "lucide-react";
 import SimpleHeroBanner from "@/websiteComponent/common/home/SimpleHeroBanner";
 import CommonButton from "@/websiteComponent/common/home/CommonButton";
 import { Breadcrumb } from "../../treatments/tratementPages/Breadcrumb";
@@ -66,15 +65,19 @@ const mapMembershipsToPlans = (memberships: Membership[]): MembershipPlan[] => {
       }
     });
   }, [finalLocationId]);
-
+const membershipBackground =
+  locationSlug === "finchley" || locationSlug === "finchley-central"
+    ? membership_bg
+    : membership_bg1;
   return (
     <>
      
       <SimpleHeroBanner
-        background={membership_bg}
+        background={membershipBackground}
         title="Memberships"
        breadcrumb={<Breadcrumb />}
       />
+
       {/* ---- */}
       <section className="py-12 lg:py-[110px]">
         <div className="container mx-auto">
