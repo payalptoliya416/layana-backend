@@ -7,7 +7,7 @@ import ServiceCard from "@/websiteComponent/common/home/ServiceCard";
 import TeamCard from "@/websiteComponent/common/home/TeamCard";
 import CommonButton from "@/websiteComponent/common/home/CommonButton";
 import BrandSlider from "@/websiteComponent/common/home/BrandSlider";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useState } from "react";
 import { getHomePageData } from "@/websiteComponent/api/pricing.api";
 import Loader from "@/websiteComponent/common/Loader";
 import { getLocations, Locationweb } from "@/websiteComponent/api/webLocationService";
