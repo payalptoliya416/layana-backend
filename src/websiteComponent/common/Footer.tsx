@@ -319,7 +319,7 @@ useEffect(() => {
       <a
         key={loc.id}
         href={withBase(`${loc.slug}`)}
-        className="flex gap-4 border-b border-[#f6eee9] pb-[21px] items-center"
+        className="flex gap-4 border-b last:border-b-0 border-[#f6eee9] pb-[21px] items-center"
       >
         {/* image */}
         <div className="w-[68px] h-[68px] rounded-full overflow-hidden flex-shrink-0">
