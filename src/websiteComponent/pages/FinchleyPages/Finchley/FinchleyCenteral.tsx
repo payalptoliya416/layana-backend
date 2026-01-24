@@ -19,7 +19,6 @@ function FinchleyCenteral() {
 const [loading, setLoading] = useState(true);
 const [landingData, setLandingData] = useState<any>(null);
 
-
 useEffect(() => {
   if (!locationSlug) return;
 

@@ -15,6 +15,7 @@ import { Navigate, Route, Routes } from "react-router-dom";
 import WebsiteLayout from "./WebsiteLayout";
 import PricingPage from "@/websiteComponent/pages/pricing/PricingPage";
 import ScrollToTop from "./ScrollToTop";
+import BookCounsultation from "@/websiteComponent/pages/book-consultation/BookCounsultation";
 
 export const DEFAULT_LOCATION = "finchley-central";
 
@@ -69,8 +70,8 @@ function WebsiteRoutes() {
 
     <Route path="/" element={<Home />} />
 
-    {/* <Route path="/contact-us" element={<ContactUs />} />
-    <Route path="/:locationSlug/contact-us" element={<ContactUs />} /> */}
+    <Route path="/contact-us" element={<ContactUs />} />
+    <Route path="/:locationSlug/contact-us" element={<ContactUs />} />
 
     <Route path="/:locationSlug" element={<FinchleyCenteral />} />
 
@@ -102,6 +103,12 @@ function WebsiteRoutes() {
     <Route
       path="/:locationSlug/prices"
       element={<PricingPage />}
+    />
+
+    {/* ================= PRICES ================= */}
+    <Route
+      path="/book-consultaion"
+      element={<BookCounsultation />}
     />
   
   </Route>

@@ -55,7 +55,7 @@ const menu = [
     href: "https://www.fresha.com/vouchers/provider/rmxjfmmk",
     external: true,
   },
-  { label: "Contact Us", basePath: "/#" },
+  { label: "Contact Us", basePath: "/contact-us" },
 ];
 
 /* ================= DATA ================= */
@@ -84,6 +84,7 @@ export default function Header() {
   const [selectedLocation, setSelectedLocation] = useState<UILocation | null>(
     null,
   );  
+  const [landingData, setLandingData] = useState<any>(null);
   const { locationSlug } = useParams();
   useEffect(() => {
     if (!locationSlug) {
@@ -158,28 +159,21 @@ export default function Header() {
                   </a>
                 ) : (
                   (() => {
-                      if (item.basePath === "/contact-us") {
-                      return (
-                        <Link
-                          to={withBase(
-                            selectedLocation
-                              ? `/${selectedLocation.slug}/contact-us`
-                              : "/contact-us",
-                          )}
-                          state={
-                            selectedLocation
-                              ? {
-                                  locationId: selectedLocation.id,
-                                  locationSlug: selectedLocation.slug,
-                                }
-                              : undefined
-                          }
-                          className="uppercase "
-                        >
-                          {item.label}
-                        </Link>
-                      );
-                    }
+                    if (item.label === "Contact Us") {
+  const contactPath = selectedLocation
+    ? `/${selectedLocation.slug}/contact-us`
+    : "/contact-us";
+
+  return (
+    <Link
+      to={withBase(contactPath)}
+      state={locationState(selectedLocation)}
+      className={underlineClass}
+    >
+      {item.label}
+    </Link>
+  );
+}
 
                     return (
                       <Link
@@ -308,7 +302,6 @@ export default function Header() {
               {/* Menu */}
               <div className="h-full flex flex-col px-4 space-y-6 tracking-widest text-sm">
                 {menu.map((item) => {
-                  const isPrice = item.dropdownKey === "prices";
                   const hasDropdown = !!item.dropdownKey;
                   const hasLocation = !!selectedLocation;
 
@@ -327,7 +320,7 @@ export default function Header() {
                       )}
 
                       {/* ================= DROPDOWN ITEMS ================= */}
-                      {!isPrice && hasDropdown && !hasLocation && (
+                      {hasDropdown && !hasLocation && (
                         <>
                           <button
                             onClick={() =>
@@ -359,18 +352,9 @@ export default function Header() {
                           )}
                         </>
                       )}
-                      {isPrice && hasLocation && (
-                        <Link
-                          to={withBase(`/${selectedLocation.slug}/prices`)}
-                          onClick={() => setOpen(false)}
-                          className="block uppercase"
-                        >
-                          {item.label}
-                        </Link>
-                      )}
                       
                       {/* ================= DIRECT LINK (location selected) ================= */}
-                      {!isPrice &&
+                      {
                         item.basePath &&
                         hasLocation &&
                           item.basePath !== "/contact-us" && (
