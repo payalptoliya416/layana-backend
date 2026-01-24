@@ -9,6 +9,7 @@ type Props = {
   onClickCapture?: () => void;     // for external links
   onClick?: () => void;  // normal click
     state?: any;   
+     type?: "button" | "submit" | "reset";
 };
 
 export default function CommonButton({
@@ -18,7 +19,8 @@ export default function CommonButton({
   href,
   onClick,
   onClickCapture,
-  state
+  state,
+    type = "button", 
   
 }: Props) {
   //  md:w-[260px]
@@ -52,7 +54,7 @@ export default function CommonButton({
 
   // Normal button
   return (
-    <button onClick={onClick} className={baseClass}  onClickCapture={onClickCapture}>
+    <button type={type} onClick={onClick} className={baseClass}  onClickCapture={onClickCapture}>
       {children}
     </button>
   );
