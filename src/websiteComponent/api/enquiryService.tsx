@@ -4,10 +4,10 @@ import { publicApi } from "./publicApi";
 
 export type EnquiryPayload = {
   location_id: number;
-  name: string;
+  name?: string;
   email: string;
-  mobile: string;
-  message: string;
+  mobile?: string;
+  message?: string;
 };
 
 export type EnquiryResponse = {

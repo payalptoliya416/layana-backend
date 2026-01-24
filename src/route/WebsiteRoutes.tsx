@@ -69,8 +69,8 @@ function WebsiteRoutes() {
 
     <Route path="/" element={<Home />} />
 
-    {/* <Route path="/contact-us" element={<ContactUs />} /> */}
-    {/* <Route path="/:locationSlug/contact-us" element={<ContactUs />} /> */}
+    {/* <Route path="/contact-us" element={<ContactUs />} />
+    <Route path="/:locationSlug/contact-us" element={<ContactUs />} /> */}
 
     <Route path="/:locationSlug" element={<FinchleyCenteral />} />
 
@@ -99,11 +99,11 @@ function WebsiteRoutes() {
     />
 
     {/* ================= PRICES ================= */}
-    {/* <Route
-      path="/:locationSlug/prices/:serviceSlug"
+    <Route
+      path="/:locationSlug/prices"
       element={<PricingPage />}
     />
-   */}
+  
   </Route>
 
   <Route path="*" element={<Navigate to="/websiteurl" replace />} />

@@ -1,19 +1,25 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
-const tabs = ["Massage", "Beauty"];
-
-export default function PricingTabs({ children }: { children: any }) {
-  const [activeTab, setActiveTab] = useState("Massage");
-
+export default function PricingTabs({
+  tabs,
+  activeTab,
+  onTabChange,
+  children,
+}: {
+  tabs: string[];
+  activeTab: string;
+  onTabChange: (tab: string) => void;
+  children: (activeTab: string) => React.ReactNode;
+}) {
   return (
     <>
       {/* Tabs */}
-      <div className="flex justify-center border-b mb-10 mx-auto w-max">
+      <div className="flex flex-col sm:flex-row justify-center mb-10 mx-auto w-max">
         {tabs.map((tab) => (
           <button
             key={tab}
-            onClick={() => setActiveTab(tab)}
-            className={`pb-3 text-sm lg:text-base tracking-wide px-5 ${
+            onClick={() => onTabChange(tab)}
+            className={`py-3 text-sm lg:text-[17px] tracking-[2px] px-5 border-b ${
               activeTab === tab
                 ? "border-b-2 border-black font-semibold"
                 : "text-[#666666]"

@@ -11,6 +11,7 @@ import { useLocation, useParams } from "react-router-dom";
 import { getLocations } from "@/websiteComponent/api/webLocationService";
 import { Helmet } from "react-helmet-async";
 import { IoIosMail } from "react-icons/io";
+import Loader from "@/websiteComponent/common/Loader";
 
 function MemberShip() {
     const location = useLocation();
@@ -18,6 +19,7 @@ function MemberShip() {
   const { locationSlug } = useParams();
   const [resolvedLocationId, setResolvedLocationId] = useState<number | null>(null);
 const [membershipPlans, setMembershipPlans] = useState<MembershipPlan[]>([]);
+const [loading, setLoading] = useState(true);
   // 👉 final usable locationId
   const finalLocationId = locationId ?? resolvedLocationId;
 const mapMembershipsToPlans = (memberships: Membership[]): MembershipPlan[] => {
@@ -57,18 +59,28 @@ const mapMembershipsToPlans = (memberships: Membership[]): MembershipPlan[] => {
 
    useEffect(() => {
     if (!finalLocationId) return;
-
+  setLoading(true);
     getMemberships(finalLocationId).then((res) => {
       if (res.status === "success") {
         const plans = mapMembershipsToPlans(res.data.memberships);
       setMembershipPlans(plans);
       }
+        setLoading(false); 
     });
   }, [finalLocationId]);
+
 const membershipBackground =
   locationSlug === "finchley" || locationSlug === "finchley-central"
     ? membership_bg
     : membership_bg1;
+
+if (loading) {
+  return (
+    <div className="py-20 flex justify-center">
+      <Loader />
+    </div>
+  );
+}
   return (
     <>
      

@@ -9,12 +9,13 @@ import { Breadcrumb } from "../../treatments/tratementPages/Breadcrumb";
 import { useLocation, useParams } from "react-router-dom";
 import { getSpaPackages, SpaPackage } from "@/websiteComponent/api/spaPackage.api";
 import { getLocations } from "@/websiteComponent/api/webLocationService";
+import Loader from "@/websiteComponent/common/Loader";
 
 function SpaPackages() {
    const location = useLocation();
   const locationId = location.state?.locationId as number | undefined;
   const { locationSlug } = useParams();
-
+  const [loading, setLoading] = useState(true);
   const [resolvedLocationId, setResolvedLocationId] = useState<number | null>(null);
   const [packages, setPackages] = useState<SpaPackage[]>([]);
 
@@ -46,13 +47,22 @@ function SpaPackages() {
   /* ================= FETCH SPA PACKAGES ================= */
   useEffect(() => {
     if (!finalLocationId) return;
-
+ setLoading(true);
     getSpaPackages(finalLocationId).then((res) => {
       if (res.status === "success") {
         setPackages(res.data);
       }
+       setLoading(false);
     });
   }, [finalLocationId]);
+
+if (loading) {
+  return (
+    <div className="py-20 flex justify-center">
+      <Loader />
+    </div>
+  );
+}
 
   return (
     <>

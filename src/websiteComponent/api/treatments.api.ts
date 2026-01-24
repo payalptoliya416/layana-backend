@@ -89,3 +89,19 @@ export const getTreatmentIdBySlug = (slug: string) => {
     method: "GET",
   });
 };
+
+export const getPricingByLocation = (
+  locationId: number,
+  categoryId: number
+) => {
+  return publicApi<{
+    status: string;
+    data: any;
+  }>("/frontend/pricing-by-location", {
+    method: "POST",
+    body: {
+      location_id: locationId,
+      category_id: categoryId,
+    },
+  });
+};

@@ -2,26 +2,33 @@ import SimpleHeroBanner from "@/websiteComponent/common/home/SimpleHeroBanner";
 import pricing_bg from "@/assets/pricing_bg.jpeg";
 import PricingTabs from "@/websiteComponent/common/pricing/PricingTabs";
 import PricingAccordion from "@/websiteComponent/common/pricing/PricingAccordion";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Breadcrumb } from "../treatments/tratementPages/Breadcrumb";
+import { useLocation } from "react-router-dom";
+import {
+  getPricingByLocation,
+  getTreatmentCategories,
+  TreatmentCategory,
+} from "@/websiteComponent/api/treatments.api";
+import Loader from "@/websiteComponent/common/Loader";
 
 function MassageHeader() {
   return (
-    <div className="grid grid-cols-12 p-2 bg-[#f5eee9] text-xs sm:text-sm lg:text-base font-bold">
-      <div className="col-span-5 sm:col-span-6">MASSAGE TREATMENTS</div>
-      <div className="col-span-3 text-center">Indicative Pressure</div>
-      <div className="col-span-2 text-center">Duration</div>
-      <div className="col-span-2 sm:col-span-1 text-right">Price</div>
+    <div className="grid grid-cols-12 bg-[#f5eee9] text-xs sm:text-sm lg:text-base leading-[20px] font-bold">
+      <div className="col-span-4 sm:col-span-6 p-2 leading-[18px]">MASSAGE TREATMENTS</div>
+      <div className="col-span-3 text-center p-2 leading-[18px]">Indicative Pressure</div>
+      <div className="col-span-3 sm:col-span-2 p-2 leading-[18px] text-right">Duration</div>
+      <div className="col-span-2 sm:col-span-1 text-right p-2 leading-[18px]">Price</div>
     </div>
   );
 }
 
 function MassageRow({ name, pressure, duration, price }: any) {
   return (
-    <div className="grid grid-cols-12 bg-[#fff4e9] text-xs sm:text-sm lg:text-base my-2">
-      <div className="col-span-5 sm:col-span-6 p-2">{name}</div>
-      <div className="col-span-3 text-center p-2">{pressure}</div>
-      <div className="col-span-2 text-center p-2 text-[#666666]">
+    <div className="grid grid-cols-12 bg-[#fff4e9] text-xs sm:text-sm lg:text-base my-2 font-mulish">
+      <div className="col-span-4 sm:col-span-6 p-2 leading-[18px]">{name}</div>
+      <div className="col-span-3 text-center p-2 leading-[18px]">{pressure}</div>
+      <div className="col-span-3 sm:col-span-2 p-2 text-[#666666] leading-[18px] text-right">
         {duration}
       </div>
       <div className="col-span-2 sm:col-span-1 text-right font-medium p-2">
@@ -31,70 +38,37 @@ function MassageRow({ name, pressure, duration, price }: any) {
   );
 }
 
-function MassageContent() {
+function MassageContent({ data }: { data: any }) {
+  if (!data) return null;
+
   return (
     <>
       <MassageHeader />
 
-      <MassageRow
-        name="Body Exfoliation"
-        pressure=""
-        duration="30 min"
-        price="£49"
-      />
-
-      <MassageRow
-        name="Signature Head Massage"
-        pressure="Light To Medium"
-        duration="30 min"
-        price="£40"
-      />
-
-      <MassageRow
-        name="Thai Oil Signature Massage"
-        pressure="Medium"
-        duration="60 min"
-        price="£65"
-      />
-      <MassageRow duration="90 min" price="£85" />
-      <MassageRow duration="120 min" price="£110" />
-
-      <MassageRow
-        name="Deep Tissue Massage"
-        pressure="Firm"
-        duration="60 min"
-        price="£65"
-      />
-      <MassageRow duration="90 min" price="£85" />
-      <MassageRow duration="120 min" price="£110" />
-
-      <MassageRow
-        name="Back, Neck, Shoulder & Head Massage"
-        pressure="Light To Medium"
-        duration="30 min"
-        price="£40"
-      />
-      <MassageRow duration="45 min" price="£50" />
-      <MassageRow duration="60 min" price="£65" />
-
-      <MassageRow
-        name="Swedish Massage"
-        pressure="Light To Medium"
-        duration="60 min"
-        price="£65"
-      />
-      <MassageRow duration="90 min" price="£85" />
-      <MassageRow duration="120 min" price="£110" />
+      {/* Dynamic Treatments */}
+      {data.treatments.map((t: any) => (
+        <div key={t.id}>
+          {t.pricing.map((p: any) => (
+            <MassageRow
+              key={p.id}
+              name={t.name}
+              pressure={t.indicative_pressure ?? "-"}
+              duration={`${p.minute} min`}
+              price={`£${p.price}`}
+            />
+          ))}
+        </div>
+      ))}
     </>
   );
 }
 
 function SpaHeader() {
   return (
-    <div className="grid grid-cols-12 p-2 bg-[#f5eee9] text-xs sm:text-sm lg:text-base font-bold">
-      <div className="col-span-7 sm:col-span-8">SPA PACKAGES</div>
-      <div className="col-span-2 text-center">Duration</div>
-      <div className="col-span-3 sm:col-span-2 text-right">Price</div>
+    <div className="grid grid-cols-12 bg-[#f5eee9] text-xs sm:text-sm lg:text-base leading-[20px] font-bold">
+      <div className="col-span-6 sm:col-span-8 p-2">SPA PACKAGES</div>
+      <div className="col-span-3 sm:col-span-2 p-2 text-right">Duration</div>
+      <div className="col-span-3 sm:col-span-2 text-right p-2">Price</div>
     </div>
   );
 }
@@ -102,15 +76,15 @@ function SpaHeader() {
 function SpaRow({ title, duration, price, description }: any) {
   return (
     <div className="">
-      <div className="grid grid-cols-12 bg-[#fff4e9] text-xs sm:text-sm lg:text-base my-2 font-bold">
-        <div className="col-span-8 p-2">{title}</div>
-        <div className="col-span-2 text-center p-2">{duration}</div>
-        <div className="col-span-2 text-right p-2">{price}</div>
+      <div className="grid grid-cols-12 bg-[#fff4e9] text-xs sm:text-sm lg:text-base leading-[18px] my-2 font-bold font-mulish">
+        <div className="col-span-6 sm:col-span-8 p-2">{title}</div>
+        <div className="col-span-3 sm:col-span-2 p-2 text-right">{duration}</div>
+        <div className="col-span-3 sm:col-span-2 text-right p-2">{price}</div>
       </div>
       <div className="grid grid-cols-12">
         {description && (
-          <div className="col-span-8 p-2">
-            <div className="text-xs sm:text-sm lg:text-base text-[#666666] font-quattro">
+          <div className="col-span-6 sm:col-span-8 p-2">
+            <div className="text-xs sm:text-sm lg:text-base text-[#a3a09e] font-quattro">
               {description}
             </div>
           </div>
@@ -120,48 +94,32 @@ function SpaRow({ title, duration, price, description }: any) {
   );
 }
 
-function SpaContent() {
+function SpaPackagesContent({ data }: { data: any }) {
+  if (!data?.packages || data.packages.length === 0) return null;
+
   return (
     <>
       <SpaHeader />
 
-      <SpaRow
-        title="Mini Spa Package"
-        duration="120 min"
-        price="£129"
-        description={
-          <>
-            Aromatherapy Massage 60 min <br />
-            I Spa Image Ormedic Facial 60 min <br />* Upgrade to Signature
-            Hydro2Facial (£25)
-          </>
-        }
-      />
-
-      <SpaRow
-        title="Luxury Pamper Packages"
-        duration="195 min"
-        price="£195"
-        description={
-          <>
-            Aromatherapy Massage – 60 min, Body Scrub – 20 min <br />
-            Deluxe Pedicure OR Gel Manicure – 60 min, I Spa Image Vital C –
-            Anti-aging – 55 min
-          </>
-        }
-      />
-
-      <SpaRow
-        title="Aromatherapy & Body Exfoliation"
-        duration="80 min"
-        price="£110"
-        description="Aromatherapy Massage 60 min & Body Scrub – 20 min"
-      />
-
-      <SpaRow title="Back & Toe" duration="60 min" price="£70" />
-      <SpaRow duration="90 min" price="£90" />
-
-      <SpaRow title="Heavenly Body & Feet" duration="90 min" price="£90" />
+      {data.packages.map((pkg: any) => (
+        <div key={pkg.id} className="mb-4">
+          {pkg.pricing.map((p: any) => (
+            <SpaRow
+              key={p.id}
+              title={pkg.name}
+              duration={`${p.duration} min`}
+              price={`£${p.price}`}
+              description={
+                <div
+                  dangerouslySetInnerHTML={{
+                    __html: pkg.description,
+                  }}
+                />
+              }
+            />
+          ))}
+        </div>
+      ))}
     </>
   );
 }
@@ -284,19 +242,60 @@ function FacialContent() {
 // --beauty Tab content -- end
 
 function PricingPage() {
-  const [openAccordion, setOpenAccordion] = useState<{
-    Massage: string | null;
-    Beauty: string | null;
-  }>({
-    Massage: "MASSAGE",
-    Beauty: "NAILS",
-  });
-  const toggleAccordion = (tab: "Massage" | "Beauty", key: string) => {
-    setOpenAccordion((prev) => ({
-      ...prev,
-      [tab]: prev[tab] === key ? null : key,
-    }));
+  const [categories, setCategories] = useState<TreatmentCategory[]>([]);
+  const location = useLocation();
+  const [activeAccordionId, setActiveAccordionId] = useState<number | null>(
+    null,
+  );
+  const { locationId, categoryId } = location.state || {};
+  const [activeTab, setActiveTab] = useState<string>("");
+const [pricingData, setPricingData] = useState<any>(null);
+const [loading, setLoading] = useState(false);
+  useEffect(() => {
+    getTreatmentCategories().then((res) => {
+      const data = res.data;
+      setCategories(data);
+
+      if (data.length === 0) return;
+      if (categoryId) {
+        const found = data.find((c) => c.id === categoryId);
+
+        if (found) {
+          setActiveTab(found.name);
+          setActiveAccordionId(found.id);
+          return;
+        }
+      }
+
+      setActiveTab(data[0].name);
+      setActiveAccordionId(data[0].id);
+    });
+  }, [categoryId]);
+
+  const toggleAccordion = (id: number) => {
+    setActiveAccordionId((prev) => (prev === id ? null : id));
   };
+
+  useEffect(() => {
+  if (!locationId || !activeAccordionId) return;
+
+  setLoading(true);
+
+  getPricingByLocation(locationId, activeAccordionId)
+    .then((res) => {
+      setPricingData(res.data);
+    })
+    .finally(() => setLoading(false));
+}, [locationId, activeAccordionId]);
+
+if (loading) {
+  return (
+    <div className="py-20 flex justify-center">
+      <Loader />
+    </div>
+  );
+}
+
   return (
     <>
       <SimpleHeroBanner
@@ -306,58 +305,40 @@ function PricingPage() {
       />
 
       {/* ---- */}
-      <section className="pt-12 lg:pt-[110px]">
+      <section className="py-12 lg:py-[110px]">
         <div className="container mx-auto">
-          <PricingTabs>
-            {(activeTab: string) => (
+          <PricingTabs
+            tabs={categories.map((c) => c.name)}
+            activeTab={activeTab}
+            onTabChange={(tab) => {
+              setActiveTab(tab);
+
+              // ✅ Open accordion of selected tab
+              const found = categories.find((c) => c.name === tab);
+              if (found) setActiveAccordionId(found.id);
+            }}
+          >
+            {() => (
               <>
-                {activeTab === "Massage" && (
-                  <>
-                    <PricingAccordion
-                      title="MASSAGE"
-                      isOpen={openAccordion.Massage === "MASSAGE"}
-                      onToggle={() => toggleAccordion("Massage", "MASSAGE")}
-                    >
-                      <MassageContent />
-                    </PricingAccordion>
-
-                    <PricingAccordion
-                      title="SPA PACKAGES"
-                      isOpen={openAccordion.Massage === "SPA"}
-                      onToggle={() => toggleAccordion("Massage", "SPA")}
-                    >
-                      <SpaContent />
-                    </PricingAccordion>
-                  </>
-                )}
-
-                {activeTab === "Beauty" && (
-                  <>
-                    <PricingAccordion
-                      title="NAILS"
-                      isOpen={openAccordion.Beauty === "NAILS"}
-                      onToggle={() => toggleAccordion("Beauty", "NAILS")}
-                    >
-                      <NailsContent />
-                    </PricingAccordion>
-
-                    <PricingAccordion
-                      title="FEMALE WAXING"
-                      isOpen={openAccordion.Beauty === "WAXING"}
-                      onToggle={() => toggleAccordion("Beauty", "WAXING")}
-                    >
-                      <FemaleWaxingContent />
-                    </PricingAccordion>
-
-                    <PricingAccordion
-                      title="FACIAL"
-                      isOpen={openAccordion.Beauty === "FACIAL"}
-                      onToggle={() => toggleAccordion("Beauty", "FACIAL")}
-                    >
-                      <FacialContent />
-                    </PricingAccordion>
-                  </>
-                )}
+              {pricingData && (
+              <PricingAccordion
+                title={pricingData.category.name}
+               isOpen={activeAccordionId === pricingData.category.id}
+               onToggle={() => toggleAccordion(pricingData.category.id)}
+              >
+               <MassageContent data={pricingData} />
+              </PricingAccordion>
+            )}
+              {/* Packages Accordion */}
+              {pricingData?.packages?.length > 0 && (
+                <PricingAccordion
+                  title="Spa Packages"
+                  isOpen={activeAccordionId === 9999}
+                  onToggle={() => toggleAccordion(9999)}
+                >
+                  <SpaPackagesContent data={pricingData} />
+                </PricingAccordion>
+              )}
               </>
             )}
           </PricingTabs>

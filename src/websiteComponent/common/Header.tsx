@@ -1,12 +1,11 @@
 import { useEffect, useState } from "react";
-import { X, MapPin, ChevronDown } from "lucide-react";
+import { X, ChevronDown } from "lucide-react";
 import { Link, useParams } from "react-router-dom";
 import white_logo from "@/assets/logo.svg";
 import menuimg from "@/assets/menu.png";
 import { WEBSITE_BASE } from "@/route/config";
 import { getLocations } from "../api/webLocationService";
 import { FaLocationDot } from "react-icons/fa6";
-import { getTreatmentCategories } from "../api/treatments.api";
 
 type UILocation = {
   id?: number;
@@ -19,10 +18,6 @@ type LocationApi = {
   slug: string;
 };
 
-type Category = {
-  id: number;
-  name: string;
-};
 /* ================= MENU ================= */
 export const withBase = (path?: string) => {
   if (!path) return WEBSITE_BASE;
@@ -65,24 +60,6 @@ const menu = [
 
 /* ================= DATA ================= */
 
-const getPriceBlocks = (
-  locations: UILocation[],
-  selectedLocation: UILocation | null,
-  categories: Category[],
-) => {
-  const activeLocations = selectedLocation
-    ? locations.filter((l) => l.slug === selectedLocation.slug)
-    : locations;
-
-  return activeLocations.map((loc) => ({
-    loc,
-    services: categories.map((cat) => ({
-      label: cat.name,
-      slug: cat.name.toLowerCase().replace(/\s+/g, "-"),
-    })),
-  }));
-};
-
 const locationState = (loc: UILocation | null) =>
   loc
     ? {
@@ -98,23 +75,6 @@ const getAvailableLocations = (
   if (!selectedLocation) return locations;
   return locations.filter((loc) => loc.slug !== selectedLocation.slug);
 };
-
-const isSinglePriceService = (
-  selectedLocation: UILocation | null,
-  locations: UILocation[],
-  categories: Category[],
-) => {
-  const blocks = getPriceBlocks(
-    locations,
-    selectedLocation,
-    categories,
-  );
-
-  return (
-    blocks.length === 1 &&
-    blocks[0].services.length === 1
-  );
-};
 /* ================= COMPONENT ================= */
 
 export default function Header() {
@@ -123,15 +83,8 @@ export default function Header() {
   const [locations, setLocations] = useState<UILocation[]>([]);
   const [selectedLocation, setSelectedLocation] = useState<UILocation | null>(
     null,
-  );
-const [categories, setCategories] = useState<Category[]>([]);
+  );  
   const { locationSlug } = useParams();
-
-useEffect(() => {
-  getTreatmentCategories().then((res) => {
-    setCategories(res.data);
-  });
-}, []);
   useEffect(() => {
     if (!locationSlug) {
       setSelectedLocation(null);
@@ -155,23 +108,6 @@ useEffect(() => {
       setLocations(formatted);
     });
   }, []);
-
-  const hasSingleDropdownItem = (
-    item: any,
-    locations: UILocation[],
-    selectedLocation: UILocation | null,
-  ) => {
-   if (item.dropdownKey === "prices") {
- return isSinglePriceService(
-  selectedLocation,
-  locations,
-  categories,
-);
-}
-
-    // Other dropdowns (treatments / memberships / spa)
-    return locations.length === 1;
-  };
 
   const underlineClass =
     "relative uppercase after:content-[''] after:absolute after:left-0 after:-bottom-1 after:h-[1px] after:w-0 after:bg-white after:transition-all after:duration-300 hover:after:w-full";
@@ -197,40 +133,19 @@ useEffect(() => {
               hasLocation && item.basePath
                 ? `/${selectedLocation.slug}${item.basePath}`
                 : item.basePath;
-            const isPrice = item.dropdownKey === "prices";
-            const hasDropdown = !!item.dropdownKey;
-            const singleDropdown = hasSingleDropdownItem(
-              item,
-              locations,
-              selectedLocation,
-            );
+          const hasDropdown = !!item.dropdownKey;
 
-            const disableClick =
-              !singleDropdown && (isPrice || (hasDropdown && !hasLocation));
-
+          const shouldShowDropdown =
+            hasDropdown && !selectedLocation && locations.length > 1;
             return (
               <div
                 key={item.label}
                 className="relative"
-                onMouseEnter={() => {
-                  if (!item.dropdownKey) return;
-
-                  if (
-                    hasSingleDropdownItem(item, locations, selectedLocation)
-                  ) {
-                    setActiveDropdown(null);
-                    return;
-                  }
-
-                  if (item.dropdownKey === "prices") {
-                    setActiveDropdown("prices");
-                    return;
-                  }
-
-                  if (!selectedLocation) {
-                    setActiveDropdown(item.dropdownKey);
-                  }
-                }}
+               onMouseEnter={() => {
+              if (shouldShowDropdown) {
+                setActiveDropdown(item.dropdownKey);
+              }
+            }}
                 onMouseLeave={() => setActiveDropdown(null)}
               >
                 {item.external ? (
@@ -243,40 +158,14 @@ useEffect(() => {
                   </a>
                 ) : (
                   (() => {
-                    const isPrice = item.dropdownKey === "prices";
-                    const hasDropdown = !!item.dropdownKey;
-                    const hasLocation = !!selectedLocation;
-
-                    const singleDropdown = hasSingleDropdownItem(
-                      item,
-                      locations,
-                      selectedLocation,
-                    );
-
-                    const disableClick =
-                      !singleDropdown &&
-                      (isPrice || (hasDropdown && !hasLocation));
-
-                    if (disableClick) {
-                      return (
-                        <span className="uppercase cursor-pointer">
-                          {item.label}
-                        </span>
-                      );
-                    }
-
-                    // ✅ CLICK ENABLED
-                    if (item.basePath === "/#") {
-                    // if (item.basePath === "/contact-us") {
+                      if (item.basePath === "/contact-us") {
                       return (
                         <Link
-                          to={withBase("/"
+                          to={withBase(
+                            selectedLocation
+                              ? `/${selectedLocation.slug}/contact-us`
+                              : "/contact-us",
                           )}
-                          // to={withBase(
-                          //   selectedLocation
-                          //     ? `/${selectedLocation.slug}/contact-us`
-                          //     : "/contact-us",
-                          // )}
                           state={
                             selectedLocation
                               ? {
@@ -294,23 +183,20 @@ useEffect(() => {
 
                     return (
                       <Link
-                        to={withBase(resolvedPath)}
-                        state={locationState(selectedLocation)}
-                        className="uppercase  cursor-pointer"
-                      >
-                        {item.label}
-                      </Link>
+              to={withBase(resolvedPath)}
+              state={locationState(selectedLocation)}
+              className={shouldShowDropdown ? "uppercase" : underlineClass}
+            >
+              {item.label}
+            </Link>
                     );
                   })()
                 )}
 
-                {/* Dropdown only if NO location selected */}
                 {activeDropdown === item.dropdownKey && (
                   <DesktopDropdown
                     item={item}
                     locations={locations}
-                     categories={categories}
-                    selectedLocation={selectedLocation}
                     onSelectLocation={(loc) => setSelectedLocation(loc)}
                   />
                 )}
@@ -319,7 +205,6 @@ useEffect(() => {
           })}
         </nav>
 
-        {/* Desktop Location */}
         <div
           className="relative hidden lg:block group"
           onMouseEnter={() => setActiveDropdown("location")}
@@ -351,35 +236,6 @@ useEffect(() => {
             />
           )}
         </div>
-
-        {/* Mobile Toggle */}
-        {/* <div className="flex items-center gap-2 lg:hidden">
-           <div
-          className="relative block lg:hidden group"
-          onMouseEnter={() => setActiveDropdown("location")}
-          onMouseLeave={() => setActiveDropdown(null)}
-        >
-          <button className="flex items-center gap-2 text-xs tracking-widest hover:text-white">
-            <FaLocationDot size={14} />
-           {selectedLocation?.label ?? "Choose Location"}
-          </button>
-
-          {activeDropdown === "location" && (
-            <DesktopLocations
-              baseUrl={withBase("")}
-              selectedLocation={selectedLocation}
-               locations={locations}
-              onSelect={(loc) => {
-    setSelectedLocation(loc);
-    setActiveDropdown(null);
-  }}
-            />
-          )}
-        </div>
-        <button className="lg:hidden" onClick={() => setOpen(!open)}>
-          {open ? <X size={28} /> : <img src={menuimg} alt="menu"/>}
-        </button>
-        </div> */}
 
         <div className="flex items-center gap-5 sm:gap-2 lg:hidden">
           <div className="relative block lg:hidden">
@@ -470,87 +326,6 @@ useEffect(() => {
                         </a>
                       )}
 
-                      {/* ================= PRICES (always dropdown) ================= */}
-                      {/* {isPrice && (
-                        <>
-                          <button
-                            onClick={() =>
-                              setActiveDropdown(
-                                activeDropdown === "prices" ? null : "prices",
-                              )
-                            }
-                            className="w-full flex justify-between items-center uppercase"
-                          >
-                            <span>{item.label}</span>
-                            <ChevronDown size={14} />
-                          </button>
-
-                          {activeDropdown === "prices" && (
-                            <MobilePrices
-                              selectedLocation={selectedLocation} // ✅ ADD
-                              onClose={() => {
-                                setOpen(false);
-                                setActiveDropdown(null);
-                              }}
-                            />
-                          )}
-                        </>
-                      )} */}
-{isPrice && (() => {
-  const singlePrice = isSinglePriceService(
-  selectedLocation,
-  locations,
-   categories,
-);
-
-  // 🔹 SINGLE SERVICE → direct click
-  if (singlePrice) {
-const blocks = getPriceBlocks(locations, selectedLocation,  categories,);
-const service = blocks[0].services[0];
-    return (
-   <Link
-  to={withBase(
-    `/${blocks[0].loc.slug}/prices/${service.slug}`,
-  )}
-  onClick={() => setOpen(false)}
-  className="block uppercase"
->
-  {item.label}
-</Link>
-
-    );
-  }
-
-  // 🔹 MULTIPLE SERVICES → dropdown
-  return (
-    <>
-      <button
-        onClick={() =>
-          setActiveDropdown(
-            activeDropdown === "prices" ? null : "prices",
-          )
-        }
-        className="w-full flex justify-between items-center uppercase"
-      >
-        <span>{item.label}</span>
-        <ChevronDown size={14} />
-      </button>
-
-      {activeDropdown === "prices" && (
-        <MobilePrices
-         locations={locations}
-           categories={categories}
-          selectedLocation={selectedLocation}
-          onClose={() => {
-            setOpen(false);
-            setActiveDropdown(null);
-          }}
-        />
-      )}
-    </>
-  );
-})()}
-
                       {/* ================= DROPDOWN ITEMS ================= */}
                       {!isPrice && hasDropdown && !hasLocation && (
                         <>
@@ -584,13 +359,21 @@ const service = blocks[0].services[0];
                           )}
                         </>
                       )}
-
+                      {isPrice && hasLocation && (
+                        <Link
+                          to={withBase(`/${selectedLocation.slug}/prices`)}
+                          onClick={() => setOpen(false)}
+                          className="block uppercase"
+                        >
+                          {item.label}
+                        </Link>
+                      )}
+                      
                       {/* ================= DIRECT LINK (location selected) ================= */}
                       {!isPrice &&
                         item.basePath &&
                         hasLocation &&
-                        item.basePath !== "/#" && (
-                        // item.basePath !== "/contact-us" && (
+                          item.basePath !== "/contact-us" && (
                           <Link
                             to={withBase(
                               `/${selectedLocation.slug}${item.basePath}`,
@@ -697,99 +480,35 @@ const MobileLocations = ({
   </div>
 );
 
-const MobilePrices = ({
-  locations,
-  selectedLocation,
-  onClose,
-  categories,
-}: {
-  locations: UILocation[];
-  selectedLocation: UILocation | null;
-   categories: Category[];
-  onClose: () => void;
-}) => {
-  const blocksToShow = getPriceBlocks(
-    locations,
-    selectedLocation,
-        categories,
-  );
-
-  return (
-    <div className="ml-4 mt-2 space-y-3">
-      {blocksToShow.map((block: any) => (
-        <div key={block.loc.slug}>
-          <div className="text-sm font-semibold">
-            {block.loc.label}
-          </div>
-
-          {block.services.map((s: any) => (
-            <Link
-              key={s.slug}
-              to={withBase(`/${block.loc.slug}/prices/${s.slug}`)}
-              state={locationState(block.loc)}
-              onClick={onClose}
-              className="block text-sm ml-3 py-2"
-            >
-              {s.label}
-            </Link>
-          ))}
-        </div>
-      ))}
-    </div>
-  );
-};
-
 const DesktopDropdown = ({
   item,
   locations,
-  selectedLocation,
-   categories,
   onSelectLocation,
 }: {
   item: any;
   locations: UILocation[];
-  selectedLocation: UILocation | null;
-   categories: Category[];
   onSelectLocation: (loc: UILocation) => void;
 }) => {
-  // ================= PRICES =================
-  if (item.dropdownKey === "prices") {
 
-const blocksToShow = getPriceBlocks(
-  locations,
-  selectedLocation,
-    categories,
-);
-
+ if (item.dropdownKey === "prices") {
     return (
-      <div className="absolute left-0 top-full pt-2">
-        <div className="w-[165px] bg-white rounded-b-md overflow-hidden pt-[10px]">
-         {blocksToShow.map((block: any) => (
-  <div key={block.loc.slug} className="pb-2">
-    {/* 🔹 Location name (API) */}
-    <div className="px-3 mb-[10px] text-[14px] text-black font-medium">
-      {block.loc.label}
-    </div>
-
-    {/* 🔹 Services (STATIC as-is) */}
-    {block.services.map((s: any) => (
-      <Link
-        key={s.slug}
-        to={withBase(`/${block.loc.slug}/prices/${s.slug}`)}
-        state={locationState(block.loc)}
-        className="block pl-5 mb-[10px] text-[12px] text-black"
-      >
-        {s.label}
-      </Link>
-    ))}
-  </div>
-))}
-
+      <div className="absolute left-0 top-full pt-2 w-[160px]">
+        <div className="bg-white rounded-b-md overflow-hidden pt-[10px]">
+          {locations.map((loc) => (
+            <Link
+              key={loc.slug}
+              to={withBase(`/${loc.slug}/prices`)}
+              state={locationState(loc)}
+              onClick={() => onSelectLocation(loc)}
+              className="block px-3 mb-[10px] text-xs text-black"
+            >
+              {loc.label}
+            </Link>
+          ))}
         </div>
       </div>
     );
   }
-
   // ================= OTHER DROPDOWNS =================
   return (
     <div className="absolute left-0 top-full pt-2 w-[160px]">

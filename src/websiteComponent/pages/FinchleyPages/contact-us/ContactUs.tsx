@@ -63,6 +63,7 @@ const [errors, setErrors] = useState<FormErrors>({});
     phone: "",
     message: "",
   });
+  
 useEffect(() => {
   if (locationId) return;
 
@@ -76,6 +77,7 @@ useEffect(() => {
     }
   });
 }, []);
+
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {

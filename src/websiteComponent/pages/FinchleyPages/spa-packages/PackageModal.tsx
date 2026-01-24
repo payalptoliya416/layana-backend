@@ -29,7 +29,7 @@ export function PackageModal({
         {/* IMAGE */}
         <img
           src={data.visuals.image}
-          className="sm:mb-[15px]"
+          className="w-full max-h-[350px] object-cover"
           alt={data.name}
         />
 

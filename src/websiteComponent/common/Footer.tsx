@@ -1,13 +1,8 @@
 import { ArrowRight, Headset } from "lucide-react";
 import white_logo from "@/assets/white_logo.png";
-import blog from "@/assets/blog.png";
-import blog2 from "@/assets/blog2.png";
-import blog3 from "@/assets/blog3.png";
-import copy_img from "@/assets/copy_img.png";
 import footerbanner from "@/assets/footerbanner.png";
 import {
   Facebook,
-  Twitter,
   Instagram,
   Linkedin,
   MapPin,
@@ -19,7 +14,9 @@ import { useEffect, useState } from "react";
 import { getLocations } from "../api/webLocationService";
 import Loader from "./Loader";
 import { withBase } from "./Header";
-import { Link } from "react-router-dom";
+import { Link, useLocation, useParams } from "react-router-dom";
+import { toast } from "sonner";
+import { submitEnquiry } from "../api/enquiryService";
 
 const socialLinks = [
   {
@@ -43,7 +40,46 @@ const socialLinks = [
 function Footer() {
 const [locations, setLocations] = useState<any[]>([]);
 const [loading, setLoading] = useState(true);
-const locationImages = [blog, blog2, blog3];
+  const location = useLocation();
+  const locationId = location.state?.locationId as number | undefined;
+  const { locationSlug } = useParams();
+  const [resolvedLocationId, setResolvedLocationId] = useState<number | null>(null);
+  const [newsletterEmail, setNewsletterEmail] = useState("");
+  const [submitting, setSubmitting] = useState(false);
+  const [message, setMessage] = useState("");
+  const [error, setError] = useState("");
+  const DEFAULT_LOCATION_SLUG = "finchley-central";
+
+    /* ================= RESOLVE LOCATION ID ================= */
+useEffect(() => {
+  const fetchLocations = async () => {
+    setLoading(true);
+
+    try {
+      const res = await getLocations();
+      const allLocations = res.data ?? [];
+
+      setLocations(allLocations);
+      const slugToUse = locationSlug || DEFAULT_LOCATION_SLUG;
+      const matched = allLocations.find(
+        (loc: any) => loc.slug === slugToUse
+      );
+
+      if (matched) {
+        setResolvedLocationId(matched.id);
+      } else {
+        setResolvedLocationId(null);
+        setError("Location not found");
+      }
+    } catch (err) {
+      setError("Failed to load locations");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  fetchLocations();
+}, [locationSlug]);
 
 useEffect(() => {
   const fetchData = async () => {
@@ -61,6 +97,41 @@ useEffect(() => {
   fetchData();
 }, []);
 
+const handleNewsletterSubmit = async () => {
+  setMessage("");
+  setError("");
+
+  if (!resolvedLocationId) {
+    setError("Location not found. Please refresh.");
+    return;
+  }
+
+  if (!newsletterEmail) {
+    setError("Please enter your email");
+    return;
+  }
+
+  try {
+    setSubmitting(true);
+
+    const res = await submitEnquiry({
+      location_id: resolvedLocationId,
+      email: newsletterEmail,
+    });
+
+    setMessage(res.message || "Subscribed successfully!");
+    setNewsletterEmail("");
+  } catch (err: any) {
+    setError(err?.message || "Something went wrong");
+  } finally {
+    setSubmitting(false);
+  }
+};
+useEffect(() => {
+  setNewsletterEmail("");
+  setMessage("");
+  setError("");
+}, [location.pathname]);
   return (
     <>
       {/* <SocialStrip /> */}
@@ -184,19 +255,25 @@ useEffect(() => {
 
               {/* Newsletter */}
               <div className="col-span-12 sm:col-span-12 lg:col-span-4 py-[36px]">
-                <p className="text-xl tracking-widest uppercase mb-[19px] font-quattro  ">
+                <p className="text-xl tracking-widest uppercase mb-[19px]">
                   Our Newsletter
                 </p>
                 <div className="flex">
                   <input
                     type="email"
+                     value={newsletterEmail}
+                     onChange={(e) => setNewsletterEmail(e.target.value)}
                     placeholder="Enter your email..."
                     className="flex-1 bg-transparent border-b border-[#FDE6D8]/30 text-[#BEBEBE] pr-4 py-2 text-sm focus:outline-none"
                   />
-                  <button className="bg-[#f6eee9] px-[23px] py-[14px] text-xs tracking-widest uppercase text-black">
-                    Subscribe
+                  <button onClick={handleNewsletterSubmit}
+                    disabled={submitting}
+                    className="bg-[#f6eee9] px-[23px] py-[14px] text-xs tracking-widest uppercase text-black">
+                     {submitting ? "Submitting..." : "Subscribe"}
                   </button>
                 </div>
+                              {error && <p className="text-red-400 text-sm mt-2">{error}</p>}
+{message && <p className="text-green-400 text-sm mt-2">{message}</p>}
               </div>
             </div>
           </div>
@@ -207,7 +284,7 @@ useEffect(() => {
           <div className="container mx-auto">
             <div className="grid grid-cols-12 sm:gap-10 lg:gap-1 py-[39px]">
               <div className="col-span-12 sm:col-span-6 lg:col-span-3 mb-10 sm:mb-0">
-                <h4 className="relative text-white tracking-widest mb-6 text-xl font-quattro after:content-[''] after:block after:w-12 after:h-[2px] after:bg-[#f6eee9] after:mt-3">
+                <h4 className="relative text-white tracking-widest mb-6 text-xl after:content-[''] after:block after:w-12 after:h-[2px] after:bg-[#f6eee9] after:mt-3">
                   ABOUT LAYANA
                 </h4>
 
@@ -245,7 +322,7 @@ useEffect(() => {
                 </ul>
 
                 <div className="mt-6">
-                  <p className="text-white text-2xl mb-3 font-quattro">
+                  <p className="text-white text-2xl mb-3">
                     Open Hours
                   </p>
                   <p className="text-base text-[#A3A2A2]">
@@ -256,7 +333,7 @@ useEffect(() => {
               </div>
 
               <div className="col-span-12 sm:col-span-6 lg:col-span-3 mb-10 sm:mb-0">
-                <h4 className="relative text-white tracking-widest mb-6 text-xl font-quattro after:content-[''] after:block after:w-12 after:h-[2px] after:bg-[#f6eee9] after:mt-3">
+                <h4 className="relative text-white tracking-widest mb-6 text-xl after:content-[''] after:block after:w-12 after:h-[2px] after:bg-[#f6eee9] after:mt-3">
                   IMPORTANT LINKS
                 </h4>
                 <ul className="space-y-3 text-sm">
@@ -281,7 +358,7 @@ useEffect(() => {
               </div>
 
               <div className="col-span-12 sm:col-span-6 lg:col-span-3 mb-10 sm:mb-0">
-                <h4 className="relative text-white tracking-widest mb-6 text-xl font-quattro after:content-[''] after:block after:w-12 after:h-[2px] after:bg-[#f6eee9] after:mt-3">
+                <h4 className="relative text-white tracking-widest mb-6 text-xl after:content-[''] after:block after:w-12 after:h-[2px] after:bg-[#f6eee9] after:mt-3">
                   CATEGORIES
                 </h4>
                 <ul className="space-y-3 text-sm">
@@ -306,7 +383,7 @@ useEffect(() => {
               </div>
 
               <div className="col-span-12 sm:col-span-6 lg:col-span-3">
-                <h4 className="relative text-white tracking-widest mb-6 text-xl font-quattro after:content-[''] after:block after:w-12 after:h-[2px] after:bg-[#f6eee9] after:mt-3">
+                <h4 className="relative text-white tracking-widest mb-6 text-xl after:content-[''] after:block after:w-12 after:h-[2px] after:bg-[#f6eee9] after:mt-3">
                   OUR LOCATIONS
                 </h4>
                 <div className="space-y-3">
