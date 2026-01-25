@@ -106,10 +106,10 @@ function WebsiteRoutes() {
     />
 
     {/* ================= PRICES ================= */}
-    <Route
+    {/* <Route
       path="/book-consultaion"
       element={<BookCounsultation />}
-    />
+    /> */}
   
   </Route>
 
