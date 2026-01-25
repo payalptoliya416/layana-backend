@@ -5,8 +5,8 @@ import { Footer } from "@/components/layout/Footer";
 import { cn } from "@/lib/utils";
 import { Eye, EyeIcon, GripVertical, Pencil, Plus, Search, Trash2, X } from "lucide-react";
 import { useNavigate } from "react-router-dom";
-import { closestCenter, DndContext, KeyboardSensor, PointerSensor, useSensor, useSensors } from "@dnd-kit/core";
-import { SortableContext, useSortable, verticalListSortingStrategy } from "@dnd-kit/sortable";
+import { closestCenter, DndContext, DragEndEvent, KeyboardSensor, MeasuringStrategy, PointerSensor, useSensor, useSensors } from "@dnd-kit/core";
+import { arrayMove, SortableContext, useSortable, verticalListSortingStrategy } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
 import { toast } from "sonner";
 import { BranchLocation, getLocations } from "@/services/getLocation";
@@ -19,6 +19,7 @@ import {
   AlertDialogFooter,
 } from "@/components/ui/alert-dialog";
 import { Button } from "../ui/button";
+import { getTableCount } from "@/services/getTeam";
 
 export type Category = {
   id: number;
@@ -35,7 +36,7 @@ const IconButton = ({
 }) => (
   <button
     onClick={onClick}
-     className="h-7 w-7 text-muted-foreground rounded-full border bg-card flex items-center justify-center hover:bg-muted"
+    className="h-7 w-7 text-muted-foreground rounded-full border bg-card flex items-center justify-center hover:bg-muted"
   >
     {children}
   </button>
@@ -92,40 +93,40 @@ function SortableRow({
         </div>
 
         <div className="flex-1 text-muted-foreground">
-  {item.status?.charAt(0).toUpperCase() + item.status?.slice(1)}
-</div>
-        
-          <td className="w-[160px] flex justify-start gap-2 whitespace-nowrap pl-4">
-        <button
-        onClick={() => onView(item.id)}
-          className="
-            h-7 w-7 rounded-full
-            border border-border
-            bg-card
-            flex items-center justify-center
-            text-muted-foreground
-            hover:text-foreground hover:bg-muted
-          "
-        >
-          <EyeIcon size={15} />
-        </button>
-        <button
-         onClick={() => onEdit(item.id)}
-          className="
-            h-7 w-7 rounded-full
-            border border-border
-            bg-card
-            flex items-center justify-center
-            text-muted-foreground
-            hover:text-foreground hover:bg-muted
-          "
-        >
-          <Pencil size={15} />
-        </button>
+          {item.status?.charAt(0).toUpperCase() + item.status?.slice(1)}
+        </div>
 
-        <button
-        onClick={() => onDelete(item.id)}
-          className="
+        <td className="w-[160px] flex justify-start gap-2 whitespace-nowrap pl-4">
+          <button
+            onClick={() => onView(item.id)}
+            className="
+            h-7 w-7 rounded-full
+            border border-border
+            bg-card
+            flex items-center justify-center
+            text-muted-foreground
+            hover:text-foreground hover:bg-muted
+          "
+          >
+            <EyeIcon size={15} />
+          </button>
+          <button
+            onClick={() => onEdit(item.id)}
+            className="
+            h-7 w-7 rounded-full
+            border border-border
+            bg-card
+            flex items-center justify-center
+            text-muted-foreground
+            hover:text-foreground hover:bg-muted
+          "
+          >
+            <Pencil size={15} />
+          </button>
+
+          <button
+            onClick={() => onDelete(item.id)}
+            className="
             h-7 w-7 rounded-full
             border border-border
             bg-card
@@ -133,10 +134,10 @@ function SortableRow({
             text-muted-foreground
             hover:bg-muted
           "
-        >
-          <Trash2 size={15}/>
-        </button>
-      </td>
+          >
+            <Trash2 size={15} />
+          </button>
+        </td>
       </div>
 
       {/* ================= MOBILE CARD ================= */}
@@ -188,8 +189,8 @@ function LocationList() {
   const navigate = useNavigate();
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
   const [sidebarOpen, setSidebarOpen] = useState(false);
- const [search, setSearch] = useState("");
-const [debouncedSearch, setDebouncedSearch] = useState("");
+  const [search, setSearch] = useState("");
+  const [debouncedSearch, setDebouncedSearch] = useState("");
   const sensors = useSensors(
     useSensor(PointerSensor, {
       activationConstraint: { distance: 5 }, // 👈 accidental drag avoid
@@ -202,65 +203,115 @@ const [debouncedSearch, setDebouncedSearch] = useState("");
   const [sortBy, setSortBy] = useState<"id" | "name" | "status">("id");
   const [sortDirection, setSortDirection] = useState<"asc" | "desc">("desc");
   const [locations, setLocations] = useState<BranchLocation[]>([]);
-    const [isDeleting, setIsDeleting] = useState(false);
-    const [deleteId, setDeleteId] = useState<number | null>(null);
+  const [isDeleting, setIsDeleting] = useState(false);
+  const [deleteId, setDeleteId] = useState<number | null>(null);
 
-const fetchTreatments = async () => {
-  try {
-    const res = await getLocations({
-      page,
-      perPage: 10,
-      search: debouncedSearch,
-      sortBy,
-      sortDirection,
-    });
+  const fetchTreatments = async () => {
+    try {
+      const res = await getLocations({
+        page,
+        perPage: 10,
+        search: debouncedSearch,
+        sortBy,
+        sortDirection,
+      });
 
-  setLocations(res?.data ?? []);
-     setPagination(res?.pagination ?? null);
-  } catch (e) {
-    setLocations([]);
-    toast.error("Failed to load locations");
+      setLocations(res?.data ?? []);
+      setPagination(res?.pagination ?? null);
+    } catch (e) {
+      setLocations([]);
+      toast.error("Failed to load locations");
+    }
+  };
+  useEffect(() => {
+    fetchTreatments();
+  }, [page, sortBy, sortDirection, debouncedSearch]);
+
+  useEffect(() => {
+    const delay = setTimeout(() => {
+      setDebouncedSearch(search);
+      setPage(1); // reset page when search changes
+    }, 400);
+
+    return () => clearTimeout(delay);
+  }, [search]);
+
+  // const handleDragEnd = async (event: DragEndEvent) => {
+  //   const { active, over } = event;
+
+  //   if (!over || active.id === over.id) return;
+
+  //   const activeId = Number(active.id);
+  //   const overId = Number(over.id);
+
+  //   // ✅ UI reorder (current page)
+  //   const oldIndex = locations.findIndex((i) => i.id === activeId);
+  //   const newIndex = locations.findIndex((i) => i.id === overId);
+
+  //   if (oldIndex !== -1 && newIndex !== -1) {
+  //     setLocations((prev) => arrayMove(prev, oldIndex, newIndex));
+  //   }
+
+  //   try {
+  //     // ✅ Total count fetch
+  //     const totalCount = await getTableCount("locations");
+
+  //     // ✅ Fetch all locations
+  //     const allLocations = await getAllLocations(totalCount);
+
+  //     const fromIndex = allLocations.findIndex((l) => l.id === activeId);
+  //     const toIndex = allLocations.findIndex((l) => l.id === overId);
+
+  //     if (fromIndex === -1 || toIndex === -1) return;
+
+  //     // ✅ Global reorder
+  //     const reordered = arrayMove(allLocations, fromIndex, toIndex);
+
+  //     // ✅ Payload for backend
+  //     const payload = reordered.map((item, index) => ({
+  //       id: item.id,
+  //       index: index + 1,
+  //     }));
+
+  //     // ✅ API call
+  //     await reorderLocation(payload);
+
+  //     toast.success("Location reordered successfully");
+
+  //     fetchTreatments(); // refresh list
+  //   } catch (err) {
+  //     console.error(err);
+  //     toast.error("Reorder failed");
+  //     fetchTreatments();
+  //   }
+  // };
+
+  const handleDeleteConfirm = async () => {
+    if (!deleteId) return;
+
+    try {
+      setIsDeleting(true);
+
+      await deleteLocation(deleteId);
+
+      toast.success("Location deleted successfully");
+      await fetchTreatments();
+    } catch (err) {
+      console.error(err);
+      toast.error("Failed to delete location");
+    } finally {
+      setIsDeleting(false);
+      setDeleteId(null);
+    }
+  };
+
+  const handleEdit = (id: number) => {
+    navigate(`/settings/location/edit/${id}`);
+  };
+
+  const onView = (id: number) => {
+    navigate(`/settings/location-view/${id}`);
   }
-};
-useEffect(() => {
-  fetchTreatments();
-}, [page, sortBy, sortDirection, debouncedSearch]);
-
-useEffect(() => {
-  const delay = setTimeout(() => {
-    setDebouncedSearch(search);
-    setPage(1); // reset page when search changes
-  }, 400);
-
-  return () => clearTimeout(delay);
-}, [search]);
-
-const handleDeleteConfirm = async () => {
-  if (!deleteId) return;
-
-  try {
-    setIsDeleting(true);
-
-    await deleteLocation(deleteId);
-
-    toast.success("Location deleted successfully");
-    await fetchTreatments();
-  } catch (err) {
-    console.error(err);
-    toast.error("Failed to delete location");
-  } finally {
-    setIsDeleting(false);
-    setDeleteId(null);
-  }
-};
-
-const handleEdit = (id: number) => {
-  navigate(`/settings/location/edit/${id}`);
-};
-
-const onView = (id: number) =>{
-   navigate(`/settings/location-view/${id}`);
-}
   return (
     <>
       <div className="bg-background flex">
@@ -303,8 +354,8 @@ const onView = (id: number) =>{
             <PageHeader
               title="Location"
               onMenuClick={() => setSidebarOpen(true)}
-               onBack={() => navigate(-1)}
-               showBack = {true}
+              onBack={() => navigate(-1)}
+              showBack={true}
             />
           </div>
 
@@ -363,163 +414,169 @@ const onView = (id: number) =>{
                 </button>
               </div>
               <div className="grid grid-cols-12">
-                    <div className="col-span-12">
+                <div className="col-span-12">
 
-                      <div className="w-full rounded-2xl border border-border bg-card flex flex-col h-[calc(100dvh-300px)]">
+                  <div className="w-full rounded-2xl border border-border bg-card flex flex-col h-[calc(100dvh-300px)]">
 
-                        {/* ================= HEADER (DESKTOP ONLY) ================= */}
-                        <div className="sticky top-0 z-[9] bg-card border-b hidden lg:flex items-center h-[52px] px-4 text-sm font-medium text-primary mx-4">
+                    {/* ================= HEADER (DESKTOP ONLY) ================= */}
+                    <div className="sticky top-0 z-[9] bg-card border-b hidden lg:flex items-center h-[52px] px-4 text-sm font-medium text-primary mx-4">
 
-                          <div className="w-10" />
+                      <div className="w-10" />
 
-                          <button
-                            onClick={() => {
-                              setSortBy("name");
-                              setSortDirection((p) => (p === "asc" ? "desc" : "asc"));
-                            }}
-                            className="w-[30%] pl-4 border-l cursor-pointer flex items-center justify-between text-left"
-                          >
-                            <span>Location</span>
-                             <span className="flex flex-col gap-1 ml-2 text-muted-foreground leading-none mr-2">
-                                            <span className="text-[10px]">
-                                              <img src="/top.png" alt="" />
-                                            </span>
-                                            <span className="text-[10px] -mt-1">
-                                              <img src="/down.png" alt="" />
-                                            </span>
-                                          </span>
-                          </button>
-
-                          <button 
-                            onClick={() => {
-                              setSortBy("status");
-                              setSortDirection((p) => (p === "asc" ? "desc" : "asc"));
-                            }}
-                            className="flex-1 pl-8 border-l cursor-pointer flex items-center justify-between text-left"
-                          >
-                            <span>Status</span>
-                             <span className="flex flex-col gap-1 ml-2 text-muted-foreground leading-none mr-2">
-                                            <span className="text-[10px]">
-                                              <img src="/top.png" alt="" />
-                                            </span>
-                                            <span className="text-[10px] -mt-1">
-                                              <img src="/down.png" alt="" />
-                                            </span>
-                                          </span>
-                          </button>
-
-                          <div className="w-[160px] pl-4 border-l text-left">
-                            Actions
-                          </div>
-                        </div>
-
-                        {/* ================= BODY ================= */}
-                        <div className="flex-1 overflow-y-auto scrollbar-thin">
-
-                          {!locations || locations.length === 0 ? (
-                            <div className="py-10 text-center text-muted-foreground text-sm">
-                              No locations found
-                            </div>
-                          ) : (
-                            <DndContext collisionDetection={closestCenter} sensors={sensors}>
-                              <SortableContext
-                                items={locations.map((i) => i.id)}
-                                strategy={verticalListSortingStrategy}
-                              >
-                                {locations.map((item, index) => (
-                                  <SortableRow
-                                    key={item.id}
-                                    item={item}
-                                    index={index}
-                                    onEdit={handleEdit}
-                                    onView={onView}
-                                    onDelete={(id) => setDeleteId(id)}
-                                  />
-                                ))}
-                              </SortableContext>
-                            </DndContext>
-                          )}
-                        </div>
-                      </div>
-
-                      {/* ================= PAGINATION ================= */}
-                      {pagination && (
-                        <div className="flex items-center justify-center gap-6 px-4 py-2 text-sm text-muted-foreground">
-                          <button
-                            disabled={pagination.current_page === 1}
-                            onClick={() => setPage(1)}
-                            className="disabled:opacity-40 text-2xl"
-                          >
-                            «
-                          </button>
-
-                          <button
-                            disabled={!pagination.prev_page_url}
-                            onClick={() => setPage((p) => p - 1)}
-                            className="disabled:opacity-40 text-2xl"
-                          >
-                            ‹
-                          </button>
-
-                          <span className="text-foreground font-medium">
-                            {pagination.current_page} / {pagination.last_page}
+                      <button
+                        onClick={() => {
+                          setSortBy("name");
+                          setSortDirection((p) => (p === "asc" ? "desc" : "asc"));
+                        }}
+                        className="w-[30%] pl-4 border-l cursor-pointer flex items-center justify-between text-left"
+                      >
+                        <span>Location</span>
+                        <span className="flex flex-col gap-1 ml-2 text-muted-foreground leading-none mr-2">
+                          <span className="text-[10px]">
+                            <img src="/top.png" alt="" />
                           </span>
+                          <span className="text-[10px] -mt-1">
+                            <img src="/down.png" alt="" />
+                          </span>
+                        </span>
+                      </button>
 
-                          <button
-                            disabled={!pagination.next_page_url}
-                            onClick={() => setPage((p) => p + 1)}
-                            className="disabled:opacity-40 text-2xl"
-                          >
-                            ›
-                          </button>
+                      <button
+                        onClick={() => {
+                          setSortBy("status");
+                          setSortDirection((p) => (p === "asc" ? "desc" : "asc"));
+                        }}
+                        className="flex-1 pl-8 border-l cursor-pointer flex items-center justify-between text-left"
+                      >
+                        <span>Status</span>
+                        <span className="flex flex-col gap-1 ml-2 text-muted-foreground leading-none mr-2">
+                          <span className="text-[10px]">
+                            <img src="/top.png" alt="" />
+                          </span>
+                          <span className="text-[10px] -mt-1">
+                            <img src="/down.png" alt="" />
+                          </span>
+                        </span>
+                      </button>
 
-                          <button
-                            disabled={pagination.current_page === pagination.last_page}
-                            onClick={() => setPage(pagination.last_page)}
-                            className="disabled:opacity-40 text-2xl"
-                          >
-                            »
-                          </button>
+                      <div className="w-[160px] pl-4 border-l text-left">
+                        Actions
+                      </div>
+                    </div>
+
+                    {/* ================= BODY ================= */}
+                    <div className="flex-1 overflow-y-auto scrollbar-thin">
+
+                      {!locations || locations.length === 0 ? (
+                        <div className="py-10 text-center text-muted-foreground text-sm">
+                          No locations found
                         </div>
+                      ) : (
+                        <DndContext collisionDetection={closestCenter} sensors={sensors}
+                        //  onDragEnd={handleDragEnd} measuring={{
+                        //   droppable: {
+                        //     strategy: MeasuringStrategy.Always,
+                        //   },
+                        // }}
+                        >
+                          <SortableContext
+                            items={locations.map((i) => i.id)}
+                            strategy={verticalListSortingStrategy}
+                          >
+                            {locations.map((item, index) => (
+                              <SortableRow
+                                key={item.id}
+                                item={item}
+                                index={index}
+                                onEdit={handleEdit}
+                                onView={onView}
+                                onDelete={(id) => setDeleteId(id)}
+                              />
+                            ))}
+                          </SortableContext>
+                        </DndContext>
                       )}
-                           {/* ================= DELETE DIALOG ================= */}
-                                        <AlertDialog open={!!deleteId} onOpenChange={() => setDeleteId(null)}>
-  <AlertDialogContent className="max-w-[420px] rounded-2xl p-6">
-    <AlertDialogHeader>
-      <AlertDialogTitle className="text-lg">
-        Delete Location?
-      </AlertDialogTitle>
-    </AlertDialogHeader>
-
-    <p className="text-sm text-muted-foreground">
-      Are you sure you want to delete this location?  
-      This action cannot be undone.
-    </p>
-
-    <AlertDialogFooter className="mt-6">
-      <Button
-        variant="cancel"
-        onClick={() => setDeleteId(null)}
-        disabled={isDeleting}
-        className="rounded-[10px]"
-      >
-        Cancel
-      </Button>
-
-      <Button
-        variant="destructive"
-        onClick={handleDeleteConfirm}
-        disabled={isDeleting}
-        className="rounded-[10px]"
-      >
-        {isDeleting ? "Deleting..." : "Delete"}
-      </Button>
-    </AlertDialogFooter>
-  </AlertDialogContent>
-</AlertDialog>
-
                     </div>
                   </div>
+
+                  {/* ================= PAGINATION ================= */}
+                  {pagination && (
+                    <div className="flex items-center justify-center gap-6 px-4 py-2 text-sm text-muted-foreground">
+                      <button
+                        disabled={pagination.current_page === 1}
+                        onClick={() => setPage(1)}
+                        className="disabled:opacity-40 text-2xl"
+                      >
+                        «
+                      </button>
+
+                      <button
+                        disabled={!pagination.prev_page_url}
+                        onClick={() => setPage((p) => p - 1)}
+                        className="disabled:opacity-40 text-2xl"
+                      >
+                        ‹
+                      </button>
+
+                      <span className="text-foreground font-medium">
+                        {pagination.current_page} / {pagination.last_page}
+                      </span>
+
+                      <button
+                        disabled={!pagination.next_page_url}
+                        onClick={() => setPage((p) => p + 1)}
+                        className="disabled:opacity-40 text-2xl"
+                      >
+                        ›
+                      </button>
+
+                      <button
+                        disabled={pagination.current_page === pagination.last_page}
+                        onClick={() => setPage(pagination.last_page)}
+                        className="disabled:opacity-40 text-2xl"
+                      >
+                        »
+                      </button>
+                    </div>
+                  )}
+                  {/* ================= DELETE DIALOG ================= */}
+                  <AlertDialog open={!!deleteId} onOpenChange={() => setDeleteId(null)}>
+                    <AlertDialogContent className="max-w-[420px] rounded-2xl p-6">
+                      <AlertDialogHeader>
+                        <AlertDialogTitle className="text-lg">
+                          Delete Location?
+                        </AlertDialogTitle>
+                      </AlertDialogHeader>
+
+                      <p className="text-sm text-muted-foreground">
+                        Are you sure you want to delete this location?
+                        This action cannot be undone.
+                      </p>
+
+                      <AlertDialogFooter className="mt-6">
+                        <Button
+                          variant="cancel"
+                          onClick={() => setDeleteId(null)}
+                          disabled={isDeleting}
+                          className="rounded-[10px]"
+                        >
+                          Cancel
+                        </Button>
+
+                        <Button
+                          variant="destructive"
+                          onClick={handleDeleteConfirm}
+                          disabled={isDeleting}
+                          className="rounded-[10px]"
+                        >
+                          {isDeleting ? "Deleting..." : "Delete"}
+                        </Button>
+                      </AlertDialogFooter>
+                    </AlertDialogContent>
+                  </AlertDialog>
+
+                </div>
+              </div>
 
               {/* <div className="grid grid-cols-12">
                 <div className="col-span-12">
