@@ -23,149 +23,50 @@ function WebsiteRoutes() {
   return (
     <>
       <ScrollToTop />
-      {/* <Routes>
-         <Route element={<WebsiteLayout />}>
-        <Route path="/" element={<Home/>}/>
-       <Route path="/:locationSlug" element={<FinchleyCenteral />} /> 
+      {/*
         <Route path="/team" element={<Team/>}/>
         <Route path="/term-condition" element={<TermCondition/>}/>
-
-        <Route path="/treatments" element={<Massage/>}/>
-        <Route path="/treatments/belsize-park" element={<Massage/>}/>
-        <Route path="/treatments/finchley-central" element={<Massage/>}/>
-        <Route path="/treatments/muswell-hill" element={<Massage/>}/>
-
-        <Route path="/treatments/oil-massage" element={<OilMassage/>}/>
-        
-        <Route path="/treatments">
-        <Route index element={<Massage />} />
-        <Route path=":slug" element={<OilMassage />} />
-      </Route>
+    
         <Route path="/treatments/beauty" element={<Beauty/>}/>
         <Route path="/treatments/beauty-nail" element={<BeautyNail/>}/>
         <Route path="/treatments/beauty-waxing" element={<BeautyWaxing/>}/>
         <Route path="/treatments/beauty-environ" element={<Beautyinviron/>}/>
-
-        <Route path="/contact-us" element={<ContactUs/>}/>
-   
-        <Route path="/spa-packages/belsize-park" element={<SpaPackages/>}/>
-        <Route path="/spa-packages/finchley-central" element={<SpaPackages/>}/>
-        <Route path="/spa-packages/muswell-hill" element={<SpaPackages/>}/>
-       
-        <Route path="/memberships/belsize-park" element={<MemberShip/>}/>
-        <Route path="/memberships/finchley-central" element={<MemberShip/>}/>
-        <Route path="/memberships/muswell-hill" element={<MemberShip/>}/>
-      
-        <Route path="/prices/finchley-central/massage-beauty" element={<PricingPage/>}/>
-        <Route path="/prices/finchley-central/skin" element={<PricingPage/>}/>
-        <Route path="/prices/finchley-central/laser" element={<PricingPage/>}/>
-        <Route path="/prices/muswell-hill/massage-beauty" element={<PricingPage/>}/>
-        <Route path="/prices/belsize-park/massage-beauty" element={<PricingPage/>}/>
         </Route>
    
-         <Route path="*" element={<Navigate to="#" replace />} />
       </Routes> */}
-<Routes>
-  <Route element={<WebsiteLayout />}>
-
-    <Route path="/" element={<Home />} />
-
-    <Route path="/contact-us" element={<ContactUs />} />
-    <Route path="/:locationSlug/contact-us" element={<ContactUs />} />
-
-    <Route path="/:locationSlug" element={<FinchleyCenteral />} />
-
-    {/* ================= TREATMENTS ================= */}
-    <Route path="/treatments" element={<Massage />} />
-    <Route path="/:locationSlug/treatments" element={<Massage />} />
-    <Route
-      path="/:locationSlug/treatments/:treatmentSlug"
-      element={<OilMassage />}
-    />
-    <Route
-      path="/treatments/:treatmentSlug"
-      element={<OilMassage />}
-    />
-
-    {/* ================= MEMBERSHIPS ================= */}
-    <Route
-      path="/:locationSlug/memberships"
-      element={<MemberShip />}
-    />
-
-    {/* ================= SPA PACKAGES ================= */}
-    <Route
-      path="/:locationSlug/spa-packages"
-      element={<SpaPackages />}
-    />
-
-    {/* ================= PRICES ================= */}
-    <Route
-      path="/:locationSlug/prices"
-      element={<PricingPage />}
-    />
-
-    {/* ================= PRICES ================= */}
-    <Route
-      path="/book-consultaion"
-      element={<BookCounsultation />}
-    />
-  
-  </Route>
-
-  <Route path="*" element={<Navigate to="/websiteurl" replace />} />
-</Routes>
-
-      {/* <Routes>
+      <Routes>
         <Route element={<WebsiteLayout />}>
           <Route path="/" element={<Home />} />
-          <Route path="/team" element={<Team />} />
-          <Route path="/term-condition" element={<TermCondition />} />
 
           <Route path="/contact-us" element={<ContactUs />} />
           <Route path="/:locationSlug/contact-us" element={<ContactUs />} />
 
           <Route path="/:locationSlug" element={<FinchleyCenteral />} />
 
-          <Route path="/treatments" element={<Massage/>}/>
-          <Route path="/finchley-central/:treatmentSlug" element={<Massage/>}/>
-          <Route path="/:locationSlug/:treatmentSlug" element={<Massage/>}/>
+          {/* ================= TREATMENTS ================= */}
+          <Route path="/treatments" element={<Massage />} />
           <Route path="/:locationSlug/treatments" element={<Massage />} />
           <Route
             path="/:locationSlug/treatments/:treatmentSlug"
             element={<OilMassage />}
           />
-          <Route
-            path="/treatments/:treatmentSlug"
-            element={<OilMassage />}
-          />
+          <Route path="/treatments/:treatmentSlug" element={<OilMassage />} />
 
-          <Route path="/:locationSlug/treatments/beauty" element={<Beauty />} />
-          <Route
-            path="/:locationSlug/treatments/beauty-nail"
-            element={<BeautyNail />}
-          />
-          <Route
-            path="/:locationSlug/treatments/beauty-waxing"
-            element={<BeautyWaxing />}
-          />
-          <Route
-            path="/:locationSlug/treatments/beauty-environ"
-            element={<Beautyinviron />}
-          />
-
+          {/* ================= MEMBERSHIPS ================= */}
           <Route path="/:locationSlug/memberships" element={<MemberShip />} />
 
+          {/* ================= SPA PACKAGES ================= */}
           <Route path="/:locationSlug/spa-packages" element={<SpaPackages />} />
 
-          <Route
-            path="/:locationSlug/prices/:serviceSlug"
-            element={<PricingPage />}
-          />
+          {/* ================= PRICES ================= */}
+          <Route path="/:locationSlug/prices" element={<PricingPage />} />
+
+          {/* ================= PRICES ================= */}
+          <Route path="/book-consultaion" element={<BookCounsultation />} />
         </Route>
 
-        <Route path="*" element={<Navigate to="/" replace />} />
-      </Routes> */}
+        <Route path="*" element={<Navigate to="/websiteurl" replace />} />
+      </Routes>
     </>
   );
 }
