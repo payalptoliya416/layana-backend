@@ -58,16 +58,15 @@ function MassageContent({ data }: { data: any }) {
       {/* Dynamic Treatments */}
       {data.treatments.map((t: any) => (
         <div key={t.id}>
-                    {t.pricing.map((p: any, index: number) => (
+          {t.pricing.map((p: any, index: number) => (
             <MassageRow
               key={p.id}
               name={index === 0 ? t.name : ""} // ✅ only first time name
-              pressure={index === 0 ? t.indicative_pressure ?? "-" : ""}
+              pressure={index === 0 ? (t.indicative_pressure ?? "-") : ""}
               duration={`${p.minute} min`}
               price={`£${p.price}`}
             />
           ))}
-
         </div>
       ))}
     </>
@@ -265,9 +264,10 @@ function PricingPage() {
   const { locationId, categoryId } = location.state || {};
   const [activeTab, setActiveTab] = useState<string>("");
   const [pricingData, setPricingData] = useState<any>(null);
-  const [loading, setLoading] = useState(false);
   const [initialLoading, setInitialLoading] = useState(true);
-  const [isSpaOpen, setIsSpaOpen] = useState(false);
+  const [openAccordion, setOpenAccordion] = useState<number | string | null>(
+    null,
+  );
 
   useEffect(() => {
     getTreatmentCategories().then((res) => {
@@ -281,17 +281,29 @@ function PricingPage() {
         if (found) {
           setActiveTab(found.name);
           setActiveAccordionId(found.id);
+          setOpenAccordion(found.id);
           return;
         }
       }
 
       setActiveTab(data[0].name);
       setActiveAccordionId(data[0].id);
+      setOpenAccordion(data[0].id);
     });
   }, [categoryId]);
 
-  const toggleAccordion = (id: number) => {
-    setActiveAccordionId((prev) => (prev === id ? null : id));
+  useEffect(() => {
+    if (pricingData?.category?.id) {
+      setOpenAccordion(pricingData.category.id);
+    }
+  }, [pricingData]);
+
+  const handleToggle = (id: number | string) => {
+    if (openAccordion !== id) {
+      setOpenAccordion(id);
+      return;
+    }
+    setOpenAccordion(null);
   };
 
   useEffect(() => {
@@ -330,10 +342,11 @@ function PricingPage() {
             activeTab={activeTab}
             onTabChange={(tab) => {
               setActiveTab(tab);
-              const found = categories.find((c) => c.name === tab);
-              if (found) setActiveAccordionId(found.id);
 
-              setIsSpaOpen(false);
+              const found = categories.find((c) => c.name === tab);
+              if (found) {
+                setActiveAccordionId(found.id);
+              }
             }}
           >
             {() => (
@@ -341,8 +354,8 @@ function PricingPage() {
                 {pricingData && (
                   <PricingAccordion
                     title={pricingData.category.name}
-                    isOpen={activeAccordionId === pricingData.category.id}
-                    onToggle={() => toggleAccordion(pricingData.category.id)}
+                    isOpen={openAccordion === pricingData.category.id}
+                    onToggle={() => handleToggle(pricingData.category.id)}
                   >
                     <MassageContent data={pricingData} />
                   </PricingAccordion>
@@ -351,8 +364,8 @@ function PricingPage() {
                   pricingData.category.id === categories[0]?.id && (
                     <PricingAccordion
                       title="Spa Packages"
-                      isOpen={activeAccordionId === 9999}
-                      onToggle={() => toggleAccordion(9999)}
+                      isOpen={openAccordion === "spa"}
+                      onToggle={() => handleToggle("spa")}
                     >
                       <SpaPackagesContent data={pricingData} />
                     </PricingAccordion>
