@@ -15,10 +15,18 @@ import Loader from "@/websiteComponent/common/Loader";
 function MassageHeader() {
   return (
     <div className="grid grid-cols-12 bg-[#f5eee9] text-xs sm:text-sm lg:text-base leading-[20px] font-bold">
-      <div className="col-span-4 sm:col-span-6 p-2 leading-[18px]">MASSAGE TREATMENTS</div>
-      <div className="col-span-3 text-center p-2 leading-[18px]">Indicative Pressure</div>
-      <div className="col-span-3 sm:col-span-2 p-2 leading-[18px] text-right">Duration</div>
-      <div className="col-span-2 sm:col-span-1 text-right p-2 leading-[18px]">Price</div>
+      <div className="col-span-4 sm:col-span-6 p-2 leading-[18px]">
+        MASSAGE TREATMENTS
+      </div>
+      <div className="col-span-3 text-center p-2 leading-[18px]">
+        Indicative Pressure
+      </div>
+      <div className="col-span-3 sm:col-span-2 p-2 leading-[18px] text-right">
+        Duration
+      </div>
+      <div className="col-span-2 sm:col-span-1 text-right p-2 leading-[18px]">
+        Price
+      </div>
     </div>
   );
 }
@@ -27,7 +35,9 @@ function MassageRow({ name, pressure, duration, price }: any) {
   return (
     <div className="grid grid-cols-12 bg-[#fff4e9] text-xs sm:text-sm lg:text-base my-2 font-mulish">
       <div className="col-span-4 sm:col-span-6 p-2 leading-[18px]">{name}</div>
-      <div className="col-span-3 text-center p-2 leading-[18px]">{pressure}</div>
+      <div className="col-span-3 text-center p-2 leading-[18px]">
+        {pressure}
+      </div>
       <div className="col-span-3 sm:col-span-2 p-2 text-[#666666] leading-[18px] text-right">
         {duration}
       </div>
@@ -48,15 +58,16 @@ function MassageContent({ data }: { data: any }) {
       {/* Dynamic Treatments */}
       {data.treatments.map((t: any) => (
         <div key={t.id}>
-          {t.pricing.map((p: any) => (
+                    {t.pricing.map((p: any, index: number) => (
             <MassageRow
               key={p.id}
-              name={t.name}
-              pressure={t.indicative_pressure ?? "-"}
+              name={index === 0 ? t.name : ""} // ✅ only first time name
+              pressure={index === 0 ? t.indicative_pressure ?? "-" : ""}
               duration={`${p.minute} min`}
               price={`£${p.price}`}
             />
           ))}
+
         </div>
       ))}
     </>
@@ -78,7 +89,9 @@ function SpaRow({ title, duration, price, description }: any) {
     <div className="">
       <div className="grid grid-cols-12 bg-[#fff4e9] text-xs sm:text-sm lg:text-base leading-[18px] my-2 font-bold font-mulish">
         <div className="col-span-6 sm:col-span-8 p-2">{title}</div>
-        <div className="col-span-3 sm:col-span-2 p-2 text-right">{duration}</div>
+        <div className="col-span-3 sm:col-span-2 p-2 text-right">
+          {duration}
+        </div>
         <div className="col-span-3 sm:col-span-2 text-right p-2">{price}</div>
       </div>
       <div className="grid grid-cols-12">
@@ -103,18 +116,20 @@ function SpaPackagesContent({ data }: { data: any }) {
 
       {data.packages.map((pkg: any) => (
         <div key={pkg.id} className="mb-4">
-          {pkg.pricing.map((p: any) => (
+          {pkg.pricing.map((p: any, index: number) => (
             <SpaRow
               key={p.id}
-              title={pkg.name}
+              title={index === 0 ? pkg.name : ""} // ✅ only first time title
               duration={`${p.duration} min`}
               price={`£${p.price}`}
               description={
-                <div
-                  dangerouslySetInnerHTML={{
-                    __html: pkg.description,
-                  }}
-                />
+                index === 0 ? ( // ✅ description only once
+                  <div
+                    dangerouslySetInnerHTML={{
+                      __html: pkg.description,
+                    }}
+                  />
+                ) : null
               }
             />
           ))}
@@ -249,8 +264,11 @@ function PricingPage() {
   );
   const { locationId, categoryId } = location.state || {};
   const [activeTab, setActiveTab] = useState<string>("");
-const [pricingData, setPricingData] = useState<any>(null);
-const [loading, setLoading] = useState(false);
+  const [pricingData, setPricingData] = useState<any>(null);
+  const [loading, setLoading] = useState(false);
+  const [initialLoading, setInitialLoading] = useState(true);
+  const [isSpaOpen, setIsSpaOpen] = useState(false);
+
   useEffect(() => {
     getTreatmentCategories().then((res) => {
       const data = res.data;
@@ -277,24 +295,24 @@ const [loading, setLoading] = useState(false);
   };
 
   useEffect(() => {
-  if (!locationId || !activeAccordionId) return;
+    if (!locationId || !activeAccordionId) return;
 
-  setLoading(true);
+    getPricingByLocation(locationId, activeAccordionId)
+      .then((res) => {
+        setPricingData(res.data);
+      })
+      .finally(() => {
+        setInitialLoading(false);
+      });
+  }, [locationId, activeAccordionId]);
 
-  getPricingByLocation(locationId, activeAccordionId)
-    .then((res) => {
-      setPricingData(res.data);
-    })
-    .finally(() => setLoading(false));
-}, [locationId, activeAccordionId]);
-
-if (loading) {
-  return (
-    <div className="py-20 flex justify-center">
-      <Loader />
-    </div>
-  );
-}
+  if (initialLoading) {
+    return (
+      <div className="py-20 flex justify-center">
+        <Loader />
+      </div>
+    );
+  }
 
   return (
     <>
@@ -312,33 +330,33 @@ if (loading) {
             activeTab={activeTab}
             onTabChange={(tab) => {
               setActiveTab(tab);
-
-              // ✅ Open accordion of selected tab
               const found = categories.find((c) => c.name === tab);
               if (found) setActiveAccordionId(found.id);
+
+              setIsSpaOpen(false);
             }}
           >
             {() => (
               <>
-              {pricingData && (
-              <PricingAccordion
-                title={pricingData.category.name}
-               isOpen={activeAccordionId === pricingData.category.id}
-               onToggle={() => toggleAccordion(pricingData.category.id)}
-              >
-               <MassageContent data={pricingData} />
-              </PricingAccordion>
-            )}
-              {/* Packages Accordion */}
-              {pricingData?.packages?.length > 0 && (
-                <PricingAccordion
-                  title="Spa Packages"
-                  isOpen={activeAccordionId === 9999}
-                  onToggle={() => toggleAccordion(9999)}
-                >
-                  <SpaPackagesContent data={pricingData} />
-                </PricingAccordion>
-              )}
+                {pricingData && (
+                  <PricingAccordion
+                    title={pricingData.category.name}
+                    isOpen={activeAccordionId === pricingData.category.id}
+                    onToggle={() => toggleAccordion(pricingData.category.id)}
+                  >
+                    <MassageContent data={pricingData} />
+                  </PricingAccordion>
+                )}
+                {pricingData?.packages?.length > 0 &&
+                  pricingData.category.id === categories[0]?.id && (
+                    <PricingAccordion
+                      title="Spa Packages"
+                      isOpen={activeAccordionId === 9999}
+                      onToggle={() => toggleAccordion(9999)}
+                    >
+                      <SpaPackagesContent data={pricingData} />
+                    </PricingAccordion>
+                  )}
               </>
             )}
           </PricingTabs>
