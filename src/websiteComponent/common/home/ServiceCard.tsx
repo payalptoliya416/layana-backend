@@ -70,7 +70,7 @@ export default function ServiceCard({
             saveTreatmentIdData(id);
           }}
           state={{ treatmentId: id , locationId: locationId,  }}
-          className="px-10 py-3 !tracking-0"
+          className="!tracking-0"
         >
           Read More
         </CommonButton>
