@@ -261,7 +261,9 @@ function PricingPage() {
   const [activeAccordionId, setActiveAccordionId] = useState<number | null>(
     null,
   );
-  const { locationId, categoryId } = location.state || {};
+    const routerLocation = useLocation();
+    const locationId = routerLocation.state?.locationId ?? 1;
+  const { categoryId } = location.state || {};
   const [activeTab, setActiveTab] = useState<string>("");
   const [pricingData, setPricingData] = useState<any>(null);
   const [initialLoading, setInitialLoading] = useState(true);
