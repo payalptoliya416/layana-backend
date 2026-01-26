@@ -335,7 +335,7 @@ function PricingPage() {
       />
 
       {/* ---- */}
-      <section className="py-12 lg:py-[110px]">
+      <section className="py-[60px]">
         <div className="container mx-auto">
           <PricingTabs
             tabs={categories.map((c) => c.name)}
