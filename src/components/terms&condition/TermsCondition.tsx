@@ -107,7 +107,7 @@ const handleSave = async () => {
         {sidebarOpen && (
           <>
             <div
-              className="fixed inset-0 bg-black/40 z-10"
+              className="fixed inset-0 bg-black/40 index-11"
               onClick={() => setSidebarOpen(false)}
             />
             <Sidebar collapsed={false} onToggle={() => setSidebarOpen(false)} />
