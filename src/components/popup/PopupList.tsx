@@ -149,7 +149,7 @@ function PopupList() {
   const [page, setPage] = useState(1);
   const [pagination, setPagination] = useState<any>(null);
   const [sortBy, setSortBy] = useState<"id" | "name" | "status" | "index">("id");
-  const [sortDirection, setSortDirection] = useState<"asc" | "desc">("asc");
+  const [sortDirection, setSortDirection] = useState<"asc" | "desc">("desc");
   const { containerRef, rowsPerPage } = useAutoRows();
   const [isDeleting, setIsDeleting] = useState(false);
   const [deleteId, setDeleteId] = useState<number | null>(null);

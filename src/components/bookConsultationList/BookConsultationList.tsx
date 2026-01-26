@@ -118,7 +118,7 @@ function SortableRow({
           <button
             onClick={() => onView(item.id)}
           >
-            <EyeIcon size={16} className="cursor-pointer text-muted-foreground hover:text-foreground"/>
+            <EyeIcon  size={18} className="cursor-pointer text-muted-foreground hover:text-foreground"/>
           </button>
           </div>
         </div>
@@ -149,7 +149,7 @@ const [loadingView, setLoadingView] = useState(false);
   const [sortBy, setSortBy] = useState<
   "id" | "firstName" | "lastName" | "email" | "mobile" | "type" | "treatments"
 >("id");
-  const [sortDirection, setSortDirection] = useState<"asc" | "desc">("asc");
+  const [sortDirection, setSortDirection] = useState<"asc" | "desc">("desc");
   const [teams, setTeams] = useState<Consultation[]>([]);
   const [isDeleting, setIsDeleting] = useState(false);
   const [deleteId, setDeleteId] = useState<number | null>(null);

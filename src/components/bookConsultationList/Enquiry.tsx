@@ -89,6 +89,7 @@ function EnquiryRow({
         </p>
         <div className="w-full flex justify-end">
           <EyeIcon
+           size={18}
             className="cursor-pointer text-muted-foreground hover:text-foreground"
             onClick={() => onView(item.id)}
           />
@@ -111,7 +112,7 @@ export default function EnquiryList() {
  const [sortBy, setSortBy] = useState<
   "id" | "name" | "email" | "mobile" | "created_at"
 >("id");
-  const [sortDirection, setSortDirection] = useState<"asc" | "desc">("asc");
+  const [sortDirection, setSortDirection] = useState<"asc" | "desc">("desc");
   const [enquiries, setEnquiries] = useState<Enquiry[]>([]);
   const [viewId, setViewId] = useState<number | null>(null);
   const [viewData, setViewData] = useState<EnquiryDetail | null>(null);
