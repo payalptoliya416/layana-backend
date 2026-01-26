@@ -294,12 +294,11 @@ const [teamName, setTeamName] = useState<string>("");
                   onItemChange={setActiveSection}
                 />
               </aside>
-
               <section className="flex-1 overflow-y-auto scrollbar-thin border border-border p-3 lg:p-5 rounded-[20px] scrollbar-thin h-full">
                 {renderTabContent()}
               </section>
             </div>
-               <div className="flex items-center justify-end gap-3 pt-4 absolute bottom-4 right-6">
+            <div className="flex items-center justify-end gap-3 pt-4 absolute bottom-4 right-6">
                             <Button
                               type="button"
                               variant="cancel"
@@ -324,7 +323,7 @@ const [teamName, setTeamName] = useState<string>("");
                                 "Save"
                               )}
                             </Button>
-                          </div>
+            </div>
           </div>
         </div>
       </div>

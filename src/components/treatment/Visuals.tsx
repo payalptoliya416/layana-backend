@@ -297,7 +297,7 @@ useEffect(() => {
 
       <div
         className="
-          group relative flex h-[140px]
+          group relative flex h-[140px] px-1 text-center
           flex-col items-center justify-center
           rounded-xl border-2 border-dashed border-border
           bg-muted/40 cursor-pointer overflow-hidden
@@ -372,7 +372,7 @@ useEffect(() => {
 
       <div
         className="
-          group relative flex h-[140px]
+          group relative flex h-[140px]  px-1 text-center
           flex-col items-center justify-center
           rounded-xl border-2 border-dashed border-border
           bg-muted/40 cursor-pointer overflow-hidden

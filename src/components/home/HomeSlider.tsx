@@ -346,8 +346,7 @@ const handleDragEnd = (event: any) => {
 
         {/* Button text */}
         <div className="flex justify-between text-sm">
-          <span className="text-muted-foreground">Button Text</span>
-          <span className="font-medium">{item.btn_text}</span>
+          <span className="inline-block mb-2 px-3 py-1 rounded-sm text-xs bg-green-100 text-green-700">{item.btn_text}</span>
         </div>
 
         {/* Button link */}

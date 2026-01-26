@@ -129,8 +129,8 @@ function SortableRow({
             style={style}
             className="lg:hidden mx-3 my-2 rounded-xl border bg-card p-4"
           >
-            <div className="flex gap-3 items-center">
-              <div {...attributes} {...listeners}  className="w-10 flex justify-center cursor-grab text-muted-foreground hover:text-foreground whitespace-nowrap">
+            <div className="flex gap-2 items-center">
+              <div {...attributes} {...listeners}  className="flex justify-center cursor-grab text-muted-foreground hover:text-foreground whitespace-nowrap">
                 <GripVertical size={18} />
               </div>
     
@@ -145,7 +145,7 @@ function SortableRow({
                 >
                   {item.status}
                 </span>
-                <p className="text-muted-foreground whitespace-nowrap">{item.name}</p>
+                <p className="text-muted-foreground text-sm">{item.name}</p>
               </div>
     
               <div className="flex gap-2 self-start">

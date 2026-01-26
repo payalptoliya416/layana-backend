@@ -5,6 +5,7 @@ import FixedSocialBar from "@/websiteComponent/common/FixedSocialBar";
 import CookieConsent from "@/websiteComponent/common/CookieConsent";
 
 const WebsiteLayout = () => {
+  
   return (
     <div className="website-root">
       <Header />
