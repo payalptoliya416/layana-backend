@@ -11,7 +11,8 @@ export type EnquiryPayload = {
 };
 
 export type EnquiryResponse = {
-  status: string;
+  status?: string;
+  success?: string;
   message: string;
 };
 

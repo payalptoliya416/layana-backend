@@ -208,7 +208,7 @@ const isFacial = category === "Facial";
 
   <div className="rounded-[15px] border border-border bg-card p-3 lg:p-5 space-y-4">
     {/* Input */}
-    <div className="flex items-center xl:gap-4 flex-wrap">
+    <div className="flex items-center sm:gap-4 flex-wrap">
       <input
         value={input}
         onChange={(e) => setInput(e.target.value)}
@@ -226,7 +226,7 @@ const isFacial = category === "Facial";
       <button
         onClick={addBenefit}
         className="
-          flex h-[34px] w-full xl:w-[50px] items-center justify-center mt-4 xl:mt-0
+          flex h-[34px] w-full sm:w-[50px] items-center justify-center mt-4 sm:mt-0
           rounded-full
           bg-primary
           text-primary-foreground

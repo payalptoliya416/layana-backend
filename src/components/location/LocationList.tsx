@@ -170,7 +170,7 @@ function SortableRow({
 
           <div className="flex gap-2 self-start">
             <IconButton onClick={() => onView(item.id)}>
-              <Eye size={16} />
+              <EyeIcon size={16} />
             </IconButton>
             <IconButton onClick={() => onEdit(item.id)}>
               <Pencil size={16} />

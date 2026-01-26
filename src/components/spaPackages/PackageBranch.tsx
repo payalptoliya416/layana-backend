@@ -94,7 +94,7 @@ useImperativeHandle(ref, () => ({
           return (
             <div
               key={`location-${location.id}`}
-              className="grid grid-cols-1 xl:grid-cols-2 gap-4 border xl:border-0 p-2 xl:p-0 rounded-lg xl:rounded-none"
+              className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-1 xl:grid-cols-2 gap-4 border xl:border-0 p-2 xl:p-0 rounded-lg xl:rounded-none"
             >
               {/* LEFT CARD */}
               <button

@@ -8,7 +8,7 @@ const WebsiteLayout = () => {
   return (
     <div className="website-root">
       <Header />
-      {/* <CookieConsent /> */}
+      <CookieConsent />
       <FixedSocialBar />
       <Outlet />
       <Footer />

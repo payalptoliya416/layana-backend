@@ -874,3 +874,16 @@ body {
 .delay-3 {
   animation-delay: 0.45s;
 }
+.ql-container {
+  height: 100% !important;
+}
+
+.ql-editor {
+  min-height: 400px;
+  padding-bottom: 80px; 
+}
+@media(max-width:767px){
+  .ql-editor {
+  padding-bottom: 100px; 
+}
+}

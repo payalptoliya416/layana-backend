@@ -33,7 +33,7 @@ export default function CookieConsent() {
         sm:bottom-3 sm:right-3 sm:left-auto sm:w-[360px]
         max-w-[100%]
         bg-[#f7efec] p-6 
-        rounded-t-2xl sm:rounded-2xl
+        rounded-t-2xl sm:rounded-2xl shadow
       "
     >
       {/* Close Button */}

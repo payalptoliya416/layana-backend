@@ -317,7 +317,11 @@ const addPromotion = () => {
                         <div className="w-full rounded-[10px] border border-border bg-card p-5 overflow-hidden">
                         <table className="w-full border-separate border-spacing-0">
                              <tbody>
-                  <tr className="grid grid-cols-1 gap-4 xl:table-row">
+                   <tr
+            className="
+              grid grid-cols-1 sm:grid-cols-2 sm:gap-4
+              xl:table-row xl:grid-cols-none
+            " >
 
                     {/* TREATMENT */}
                     <td className="px-4 py-3 border-input border-y xl:rounded-tl-[10px] xl:rounded-bl-[10px]">

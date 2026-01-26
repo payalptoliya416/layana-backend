@@ -5,6 +5,7 @@ import { Footer } from "@/components/layout/Footer";
 import { cn } from "@/lib/utils";
 import {
   Eye,
+  EyeIcon,
   GripVertical,
   Pencil,
   Plus,
@@ -96,7 +97,7 @@ function SortableRow({
         <div className="w-[15%] pl-4 truncate">{item.treatments}</div>
 
         <div className="w-[80px] flex justify-center">
-          <Eye
+          <EyeIcon
             size={18}
             className="cursor-pointer text-muted-foreground hover:text-foreground"
             onClick={() => onView(item.id)}
@@ -117,7 +118,7 @@ function SortableRow({
           <button
             onClick={() => onView(item.id)}
           >
-            <Eye size={16} className="cursor-pointer text-muted-foreground hover:text-foreground"/>
+            <EyeIcon size={16} className="cursor-pointer text-muted-foreground hover:text-foreground"/>
           </button>
           </div>
         </div>

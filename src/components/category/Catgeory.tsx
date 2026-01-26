@@ -578,7 +578,7 @@ const handleSubmit = async () => {
                             </div>
 
                             {/* ACTIONS */}
-                            <div className="w-[160px] flex justify-end gap-2 ml-auto">
+                            <div  className="flex w-full sm:w-auto justify-end gap-2 flex-wrap sm:ml-auto">
                               <div>
                               <Button
                                 variant="cancel"
@@ -595,99 +595,98 @@ const handleSubmit = async () => {
                               </div>
                               <div>
                              <Button
-  variant="save"
-  className="!w-[105px]"
-  onClick={async () => {
-    const errors: {
-      section: string;
-      field: string;
-      message: string;
-    }[] = [];
+                              variant="save"
+                              className="!w-[105px]"
+                              onClick={async () => {
+                                const errors: {
+                                  section: string;
+                                  field: string;
+                                  message: string;
+                                }[] = [];
 
-    // 🔴 Category name validation
-    if (!newName.trim()) {
-      errors.push({
-        section: "Category",
-        field: "name",
-        message: "Category name is required",
-      });
-    }
+                                // 🔴 Category name validation
+                                if (!newName.trim()) {
+                                  errors.push({
+                                    section: "Category",
+                                    field: "name",
+                                    message: "Category name is required",
+                                  });
+                                }
 
-    // 🔴 If validation errors → show popup
-    if (errors.length > 0) {
-      setValidationErrors(errors);
-      setShowValidationPopup(true);
-      return;
-    }
+                                // 🔴 If validation errors → show popup
+                                if (errors.length > 0) {
+                                  setValidationErrors(errors);
+                                  setShowValidationPopup(true);
+                                  return;
+                                }
 
-    try {
-      if (editingId) {
-        await updateCategory({
-          id: editingId,
-          name: newName,
-          status: newStatus,
-        });
-        toast.success("Category updated");
-      } else {
-        await createCategory({
-          name: newName,
-          status: newStatus,
-        });
-        toast.success("Category created");
-      }
+                                try {
+                                  if (editingId) {
+                                    await updateCategory({
+                                      id: editingId,
+                                      name: newName,
+                                      status: newStatus,
+                                    });
+                                    toast.success("Category updated");
+                                  } else {
+                                    await createCategory({
+                                      name: newName,
+                                      status: newStatus,
+                                    });
+                                    toast.success("Category created");
+                                  }
 
-      const res = await getCategory({
-        page,
-        perPage: 10,
-        search,
-        sortBy,
-        sortDirection,
-      });
+                                  const res = await getCategory({
+                                    page,
+                                    perPage: 10,
+                                    search,
+                                    sortBy,
+                                    sortDirection,
+                                  });
 
-      setCategory(res.data);
-      setIsAdding(false);
-      setEditingId(null);
-      setNewName("");
-      setNewStatus("Disable");
-    } catch {
-      toast.error("Failed to save category");
-    }
-  }}
->
-  Save
-</Button>
-{showValidationPopup && (
-  <AlertDialog open onOpenChange={setShowValidationPopup}>
-    <AlertDialogContent className="max-w-[520px] rounded-2xl p-6">
-      <AlertDialogHeader className="pb-3 border-b border-border">
-        <AlertDialogTitle className="text-lg font-semibold text-foreground">
-          Please fix the following validation
-        </AlertDialogTitle>
-        <p className="text-sm text-muted-foreground">
-          Some required fields are missing or invalid
-        </p>
-      </AlertDialogHeader>
+                                  setCategory(res.data);
+                                  setIsAdding(false);
+                                  setEditingId(null);
+                                  setNewName("");
+                                  setNewStatus("Disable");
+                                } catch {
+                                  toast.error("Failed to save category");
+                                }
+                              }} >
+                              Save
+                            </Button>
+                              {showValidationPopup && (
+                                <AlertDialog open onOpenChange={setShowValidationPopup}>
+                                  <AlertDialogContent className="max-w-[520px] rounded-2xl p-6">
+                                    <AlertDialogHeader className="pb-3 border-b border-border">
+                                      <AlertDialogTitle className="text-lg font-semibold text-foreground">
+                                        Please fix the following validation
+                                      </AlertDialogTitle>
+                                      <p className="text-sm text-muted-foreground">
+                                        Some required fields are missing or invalid
+                                      </p>
+                                    </AlertDialogHeader>
 
-      <div className="mt-4 max-h-[300px] overflow-y-auto space-y-2">
-        {validationErrors.map((e, i) => (
-          <div
-            key={i}
-            className="rounded-md border border-destructive/30 bg-destructive/5 p-2 text-sm"
-          >
-            <strong>{e.section}:</strong>{" "}
-            <span className="text-destructive">{e.message}</span>
-          </div>
-        ))}
-      </div>
+                                    <div className="mt-4 max-h-[300px] overflow-y-auto space-y-2">
+                                      {validationErrors.map((e, i) => (
+                                        <div
+                                          key={i}
+                                          className="rounded-md border border-destructive/30 bg-destructive/5 p-2 text-sm"
+                                        >
+                                          <strong>{e.section}:</strong>{" "}
+                                          <span className="text-destructive">{e.message}</span>
+                                        </div>
+                                      ))}
+                                    </div>
 
-      <AlertDialogFooter>
-        <Button onClick={() => setShowValidationPopup(false)}>
-          OK
-        </Button>
-      </AlertDialogFooter>
-    </AlertDialogContent>
-  </AlertDialog>
-)}
+                                    <AlertDialogFooter>
+                                      <Button onClick={() => setShowValidationPopup(false)}>
+                                        OK
+                                      </Button>
+                                    </AlertDialogFooter>
+                                  </AlertDialogContent>
+                                </AlertDialog>
+                              )}
                               </div>
                             </div>
                           </div>

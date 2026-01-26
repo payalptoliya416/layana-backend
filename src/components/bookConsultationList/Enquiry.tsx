@@ -5,7 +5,7 @@ import { Sidebar } from "@/components/layout/Sidebar";
 import { PageHeader } from "@/components/layout/PageHeader";
 import { Footer } from "@/components/layout/Footer";
 import { cn } from "@/lib/utils";
-import { Eye, Search, X } from "lucide-react";
+import { Eye, EyeIcon, Search, X } from "lucide-react";
 import { useAutoRows } from "@/hooks/useAutoRows";
 import {
   getEnquiries,
@@ -70,7 +70,7 @@ function EnquiryRow({
         <div className="w-[20%] pl-4">{item.location?.name}</div>
         <div className="w-[20%] pl-4 truncate">{item.message}</div>
         <div className="w-[100px] flex justify-center">
-          <Eye
+          <EyeIcon
             size={18}
             className="cursor-pointer text-muted-foreground hover:text-foreground"
             onClick={() => onView(item.id)}
@@ -88,7 +88,7 @@ function EnquiryRow({
           {item.message}
         </p>
         <div className="w-full flex justify-end">
-          <Eye
+          <EyeIcon
             className="cursor-pointer text-muted-foreground hover:text-foreground"
             onClick={() => onView(item.id)}
           />

@@ -1,10 +1,13 @@
 "use client";
 
-import { forwardRef, useEffect, useImperativeHandle, useRef, useState } from "react";
 import {
-  DndContext,
-  closestCenter,
-} from "@dnd-kit/core";
+  forwardRef,
+  useEffect,
+  useImperativeHandle,
+  useRef,
+  useState,
+} from "react";
+import { DndContext, closestCenter } from "@dnd-kit/core";
 import {
   SortableContext,
   useSortable,
@@ -60,8 +63,7 @@ function PricingSortableRow({
   onCancel: () => void;
   onDelete: () => void;
 }) {
-  const { setNodeRef, transform, transition } =
-    useSortable({ id: item.id });
+  const { setNodeRef, transform, transition } = useSortable({ id: item.id });
 
   const style = {
     transform: CSS.Transform.toString(transform),
@@ -73,7 +75,7 @@ function PricingSortableRow({
   const [offer, setOffer] = useState(String(item.offer_price));
   const [each, setEach] = useState(String(item.each_price));
   const [price, setPrice] = useState(String(item.price));
-const minInputRef = useRef<HTMLInputElement>(null);
+  const minInputRef = useRef<HTMLInputElement>(null);
   /* ✅ reset when edit starts */
   useEffect(() => {
     if (isEditing) {
@@ -82,27 +84,25 @@ const minInputRef = useRef<HTMLInputElement>(null);
       setEach(String(item.each_price));
       setPrice(String(item.price));
 
-       setTimeout(() => {
-       minInputRef.current?.focus();
-     }, 0);
+      setTimeout(() => {
+        minInputRef.current?.focus();
+      }, 0);
     }
   }, [isEditing, item]);
-const handleCancel = () => {
-  // 🔥 restore original item values
-  setDuration(String(item.duration));
-  setOffer(String(item.offer_price));
-  setEach(String(item.each_price));
-  setPrice(String(item.price));
+  const handleCancel = () => {
+    // 🔥 restore original item values
+    setDuration(String(item.duration));
+    setOffer(String(item.offer_price));
+    setEach(String(item.each_price));
+    setPrice(String(item.price));
 
-  // parent ne bolo edit bandh karo
-  onCancel();
-};
-const inputCls =
-  "bg-transparent rounded px-2 xl:px-3 py-1 xl:py-2 text-sm outline-none focus:ring-2 focus:ring-ring/20 border-input" +
-  "w-[80px] xl:w-[100px] max-w-full rounded-lg " +
-  (isEditing
-    ? "border border-input"
-    : "border border-transparent");
+    // parent ne bolo edit bandh karo
+    onCancel();
+  };
+  const inputCls =
+    "bg-transparent rounded px-2 xl:px-3 py-1 xl:py-2 text-sm outline-none focus:ring-2 focus:ring-ring/20 border-input" +
+    "w-[80px] xl:w-[100px] max-w-full rounded-lg " +
+    (isEditing ? "border border-input" : "border border-transparent");
 
   return (
     <div ref={setNodeRef} style={style}>
@@ -110,12 +110,17 @@ const inputCls =
       <div
         className={cn(
           "hidden xl:flex items-center px-4 py-3 mx-4 my-1 rounded-xl",
-          index % 2 === 0 ? "bg-card" : "bg-muted"
+          index % 2 === 0 ? "bg-card" : "bg-muted",
         )}
       >
         <div className="w-[20%]">
           {isEditing ? (
-            <input  ref={minInputRef} value={duration} onChange={(e) => setDuration(e.target.value)} className={inputCls} />
+            <input
+              ref={minInputRef}
+              value={duration}
+              onChange={(e) => setDuration(e.target.value)}
+              className={inputCls}
+            />
           ) : (
             <span>{item.duration} min</span>
           )}
@@ -123,7 +128,11 @@ const inputCls =
 
         <div className="w-[20%]">
           {isEditing ? (
-            <input value={offer} onChange={(e) => setOffer(e.target.value)} className={inputCls} />
+            <input
+              value={offer}
+              onChange={(e) => setOffer(e.target.value)}
+              className={inputCls}
+            />
           ) : (
             <span>£{item.offer_price}</span>
           )}
@@ -131,7 +140,11 @@ const inputCls =
 
         <div className="w-[20%]">
           {isEditing ? (
-            <input value={each} onChange={(e) => setEach(e.target.value)} className={inputCls} />
+            <input
+              value={each}
+              onChange={(e) => setEach(e.target.value)}
+              className={inputCls}
+            />
           ) : (
             <span>£{item.each_price}</span>
           )}
@@ -139,7 +152,11 @@ const inputCls =
 
         <div className="w-[20%]">
           {isEditing ? (
-            <input value={price} onChange={(e) => setPrice(e.target.value)} className={inputCls} />
+            <input
+              value={price}
+              onChange={(e) => setPrice(e.target.value)}
+              className={inputCls}
+            />
           ) : (
             <span>£{item.price}</span>
           )}
@@ -161,22 +178,27 @@ const inputCls =
                 }
                 className="h-7 w-7 rounded-full border text-primary flex justify-center items-center"
               >
-            <Check size={14} />
+                <Check size={14} />
               </button>
               <button
-                  onClick={handleCancel}
-
+                onClick={handleCancel}
                 className="h-7 w-7 rounded-full border flex justify-center items-center"
               >
-                 <X size={14} />
+                <X size={14} />
               </button>
             </>
           ) : (
             <>
-              <button onClick={onEdit} className="h-7 w-7 rounded-full border flex justify-center items-center">
+              <button
+                onClick={onEdit}
+                className="h-7 w-7 rounded-full border flex justify-center items-center"
+              >
                 <Pencil size={14} />
               </button>
-              <button onClick={onDelete} className="h-7 w-7 rounded-full border text-destructive flex justify-center items-center">
+              <button
+                onClick={onDelete}
+                className="h-7 w-7 rounded-full border text-destructive flex justify-center items-center"
+              >
                 <Trash2 size={14} />
               </button>
             </>
@@ -185,103 +207,106 @@ const inputCls =
       </div>
 
       {/* ================= MOBILE ================= */}
-    <div className="xl:hidden mx-3 my-2 rounded-xl border bg-card p-4 space-y-2">
+      <div className="xl:hidden mx-3 my-2 rounded-xl border bg-card p-4 space-y-2">
+        {/* DURATION */}
+        <div className="flex items-center gap-2 font-medium">
+          <span>min</span>
+          {isEditing ? (
+            <input
+              value={duration}
+              onChange={(e) => setDuration(e.target.value)}
+              className={inputCls}
+            />
+          ) : (
+            <span>{item.duration}</span>
+          )}
+        </div>
 
-  {/* DURATION */}
-  <div className="flex items-center gap-2 font-medium">
-    <span>min</span>
-    {isEditing ? (
-      <input
-        value={duration}
-        onChange={(e) => setDuration(e.target.value)}
-        className={inputCls}
-      />
-    ) : (
-      <span>{item.duration}</span>
-    )}
-  </div>
+        {/* OFFER */}
+        <div className="flex items-center gap-2 text-sm text-muted-foreground">
+          <span>Offer:</span>
+          {isEditing ? (
+            <input
+              value={offer}
+              onChange={(e) => setOffer(e.target.value)}
+              className={inputCls}
+            />
+          ) : (
+            <span>£{item.offer_price}</span>
+          )}
+        </div>
 
-  {/* OFFER */}
-  <div className="flex items-center gap-2 text-sm text-muted-foreground">
-    <span>Offer:</span>
-    {isEditing ? (
-      <input
-        value={offer}
-        onChange={(e) => setOffer(e.target.value)}
-        className={inputCls}
-      />
-    ) : (
-      <span>£{item.offer_price}</span>
-    )}
-  </div>
+        {/* EACH */}
+        <div className="flex items-center gap-2 text-sm text-muted-foreground">
+          <span>Each:</span>
+          {isEditing ? (
+            <input
+              value={each}
+              onChange={(e) => setEach(e.target.value)}
+              className={inputCls}
+            />
+          ) : (
+            <span>£{item.each_price}</span>
+          )}
+        </div>
 
-  {/* EACH */}
-  <div className="flex items-center gap-2 text-sm text-muted-foreground">
-    <span>Each:</span>
-    {isEditing ? (
-      <input
-        value={each}
-        onChange={(e) => setEach(e.target.value)}
-        className={inputCls}
-      />
-    ) : (
-      <span>£{item.each_price}</span>
-    )}
-  </div>
+        {/* PRICE */}
+        <div className="flex items-center gap-2 text-sm text-muted-foreground">
+          <span>Price:</span>
+          {isEditing ? (
+            <input
+              value={price}
+              onChange={(e) => setPrice(e.target.value)}
+              className={inputCls}
+            />
+          ) : (
+            <span>£{item.price}</span>
+          )}
+        </div>
 
-  {/* PRICE */}
-  <div className="flex items-center gap-2 text-sm text-muted-foreground">
-    <span>Price:</span>
-    {isEditing ? (
-      <input
-        value={price}
-        onChange={(e) => setPrice(e.target.value)}
-        className={inputCls}
-      />
-    ) : (
-      <span>£{item.price}</span>
-    )}
-  </div>
-
-  {/* ACTIONS */}
-  <div className="flex justify-end gap-2 pt-2">
-    {isEditing ? (
-      <>
-        <button
-          onClick={() =>
-            onSave({
-              ...item,
-              duration: Number(duration),
-              offer_price: Number(offer),
-              each_price: Number(each),
-              price: Number(price),
-            })
-          }
-          className="h-7 w-7 rounded-full border text-primary flex justify-center items-center"
-        >
-         <Check size={14} />
-        </button>
-        <button
-            onClick={handleCancel}
-          className="h-7 w-7 rounded-full border flex justify-center items-center"
-        >
-          <X size={14} />
-        </button>
-      </>
-    ) : (
-      <>
-        <button onClick={onEdit} className="h-7 w-7 rounded-full border flex justify-center items-center">
-          <Pencil size={14} />
-        </button>
-        <button onClick={onDelete} className="h-7 w-7 rounded-full border text-destructive flex justify-center items-center">
-          <Trash2 size={14} />
-        </button>
-      </>
-    )}
-  </div>
-
-</div>
-
+        {/* ACTIONS */}
+        <div className="flex justify-end gap-2 pt-2">
+          {isEditing ? (
+            <>
+              <button
+                onClick={() =>
+                  onSave({
+                    ...item,
+                    duration: Number(duration),
+                    offer_price: Number(offer),
+                    each_price: Number(each),
+                    price: Number(price),
+                  })
+                }
+                className="h-7 w-7 rounded-full border text-primary flex justify-center items-center"
+              >
+                <Check size={14} />
+              </button>
+              <button
+                onClick={handleCancel}
+                className="h-7 w-7 rounded-full border flex justify-center items-center"
+              >
+                <X size={14} />
+              </button>
+            </>
+          ) : (
+            <>
+              <button
+                onClick={onEdit}
+                className="h-7 w-7 rounded-full border flex justify-center items-center"
+              >
+                <Pencil size={14} />
+              </button>
+              <button
+                onClick={onDelete}
+                className="h-7 w-7 rounded-full border text-destructive flex justify-center items-center"
+              >
+                <Trash2 size={14} />
+              </button>
+            </>
+          )}
+        </div>
+      </div>
     </div>
   );
 }
@@ -299,8 +324,8 @@ const MemberPricing = forwardRef<
     onChange: (v: MembershipPricingItem[]) => void;
   }
 >(function MemberPricing(
-  { branches, selectedBranchId, onSelectBranch, value, onChange,showGrid },
-  ref
+  { branches, selectedBranchId, onSelectBranch, value, onChange, showGrid },
+  ref,
 ) {
   const [editingId, setEditingId] = useState<number | null>(null);
   const [editingRowId, setEditingRowId] = useState<string | null>(null);
@@ -312,69 +337,69 @@ const MemberPricing = forwardRef<
 
   /* ---------- UI DATA ---------- */
   const filteredPricing = value.filter(
-  (p) => p.location_id === selectedBranchId
-);
+    (p) => p.location_id === selectedBranchId,
+  );
 
-//   const uiPricing: UIPricing[] = filteredPricing.map((p, i) => ({
-//     ...p,
-//     id: i,
-//   }));
-const uiPricing: UIPricing[] = filteredPricing.map((p, i) => ({
-  ...p,
-  id: `${p.location_id}-${i}`,
-}));
+  //   const uiPricing: UIPricing[] = filteredPricing.map((p, i) => ({
+  //     ...p,
+  //     id: i,
+  //   }));
+  const uiPricing: UIPricing[] = filteredPricing.map((p, i) => ({
+    ...p,
+    id: `${p.location_id}-${i}`,
+  }));
 
   /* ---------- VALIDATION ---------- */
- useImperativeHandle(ref, () => ({
-  async validate() {
-    const errors: ValidationResult["errors"] = [];
+  useImperativeHandle(ref, () => ({
+    async validate() {
+      const errors: ValidationResult["errors"] = [];
 
-    // 🟥 No branch selected at all
-    if (!branches || branches.length === 0) {
-      errors.push({
-        section: "Pricing",
-        field: "branch",
-        message: "Please select at least one branch",
-      });
-      return { valid: false, errors };
-    }
+      // 🟥 No branch selected at all
+      if (!branches || branches.length === 0) {
+        errors.push({
+          section: "Pricing",
+          field: "branch",
+          message: "Please select at least one branch",
+        });
+        return { valid: false, errors };
+      }
 
-    // 🧠 All selected branch ids
-    const selectedBranchIds = branches.map((b) => b.id);
+      // 🧠 All selected branch ids
+      const selectedBranchIds = branches.map((b) => b.id);
 
-    // 🧠 Branches which have pricing
-    const branchIdsWithPricing = Array.from(
-      new Set(value.map((p) => p.location_id))
+      // 🧠 Branches which have pricing
+      const branchIdsWithPricing = Array.from(
+        new Set(value.map((p) => p.location_id)),
+      );
+
+      // 🟥 Find missing pricing branches
+      const missingBranches = selectedBranchIds.filter(
+        (id) => !branchIdsWithPricing.includes(id),
+      );
+
+      if (missingBranches.length > 0) {
+        errors.push({
+          section: "Pricing",
+          field: "pricing",
+          message: "Please add pricing for all selected branches",
+        });
+      }
+
+      return {
+        valid: errors.length === 0,
+        errors,
+      };
+    },
+  }));
+  const findGlobalIndex = (row: UIPricing) =>
+    value.findIndex(
+      (v) =>
+        v.location_id === row.location_id &&
+        v.duration === row.duration &&
+        v.price === row.price &&
+        v.offer_price === row.offer_price &&
+        v.each_price === row.each_price,
     );
-
-    // 🟥 Find missing pricing branches
-    const missingBranches = selectedBranchIds.filter(
-      (id) => !branchIdsWithPricing.includes(id)
-    );
-
-    if (missingBranches.length > 0) {
-      errors.push({
-        section: "Pricing",
-        field: "pricing",
-        message: "Please add pricing for all selected branches",
-      });
-    }
-
-    return {
-      valid: errors.length === 0,
-      errors,
-    };
-  },
-}));
-const findGlobalIndex = (row: UIPricing) =>
-  value.findIndex(
-    (v) =>
-      v.location_id === row.location_id &&
-      v.duration === row.duration &&
-      v.price === row.price &&
-      v.offer_price === row.offer_price &&
-      v.each_price === row.each_price
-  );
 
   /* ---------- ADD / UPDATE ---------- */
   const handleSave = () => {
@@ -386,7 +411,7 @@ const findGlobalIndex = (row: UIPricing) =>
       each_price: Number(eachPrice),
       price: Number(price),
       index: editingId ?? value.length + 1,
-       location_id: selectedBranchId,  
+      location_id: selectedBranchId,
     };
 
     if (editingId !== null) {
@@ -404,47 +429,41 @@ const findGlobalIndex = (row: UIPricing) =>
 
   /* ---------- EDIT ---------- */
   const handleEdit = (index: number) => {
-  const p = filteredPricing[index];
-  if (!p) return;
+    const p = filteredPricing[index];
+    if (!p) return;
 
-  setDuration(String(p.duration));
-  setOfferPrice(String(p.offer_price));
-  setEachPrice(String(p.each_price));
-  setPrice(String(p.price));
+    setDuration(String(p.duration));
+    setOfferPrice(String(p.offer_price));
+    setEachPrice(String(p.each_price));
+    setPrice(String(p.price));
 
-  const globalIndex = value.findIndex(
-    (x) => x === p
-  );
-  setEditingId(globalIndex);
-};
+    const globalIndex = value.findIndex((x) => x === p);
+    setEditingId(globalIndex);
+  };
 
   /* ---------- DELETE ---------- */
   const handleDelete = (index: number) => {
-  const item = filteredPricing[index];
-  onChange(value.filter((v) => v !== item));
-};
+    const item = filteredPricing[index];
+    onChange(value.filter((v) => v !== item));
+  };
 
   /* ---------- REORDER ---------- */
-const handleDragEnd = (event: any) => {
-  const { active, over } = event;
-  if (!over || active.id === over.id) return;
+  const handleDragEnd = (event: any) => {
+    const { active, over } = event;
+    if (!over || active.id === over.id) return;
 
-  const updated = arrayMove(
-    filteredPricing,
-    Number(active.id.split("-")[1]),
-    Number(over.id.split("-")[1])
-  );
+    const updated = arrayMove(
+      filteredPricing,
+      Number(active.id.split("-")[1]),
+      Number(over.id.split("-")[1]),
+    );
 
-  const others = value.filter(
-    (v) => v.location_id !== selectedBranchId
-  );
+    const others = value.filter((v) => v.location_id !== selectedBranchId);
 
-  onChange([...others, ...updated]);
-};
+    onChange([...others, ...updated]);
+  };
 
-  const selectedBranch = branches.find(
-    (b) => b.id === selectedBranchId
-  );
+  const selectedBranch = branches.find((b) => b.id === selectedBranchId);
 
   /* ================= UI ================= */
 
@@ -456,170 +475,223 @@ const handleDragEnd = (event: any) => {
           branches={branches}
           selectedId={selectedBranchId}
           onSelect={onSelectBranch}
-          
         />
       )}
 
       {/* STEP 2: PRICING */}
-    {!showGrid && selectedBranchId !== null && (
-  <div className="space-y-10">
+      {!showGrid && selectedBranchId !== null && (
+        <div className="space-y-10">
+          {/* HEADER */}
+          <div>
+            <h3 className="font-medium text-xl mb-[25px] text-foreground">
+              {selectedBranch?.name} Pricing
+            </h3>
 
-    {/* HEADER */}
-    <div>
-      <h3 className="font-medium text-xl mb-[25px] text-foreground">
-        {selectedBranch?.name} Pricing
-      </h3>
+            <h2 className="mb-4 text-lg font-semibold text-foreground">
+              {editingId !== null ? "Edit Pricing" : "Add Pricing"}
+              <sup className="text-destructive">*</sup>
+            </h2>
 
-      <h2 className="mb-4 text-lg font-semibold text-foreground">
-        {editingId !== null ? "Edit Pricing" : "Add Pricing"}
-        <sup className="text-destructive">*</sup>
-      </h2>
+            {/* FORM */}
+            <div className="grid grid-cols-12">
+              <div className="col-span-12">
+                <div className="w-full rounded-[10px] border border-border bg-card p-5 overflow-x-hidden">
+                  {/* Mobile Only */}
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 xl:hidden">
+                    <div>
+                      <span className="text-sm block mb-2">Duration</span>
+                      <input
+                        className="h-10 w-full rounded-lg border px-3"
+                        value={duration}
+                        onChange={(e) => setDuration(e.target.value)}
+                      />
+                    </div>
 
-      {/* FORM */}
-      <div className="grid grid-cols-12">
-        <div className="col-span-12">
-        <div className="w-full rounded-[10px] border border-border bg-card p-5 overflow-x-hidden">
-  <table className="w-full table-fixed border-separate border-spacing-0">
-    <tbody>
-      <tr className="grid grid-cols-2 gap-3 xl:table-row">
+                    <div>
+                      <span className="text-sm block mb-2">Offer</span>
+                      <input
+                        className="h-10 w-full rounded-lg border px-3"
+                        value={offerPrice}
+                        onChange={(e) => setOfferPrice(e.target.value)}
+                      />
+                    </div>
 
-        <td className="xl:table-cell border-y border-input xl:border-l xl:rounded-tl-[10px] xl:rounded-bl-[10px] p-3">
-          <div className="flex flex-col gap-2">
-            <span className="text-sm text-foreground">Duration</span>
-            <input
-              type="number"
-              value={duration}
-              onChange={(e) => setDuration(e.target.value)}
-              placeholder="Min"
-              className="h-10 w-full rounded-lg border border-input bg-card px-3 text-sm focus:ring-2 focus:ring-ring/20 outline-none"
-            />
+                    <div>
+                      <span className="text-sm block mb-2">Each</span>
+                      <input
+                        className="h-10 w-full rounded-lg border px-3"
+                        value={eachPrice}
+                        onChange={(e) => setEachPrice(e.target.value)}
+                      />
+                    </div>
+
+                    <div>
+                      <span className="text-sm block mb-2">Price</span>
+                      <input
+                        className="h-10 w-full rounded-lg border px-3"
+                        value={price}
+                        onChange={(e) => setPrice(e.target.value)}
+                      />
+                    </div>
+
+                    {/* Button */}
+                    <div className="sm:col-span-2">
+                      <button
+                        onClick={handleSave}
+                        className="h-10 w-full rounded-full bg-primary flex justify-center items-center"
+                      >
+                        <img src="/send.svg" className="h-4 w-4" />
+                      </button>
+                    </div>
+                  </div>
+
+                  <table className="w-full table-fixed border-separate border-spacing-0">
+                    <tbody>
+                      <tr
+                        className="
+                   grid-cols-1 sm:grid-cols-2 gap-4
+                  xl:table-row xl:grid-cols-none hidden
+                "
+                      >
+                        <td className="border-y border-input xl:border-l xl:rounded-tl-[10px] xl:rounded-bl-[10px] p-3">
+                          <div className="flex flex-col gap-2">
+                            <span className="text-sm text-foreground">
+                              Duration
+                            </span>
+                            <input
+                              type="number"
+                              value={duration}
+                              onChange={(e) => setDuration(e.target.value)}
+                              placeholder="Min"
+                              className="h-10 w-full rounded-lg border border-input bg-card px-3 text-sm focus:ring-2 focus:ring-ring/20 outline-none"
+                            />
+                          </div>
+                        </td>
+
+                        <td className="border-y border-input p-3">
+                          <div className="flex flex-col gap-2">
+                            <span className="text-sm text-foreground">
+                              Offer
+                            </span>
+                            <input
+                              type="number"
+                              value={offerPrice}
+                              onChange={(e) => setOfferPrice(e.target.value)}
+                              placeholder="£00"
+                              className="h-10 w-full rounded-lg border border-input bg-card px-3 text-sm focus:ring-2 focus:ring-ring/20 outline-none"
+                            />
+                          </div>
+                        </td>
+
+                        <td className="border-y border-input p-3">
+                          <div className="flex flex-col gap-2">
+                            <span className="text-sm text-foreground">
+                              Each
+                            </span>
+                            <input
+                              type="number"
+                              value={eachPrice}
+                              onChange={(e) => setEachPrice(e.target.value)}
+                              placeholder="£00"
+                              className="h-10 w-full rounded-lg border border-input bg-card px-3 text-sm focus:ring-2 focus:ring-ring/20 outline-none"
+                            />
+                          </div>
+                        </td>
+
+                        <td className="border-y border-input p-3">
+                          <div className="flex flex-col gap-2">
+                            <span className="text-sm text-foreground">
+                              Price
+                            </span>
+                            <input
+                              type="number"
+                              value={price}
+                              onChange={(e) => setPrice(e.target.value)}
+                              placeholder="£00"
+                              className="h-10 w-full rounded-lg border border-input bg-card px-3 text-sm focus:ring-2 focus:ring-ring/20 outline-none"
+                            />
+                          </div>
+                        </td>
+
+                        <td className="border-y border-input xl:border-r xl:rounded-tr-[10px] xl:rounded-br-[10px] p-3 col-span-2 xl:col-span-1">
+                          <div className="flex justify-end xl:justify-center h-full items-end xl:mt-[17px]">
+                            <button
+                              onClick={handleSave}
+                              className="inline-flex h-10 w-full xl:w-12 items-center justify-center rounded-full bg-primary text-primary-foreground"
+                            >
+                              <img src="/send.svg" className="h-4 w-4" />
+                            </button>
+                          </div>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
           </div>
-        </td>
 
-        <td className="xl:table-cell border-y border-input p-3">
-          <div className="flex flex-col gap-2">
-            <span className="text-sm text-foreground">Offer</span>
-            <input
-              type="number"
-              value={offerPrice}
-              onChange={(e) => setOfferPrice(e.target.value)}
-              placeholder="£00"
-              className="h-10 w-full rounded-lg border border-input bg-card px-3 text-sm focus:ring-2 focus:ring-ring/20 outline-none"
-            />
+          {/* LIST */}
+          <div>
+            <h2 className="mb-4 text-lg font-semibold text-foreground">
+              Pricing List
+            </h2>
+            {uiPricing.length > 0 && (
+              <DndContext
+                collisionDetection={closestCenter}
+                onDragEnd={handleDragEnd}
+              >
+                <SortableContext
+                  items={uiPricing.map((i) => i.id)}
+                  strategy={verticalListSortingStrategy}
+                >
+                  <div className="grid grid-cols-12">
+                    <div className="col-span-12">
+                      {/* ===== HEADER (DESKTOP) ===== */}
+                      <div className="sticky top-0 z-[9] bg-card border-b hidden xl:flex items-center h-[52px] px-4 text-sm font-medium text-primary mx-3">
+                        {/* <div className="w-10" ></div> */}
+                        <div className="w-[20%]">Duration</div>
+                        <div className="w-[20%]">Offer</div>
+                        <div className="w-[20%]">Each</div>
+                        <div className="w-[20%]">Price</div>
+                        <div className="w-[120px] text-right pr-4">Actions</div>
+                      </div>
+
+                      {/* ===== BODY ===== */}
+                      <div className="flex-1 overflow-y-auto scrollbar-thin">
+                        {uiPricing.map((item, index) => (
+                          <PricingSortableRow
+                            item={item}
+                            index={index}
+                            isEditing={editingRowId === item.id}
+                            onEdit={() => setEditingRowId(item.id)}
+                            onCancel={() => setEditingRowId(null)}
+                            onSave={(updated) => {
+                              const globalIndex = findGlobalIndex(item);
+                              if (globalIndex === -1) return;
+
+                              const newValue = [...value];
+                              newValue[globalIndex] = {
+                                ...updated,
+                                location_id: selectedBranchId!,
+                                index: value[globalIndex].index,
+                              };
+
+                              onChange(newValue);
+                              setEditingRowId(null);
+                            }}
+                            onDelete={() => handleDelete(index)}
+                          />
+                        ))}
+                      </div>
+                    </div>
+                  </div>
+                </SortableContext>
+              </DndContext>
+            )}
           </div>
-        </td>
-
-        <td className="xl:table-cell border-y border-input p-3">
-          <div className="flex flex-col gap-2">
-            <span className="text-sm text-foreground">Each</span>
-            <input
-              type="number"
-              value={eachPrice}
-              onChange={(e) => setEachPrice(e.target.value)}
-              placeholder="£00"
-              className="h-10 w-full rounded-lg border border-input bg-card px-3 text-sm focus:ring-2 focus:ring-ring/20 outline-none"
-            />
-          </div>
-        </td>
-
-        <td className="xl:table-cell border-y border-input p-3">
-          <div className="flex flex-col gap-2">
-            <span className="text-sm text-foreground">Price</span>
-            <input
-              type="number"
-              value={price}
-              onChange={(e) => setPrice(e.target.value)}
-              placeholder="£00"
-              className="h-10 w-full rounded-lg border border-input bg-card px-3 text-sm focus:ring-2 focus:ring-ring/20 outline-none"
-            />
-          </div>
-        </td>
-
-        <td className="xl:table-cell border-y border-input xl:border-r xl:rounded-tr-[10px] xl:rounded-br-[10px] p-3 col-span-2 xl:col-span-1">
-          <div className="flex justify-end xl:justify-center h-full items-end xl:mt-[17px]">
-            <button
-              onClick={handleSave}
-              className="inline-flex h-10 w-full xl:w-12 items-center justify-center rounded-full bg-primary text-primary-foreground"
-            >
-              <img src="/send.svg" className="h-4 w-4" />
-            </button>
-          </div>
-        </td>
-
-      </tr>
-    </tbody>
-  </table>
-</div>
-
         </div>
-      </div>
-    </div>
-
-    {/* LIST */}
-    <div>
-      <h2 className="mb-4 text-lg font-semibold text-foreground">
-        Pricing List
-      </h2>
-{ uiPricing.length > 0 && (
-
-     <DndContext collisionDetection={closestCenter} onDragEnd={handleDragEnd}>
-  <SortableContext
-    items={uiPricing.map((i) => i.id)}
-    strategy={verticalListSortingStrategy}
-  >
-    <div className="grid grid-cols-12">
-      <div className="col-span-12">
-
-        {/* ===== HEADER (DESKTOP) ===== */}
-        <div className="sticky top-0 z-[9] bg-card border-b hidden xl:flex items-center h-[52px] px-4 text-sm font-medium text-primary mx-3">
-              {/* <div className="w-10" ></div> */}
-          <div className="w-[20%]">Duration</div>
-          <div className="w-[20%]">Offer</div>
-          <div className="w-[20%]">Each</div>
-          <div className="w-[20%]">Price</div>
-          <div className="w-[120px] text-right pr-4">Actions</div>
-        </div>
-
-        {/* ===== BODY ===== */}
-        <div className="flex-1 overflow-y-auto scrollbar-thin">
-          {uiPricing.map((item, index) => (
-            <PricingSortableRow
-            item={item}
-            index={index}
-            isEditing={editingRowId === item.id}
-            onEdit={() => setEditingRowId(item.id)}
-            onCancel={() => setEditingRowId(null)}
-          onSave={(updated) => {
-            const globalIndex = findGlobalIndex(item);
-            if (globalIndex === -1) return;
-
-            const newValue = [...value];
-            newValue[globalIndex] = {
-              ...updated,
-              location_id: selectedBranchId!,
-              index: value[globalIndex].index,
-            };
-
-            onChange(newValue);
-            setEditingRowId(null);
-          }}
-
-            onDelete={() => handleDelete(index)}
-          />
-
-          ))}
-        </div>
-
-      </div>
-    </div>
-  </SortableContext>
-</DndContext>
-)}
-
-    </div>
-  </div>
-)}
-
+      )}
     </>
   );
 });

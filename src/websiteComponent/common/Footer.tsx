@@ -118,7 +118,7 @@ const handleNewsletterSubmit = async () => {
       location_id: resolvedLocationId,
       email: newsletterEmail,
     });
-     if (res?.status) {
+     if (res?.success) {
     setMessage("Subscribed successfully!");
     setNewsletterEmail("");
   }

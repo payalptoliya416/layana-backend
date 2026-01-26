@@ -125,6 +125,7 @@ function SortableRow({
       {/* ================= MOBILE CARD ================= */}
       <div className="xl:hidden mx-3 my-2 rounded-xl border bg-card p-4 space-y-2">
         <div className="flex justify-between items-center">
+          <div className="flex justify-center items-center gap-3">
           <div {...attributes} {...listeners} className="cursor-grab">
             <GripVertical size={18} />
           </div>
@@ -142,6 +143,7 @@ function SortableRow({
                 </span>
             </p>
             <p className="font-medium">{item.name}</p>
+          </div>
           </div>
 
           <div className="flex gap-2 self-start">

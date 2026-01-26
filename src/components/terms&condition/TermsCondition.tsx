@@ -28,8 +28,6 @@ const [showRequired, setShowRequired] = useState(false);
   const [loading, setLoading] = useState(false);
   const [initialValue, setInitialValue] = useState("");
   const [value, setValue] = useState("");
-  const [hasChange, setHasChange] = useState(false);
-
   /* ================= FETCH DATA ================= */
 
   const fetchTerms = async () => {
@@ -39,7 +37,6 @@ const [showRequired, setShowRequired] = useState(false);
       const html = res.data?.value || "";
       setInitialValue(html);
       setValue(html);
-      setHasChange(false);
     } catch {
       toast.error("Failed to load terms & conditions");
     } finally {
@@ -63,7 +60,6 @@ const isEditorEmpty = (html: string) => {
 
   const handleChange = (v: string) => {
     setValue(v);
-    setHasChange(v !== initialValue);
   };
 
 const handleSave = async () => {
@@ -86,7 +82,6 @@ const handleSave = async () => {
 
   const handleCancel = () => {
     setValue(initialValue);
-    setHasChange(false);
   };
 
   /* ================= UI ================= */
@@ -133,15 +128,12 @@ const handleSave = async () => {
         </div>
 
         {/* CARD */}
-        <div
-        className="flex-1 pl-[15px] pr-6 px-6 flex flex-col bg-card rounded-2xl shadow-card p-5
-        overflow-hidden h-[calc(100dvh-160px)] lg:h-[calc(100vh-220px)]"
-        >
+       <div className="flex-1 flex flex-col bg-card rounded-2xl shadow-card p-5 min-h-0">
         {/* CONTENT */}
-        <div className="flex-1 flex flex-col overflow-hidden">
+        <div className="flex-1 flex flex-col min-h-0">
             
             {/* EDITOR MUST BE flex-1 */}
-            <div className="flex-1 overflow-y-auto scrollbar-thin">
+             <div className="flex-1 overflow-y-auto scrollbar-thin pr-2 min-h-0">
             <TermsDescriptionEditor
                 value={value}
                 onChange={handleChange}
