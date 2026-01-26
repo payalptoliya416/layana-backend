@@ -55,8 +55,7 @@ const menu = [
     href: "https://www.fresha.com/vouchers/provider/rmxjfmmk",
     external: true,
   },
-  { label: "Contact Us", basePath: "/#" },
-  // { label: "Contact Us", basePath: "/contact-us" },
+  { label: "Contact Us", basePath: "/contact-us" },
 ];
 
 /* ================= DATA ================= */
@@ -160,21 +159,21 @@ export default function Header() {
                   </a>
                 ) : (
                   (() => {
-//                     if (item.label === "Contact Us") {
-//   const contactPath = selectedLocation
-//     ? `/${selectedLocation.slug}/contact-us`
-//     : "/contact-us";
+                    if (item.label === "Contact Us") {
+  const contactPath = selectedLocation
+    ? `/${selectedLocation.slug}/contact-us`
+    : "/contact-us";
 
-//   return (
-//     <Link
-//       to={withBase(contactPath)}
-//       state={locationState(selectedLocation)}
-//       className={underlineClass}
-//     >
-//       {item.label}
-//     </Link>
-//   );
-// }
+  return (
+    <Link
+      to={withBase(contactPath)}
+      state={locationState(selectedLocation)}
+      className={underlineClass}
+    >
+      {item.label}
+    </Link>
+  );
+}
 
                     return (
                       <Link
@@ -358,8 +357,7 @@ export default function Header() {
                       {
                         item.basePath &&
                         hasLocation &&
-                          item.basePath !== "/#" && (
-                          // item.basePath !== "/contact-us" && (
+                          item.basePath !== "/contact-us" && (
                           <Link
                             to={withBase(
                               `/${selectedLocation.slug}${item.basePath}`,

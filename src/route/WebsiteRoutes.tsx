@@ -70,8 +70,8 @@ function WebsiteRoutes() {
 
     <Route path="/" element={<Home />} />
 
-    {/* <Route path="/contact-us" element={<ContactUs />} />
-    <Route path="/:locationSlug/contact-us" element={<ContactUs />} /> */}
+    <Route path="/contact-us" element={<ContactUs />} />
+    <Route path="/:locationSlug/contact-us" element={<ContactUs />} />
 
     <Route path="/:locationSlug" element={<FinchleyCenteral />} />
 

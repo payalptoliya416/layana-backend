@@ -118,15 +118,17 @@ const handleNewsletterSubmit = async () => {
       location_id: resolvedLocationId,
       email: newsletterEmail,
     });
-
-    setMessage(res.message || "Subscribed successfully!");
+     if (res?.status) {
+    setMessage("Subscribed successfully!");
     setNewsletterEmail("");
+  }
   } catch (err: any) {
     setError(err?.message || "Something went wrong");
   } finally {
     setSubmitting(false);
   }
 };
+
 useEffect(() => {
   setNewsletterEmail("");
   setMessage("");
