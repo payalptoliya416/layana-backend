@@ -27,7 +27,7 @@ function Team() {
         breadcrumb={<Breadcrumb />}
       />
 
-      <section className="pt-12 lg:pt-[110px]">
+      <section className="py-12 lg:py-[110px]">
         <div className="container mx-auto">
 
           {loading && (
