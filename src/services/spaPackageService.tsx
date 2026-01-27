@@ -140,3 +140,32 @@ export const updateSpaLandingPage = async (
   );
   return res.data;
 };
+
+
+export type MembershipPolicyItem = {
+  title: string;
+  content: string;
+};
+
+export type MembershipLandingPayload = {
+  description: string;
+  policy: MembershipPolicyItem[];
+};
+
+/* ================= GET ================= */
+
+// admin/memberships/get-landing-page
+export const getMembershipLandingPage = async () => {
+  const res = await api.post("/memberships/get-landing-page");
+  return res.data;
+};
+
+/* ================= POST / UPDATE ================= */
+
+// admin/memberships/landing-page
+export const updateMembershipLandingPage = async (
+  payload: MembershipLandingPayload
+) => {
+  const res = await api.post("/memberships/landing-page", payload);
+  return res.data;
+};

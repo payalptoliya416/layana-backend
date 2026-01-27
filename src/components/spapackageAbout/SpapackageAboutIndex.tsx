@@ -187,7 +187,7 @@ const handleVisualChange = (gallery_image: string) => {
           {/* HEADER */}
           <div className="sticky top-3 z-10 pb-3">
             <PageHeader
-              title="Spa Package About"
+              title="Landing Page"
               onMenuClick={() => setSidebarOpen(true)}
               showBack={true}
               onBack={() => window.history.back()}

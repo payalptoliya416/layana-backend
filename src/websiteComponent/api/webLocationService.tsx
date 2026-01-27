@@ -110,3 +110,34 @@ export const getSpaLandingPage = () => {
     }
   );
 };
+
+
+export interface MembershipPolicy {
+  title: string;
+  content: string;
+}
+
+export interface MembershipLandingPageData {
+  id: number;
+  description: string;
+  policy: MembershipPolicy[];
+  created_at: string;
+  updated_at: string;
+}
+
+export interface MembershipLandingPageResponse {
+  status: string;
+  message: string;
+  data: MembershipLandingPageData;
+}
+
+// ================= API Function =================
+
+export const getMembershipLandingPage = () => {
+  return publicApi<MembershipLandingPageResponse>(
+    "/frontend/memberships-landing-page",
+    {
+      method: "GET",
+    }
+  );
+};

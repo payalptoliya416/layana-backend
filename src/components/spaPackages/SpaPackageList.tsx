@@ -394,7 +394,7 @@ const handleDelete = async () => {
                 transition w-full sm:w-auto justify-center
             "
             >
-                        <Plus size={16} /> About Data
+                        <Plus size={16} /> Landing Page
                     </button>
                         <button
             onClick={() => navigate("/admin/packages-list/packages")}

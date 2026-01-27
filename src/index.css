@@ -1090,3 +1090,64 @@ body {
 }
 
 /* Footer padding fix */
+.quill-content {
+  font-family: inherit;
+  line-height: 1.6;
+}
+
+/* ✅ Alignment Support */
+.quill-content .ql-align-center {
+  text-align: center;
+}
+
+.quill-content .ql-align-right {
+  text-align: right;
+}
+
+.quill-content .ql-align-left {
+  text-align: left;
+}
+
+.quill-content .ql-align-justify {
+  text-align: justify;
+}
+
+/* ✅ Headings Support */
+.quill-content h1,
+.quill-content h2,
+.quill-content h3,
+.quill-content h4,
+.quill-content h5 {
+  font-weight: 600;
+  margin: 10px 0;
+}
+
+/* ✅ Lists */
+.quill-content ul {
+  padding-left: 20px;
+  list-style-type: disc;
+}
+
+.quill-content li {
+  margin-bottom: 6px;
+}
+
+/* ✅ Bold & Italic */
+.quill-content strong {
+  font-weight: 700;
+}
+
+.quill-content em {
+  font-style: italic;
+}
+
+/* ✅ Background + Text Color Support */
+.quill-content span {
+  white-space: pre-wrap;
+}
+
+/* Optional: Prevent overflow */
+.quill-content img {
+  max-width: 100%;
+  border-radius: 12px;
+}

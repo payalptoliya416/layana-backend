@@ -8,10 +8,10 @@ import { IoCall } from "react-icons/io5";
 import { useEffect, useState } from "react";
 import { getMemberships, Membership } from "@/websiteComponent/api/membershipsApi";
 import { useLocation, useParams } from "react-router-dom";
-import { getLocations } from "@/websiteComponent/api/webLocationService";
-import { Helmet } from "react-helmet-async";
+import { getLocations, getMembershipLandingPage, MembershipLandingPageData } from "@/websiteComponent/api/webLocationService";
 import { IoIosMail } from "react-icons/io";
 import Loader from "@/websiteComponent/common/Loader";
+import "react-quill/dist/quill.snow.css";
 
 function MemberShip() {
     const location = useLocation();
@@ -19,7 +19,10 @@ function MemberShip() {
   const { locationSlug } = useParams();
   const [resolvedLocationId, setResolvedLocationId] = useState<number | null>(null);
 const [membershipPlans, setMembershipPlans] = useState<MembershipPlan[]>([]);
+const [landingData, setLandingData] =
+  useState<MembershipLandingPageData | null>(null);
 const [loading, setLoading] = useState(true);
+
   // 👉 final usable locationId
   const finalLocationId = locationId ?? resolvedLocationId;
 const mapMembershipsToPlans = (memberships: Membership[]): MembershipPlan[] => {
@@ -33,6 +36,15 @@ const mapMembershipsToPlans = (memberships: Membership[]): MembershipPlan[] => {
     })),
   }));
 };
+
+useEffect(() => {
+  getMembershipLandingPage().then((res) => {
+    if (res.status === "success") {
+      setLandingData(res.data);
+    }
+  });
+}, []);
+
    useEffect(() => {
     // jo state mathi locationId already hoy
     if (locationId) {
@@ -74,7 +86,7 @@ const membershipBackground =
     ? membership_bg
     : membership_bg1;
 
-if (loading) {
+if (loading || !landingData) {
   return (
     <div className="py-20 flex justify-center">
       <Loader />
@@ -94,13 +106,18 @@ if (loading) {
       <section className="py-12 lg:py-[110px]">
         <div className="container mx-auto">
           <div className="border-[10px] border-[#F6F6F6] py-[60px] px-5 md:px-10 lg:px-[55px]">
-            <div className="text-center">
+         <div
+  className="quill-content mb-5 text-[#282828]"
+  dangerouslySetInnerHTML={{
+    __html: landingData?.description || "",
+  }}
+/>
+             {/* <div className="text-center">
               <span className="inline-block bg-[#F7EFEC] text-base lg:text-[22px] leading-[24px] mb-5 py-[10px] px-5 lg:px-[35px] text-[#282828]">
                 Join The Discounted Massage Membership
               </span>
             </div>
 
-            {/* Title */}
             <h2 className="text-xl lg:text-[28px] lg:leading-[28px] mb-[25px] text-center font-bold">
               Massage Subscription
             </h2>
@@ -123,7 +140,6 @@ if (loading) {
               benefit over 12 months from the date of purchase.
             </p>
 
-            {/* How it works */}
             <div className="">
               <h4 className="mb-[15px] text-base text-justify">
                 How does it work?
@@ -148,7 +164,7 @@ if (loading) {
                   purchase.
                 </li>
               </ul>
-            </div>
+            </div>  */}
           </div>
         </div>
       </section>
@@ -226,8 +242,18 @@ if (loading) {
         {/* Bottom grid */}
         <div className="flex justify-center">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-y-4 sm:gap-y-10 md:gap-y-10 gap-x-40  max-w-4xl w-full">
+   {landingData?.policy?.map((item, index) => (
+      <div key={index}>
+        <h3 className="text-base sm:text-lg font-bold uppercase mb-2 font-mulish">
+          {item.title}
+        </h3>
 
-          <div>
+        <p className="text-[#666666] font-quattro text-sm sm:text-base">
+          {item.content}
+        </p>
+      </div>
+    ))}
+          {/* <div>
             <h3 className="text-base sm:text-lg font-bold uppercase mb-2 font-mulish">
               SESSION MINUTES
             </h3>
@@ -261,7 +287,7 @@ if (loading) {
             <p className="text-[#666666] font-quattro text-sm sm:text-base">
               Must before 24 hrs prior to appointment.
             </p>
-          </div>
+          </div> */}
 
         </div>
         </div>

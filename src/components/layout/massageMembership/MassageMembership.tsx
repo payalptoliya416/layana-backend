@@ -366,7 +366,7 @@ const handleDragEnd = async (event: DragEndEvent) => {
                   )}
                 </div>
                 <div className="flex justify-center items-center gap-2 flex-wrap w-full sm:w-auto">
-                {/* <button
+                <button
                   onClick={() => navigate("/admin/massage-membership-term")}
                   className="
                         flex items-center gap-2
@@ -379,8 +379,8 @@ const handleDragEnd = async (event: DragEndEvent) => {
                         transition w-full sm:w-auto justify-center
                     "
                 >
-                  <Plus size={16} /> Add Terms
-                </button> */}
+                  <Plus size={16} /> Landing Page
+                </button>
                 <button
                   onClick={() => navigate("/admin/massage-membership/add")}
                   className="
