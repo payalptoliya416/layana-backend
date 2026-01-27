@@ -14,9 +14,9 @@ import { useEffect, useState } from "react";
 import { getLocations } from "../api/webLocationService";
 import Loader from "./Loader";
 import { Link, useLocation, useNavigate, useParams } from "react-router-dom";
-import { toast } from "sonner";
 import { submitEnquiry } from "../api/enquiryService";
 import { getTreatmentCategories } from "../api/treatments.api";
+import { FaWhatsapp } from "react-icons/fa";
 
 const socialLinks = [
   {
@@ -32,7 +32,7 @@ const socialLinks = [
     href: "mailto:info@layana.co.uk",
   },
   {
-    icon: Linkedin, // WhatsApp mate lucide ma icon nathi, niche note joi lo
+    icon: FaWhatsapp,
     href: "https://wa.me/message/QZVCD34TB4OKC1",
   },
 ];
