@@ -9,8 +9,8 @@ function App() {
         {/* <Route path="/websiteurl/*" element={<WebsiteRoutes />} />
         <Route path="/*" element={<AdminApp />} /> */}
 
-        <Route path="/*" element={<WebsiteRoutes />} />
         <Route path="/admin/*" element={<AdminApp />} />
+        <Route path="/*" element={<WebsiteRoutes />} />
       </Routes>
     </BrowserRouter>
   );
