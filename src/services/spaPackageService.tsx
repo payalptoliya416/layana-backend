@@ -112,3 +112,31 @@ export async function getAllSpaPackages(
 
   return res.data.data;
 }
+
+
+
+export type SpaLandingPayload = {
+  gallery_image: string;
+  description: string;
+};
+
+/* ================= GET API ================= */
+// Page open thay tyare data fetch
+
+export const getSpaLandingPage = async () => {
+  const res = await api.post("/spa-packages/get-landing-page");
+  return res.data;
+};
+
+/* ================= POST API ================= */
+// Save button click par update/create
+
+export const updateSpaLandingPage = async (
+  payload: SpaLandingPayload
+) => {
+  const res = await api.post(
+    "/spa-packages/landing-page",
+    payload
+  );
+  return res.data;
+};

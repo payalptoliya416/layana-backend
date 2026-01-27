@@ -4,7 +4,6 @@ import footerbanner from "@/assets/footerbanner.png";
 import {
   Facebook,
   Instagram,
-  Linkedin,
   MapPin,
   Phone,
   Mail,

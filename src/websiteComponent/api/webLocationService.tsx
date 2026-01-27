@@ -88,4 +88,25 @@ export type LocationApi = {
   name: string;
   slug: string;
 };
+export interface SpaLandingPageData {
+  id: number;
+  gallery_image: string;
+  description: string;
+  created_at: string;
+  updated_at: string;
+}
 
+export interface SpaLandingPageResponse {
+  status: string;
+  message: string;
+  data: SpaLandingPageData;
+}
+
+export const getSpaLandingPage = () => {
+  return publicApi<SpaLandingPageResponse>(
+    `/frontend/spa-packages-landing-page`,
+    {
+      method: "GET",
+    }
+  );
+};

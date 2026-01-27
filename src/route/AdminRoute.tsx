@@ -27,6 +27,8 @@ import PopupIndex from "@/components/popup/PopupIndex";
 import PopupList from "@/components/popup/PopupList";
 import BookConsultationList from "@/components/bookConsultationList/BookConsultationList";
 import NotFound from "@/pages/NotFound";
+import SpapackageAboutIndex from "@/components/spapackageAbout/spapackageAboutIndex";
+import MembershipTerms from "@/components/membershipFaqs/MembershipTerms";
 
 const AdminRoutes = () => (
   <Routes>
@@ -180,6 +182,24 @@ const AdminRoutes = () => (
       element={
         <ProtectedRoute>
           <SpaPackages />
+        </ProtectedRoute>
+      }
+    />
+
+    <Route
+      path="/packages-list/package-about"
+      element={
+        <ProtectedRoute>
+          <SpapackageAboutIndex />
+        </ProtectedRoute>
+      }
+    />
+
+    <Route
+      path="/massage-membership-term"
+      element={
+        <ProtectedRoute>
+          <MembershipTerms />
         </ProtectedRoute>
       }
     />

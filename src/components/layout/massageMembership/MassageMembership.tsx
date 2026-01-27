@@ -365,6 +365,22 @@ const handleDragEnd = async (event: DragEndEvent) => {
                     </button>
                   )}
                 </div>
+                <div className="flex justify-center items-center gap-2 flex-wrap w-full sm:w-auto">
+                <button
+                  onClick={() => navigate("/admin/massage-membership-term")}
+                  className="
+                        flex items-center gap-2
+                        rounded-full
+                        bg-primary
+                        px-3 sm:px-5 py-3
+                        text-xs sm:text-sm text-primary-foreground
+                        shadow-button
+                        hover:opacity-90
+                        transition w-full sm:w-auto justify-center
+                    "
+                >
+                  <Plus size={16} /> Add Terms
+                </button>
                 <button
                   onClick={() => navigate("/admin/massage-membership/add")}
                   className="
@@ -380,6 +396,7 @@ const handleDragEnd = async (event: DragEndEvent) => {
                 >
                   <Plus size={16} /> Add Membership
                 </button>
+                </div>
               </div>
               <div className="grid grid-cols-12">
                 <div className="col-span-12">
