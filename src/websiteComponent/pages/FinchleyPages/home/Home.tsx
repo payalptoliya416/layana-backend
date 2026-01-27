@@ -11,7 +11,6 @@ import { useEffect, useState } from "react";
 import { getHomePageData } from "@/websiteComponent/api/pricing.api";
 import Loader from "@/websiteComponent/common/Loader";
 import { getLocations, Locationweb } from "@/websiteComponent/api/webLocationService";
-import { withBase } from "@/websiteComponent/common/Header";
 import { Helmet } from "react-helmet-async";
 
 function Home() {
@@ -189,7 +188,7 @@ useEffect(() => {
                 <img
                   src={loc.shop_banner_image}
                   alt="finchley"
-                  className="w-full h-full object-cover"
+                  className="w-full h-full"
                 />
               </div>
                               
@@ -202,7 +201,7 @@ useEffect(() => {
                   </h2>
                 </div>
                 <Link
-                   to={withBase(`/${loc.slug}`)}
+                   to={`/${loc.slug}`}
                 state={{ id: loc.id, slug: loc.slug }}
                   className="text-[13px] font-bold tracking-[0.1em] uppercase underline underline-offset-1 text-black"
                 >
@@ -285,8 +284,7 @@ useEffect(() => {
           </div>
 
           <div className="flex justify-center mt-16 lg:mt-24">
-             <CommonButton to="/websiteurl">View All</CommonButton>
-             {/* <CommonButton to="/websiteurl/team">View All</CommonButton> */}
+             <CommonButton to="/team">View All</CommonButton>
           </div>
         </div>
       </section>
