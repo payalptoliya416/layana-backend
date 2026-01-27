@@ -62,6 +62,7 @@ function WebsiteRoutes() {
 
           {/* ================= PRICES ================= */}
           <Route path="/book-consultaion" element={<BookCounsultation />} />
+          <Route path="/team" element={<Team />} />
 
           {/* ================= TERM & CONDITION ================= */}
             <Route path="/term-condition" element={<TermCondition/>}/>
