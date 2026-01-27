@@ -260,7 +260,7 @@ useEffect(() => {
 
       <footer className=" text-[#cfd6da]">
         {/* ================= TOP STRIP ================= */}
-        <div className="bg-[#1F262B] border-b border-[#f6eee9]">
+        <div className="bg-[#282828] border-b border-[#f6eee9]">
           <div className="container mx-auto">
             <div className="grid grid-cols-12 lg:gap-6 items-center ">
               {/* Social icons */}
@@ -315,7 +315,7 @@ useEffect(() => {
         </div>
 
         {/* ================= MAIN FOOTER ================= */}
-        <div className=" bg-[#232B31]">
+        <div className=" bg-[#282828]">
           <div className="container mx-auto">
             <div className="grid grid-cols-12 sm:gap-10 lg:gap-1 py-[39px]">
               <div className="col-span-12 sm:col-span-6 lg:col-span-3 mb-10 sm:mb-0">
@@ -468,7 +468,7 @@ useEffect(() => {
         </div>
 
         {/* ================= BOTTOM BAR ================= */}
-        <div className="bg-[#1D2429]">
+        <div className="bg-[#282828] border-t border-[#f6eee9]">
           <div className="container mx-auto flex justify-center items-center flex-wrap gap-5 py-6">
             <div className="text-center text-sm ">
               Layana © 2015 - {new Date().getFullYear()}

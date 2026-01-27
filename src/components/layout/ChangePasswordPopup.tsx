@@ -106,7 +106,7 @@ const showMessage = (type: "success" | "error", text: string) => {
           <X size={16} />
         </button>
 
-        <h2 className="text-lg font-semibold text-center mb-5">
+        <h2 className="text-lg font-semibold text-center mb-5 text-foreground">
           Change Password
         </h2>
 
