@@ -188,7 +188,7 @@ useEffect(() => {
                 <img
                   src={loc.shop_banner_image}
                   alt="finchley"
-                  className="w-full h-full"
+                  className=""
                 />
               </div>
                               
