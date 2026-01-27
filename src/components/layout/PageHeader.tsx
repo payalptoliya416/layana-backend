@@ -1,9 +1,10 @@
 import { useState, useRef, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { Sun, Moon, Bell, User, LogOut, ChevronDown, MoveLeft, ArrowLeft, Laptop } from "lucide-react";
+import { Sun, Moon, Bell, User, LogOut, ChevronDown, MoveLeft, ArrowLeft, Laptop, LockKeyhole } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { removeToken } from "@/services/authService";
 import { createPortal } from "react-dom";
+import ChangePasswordPopup from "./ChangePasswordPopup";
 
 interface PageHeaderProps {
   title: string;
@@ -37,6 +38,7 @@ export function PageHeader({ title , showBack = false, onBack , isTitleLoading ,
 const [isThemeOpen, setIsThemeOpen] = useState(false);
 const themeRef = useRef<HTMLDivElement>(null);
 const [visibleLoader, setVisibleLoader] = useState(true);
+const [isPasswordPopupOpen, setIsPasswordPopupOpen] = useState(false);
 
 useEffect(() => {
   if (!title || isTitleLoading) {
@@ -304,28 +306,39 @@ const GlobalLoader = () => {
           </button>
 
           {/* Profile Dropdown Menu */}
-          {isProfileOpen && (
-            <div className="absolute right-0 top-full mt-2 w-36 bg-card rounded-xl border border-border shadow-dropdown py-1.5 animate-fade-in z-50">
-              <button
-                className="w-full flex items-center gap-3 px-4 py-2.5 text-sm text-foreground hover:bg-muted transition-colors rounded-lg mx-1 mr-2"
-                style={{ width: 'calc(100% - 8px)' }}
-                onClick={() => {
-                  setIsProfileOpen(false);
-                }}
-              >
-                <User className="w-4 h-4 text-muted-foreground" />
-                Edit Profile
-              </button>
-              <button
-                className="w-full flex items-center gap-3 px-4 py-2.5 text-sm text-destructive hover:bg-muted transition-colors rounded-lg mx-1"
-                style={{ width: 'calc(100% - 8px)' }}
-                onClick={handleLogout}
-              >
-                <LogOut className="w-4 h-4" />
-                Logout
-              </button>
-            </div>
-          )}
+      {isProfileOpen && (
+  <div className="absolute right-0 top-full mt-2 w-40 bg-card rounded-xl border border-border shadow-dropdown py-2 z-50">
+
+    {/* Change Password */}
+    <button
+      className="w-full flex items-center gap-2 px-4 py-2 text-xs sm:text-sm text-foreground hover:bg-muted transition rounded-lg text-start"
+    onClick={() => {
+    setIsProfileOpen(false);
+    setIsPasswordPopupOpen(true); // ✅ popup open
+  }}
+    >
+     <div> <LockKeyhole className="w-4 h-4 text-muted-foreground" /></div>
+      <span>Change Password</span>
+    </button>
+
+    {/* Logout */}
+    <button
+      className="w-full flex items-center gap-2 px-4 py-2 text-xs sm:text-sm text-destructive hover:bg-muted transition rounded-lg"
+      onClick={handleLogout}
+    >
+    <div>  <LogOut className="w-4 h-4" /></div>
+      <span>Logout</span>
+    </button>
+
+  </div>
+      )}
+
+      {isPasswordPopupOpen && (
+        <ChangePasswordPopup
+          onClose={() => setIsPasswordPopupOpen(false)}
+        />
+      )}
+
         </div>
       </div>
     </header>

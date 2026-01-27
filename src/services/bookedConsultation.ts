@@ -72,3 +72,12 @@ export async function getBookedConsultationById(id: number) {
   });
   return res.data.data;
 }
+
+export const changePassword = async (payload: {
+  current_password: string;
+  new_password: string;
+  confirm_password: string;
+}) => {
+  const res = await api.post("/settings/change-password", payload);
+  return res.data;
+};
