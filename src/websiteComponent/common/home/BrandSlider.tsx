@@ -1,5 +1,6 @@
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
+import { Autoplay } from "swiper/modules";   
 
 type BrandSliderProps = {
   images: string[];
@@ -18,6 +19,11 @@ export default function BrandSlider({ images }: BrandSliderProps) {
           640: { slidesPerView: 3 },
           1024: { slidesPerView: 5 },
           1280: { slidesPerView: 5 },
+        }}
+         modules={[Autoplay]}
+           autoplay={{
+          delay: 3000,        
+          disableOnInteraction: false,
         }}
       >
         {images.map((img, i) => (
