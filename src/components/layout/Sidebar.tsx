@@ -219,8 +219,8 @@ const isActive = item.href
     <div className="ml-8 mt-1 space-y-1">
       {item.children.map((child) => {
         const isChildActive =
-          location.pathname === child.href ||
-          location.pathname.startsWith(child.href + "/admin");
+  location.pathname === child.href ||
+  location.pathname.startsWith(child.href);
 
         return (
           <button
