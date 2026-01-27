@@ -3,7 +3,6 @@ import PageBanner from "@/websiteComponent/common/home/PageBanner";
 import ServiceCard from "@/websiteComponent/common/home/ServiceCard";
 import SplitContentSection from "@/websiteComponent/common/home/SplitContentSection";
 import CommonHeroSlider from "@/websiteComponent/common/home/CommonHeroSlider";
-import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { getLandingPageByLocation, getLocations } from "@/websiteComponent/api/webLocationService";
 import Loader from "@/websiteComponent/common/Loader";
@@ -12,12 +11,14 @@ import { FaClock } from "react-icons/fa6";
 import { IoLocationSharp } from "react-icons/io5";
 import { BsFillTelephoneFill } from "react-icons/bs";
 import { Location } from '../../../../services/locationService';
+import { useParams, Navigate, useNavigate } from "react-router-dom";
 
 function FinchleyCenteral() {
   const { locationSlug } = useParams<{ locationSlug: string }>();
 
 const [loading, setLoading] = useState(true);
 const [landingData, setLandingData] = useState<any>(null);
+const navigate = useNavigate();
 
 useEffect(() => {
   if (!locationSlug) return;
@@ -37,6 +38,7 @@ useEffect(() => {
       if (!selectedLocation) {
         console.error("Invalid location slug");
         setLandingData(null);
+         navigate("/", { replace: true });
         return;
       }
 
@@ -123,7 +125,7 @@ const formatTo12Hour = (time: string) => {
 }
 
 if (!landingData) {
-  return <div className="py-20 text-center"></div>;
+  return null;
 }
   
   return (
