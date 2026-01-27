@@ -13,15 +13,20 @@ export function SeoKeywordInput({ value, onChange }: SeoKeywordInputProps) {
     ? value.map((v) => (typeof v === "string" ? v : v?.name)).filter(Boolean)
     : [];
 
-  const addKeyword = () => {
-    const keyword = input.trim();
-    if (!keyword) return;
+const addKeyword = () => {
+  const keyword = input.trim();
 
-    if (!keywords.includes(keyword)) {
-      onChange([...keywords, keyword]);
-    }
-    setInput("");
-  };
+  // ✅ Only letters & spaces allowed
+  if (!/^[a-zA-Z\s]+$/.test(keyword)) return;
+
+  if (!keyword) return;
+
+  if (!keywords.includes(keyword)) {
+    onChange([...keywords, keyword]);
+  }
+
+  setInput("");
+};
 
   const handleKeyDown = (e: KeyboardEvent<HTMLInputElement>) => {
     if (e.key === "Enter" || e.key === "," || e.key === "Tab") {
@@ -54,7 +59,10 @@ export function SeoKeywordInput({ value, onChange }: SeoKeywordInputProps) {
 
     <input
       value={input}
-      onChange={(e) => setInput(e.target.value)}
+      onChange={(e) => {
+  const onlyText = e.target.value.replace(/[^a-zA-Z\s]/g, "");
+  setInput(onlyText);
+}}
       onKeyDown={handleKeyDown}
       placeholder="Type and press comma or tab"
       className="

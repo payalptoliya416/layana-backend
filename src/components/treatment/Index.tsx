@@ -249,13 +249,19 @@ useEffect(() => {
 }, [id]);
 
 const pageTitle = useMemo(() => {
-  
+  // ✅ Edit mode + loading → show Loading...
+  if (isEdit && loadingTreatment) {
+    return "Treatment...";
+  }
+
+  // ✅ Edit mode + data loaded
   if (isEdit && treatmentPayload.general?.name) {
     return treatmentPayload.general.name;
   }
 
+  // ✅ Add mode
   return "Add Treatment";
-}, [activeSection, selectedSeoBranch, isEdit, treatmentPayload.general?.name]);
+}, [isEdit, loadingTreatment, treatmentPayload.general?.name]);
 
 const isTitleLoading =
   isEdit && loadingTreatment && !treatmentPayload.general?.name;

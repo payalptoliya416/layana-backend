@@ -189,7 +189,7 @@ const Login: React.FC = () => {
 
   {/* Footer */}
   <p className="mt-8 text-sm text-muted-foreground">
-    © 2025 Layana. All rights reserved.
+ © {new Date().getFullYear()} Layana. All rights reserved.
   </p>
 </div>
 

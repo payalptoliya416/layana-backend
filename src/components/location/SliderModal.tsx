@@ -120,13 +120,13 @@ return (
     e.preventDefault(); 
     handleSubmit(onSubmit)(e);
   }}  
-      className="relative w-full max-w-[720px] rounded-[18px] bg-card px-[30px] pt-[40px] pb-[30px] border border-border shadow-dropdown space-y-5"
+      className="relative w-full max-w-[720px] rounded-[18px] bg-card px-[30px] pt-[40px] pb-[30px] border border-border shadow-dropdown space-y-5 max-h-[90vh] overflow-y-auto scrollbar-thin"
     >
       {/* CLOSE */}
       <button
         type="button"
         onClick={onClose}
-        className="absolute right-[10px] top-[10px] flex h-8 w-8 items-center justify-center rounded-full border border-border text-muted-foreground hover:bg-muted hover:text-foreground transition"
+        className="absolute right-[10px] top-[10px] flex h-8 w-8 items-center justify-center rounded-full border border-border text-muted-foreground hover:bg-muted hover:text-foreground transition "
       >
         <X size={14} />
       </button>
@@ -288,6 +288,7 @@ return (
       </div>
 
       {/* CROP MODAL */}
+    </form>
       {cropImage && (
         <ImageCropGallry
           open
@@ -322,7 +323,6 @@ return (
 }}
         />
       )}
-    </form>
   </div>
 );
 
