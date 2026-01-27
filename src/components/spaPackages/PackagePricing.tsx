@@ -122,7 +122,7 @@ const minInputRef = useRef<HTMLInputElement>(null);
             if (val === "") return setDuration("");
             if (/^\d+$/.test(val) && Number(val) > 0) setDuration(val);
           }}
-          className="h-10 w-[180px] rounded-lg border px-3  focus:outline-none focus:ring-2 focus:ring-ring/20"
+          className="h-10 w-[180px] rounded-lg border px-3 bg-card focus:outline-none focus:ring-2 focus:ring-ring/20"
         />
       </td>
 
@@ -138,7 +138,7 @@ const minInputRef = useRef<HTMLInputElement>(null);
             if (val === "") return setPrice("");
             if (/^\d+$/.test(val) && Number(val) > 0) setPrice(val);
           }}
-          className="h-10 w-[180px] rounded-lg border px-3  focus:outline-none focus:ring-2 focus:ring-ring/20"
+          className="h-10 w-[180px] rounded-lg border px-3 bg-card focus:outline-none focus:ring-2 focus:ring-ring/20"
         />
       </td>
 

@@ -1,4 +1,4 @@
-"use client";
+
 
 import { forwardRef, useImperativeHandle, useRef } from "react";
 import LocationSEO, { LocationSEOData } from "./LocationSEO";

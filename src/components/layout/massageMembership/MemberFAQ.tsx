@@ -1,4 +1,4 @@
-  "use client";
+  
 
   import { ChevronDown, GripVertical, Pencil, Plus, Trash2 } from "lucide-react";
   import {

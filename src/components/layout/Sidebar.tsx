@@ -113,10 +113,9 @@ const isExpanded =
     location.pathname.startsWith(child.href)
   ) ?? false);
 
-  const isActive = item.href
-    ? location.pathname === item.href ||
-      location.pathname.startsWith(item.href + "/admin")
-    : isExpanded;
+const isActive = item.href
+  ? location.pathname.startsWith(item.href)
+  : isExpanded;
 
   return (
     <>

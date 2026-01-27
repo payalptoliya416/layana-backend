@@ -95,7 +95,7 @@ interface DescriptionEditorProps {
   height?: string;
 }
 
-export default function DescriptionEditor({
+export default function   DescriptionEditor({
   value,
   onChange,
   height = "260px",

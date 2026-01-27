@@ -1,4 +1,4 @@
-"use client";
+
 
 type Props = {
   background: string;

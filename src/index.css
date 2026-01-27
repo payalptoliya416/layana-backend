@@ -919,3 +919,77 @@ body {
 .index-13{
   z-index: 13;
 }
+
+/* ===========================
+   QUILL DARK MODE COMPLETE FIX
+=========================== */
+
+.dark .ql-toolbar {
+  background: hsl(var(--card)) !important;
+  border-bottom: 1px solid hsl(var(--border)) !important;
+}
+
+/* Toolbar text */
+.dark .ql-toolbar .ql-picker-label,
+.dark .ql-toolbar .ql-picker-item {
+  color: hsl(var(--foreground)) !important;
+}
+
+/* Dropdown background */
+.dark .ql-toolbar .ql-picker-options {
+  background: hsl(var(--popover)) !important;
+  border: 1px solid hsl(var(--border)) !important;
+}
+
+/* ===== ICONS FIX ===== */
+
+/* Stroke icons (bold, italic, underline, list, link etc.) */
+.dark .ql-snow .ql-stroke {
+  stroke: hsl(var(--foreground)) !important;
+}
+
+/* Fill icons */
+.dark .ql-snow .ql-fill {
+  fill: hsl(var(--foreground)) !important;
+}
+
+/* Mixed icons */
+.dark .ql-snow .ql-stroke.ql-fill {
+  fill: hsl(var(--foreground)) !important;
+  stroke: hsl(var(--foreground)) !important;
+}
+
+/* Picker arrows */
+.dark .ql-snow .ql-picker-label::before {
+  color: hsl(var(--foreground)) !important;
+}
+
+/* Active icon */
+.dark .ql-snow .ql-toolbar button.ql-active .ql-stroke,
+.dark .ql-snow .ql-toolbar button.ql-active .ql-fill {
+  stroke: hsl(var(--primary)) !important;
+  fill: hsl(var(--primary)) !important;
+}
+
+/* Hover effect */
+.dark .ql-toolbar button:hover {
+  background: hsl(var(--muted)) !important;
+}
+
+/* Editor background + text */
+.dark .ql-container {
+  background: hsl(var(--card)) !important;
+  color: hsl(var(--foreground)) !important;
+}
+
+/* Placeholder */
+.dark .ql-editor.ql-blank::before {
+  color: hsl(var(--muted-foreground)) !important;
+}
+.ql-toolbar {
+  border-radius: 12px 12px 0 0;
+}
+
+.ql-container {
+  border-radius: 0 0 12px 12px;
+}

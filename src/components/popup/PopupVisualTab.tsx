@@ -1,4 +1,4 @@
-"use client";
+
 
 import { Plus, X } from "lucide-react";
 import {

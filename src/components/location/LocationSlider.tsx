@@ -1,4 +1,4 @@
-"use client";
+
 
 import { forwardRef, useImperativeHandle, useState } from "react";
 import { Plus, Pencil, Trash2 } from "lucide-react";

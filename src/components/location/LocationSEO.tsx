@@ -1,4 +1,4 @@
-"use client";
+
 
 import { forwardRef, useEffect, useImperativeHandle, useRef, useState } from "react";
 import DescriptionEditor from "../treatment/DescriptionEditor";
