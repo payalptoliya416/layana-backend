@@ -10,6 +10,7 @@ import { useAuth } from '@/hooks/useAuth';
 import { isAuthenticated } from '@/services/authService';
 import LayanLogo from '@/assets/LayanLogo.png';
 import { cn } from '@/lib/utils';
+import { Eye, EyeOff } from "lucide-react";
 
 const loginSchema = z.object({
   email: z.string().min(1, 'Email is required').email('Please enter a valid email'),
@@ -21,7 +22,7 @@ type LoginFormData = z.infer<typeof loginSchema>;
 const Login: React.FC = () => {
   const navigate = useNavigate();
   const { login, loading, error, success } = useAuth();
-
+const [showPassword, setShowPassword] = useState(false);
   useEffect(() => {
   document.documentElement.classList.remove("dark");
 
@@ -129,19 +130,31 @@ const Login: React.FC = () => {
           Password
         </label>
 
-        <Input
-          id="password"
-          type="password"
-          placeholder="Enter your password"
-          className={cn(
-            "h-12 rounded-xl bg-background placeholder:text-muted-foreground transition-all",
-            errors.password
-              ? "border-destructive focus:ring-destructive/30"
-              : "border-input focus:ring-primary/30"
-          )}
-          {...register("password")}
-          disabled={loading}
-        />
+          <div className="relative">
+    <Input
+      id="password"
+      type={showPassword ? "text" : "password"}
+      placeholder="Enter your password"
+      className={cn(
+        "h-12 rounded-xl bg-background placeholder:text-muted-foreground transition-all pr-10",
+        errors.password
+          ? "border-destructive focus:ring-destructive/30"
+          : "border-input focus:ring-primary/30"
+      )}
+      {...register("password")}
+      disabled={loading}
+    />
+
+    {/* Eye Icon Button */}
+    <button
+      type="button"
+      onClick={() => setShowPassword(!showPassword)}
+      className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground"
+    >
+      {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
+    </button>
+  </div>
+
 
         {errors.password && (
           <p className="mt-1.5 text-sm text-destructive">
