@@ -13,10 +13,10 @@ import {
 import { useEffect, useState } from "react";
 import { getLocations } from "../api/webLocationService";
 import Loader from "./Loader";
-import { withBase } from "./Header";
-import { Link, useLocation, useParams } from "react-router-dom";
+import { Link, useLocation, useNavigate, useParams } from "react-router-dom";
 import { toast } from "sonner";
 import { submitEnquiry } from "../api/enquiryService";
+import { getTreatmentCategories } from "../api/treatments.api";
 
 const socialLinks = [
   {
@@ -49,8 +49,29 @@ const [loading, setLoading] = useState(true);
   const [message, setMessage] = useState("");
   const [error, setError] = useState("");
   const DEFAULT_LOCATION_SLUG = "finchley-central";
-
+  const [categories, setCategories] = useState<any[]>([]);
+const [categoriesLoading, setCategoriesLoading] = useState(true);
+const navigate = useNavigate();
     /* ================= RESOLVE LOCATION ID ================= */
+
+useEffect(() => {
+  const fetchCategories = async () => {
+    try {
+      setCategoriesLoading(true);
+
+      const res = await getTreatmentCategories();
+
+      setCategories(res?.data ?? []);
+    } catch (err) {
+      console.error("Failed to load categories");
+    } finally {
+      setCategoriesLoading(false);
+    }
+  };
+
+  fetchCategories();
+}, []);
+
 useEffect(() => {
   const fetchLocations = async () => {
     setLoading(true);
@@ -97,6 +118,17 @@ useEffect(() => {
   fetchData();
 }, []);
 
+useEffect(() => {
+  if (error || message) {
+    const timer = setTimeout(() => {
+      setError("");
+      setMessage("");
+    }, 4000); // 4 seconds
+
+    return () => clearTimeout(timer);
+  }
+}, [error, message]);
+
 const handleNewsletterSubmit = async () => {
   setMessage("");
   setError("");
@@ -117,6 +149,7 @@ const handleNewsletterSubmit = async () => {
     const res = await submitEnquiry({
       location_id: resolvedLocationId,
       email: newsletterEmail,
+      type: "subscribe",
     });
      if (res?.success) {
     setMessage("Subscribed successfully!");
@@ -148,7 +181,7 @@ useEffect(() => {
         <div className="relative z-10 max-w-3xl px-6">
           {/* arrow */}
          <a
-          href={withBase("#")}
+          href="#"
           className="
             group
             w-[53px] h-[53px] mx-auto rounded-full
@@ -250,7 +283,7 @@ useEffect(() => {
 
               {/* Logo */}
               <div className="col-span-12 sm:col-span-6 lg:col-span-4 flex justify-center sm:border-l lg:border-y-0 lg:border border-[#f6eee9]  py-[36px]">
-                <Link to={withBase("/")}>
+                <Link to="#">
                 <img src={white_logo} alt="Layana" className="h-[80px]" />
                 </Link>
               </div>
@@ -343,8 +376,8 @@ useEffect(() => {
                     { label: "Services", href: "#" },
                     { label: "About Us", href: "#" },
                     { label: "Price Plan", href: "#" },
-                    { label: "Contact", href: "#" },
-                    { label: "Terms & Conditions", href: "#" },
+                    { label: "Contact", href: "/contact-us" },
+                    { label: "Terms & Conditions", href: "/term-condition" },
                   ].map((item) => (
                     <li key={item.label}>
                       <a
@@ -364,24 +397,28 @@ useEffect(() => {
                   CATEGORIES
                 </h4>
                 <ul className="space-y-3 text-sm">
-                  {[
-                    "Pigmentation Removal",
-                    "Deep Tissue Massage",
-                    "Fragrance",
-                    "Haircare",
-                    "Bath & Body",
-                  ].map((item) => (
-                    <li key={item}>
-                      <a
-                        href={withBase("#")}
-                        className="flex items-center gap-2 uppercase text-[#BEBEBE] hover:text-white cursor-pointer"
-                      >
-                        <ChevronRight size={14} className="text-[#f6eee9]" />
-                        {item}
-                      </a>
-                    </li>
-                  ))}
-                </ul>
+    {categoriesLoading ? (
+      <li className="text-[#BEBEBE]">Loading...</li>
+    ) : categories.length === 0 ? (
+      <li className="text-[#BEBEBE]"></li>
+    ) : (
+      categories.map((cat) => (
+        <li key={cat.id}>
+         <button
+  onClick={() =>
+    navigate("/treatments", {
+      state: { categoryId: cat.id },
+    })
+  }
+            className="flex items-center gap-2 uppercase text-[#BEBEBE] hover:text-white cursor-pointer"
+          >
+            <ChevronRight size={14} className="text-[#f6eee9]" />
+            {cat.name}
+          </button>
+        </li>
+      ))
+    )}
+  </ul>
               </div>
 
               <div className="col-span-12 sm:col-span-6 lg:col-span-3">
@@ -397,7 +434,7 @@ useEffect(() => {
     locations.map((loc , index) => (
       <a
         key={loc.id}
-        href={withBase(`${loc.slug}`)}
+        href={`${loc.slug}`}
         className="flex gap-4 border-b last:border-b-0 border-[#f6eee9] pb-[21px] items-center"
       >
         {/* image */}

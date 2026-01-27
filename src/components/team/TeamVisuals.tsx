@@ -44,7 +44,7 @@ useEffect(() => {
 }, [initialImages]);
 
     return (
-      <div className="mt-6">
+      <div className="">
         <p className="mb-2 text-sm font-medium">
          Images 
         </p>

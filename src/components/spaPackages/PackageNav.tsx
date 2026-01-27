@@ -10,7 +10,7 @@ interface PackageNavItem {
 
 const packageNavItems: PackageNavItem[] = [
   { icon: Users, label: "General", id: "general" },
-  { icon: MapPin, label: "Branch", id: "branches" },
+  { icon: MapPin, label: "Active Branches", id: "branches" },
   { icon: Image, label: "Visual", id: "visual" },
   { icon: PoundSterling, label: "Price", id: "pricing" },
 ];

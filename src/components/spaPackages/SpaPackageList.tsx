@@ -19,8 +19,6 @@ import {
   AlertDialogTitle,
   AlertDialogDescription,
   AlertDialogFooter,
-  AlertDialogCancel,
-  AlertDialogAction,
 } from "@/components/ui/alert-dialog";
 
 import {
@@ -275,7 +273,7 @@ const allPackages = await getAllSpaPackages(totalCount);
 };
 
 const handleEdit = (id: number) => {
-navigate(`/packages-list/packages/edit/${id}`);
+navigate(`/admin/packages-list/packages/edit/${id}`);
 };
 
 const handleDelete = async () => {
@@ -383,7 +381,7 @@ const handleDelete = async () => {
                     </div>
 
                         <button
-            onClick={() => navigate("/packages-list/packages")}
+            onClick={() => navigate("/admin/packages-list/packages")}
             className="
                 flex items-center gap-2
                 rounded-full

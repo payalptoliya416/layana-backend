@@ -1,5 +1,4 @@
-import { useLocation, useNavigate } from "react-router-dom";
-import { withBase } from "../Header";
+import { useLocation } from "react-router-dom";
 import CommonButton from "./CommonButton";
 import { saveTreatmentId } from "./SaveTretmentId";
 
@@ -32,10 +31,8 @@ export default function ServiceCard({
 
   const location = useLocation();
 
-  // current path: /websiteurl/finchley-central
   const pathParts = location.pathname.split("/").filter(Boolean);
 
-  // last known location slug (finchley-central)
   const currentLocationSlug = pathParts[pathParts.length - 1];
 
   const finalLink = link?.startsWith("/")
@@ -65,7 +62,7 @@ export default function ServiceCard({
         </h3>
 
         <CommonButton
-          to={withBase(finalLink)}
+          to={finalLink}
           onClickCapture={() => {
             saveTreatmentIdData(id);
           }}

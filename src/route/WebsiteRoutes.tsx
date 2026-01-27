@@ -24,9 +24,7 @@ function WebsiteRoutes() {
     <>
       <ScrollToTop />
       {/*
-        <Route path="/team" element={<Team/>}/>
-        <Route path="/term-condition" element={<TermCondition/>}/>
-    
+        <Route path="/team" element={<Team/>}/>    
         <Route path="/treatments/beauty" element={<Beauty/>}/>
         <Route path="/treatments/beauty-nail" element={<BeautyNail/>}/>
         <Route path="/treatments/beauty-waxing" element={<BeautyWaxing/>}/>
@@ -63,9 +61,12 @@ function WebsiteRoutes() {
 
           {/* ================= PRICES ================= */}
           <Route path="/book-consultaion" element={<BookCounsultation />} />
+
+          {/* ================= TERM & CONDITION ================= */}
+            <Route path="/term-condition" element={<TermCondition/>}/>
         </Route>
 
-        <Route path="*" element={<Navigate to="/websiteurl" replace />} />
+        <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
     </>
   );

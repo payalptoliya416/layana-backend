@@ -23,35 +23,35 @@ const items = [
     icon: Building2,
     gradient: "from-[#14878E]/10 to-transparent",
     iconBg: "#14878E",
-    path: "/settings/category",
+    path: "/admin/settings/category",
   },
   {
     title: "Location",
     icon: MapPin,
     gradient: "from-[#EF4444]/10 to-transparent",
     iconBg: "#EF4444",
-    path: "/settings/location",
+    path: "/admin/settings/location",
   },
    {
     title: "Terms & Condition",
     icon: FileText, 
     gradient: "from-[#6366F1]/10 to-transparent", 
     iconBg: "#6366F1",
-    path: "/settings/terms-condition", 
+    path: "/admin/settings/terms-condition", 
   },
  {
     title: "Global Book Now",
     icon: Link2,          
     gradient: "from-[#22C55E]/10 to-transparent",
     iconBg: "#22C55E",
-    path: "/settings/global-booking",
+    path: "/admin/settings/global-booking",
   },
 {
   title: "Booked Consultation List",
   icon: ClipboardList,              // better for list / records
   gradient: "from-[#F59E0B]/10 to-transparent", // amber / orange tone
   iconBg: "#F59E0B",
-  path: "/settings/booked-consultation-list",
+  path: "/admin/settings/booked-consultation-list",
 },
 ];
 

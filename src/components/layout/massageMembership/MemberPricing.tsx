@@ -501,8 +501,9 @@ const MemberPricing = forwardRef<
                     <div>
                       <span className="text-sm block mb-2">Duration</span>
                       <input
-                        className="h-10 w-full rounded-lg border px-3"
+                        className="h-10 w-full rounded-lg border border-input bg-card px-3 text-sm focus:ring-2 focus:ring-ring/20 outline-none"
                         value={duration}
+                         placeholder="Min"
                         onChange={(e) => setDuration(e.target.value)}
                       />
                     </div>
@@ -510,8 +511,9 @@ const MemberPricing = forwardRef<
                     <div>
                       <span className="text-sm block mb-2">Offer</span>
                       <input
-                        className="h-10 w-full rounded-lg border px-3"
+                        className="h-10 w-full rounded-lg border border-input bg-card px-3 text-sm focus:ring-2 focus:ring-ring/20 outline-none"
                         value={offerPrice}
+                        placeholder="£00"
                         onChange={(e) => setOfferPrice(e.target.value)}
                       />
                     </div>
@@ -519,8 +521,9 @@ const MemberPricing = forwardRef<
                     <div>
                       <span className="text-sm block mb-2">Each</span>
                       <input
-                        className="h-10 w-full rounded-lg border px-3"
+                        className="h-10 w-full rounded-lg border border-input bg-card px-3 text-sm focus:ring-2 focus:ring-ring/20 outline-none"
                         value={eachPrice}
+                        placeholder="£00"
                         onChange={(e) => setEachPrice(e.target.value)}
                       />
                     </div>
@@ -528,8 +531,9 @@ const MemberPricing = forwardRef<
                     <div>
                       <span className="text-sm block mb-2">Price</span>
                       <input
-                        className="h-10 w-full rounded-lg border px-3"
+                        className="h-10 w-full rounded-lg border border-input bg-card px-3 text-sm focus:ring-2 focus:ring-ring/20 outline-none"
                         value={price}
+                        placeholder="£00"
                         onChange={(e) => setPrice(e.target.value)}
                       />
                     </div>

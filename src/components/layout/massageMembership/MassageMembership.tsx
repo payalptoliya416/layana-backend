@@ -276,7 +276,7 @@ const handleDragEnd = async (event: DragEndEvent) => {
   };
 
   const handleEdit = (id: number) => {
-    navigate(`/massage-membership/edit/${id}`);
+    navigate(`/admin/massage-membership/edit/${id}`);
   };
 
   return (
@@ -366,7 +366,7 @@ const handleDragEnd = async (event: DragEndEvent) => {
                   )}
                 </div>
                 <button
-                  onClick={() => navigate("/massage-membership/add")}
+                  onClick={() => navigate("/admin/massage-membership/add")}
                   className="
                         flex items-center gap-2
                         rounded-full

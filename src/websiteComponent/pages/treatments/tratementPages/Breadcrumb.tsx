@@ -1,6 +1,5 @@
 import { Link, useParams, useLocation } from "react-router-dom";
 import { slugToTitle } from "./slugToTitle";
-import { withBase } from "@/websiteComponent/common/Header";
 
 export function Breadcrumb() {
   const { locationSlug } = useParams();
@@ -17,7 +16,7 @@ export function Breadcrumb() {
       
       {/* LOCATION */}
       <Link
-        to={withBase(`/${locationSlug}`)}
+        to={`/${locationSlug}`}
         className="hover:underline"
       >
         {slugToTitle(locationSlug)}
@@ -28,7 +27,7 @@ export function Breadcrumb() {
         <>
           <span>/</span>
           <Link
-            to={withBase(`/${locationSlug}/treatments`)}
+            to={`/${locationSlug}/treatments`}
             className="hover:underline"
           >
             Treatments

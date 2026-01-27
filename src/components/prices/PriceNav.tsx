@@ -10,7 +10,7 @@ interface PriceNavItem {
 
 const PriceNavItems: PriceNavItem[] = [
   { icon: Users, label: "General", id: "general" },
-  { icon: MapPin, label: "Branch", id: "branches" },
+  { icon: MapPin, label: "Active Branches", id: "branches" },
   { icon: PoundSterling, label: "Price", id: "pricing" },
 ];
 

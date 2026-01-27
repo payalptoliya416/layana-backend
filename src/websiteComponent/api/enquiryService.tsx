@@ -8,6 +8,7 @@ export type EnquiryPayload = {
   email: string;
   mobile?: string;
   message?: string;
+  type: string;
 };
 
 export type EnquiryResponse = {

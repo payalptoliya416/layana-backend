@@ -1,5 +1,7 @@
 
 @import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Mulish:wght@400;500;600;700&family=Quattrocento:wght@400;700&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Lato:wght@400;700&family=Montserrat:wght@400;500;600;700&family=Open+Sans:wght@400;500;600;700&family=Playfair+Display:wght@400;500;600;700&family=Poppins:wght@400;500;600;700&family=Roboto:wght@400;500;700&family=Mulish:wght@400;500;600;700&family=Quattrocento:wght@400;700&display=swap");
 
 
 @tailwind base;
@@ -892,11 +894,25 @@ body {
   padding-bottom: 150px; 
 }
 }
-.ql-container {
-  height: 100% !important;
-}
 
 .ql-editor {
   height: 100% !important;
   overflow-y: auto !important;
+}
+.ql-snow .ql-picker.ql-font .ql-picker-label[data-value="mulish"]::before,
+.ql-snow .ql-picker.ql-font .ql-picker-item[data-value="mulish"]::before {
+  content: "Mulish";
+  font-family: "Mulish", sans-serif;
+}
+
+.ql-snow .ql-picker.ql-font .ql-picker-label[data-value="quattrocento"]::before,
+.ql-snow .ql-picker.ql-font .ql-picker-item[data-value="quattrocento"]::before {
+  content: "Quattrocento";
+  font-family: "Quattrocento", serif;
+}
+
+.ql-snow .ql-picker.ql-font .ql-picker-label[data-value="muli"]::before,
+.ql-snow .ql-picker.ql-font .ql-picker-item[data-value="muli"]::before {
+  content: "Muli";
+  font-family: "Muli";
 }

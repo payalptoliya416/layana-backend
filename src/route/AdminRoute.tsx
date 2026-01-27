@@ -30,10 +30,8 @@ import NotFound from "@/pages/NotFound";
 
 const AdminRoutes = () => (
   <Routes>
-    {/* Login Route */}
     <Route path="/login" element={<Login />} />
 
-    {/* Protected Dashboard Route */}
     <Route
       path="/dashboard"
       element={
@@ -149,7 +147,7 @@ const AdminRoutes = () => (
     />
 
     {/* Redirect root to login */}
-    <Route path="/" element={<Navigate to="/login" replace />} />
+    <Route path="/" element={<Navigate to="/admin/login" replace />} />
     <Route
       path="/treatments-list/treatments/edit/:id"
       element={

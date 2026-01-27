@@ -31,29 +31,29 @@ interface NavItem {
 }
 
 const navItems: NavItem[] = [
-  { icon: LayoutDashboard, label: "Dashboard", href: "/dashboard" },
-  { icon: House, label: "Home", href: "/home" },
-  { icon: Sparkles, label: "Treatments", href: "/treatments-list" },
-  { icon: Package, label: "Spa Packages", href: "/packages-list" },
-  { icon: Users, label: "Team", href: "/team" },
+  { icon: LayoutDashboard, label: "Dashboard", href: "/admin/dashboard" },
+  { icon: House, label: "Home", href: "/admin/home" },
+  { icon: Sparkles, label: "Treatments", href: "/admin/treatments-list" },
+  { icon: Package, label: "Spa Packages", href: "/admin/packages-list" },
+  { icon: Users, label: "Team", href: "/admin/team" },
   {
     icon: UserCheck,
     label: "Memberships",
     children: [
       {
         label: "Memberships",
-        href: "/massage-membership",
+        href: "/admin/massage-membership",
       },
       {
         label: "FAQ's",
-        href: "/membership-faqs",
+        href: "/admin/membership-faqs",
       },
     ],
   },
-  { icon: Package, label: "Popup", href: "/popup" },
-  { icon: Album, label: "Enquiry", href: "/enquiry" },
-  { icon: Bolt, label: "Bussiness Settings", href: "/settings" },
-  // { icon: BadgePercent, label: "Pricing", href: "/prices" },
+  { icon: Package, label: "Popup", href: "/admin/popup" },
+  { icon: Album, label: "Enquiry", href: "/admin/enquiry" },
+  { icon: Bolt, label: "Bussiness Settings", href: "/admin/settings" },
+  // { icon: BadgePercent, label: "Pricing", href: "/admin/prices" },
 ];
 
 interface SidebarProps {
@@ -115,7 +115,7 @@ const isExpanded =
 
   const isActive = item.href
     ? location.pathname === item.href ||
-      location.pathname.startsWith(item.href + "/")
+      location.pathname.startsWith(item.href + "/admin")
     : isExpanded;
 
   return (
@@ -221,7 +221,7 @@ const isExpanded =
       {item.children.map((child) => {
         const isChildActive =
           location.pathname === child.href ||
-          location.pathname.startsWith(child.href + "/");
+          location.pathname.startsWith(child.href + "/admin");
 
         return (
           <button
@@ -290,7 +290,7 @@ const isExpanded =
       </div>
 
       {/* Navigation */}
-      <nav className="flex-1 overflow-y-auto scrollbar-thin px-3 py-2 space-y-1">
+      <nav className="flex-1 overflow-y-auto scrollbar-thin px-3 my-2 space-y-1">
         {navItems.map((item) => (
           <div key={item.label}>
              <NavItemContent item={item} collapsed={collapsed} />

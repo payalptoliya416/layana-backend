@@ -308,7 +308,7 @@ const handleDragEnd = async (event: any) => {
   };
 
   const handleEdit = (id: number) => {
-    navigate(`/team/edit/${id}`);
+    navigate(`/admin/team/edit/${id}`);
   };
 
   const handleFeaturedToggle = async (id: number, value: boolean) => {
@@ -407,7 +407,7 @@ const handleDragEnd = async (event: any) => {
                   )}
                 </div>
                 <button
-                  onClick={() => navigate("/team/add")}
+                  onClick={() => navigate("/admin/team/add")}
                   className="
                         flex items-center gap-2
                         rounded-full

@@ -360,11 +360,21 @@ export default function EnquiryList() {
             setViewData(null);
           }}
         >
-          <AlertDialogContent className="max-w-[700px] rounded-2xl p-6 bg-card">
+          <AlertDialogContent
+  className="
+    max-w-[700px]
+    rounded-2xl
+    p-6
+    bg-card
+    text-foreground
+    border border-border
+    shadow-xl
+  "
+>
             <AlertDialogHeader>
-              <AlertDialogTitle className="text-xl">
-                Enquiry Details
-              </AlertDialogTitle>
+              <AlertDialogTitle className="text-xl font-semibold text-foreground">
+  Enquiry Details
+</AlertDialogTitle>
             </AlertDialogHeader>
 
             {loadingView ? (
@@ -373,28 +383,30 @@ export default function EnquiryList() {
               viewData && (
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-sm">
                   <div>
-                    <p className="text-muted-foreground">Name</p>
-                    <p className="font-medium">{viewData.name}</p>
+                       <p className="text-muted-foreground">Name</p>
+    <p className="font-medium text-foreground">{viewData.name}</p>
                   </div>
 
                   <div>
-                    <p className="text-muted-foreground">Email</p>
-                    <p className="font-medium">{viewData.email}</p>
+                      <p className="text-muted-foreground">Email</p>
+    <p className="font-medium text-foreground">{viewData.email}</p>
                   </div>
 
                   <div>
-                    <p className="text-muted-foreground">Mobile</p>
-                    <p className="font-medium">{viewData.mobile}</p>
+                   <p className="text-muted-foreground">Mobile</p>
+    <p className="font-medium text-foreground">{viewData.mobile}</p>
                   </div>
 
                   <div>
                     <p className="text-muted-foreground">Location</p>
-                    <p className="font-medium">{viewData.location?.name}</p>
+    <p className="font-medium text-foreground">
+      {viewData.location?.name}
+    </p>
                   </div>
 
                   <div>
                     <p className="text-muted-foreground">Message</p>
-                    <div className="mt-1 bg-card">{viewData.message}</div>
+                    <div className="mt-1 bg-card text-foreground">{viewData.message}</div>
                   </div>
                 </div>
               )

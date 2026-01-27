@@ -17,6 +17,10 @@ const fontWhitelist = [
   "montserrat",
   "poppins",
   "playfair-display",
+
+  "mulish",
+  "quattrocento",
+  "muli",
 ];
 
 Font.whitelist = fontWhitelist;
@@ -63,20 +67,32 @@ const fontStyles = `
   .ql-snow .ql-picker.ql-font .ql-picker-item[data-value="poppins"]::before { content: "Poppins"; font-family: "Poppins", sans-serif; }
   .ql-snow .ql-picker.ql-font .ql-picker-label[data-value="playfair-display"]::before,
   .ql-snow .ql-picker.ql-font .ql-picker-item[data-value="playfair-display"]::before { content: "Playfair Display"; font-family: "Playfair Display", serif; }
+.ql-font-mulish { font-family: "Mulish", sans-serif; }
+.ql-font-quattrocento { font-family: "Quattrocento", serif; }
+.ql-font-muli { font-family: "Muli"; }
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Poppins:wght@400;500;600;700&family=Mulish:wght@400;500;600;700&family=Quattrocento:wght@400;700&display=swap");
 
-  .ql-snow .ql-picker.ql-font { width: 150px; }
+.ql-font-mulish { font-family: "Mulish", sans-serif; }
+.ql-font-quattrocento { font-family: "Quattrocento", serif; }
+
+    .ql-snow .ql-picker.ql-font .ql-picker-options {
+    max-height: 180px !important;
+    overflow-y: auto !important;
+  }
 `;
 
 interface DescriptionEditorProps {
   value: string;
   onChange: (value: string) => void;
-  fullHeight?: boolean;
+    fullHeight?: boolean;
+  height?: string;
 }
 
 export default function TermsDescriptionEditor({
   value,
   onChange,
-  fullHeight = false,
+    fullHeight = false,
+  height = "260px",
 }: DescriptionEditorProps) {
   
   useEffect(() => {
@@ -126,9 +142,12 @@ const modules = {
     "link",
     "image",
   ];
-
+  const editorHeight = fullHeight ? "100%" : height;
   return (
-    <div className={`flex flex-col ${fullHeight ? "h-full" : ""}`}>
+        <div
+      className={`flex flex-col ${fullHeight ? "h-full" : ""}`}
+      style={{ height: editorHeight }}
+    >
       <div
         className="
           flex-1
@@ -150,6 +169,21 @@ const modules = {
           placeholder="Enter Description"
           className="h-full"
         />
+       <style>
+  {`
+    .ql-container {
+      height: calc(100% - 42px) !important;
+      overflow-y: auto !important;
+    }
+
+    .ql-editor {
+      height: 100% !important;
+      overflow-y: auto !important;
+      padding-bottom: 80px; /* ✅ Extra space so last text visible */
+      box-sizing: border-box;
+    }
+  `}
+</style>
       </div>
     </div>
   );

@@ -44,7 +44,11 @@ import SwitchToggle from "../treatment/Toggle";
 import { deleteTeam, TeamPayload, updateTeam } from "@/services/teamService";
 import { useAutoRows } from "@/hooks/useAutoRows";
 import { getAllTeams } from "../team/getAllTeams";
-import { BookedConsultation, getBookedConsultationById, getBookedConsultations } from "@/services/bookedConsultation";
+import {
+  BookedConsultation,
+  getBookedConsultationById,
+  getBookedConsultations,
+} from "@/services/bookedConsultation";
 
 type Consultation = BookedConsultation;
 
@@ -53,9 +57,8 @@ export type Category = {
   name: string;
   status: "Live" | "Draft";
 };
-   
-const GRID_COLS =
-  "40px 150px 170px 260px 160px 140px 220px 60px";
+
+const GRID_COLS = "40px 150px 170px 260px 160px 140px 220px 60px";
 
 function SortableRow({
   item,
@@ -78,14 +81,18 @@ function SortableRow({
     <div ref={setNodeRef} style={style}>
       {/* ================= DESKTOP ROW ================= */}
       <div
-      data-row
+        data-row
         className={cn(
           "hidden 2xl:flex items-center px-4 py-3 mx-4 my-1 rounded-xl",
           index % 2 === 0 ? "bg-card" : "bg-muted",
-          "hover:bg-muted/70"
+          "hover:bg-muted/70",
         )}
       >
-        <div {...attributes} {...listeners} className="w-10 text-center cursor-grab">
+        <div
+          {...attributes}
+          {...listeners}
+          className="w-10 text-center cursor-grab"
+        >
           {index + 1}
         </div>
 
@@ -109,17 +116,22 @@ function SortableRow({
       <div className="2xl:hidden mx-3 my-2 rounded-xl border bg-card p-4 space-y-2">
         <div className="">
           <div>
-            <p className="font-medium">{item.firstName} {item.lastName}</p>
+            <p className="font-medium">
+              {item.firstName} {item.lastName}
+            </p>
             <p className="text-sm">{item.email}</p>
             <p className="text-sm">{item.mobile}</p>
-            <p className="text-sm">{item.type} • {item.treatments}</p>
+            <p className="text-sm">
+              {item.type} • {item.treatments}
+            </p>
           </div>
           <div className="flex justify-end">
-          <button
-            onClick={() => onView(item.id)}
-          >
-            <EyeIcon  size={18} className="cursor-pointer text-muted-foreground hover:text-foreground"/>
-          </button>
+            <button onClick={() => onView(item.id)}>
+              <EyeIcon
+                size={18}
+                className="cursor-pointer text-muted-foreground hover:text-foreground"
+              />
+            </button>
           </div>
         </div>
       </div>
@@ -134,62 +146,63 @@ function BookConsultationList() {
   const [search, setSearch] = useState("");
   const [debouncedSearch, setDebouncedSearch] = useState("");
   const { containerRef, rowsPerPage } = useAutoRows();
-const [viewId, setViewId] = useState<number | null>(null);
-const [viewData, setViewData] = useState<Consultation | null>(null);
-const [loadingView, setLoadingView] = useState(false);
+  const [viewId, setViewId] = useState<number | null>(null);
+  const [viewData, setViewData] = useState<Consultation | null>(null);
+  const [loadingView, setLoadingView] = useState(false);
+
   const sensors = useSensors(
     useSensor(PointerSensor, {
       activationConstraint: { distance: 5 },
     }),
-    useSensor(KeyboardSensor)
+    useSensor(KeyboardSensor),
   );
 
   const [page, setPage] = useState(1);
   const [pagination, setPagination] = useState<any>(null);
   const [sortBy, setSortBy] = useState<
-  "id" | "firstName" | "lastName" | "email" | "mobile" | "type" | "treatments"
->("id");
+    "id" | "firstName" | "lastName" | "email" | "mobile" | "type" | "treatments"
+  >("id");
   const [sortDirection, setSortDirection] = useState<"asc" | "desc">("desc");
   const [teams, setTeams] = useState<Consultation[]>([]);
   const [isDeleting, setIsDeleting] = useState(false);
   const [deleteId, setDeleteId] = useState<number | null>(null);
- 
-const fetchTeams = async () => {
-  if (!rowsPerPage) return;
 
-  try {
-    const res = await getBookedConsultations({
-      page,
-      perPage: rowsPerPage,
-      search: debouncedSearch,
-      sortBy,
-      sortDirection,
-    });
-     setTeams(res?.data ?? []);
-     setPagination(res?.pagination ?? []);
-  } catch (e) {
-    setTeams([]);
-  }
-};
+  const fetchTeams = async () => {
+    if (!rowsPerPage) return;
 
-useEffect(() => {
+    try {
+      const res = await getBookedConsultations({
+        page,
+        perPage: rowsPerPage,
+        search: debouncedSearch,
+        sortBy,
+        sortDirection,
+      });
+      setTeams(res?.data ?? []);
+      setPagination(res?.pagination ?? []);
+    } catch (e) {
+      setTeams([]);
+    }
+  };
+
+  useEffect(() => {
     fetchTeams();
   }, [page, rowsPerPage, sortBy, sortDirection, debouncedSearch]);
 
-const handleView = async (id: number) => {
-  try {
-    setLoadingView(true);
-    setViewId(id);
+  const handleView = async (id: number) => {
+    try {
+      setLoadingView(true);
+      setViewId(id);
 
-    const data = await getBookedConsultationById(id);
+      const data = await getBookedConsultationById(id);
 
-    setViewData(data);
-  } catch {
-    toast.error("Failed to load consultation");
-  } finally {
-    setLoadingView(false);
-  }
-};
+      setViewData(data);
+    } catch {
+      toast.error("Failed to load consultation");
+    } finally {
+      setLoadingView(false);
+    }
+  };
 
   useEffect(() => {
     const delay = setTimeout(() => {
@@ -200,54 +213,49 @@ const handleView = async (id: number) => {
     return () => clearTimeout(delay);
   }, [search]);
 
-const handleDragEnd = async (event: any) => {
-  const { active, over } = event;
-  if (!over || active.id === over.id) return;
+  const handleDragEnd = async (event: any) => {
+    const { active, over } = event;
+    if (!over || active.id === over.id) return;
 
-  // UI instant reorder (UX only)
-  const oldIndex = teams.findIndex((i) => i.id === active.id);
-  const newIndex = teams.findIndex((i) => i.id === over.id);
+    // UI instant reorder (UX only)
+    const oldIndex = teams.findIndex((i) => i.id === active.id);
+    const newIndex = teams.findIndex((i) => i.id === over.id);
 
-  if (oldIndex !== -1 && newIndex !== -1) {
-    setTeams((prev) => arrayMove(prev, oldIndex, newIndex));
-  }
+    if (oldIndex !== -1 && newIndex !== -1) {
+      setTeams((prev) => arrayMove(prev, oldIndex, newIndex));
+    }
 
-  try {
-    // 1️⃣ get total count
-    const totalCount = await getTableCount("staff_team");
+    try {
+      // 1️⃣ get total count
+      const totalCount = await getTableCount("staff_team");
 
-    // 2️⃣ fetch ALL records dynamically
-    const allTeams = await getAllTeams(totalCount);
+      // 2️⃣ fetch ALL records dynamically
+      const allTeams = await getAllTeams(totalCount);
 
-    // 3️⃣ match dragged & target
-    const fromIndex = allTeams.findIndex(
-      (t) => t.id === active.id
-    );
-    const toIndex = allTeams.findIndex(
-      (t) => t.id === over.id
-    );
+      // 3️⃣ match dragged & target
+      const fromIndex = allTeams.findIndex((t) => t.id === active.id);
+      const toIndex = allTeams.findIndex((t) => t.id === over.id);
 
-    if (fromIndex === -1 || toIndex === -1) return;
+      if (fromIndex === -1 || toIndex === -1) return;
 
-    // 4️⃣ global reorder
-    const reordered = arrayMove(allTeams, fromIndex, toIndex);
+      // 4️⃣ global reorder
+      const reordered = arrayMove(allTeams, fromIndex, toIndex);
 
-    // 5️⃣ rebuild indexes (MATCHED)
-    const payload = reordered.map((item, index) => ({
-      id: item.id,
-      index: index + 1,
-    }));
+      // 5️⃣ rebuild indexes (MATCHED)
+      const payload = reordered.map((item, index) => ({
+        id: item.id,
+        index: index + 1,
+      }));
 
-    // 6️⃣ update DB
-    await reorderteam(payload);
+      // 6️⃣ update DB
+      await reorderteam(payload);
 
-    // 7️⃣ refresh page
-    fetchTeams();
-
-  } catch (error) {
-    fetchTeams();
-  }
-};
+      // 7️⃣ refresh page
+      fetchTeams();
+    } catch (error) {
+      fetchTeams();
+    }
+  };
 
   const handleDeleteConfirm = async () => {
     if (!deleteId) return;
@@ -263,10 +271,6 @@ const handleDragEnd = async (event: any) => {
       setIsDeleting(false);
       setDeleteId(null);
     }
-  };
-
-  const handleEdit = (id: number) => {
-    navigate(`/team/edit/${id}`);
   };
 
   const handleFeaturedToggle = async (id: number, value: boolean) => {
@@ -313,13 +317,17 @@ const handleDragEnd = async (event: any) => {
         <div
           className={cn(
             "flex-1 flex flex-col transition-all duration-300 h-[calc(95vh-24px)] mt-3 px-3 sm:px-5",
-            sidebarCollapsed ? "lg:ml-[96px]" : "lg:ml-[272px]"
+            sidebarCollapsed ? "lg:ml-[96px]" : "lg:ml-[272px]",
           )}
         >
           {/* Sticky Header */}
           <div className="sticky top-3 z-10 pb-3">
-            <PageHeader title="Book Consultation" onMenuClick={() => setSidebarOpen(true)}  onBack={() => navigate(-1)}
-               showBack = {true}/>
+            <PageHeader
+              title="Book Consultation"
+              onMenuClick={() => setSidebarOpen(true)}
+              onBack={() => navigate(-1)}
+              showBack={true}
+            />
           </div>
 
           {/* Content */}
@@ -370,17 +378,17 @@ const handleDragEnd = async (event: any) => {
                 <div className="col-span-12">
                   <div className="w-full rounded-2xl border border-border bg-card flex flex-col h-[calc(100vh-300px)]">
                     {/* ================= HEADER (DESKTOP) ================= */}
-                  <div
-                  className="sticky top-0 z-[9] bg-card border-b hidden 2xl:flex items-center h-[52px] px-4 text-sm font-medium text-primary mx-3"
-                >
-                <div className="w-10 text-center text-muted-foreground">#</div>
+                    <div className="sticky top-0 z-[9] bg-card border-b hidden 2xl:flex items-center h-[52px] px-4 text-sm font-medium text-primary mx-3">
+                      <div className="w-10 text-center text-muted-foreground">
+                        #
+                      </div>
 
                       <div
                         className={`w-[15%] pl-4 border-l cursor-pointer flex items-center justify-between text-left`}
                         onClick={() => {
                           setSortBy("firstName");
                           setSortDirection((p) =>
-                            p === "asc" ? "desc" : "asc"
+                            p === "asc" ? "desc" : "asc",
                           );
                         }}
                       >
@@ -399,7 +407,7 @@ const handleDragEnd = async (event: any) => {
                         onClick={() => {
                           setSortBy("lastName");
                           setSortDirection((p) =>
-                            p === "asc" ? "desc" : "asc"
+                            p === "asc" ? "desc" : "asc",
                           );
                         }}
                       >
@@ -418,11 +426,11 @@ const handleDragEnd = async (event: any) => {
                         onClick={() => {
                           setSortBy("email");
                           setSortDirection((p) =>
-                            p === "asc" ? "desc" : "asc"
+                            p === "asc" ? "desc" : "asc",
                           );
                         }}
                       >
-                       Email{" "}
+                        Email{" "}
                         <span className="flex flex-col gap-1 ml-2 text-muted-foreground leading-none mr-2">
                           <span className="text-[10px]">
                             <img src="/top.png" alt="" />
@@ -437,11 +445,11 @@ const handleDragEnd = async (event: any) => {
                         onClick={() => {
                           setSortBy("mobile");
                           setSortDirection((p) =>
-                            p === "asc" ? "desc" : "asc"
+                            p === "asc" ? "desc" : "asc",
                           );
                         }}
                       >
-                       Mobile{" "}
+                        Mobile{" "}
                         <span className="flex flex-col gap-1 ml-2 text-muted-foreground leading-none mr-2">
                           <span className="text-[10px]">
                             <img src="/top.png" alt="" />
@@ -456,11 +464,11 @@ const handleDragEnd = async (event: any) => {
                         onClick={() => {
                           setSortBy("type");
                           setSortDirection((p) =>
-                            p === "asc" ? "desc" : "asc"
+                            p === "asc" ? "desc" : "asc",
                           );
                         }}
                       >
-                       Type{" "}
+                        Type{" "}
                         <span className="flex flex-col gap-1 ml-2 text-muted-foreground leading-none mr-2">
                           <span className="text-[10px]">
                             <img src="/top.png" alt="" />
@@ -475,11 +483,11 @@ const handleDragEnd = async (event: any) => {
                         onClick={() => {
                           setSortBy("treatments");
                           setSortDirection((p) =>
-                            p === "asc" ? "desc" : "asc"
+                            p === "asc" ? "desc" : "asc",
                           );
                         }}
                       >
-                       Treatments{" "}
+                        Treatments{" "}
                         <span className="flex flex-col gap-1 ml-2 text-muted-foreground leading-none mr-2">
                           <span className="text-[10px]">
                             <img src="/top.png" alt="" />
@@ -493,7 +501,10 @@ const handleDragEnd = async (event: any) => {
                     </div>
 
                     {/* ================= BODY ================= */}
-                    <div ref={containerRef} className="flex-1  overflow-y-auto scrollbar-thin">
+                    <div
+                      ref={containerRef}
+                      className="flex-1  overflow-y-auto scrollbar-thin"
+                    >
                       {!teams || teams.length === 0 ? (
                         <div className="py-10 text-center text-muted-foreground text-sm">
                           No Data found
@@ -518,7 +529,7 @@ const handleDragEnd = async (event: any) => {
                                 key={item.id}
                                 item={item}
                                 index={index}
-                                 onView={handleView}
+                                onView={handleView}
                               />
                             ))}
                           </SortableContext>
@@ -526,98 +537,133 @@ const handleDragEnd = async (event: any) => {
                       )}
                     </div>
                   </div>
-                    {pagination && (
-            <div className="flex items-center justify-center gap-6 px-4 py-2 text-sm text-muted-foreground">
-                <button
-                disabled={pagination.current_page === 1}
-                onClick={() => setPage(1)}
-                className="text-2xl"
-                >
-                «
-                </button>
+                  {pagination && (
+                    <div className="flex items-center justify-center gap-6 px-4 py-2 text-sm text-muted-foreground">
+                      <button
+                        disabled={pagination.current_page === 1}
+                        onClick={() => setPage(1)}
+                        className="text-2xl"
+                      >
+                        «
+                      </button>
 
-                <button
-                disabled={pagination.current_page === 1}
-                onClick={() => setPage((p) => Math.max(1, p - 1))}
-                className="text-2xl"
-                >
-                ‹
-                </button>
+                      <button
+                        disabled={pagination.current_page === 1}
+                        onClick={() => setPage((p) => Math.max(1, p - 1))}
+                        className="text-2xl"
+                      >
+                        ‹
+                      </button>
 
-                <span className="text-foreground font-medium">
-                {pagination.current_page} / {pagination.last_page}
-                </span>
+                      <span className="text-foreground font-medium">
+                        {pagination.current_page} / {pagination.last_page}
+                      </span>
 
-                <button
-                disabled={pagination.current_page === pagination.last_page}
-                onClick={() =>
-                    setPage((p) => Math.min(pagination.last_page, p + 1))
-                }
-                className="text-2xl"
-                >
-                ›
-                </button>
+                      <button
+                        disabled={
+                          pagination.current_page === pagination.last_page
+                        }
+                        onClick={() =>
+                          setPage((p) => Math.min(pagination.last_page, p + 1))
+                        }
+                        className="text-2xl"
+                      >
+                        ›
+                      </button>
 
-                <button
-                disabled={pagination.current_page === pagination.last_page}
-                onClick={() => setPage(pagination.last_page)}
-                className="text-2xl"
-                >
-                »
-                </button>
-            </div>
-            )}
-{viewId && (
-  <AlertDialog open onOpenChange={() => { setViewId(null); setViewData(null); }}>
-    <AlertDialogContent className="max-w-[720px] rounded-2xl p-6 bg-card">
-      <AlertDialogHeader>
-        <AlertDialogTitle>Consultation Details</AlertDialogTitle>
-      </AlertDialogHeader>
+                      <button
+                        disabled={
+                          pagination.current_page === pagination.last_page
+                        }
+                        onClick={() => setPage(pagination.last_page)}
+                        className="text-2xl"
+                      >
+                        »
+                      </button>
+                    </div>
+                  )}
+                  {viewId && (
+                    <AlertDialog
+                      open
+                      onOpenChange={() => {
+                        setViewId(null);
+                        setViewData(null);
+                      }}
+                    >
+                      <AlertDialogContent className="max-w-[720px] rounded-2xl p-6 bg-card">
+                        <AlertDialogHeader>
+                          <AlertDialogTitle>
+                            Consultation Details
+                          </AlertDialogTitle>
+                        </AlertDialogHeader>
 
-      {loadingView ? (
-        <div className="py-10 text-center">Loading...</div>
-      ) : viewData && (
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-sm">
-          <div><b>Name:</b> {viewData.firstName} {viewData.lastName}</div>
-          <div><b>Email:</b> {viewData.email}</div>
-          <div><b>Mobile:</b> {viewData.mobile}</div>
-          <div><b>Type:</b> {viewData.type}</div>
-          <div><b>Treatment:</b> {viewData.treatments}</div>
-          <div><b>Date:</b> {viewData.day}</div>
-          <div><b>Time:</b> {viewData.startTime} - {viewData.endTime}</div>
+                        {loadingView ? (
+                          <div className="py-10 text-center">Loading...</div>
+                        ) : (
+                          viewData && (
+                            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-sm">
+                              <div>
+                                <b>Name:</b> {viewData.firstName}{" "}
+                                {viewData.lastName}
+                              </div>
+                              <div>
+                                <b>Email:</b> {viewData.email}
+                              </div>
+                              <div>
+                                <b>Mobile:</b> {viewData.mobile}
+                              </div>
+                              <div>
+                                <b>Type:</b> {viewData.type}
+                              </div>
+                              <div>
+                                <b>Treatment:</b> {viewData.treatments}
+                              </div>
+                              <div>
+                                <b>Date:</b> {viewData.day}
+                              </div>
+                              <div>
+                                <b>Time:</b> {viewData.startTime} -{" "}
+                                {viewData.endTime}
+                              </div>
 
-          <div>
-            <b>Skin Type:</b> {viewData.skin_type}, {viewData.skin_type_second}
-          </div>
+                              <div>
+                                <b>Skin Type:</b> {viewData.skin_type},{" "}
+                                {viewData.skin_type_second}
+                              </div>
 
-          <div>
-            <b>Skin Goal:</b> {viewData.skin_goal}
-          </div>
+                              <div>
+                                <b>Skin Goal:</b> {viewData.skin_goal}
+                              </div>
 
-          <div>
-            <b>Skin Care Product:</b> {viewData.skin_care_products}
-          </div>
+                              <div>
+                                <b>Skin Care Product:</b>{" "}
+                                {viewData.skin_care_products}
+                              </div>
 
-          <div>
-            <b>Message:</b>
-            <div className="mt-2">
-              {viewData.message}
-            </div>
-          </div>
-        </div>
-      )}
+                              <div>
+                                <b>Message:</b>
+                                <div className="mt-2">{viewData.message}</div>
+                              </div>
+                            </div>
+                          )
+                        )}
 
-      <AlertDialogFooter className="mt-6">
-        <Button variant="cancel" onClick={() => { setViewId(null); setViewData(null); }}>
-          Close
-        </Button>
-      </AlertDialogFooter>
-    </AlertDialogContent>
-  </AlertDialog>
-)}
+                        <AlertDialogFooter className="mt-6">
+                          <Button
+                            variant="cancel"
+                            onClick={() => {
+                              setViewId(null);
+                              setViewData(null);
+                            }}
+                          >
+                            Close
+                          </Button>
+                        </AlertDialogFooter>
+                      </AlertDialogContent>
+                    </AlertDialog>
+                  )}
 
                   {/* ================= PAGINATION ================= */}
-                
                 </div>
                 <AlertDialog
                   open={!!deleteId}

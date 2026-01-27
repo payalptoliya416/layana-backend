@@ -3,13 +3,8 @@ import book from "@/assets/book.png";
 import { Breadcrumb } from "../treatments/tratementPages/Breadcrumb";
 import PhoneInput from "react-phone-input-2";
 import CommonButton from "@/websiteComponent/common/home/CommonButton";
-import { IoMdSunny } from "react-icons/io";
-import { BsMoonFill } from "react-icons/bs";
-import { TbSunMoon } from "react-icons/tb";
-import { IoCloseSharp } from "react-icons/io5";
 import { LuMoveLeft, LuMoveRight } from "react-icons/lu";
 import { useState } from "react";
-import { FaPumpSoap } from "react-icons/fa6";
 import d1 from "@/assets/d1.png";
 import d2 from "@/assets/d2.png";
 import d3 from "@/assets/d3.png";
@@ -152,16 +147,8 @@ const [showPopup, setShowPopup] = useState(false);
         skin_goal: "",
         skin_care_products: "",
       }));
-      try {
-        const res = await submitBookedConsultation(formData);
 
-        setStepError(res.message || "Consultation booked successfully!");
-        console.log("API Response:", res);
-      } catch (error) {
-        console.log("API Error:", error);
-        setStepError("Something went wrong! Please try again.");
-      }
-
+       setShowPopup(true);
       return;
     }
 
@@ -183,37 +170,8 @@ const [showPopup, setShowPopup] = useState(false);
   setShowPopup(true);
 };
 
-//   const handleFinalSubmit = async () => {
-//     if (!productUse) {
-//       setStepError("Please select at least one product");
-//       return;
-//     }
-
-//     setStepError("");
-
-//     const finalPayload = {
-//       ...formData,
-//       skincare: skincareTime,
-//       skin_type: skinType,
-//       skin_type_second: sensitiveType,
-//       skin_goal: goal,
-//       skin_care_products: productUse,
-//     };
-
-//     try {
-//       const res = await submitBookedConsultation(finalPayload);
-
-//       setStepError(res.message || "Consultation booked successfully!");
-//       console.log("FINAL API RESPONSE:", res);
-
-//       // Optional Reset
-//       setStep(1);
-//     } catch (error) {
-//       console.log("API Error:", error);
-//       setStepError("Something went wrong while submitting. Please try again.");
-//     }
-//   };
 const handlePopupFinish = async () => {
+
   const finalPayload = {
     ...formData,
     skincare: skincareTime,
@@ -225,8 +183,10 @@ const handlePopupFinish = async () => {
 
   try {
     const res = await submitBookedConsultation(finalPayload);
-
-    console.log("FINAL API RESPONSE:", res);
+setStepError(res.message || "Consultation booked successfully!");
+     setTimeout(() => {
+    setStepError("");
+  }, 3000);
 
     // ✅ Popup Close
     setShowPopup(false);
@@ -253,6 +213,11 @@ const handlePopupFinish = async () => {
       skin_care_products: "",
       type: "offline",
     });
+     setSkincareTime("");
+    setSkinType("");
+    setSensitiveType("");
+    setGoal("");
+    setProductUse("");
   } catch (error) {
     console.log("API Error:", error);
     setStepError("Something went wrong while submitting.");
@@ -358,9 +323,12 @@ const handlePopupFinish = async () => {
                       country="gb"
                       enableSearch
                       value={formData.mobile}
-                      onChange={(value) =>
-                        setFormData({ ...formData, mobile: `+${value}` })
-                      }
+                     onChange={(value, country, e, formattedValue) =>
+                    setFormData({
+                      ...formData,
+                      mobile: formattedValue, // ✅ same format with brackets & spaces
+                    })
+                  }
                       containerClass="!w-full"
                       inputClass="
                         !w-full

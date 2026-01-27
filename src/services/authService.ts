@@ -22,7 +22,7 @@ export const saveToken = (token: string) => {
 
   setTimeout(() => {
     removeToken();
-    window.location.href = "/login";
+    window.location.href = "/admin/login";
   }, expiryTime - Date.now());
 };
 

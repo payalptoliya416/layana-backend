@@ -251,7 +251,6 @@ const handleDeleteConfirm = async () => {
         <div className="sticky top-3 z-10 pb-3">
           <PageHeader
             title={"Popup"}
-            // title={teamName || "Team"}
             onMenuClick={() => setSidebarOpen(true)}
           />
         </div>
@@ -289,7 +288,7 @@ const handleDeleteConfirm = async () => {
                 )}
               </div>
               <button
-                onClick={() => navigate("/popup/add")}
+                onClick={() => navigate("/admin/popup/add")}
                 className="flex items-center gap-2 rounded-full bg-primary px-3 sm:px-5 py-3 text-xs sm:text-sm text-primary-foreground shadow-button hover:opacity-90 transition w-full sm:w-auto justify-center"
               >
                 <Plus size={16} /> Add popup
@@ -365,7 +364,7 @@ const handleDeleteConfirm = async () => {
                               key={item.id}
                               item={item}
                               index={index}
-                              onEdit={(id) => navigate(`/popup/add/${id}`)}
+                              onEdit={(id) => navigate(`/admin/popup/add/${id}`)}
                               onDelete={(id) => setDeleteId(id)}
                             />
                           ))}

@@ -3,7 +3,6 @@ import { X, ChevronDown } from "lucide-react";
 import { Link, useParams } from "react-router-dom";
 import white_logo from "@/assets/logo.svg";
 import menuimg from "@/assets/menu.png";
-import { WEBSITE_BASE } from "@/route/config";
 import { getLocations } from "../api/webLocationService";
 import { FaLocationDot } from "react-icons/fa6";
 
@@ -19,10 +18,6 @@ type LocationApi = {
 };
 
 /* ================= MENU ================= */
-export const withBase = (path?: string) => {
-  if (!path) return WEBSITE_BASE;
-  return `${WEBSITE_BASE}${path.startsWith("/") ? path : `/${path}`}`;
-};
 
 const menu = [
   {
@@ -84,7 +79,6 @@ export default function Header() {
   const [selectedLocation, setSelectedLocation] = useState<UILocation | null>(
     null,
   );  
-  const [landingData, setLandingData] = useState<any>(null);
   const { locationSlug } = useParams();
   useEffect(() => {
     if (!locationSlug) {
@@ -117,7 +111,7 @@ export default function Header() {
     <header className="absolute top-0 left-0 w-full z-50">
       <div className="container mx-auto pt-[25px] pb-[20px] flex items-center justify-between text-white">
         {/* Logo */}
-        <Link to={withBase("/")}>
+        <Link to="/">
           <img
             src={white_logo}
             alt="Layana"
@@ -166,7 +160,7 @@ export default function Header() {
 
   return (
     <Link
-      to={withBase(contactPath)}
+      to={contactPath}
       state={locationState(selectedLocation)}
       className={underlineClass}
     >
@@ -176,13 +170,31 @@ export default function Header() {
 }
 
                     return (
-                      <Link
-              to={withBase(resolvedPath)}
-              state={locationState(selectedLocation)}
-              className={shouldShowDropdown ? "uppercase" : underlineClass}
-            >
-              {item.label}
-            </Link>
+            //           <Link
+            //   to={resolvedPath}
+            //   state={locationState(selectedLocation)}
+            //   className={shouldShowDropdown ? "uppercase" : underlineClass}
+            // >
+            //   {item.label}
+            // </Link>
+            <>
+            {shouldShowDropdown ? (
+  <button
+    type="button"
+    className="uppercase cursor-pointer"
+    onClick={(e) => e.preventDefault()} // stop navigation
+  >
+    {item.label}
+  </button>
+) : (
+  <Link
+    to={resolvedPath}
+    state={locationState(selectedLocation)}
+    className={underlineClass}
+  >
+    {item.label}
+  </Link>
+)}</>
                     );
                   })()
                 )}
@@ -220,7 +232,7 @@ export default function Header() {
 
           {activeDropdown === "location" && (
             <DesktopLocations
-              baseUrl={withBase("")}
+              baseUrl={""}
               locations={locations}
               selectedLocation={selectedLocation}
               onSelect={(loc) => {
@@ -248,7 +260,7 @@ export default function Header() {
 
             {activeDropdown === "location" && (
               <DesktopLocations
-                baseUrl={withBase("")}
+                baseUrl={""}
                 locations={locations}
                 selectedLocation={selectedLocation}
                 onSelect={(loc) => {
@@ -359,9 +371,7 @@ export default function Header() {
                         hasLocation &&
                           item.basePath !== "/contact-us" && (
                           <Link
-                            to={withBase(
-                              `/${selectedLocation.slug}${item.basePath}`,
-                            )}
+                            to={`/${selectedLocation.slug}${item.basePath}`}
                             onClick={() => setOpen(false)}
                             className="block uppercase"
                           >
@@ -372,11 +382,9 @@ export default function Header() {
                       {/* ================= NORMAL LINK ================= */}
                       {!item.external && !hasDropdown && item.basePath && (
                         <Link
-                          to={withBase(
-                            selectedLocation
+                          to={selectedLocation
                               ? `/${selectedLocation.slug}${item.basePath}`
-                              : item.basePath,
-                          )}
+                              : item.basePath}
                           onClick={() => setOpen(false)}
                           className="block uppercase"
                         >
@@ -450,7 +458,7 @@ const MobileLocations = ({
     {getAvailableLocations(locations, selectedLocation).map((loc) => (
       <Link
         key={loc.slug}
-        to={withBase(`/${loc.slug}${basePath}`)}
+        to={`/${loc.slug}${basePath}`}
         state={locationState(loc)}
         onClick={() => {
           onSelectLocation(loc);
@@ -481,7 +489,7 @@ const DesktopDropdown = ({
           {locations.map((loc) => (
             <Link
               key={loc.slug}
-              to={withBase(`/${loc.slug}/prices`)}
+              to={`/${loc.slug}/prices`}
               state={locationState(loc)}
               onClick={() => onSelectLocation(loc)}
               className="block px-3 mb-[10px] text-xs text-black"
@@ -500,7 +508,7 @@ const DesktopDropdown = ({
         {locations.map((loc) => (
           <Link
             key={loc.slug}
-            to={withBase(`/${loc.slug}${item.basePath}`)}
+            to={`/${loc.slug}${item.basePath}`}
             state={locationState(loc)}
             onClick={() => onSelectLocation(loc)}
             className="block px-3 mb-[10px] text-xs text-black "

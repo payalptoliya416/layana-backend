@@ -8,7 +8,6 @@ import { X } from "lucide-react";
 import { uploadImages } from "@/services/uploadService";
 import { ImageCropGallry } from "../treatment/ImageCropGallry";
 import { cn } from "@/lib/utils";
-import DescriptionEditor from "../treatment/DescriptionEditor";
 
 /* ================= SCHEMA ================= */
 
@@ -62,12 +61,34 @@ export default function SliderModal({ initialData, onSave, onClose,uploadType }:
         uploadType,
     },
   });
+  const [croppedFile, setCroppedFile] = useState<File | null>(null);
+
 const { field: descriptionField } = useController({
       name: "description",
       control,
     });
   const fileRef = useRef<HTMLInputElement | null>(null);
   const [cropImage, setCropImage] = useState<string | null>(null);
+const onSubmit = async (data: SliderItem) => {
+  let imageUrl = data.image;
+
+  // ✅ Upload only if new cropped file exists
+  if (croppedFile) {
+    const uploaded = await uploadImages([croppedFile], {
+      type: uploadType,
+    });
+
+    if (uploaded?.[0]?.url) {
+      imageUrl = uploaded[0].url;
+    }
+  }
+
+  // ✅ Final payload with real URL
+  onSave({
+    ...data,
+    image: imageUrl,
+  });
+};
 
   /* 🔥 IMPORTANT: edit mode fix */
   useEffect(() => {
@@ -96,8 +117,8 @@ return (
   <div className="fixed inset-0 z-50 flex items-center justify-center bg-background/60 backdrop-blur-sm p-2 !mt-0 overflow-y-auto">
     <form
       onSubmit={(e) => {
-    e.preventDefault(); // ✅ STOP accidental submit
-    handleSubmit(onSave)(e);
+    e.preventDefault(); 
+    handleSubmit(onSubmit)(e);
   }}  
       className="relative w-full max-w-[720px] rounded-[18px] bg-card px-[30px] pt-[40px] pb-[30px] border border-border shadow-dropdown space-y-5"
     >
@@ -276,18 +297,29 @@ return (
           outputHeight={800}
           isLast
           onClose={() => setCropImage(null)}
-          onNext={async (file: File) => {
-            const uploaded = await uploadImages([file], {
-              type: uploadType,
-            });
+          // onNext={async (file: File) => {
+          //   const uploaded = await uploadImages([file], {
+          //     type: uploadType,
+          //   });
 
-            if (uploaded?.[0]?.url) {
-              setValue("image", uploaded[0].url, {
-                shouldValidate: true,
-              });
-            }
-            setCropImage(null);
-          }}
+          //   if (uploaded?.[0]?.url) {
+          //     setValue("image", uploaded[0].url, {
+          //       shouldValidate: true,
+          //     });
+          //   }
+          //   setCropImage(null);
+          // }}
+         onNext={(file: File) => {
+  setCroppedFile(file);
+
+  // ✅ Preview URL set + validation trigger
+  setValue("image", URL.createObjectURL(file), {
+    shouldValidate: true,
+    shouldDirty: true,
+  });
+
+  setCropImage(null);
+}}
         />
       )}
     </form>

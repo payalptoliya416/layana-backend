@@ -96,6 +96,13 @@ const [landingLoading, setLandingLoading] = useState(false);
   const [landingData, setLandingData] = useState<any>(null);
   const [errors, setErrors] = useState<FormErrors>({});
   const [initialLoad, setInitialLoad] = useState(true);
+  const [formMessage, setFormMessage] = useState<{
+    type: "success" | "error" | "";
+    text: string;
+  }>({
+    type: "",
+    text: "",
+  });
 
   const [formData, setFormData] = useState({
     name: "",
@@ -103,6 +110,27 @@ const [landingLoading, setLandingLoading] = useState(false);
     phone: "",
     message: "",
   });
+  
+useEffect(() => {
+  if (!formMessage.text) return;
+
+  const timer = setTimeout(() => {
+    setFormMessage({ type: "", text: "" });
+  }, 5000);
+
+  return () => clearTimeout(timer);
+}, [formMessage.text]);
+
+useEffect(() => {
+  if (Object.keys(errors).length === 0) return;
+
+  const timer = setTimeout(() => {
+    setErrors({});
+  }, 5000);
+
+  return () => clearTimeout(timer);
+}, [errors]);
+
   const activeSection =
     activeLocation?.slug && locationSections[activeLocation.slug];
 
@@ -204,57 +232,57 @@ const [landingLoading, setLandingLoading] = useState(false);
     return Object.keys(newErrors).length === 0;
   };
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
+ const handleSubmit = async (e: React.FormEvent) => {
+  e.preventDefault();
 
-    if (!locationId) {
-      toast.error("Location not selected");
-      return;
-    }
+  setFormMessage({ type: "", text: "" });
 
-    // Frontend validation
-    if (!validateForm()) return;
+  if (!locationId) {
+    setFormMessage({
+      type: "error",
+      text: "Location not selected",
+    });
+    return;
+  }
 
-    try {
-      setLoading(true);
-      setErrors({});
+  if (!validateForm()) return;
 
-      const res = await submitEnquiry({
-        location_id: locationId,
-        name: formData.name,
-        email: formData.email,
-        mobile: formData.phone,
-        message: formData.message,
-      });
+  try {
+    setLoading(true);
+    setErrors({});
 
-      // ✅ SUCCESS (backend message)
-      toast.success(res.message || "Enquiry submitted successfully");
+    const res = await submitEnquiry({
+      location_id: locationId,
+      name: formData.name,
+      email: formData.email,
+      mobile: formData.phone,
+      message: formData.message,
+      type: "contact"
+    });
 
-      setFormData({
-        name: "",
-        email: "",
-        phone: "",
-        message: "",
-      });
-    } catch (err: any) {
-      console.error(err);
+    setFormMessage({
+      type: "success",
+      text: res.message || "Enquiry submitted successfully",
+    });
 
-      if (err?.errors) {
-        const backendErrors: FormErrors = {};
+    setFormData({
+      name: "",
+      email: "",
+      phone: "",
+      message: "",
+    });
+  } catch (err: any) {
+    console.error(err);
 
-        if (err.errors.name) backendErrors.name = err.errors.name[0];
-        if (err.errors.email) backendErrors.email = err.errors.email[0];
-        if (err.errors.mobile) backendErrors.phone = err.errors.mobile[0];
-        if (err.errors.message) backendErrors.message = err.errors.message[0];
+    setFormMessage({
+      type: "error",
+      text: err?.message || "Something went wrong",
+    });
+  } finally {
+    setLoading(false);
+  }
+};
 
-        setErrors(backendErrors);
-      }
-
-      toast.error(err?.message || "Something went wrong");
-    } finally {
-      setLoading(false);
-    }
-  };
   const contactbgImage =
     locationSlug === "finchley" || locationSlug === "finchley-central"
       ? contact_us_bg1
@@ -426,39 +454,6 @@ if (initialLoad && (locationsLoading || landingLoading)) {
         />
       )}
 
-      {/* -finchley */}
-      {/* <SplitContentSection
-    tag=""
-    title="Seamless Scheduling at Layana Spa in Minutes"
-    description="At Layana spas by Thai Manee, We always love to hear from our customers. Our customer care team respond to booking / any queries by e-mail or by telephone along with on-line booking."
-    image={loc1}
-    buttons={[
-      {label: "directiion",
-        link: "https://www.google.com/maps/dir//92-94+Ballards+Ln,+London+N3+2DL,+UK/@51.6038931,-0.1947809,16z/data=!4m9!4m8!1m0!1m5!1m1!1s0x48761755e42bce49:0x36422c1b9d207767!2m2!1d-0.189631!2d51.6038865!3e0?entry=ttu"
-      },
-      {label: "book now",
-        link :"https://www.fresha.com/providers/rmxjfmmk"
-      },
-    ]}
-    titleClassName="font-bold"
-  /> */}
-
-      {/* --belsize-- */}
-      {/* <SplitContentSection
-    tag=""
-    title="Make An Appointment With Ease"
-    description="At LAYANA, We always love to hear from our customers. Our customer care team also respond to booking / any queries by e-mail or by telephone along with on-line booking."
-    image={loc2}
-    buttons={[
-      {label: "directiion",
-        link: "https://www.google.co.uk/maps/place/18+England's+Ln,+Belsize+Park,+London+NW3+4TG/@51.5463953,-0.1642362,17z/data=!3m1!4b1!4m6!3m5!1s0x48761aed8016cb59:0xee504d5b65bc871!8m2!3d51.5463953!4d-0.1616613!16s%2Fg%2F11bw3h8fsv?entry=tts&g_ep=EgoyMDI0MTAyMy4wIPu8ASoASAFQAw%3D%3D"
-      },
-      {label: "book now",
-        link :"https://www.fresha.com/a/layana-belsize-park-primrose-hill-london-18-englands-lane-fvfy7djn/booking?menu=true&multi=true&cartId=ae991bb0-a668-4f1e-8e0e-b62aabc0e087"
-      },
-    ]}
-    titleClassName="font-bold"
-  /> */}
       {/* ---muswell hill */}
       {/* <SplitContentSection
     tag=""
@@ -499,7 +494,7 @@ if (initialLoad && (locationsLoading || landingLoading)) {
                     className="mt-[10px] w-full border-b border-[#666666]/30 pb-[10px] outline-none text-base text-[#666666] font-quattro"
                   />
                   {errors.name && (
-                    <p className="text-red-500 text-xs mt-2">{errors.name}</p>
+                    <p className="text-red-500 text-sm mt-1">{errors.name}</p>
                   )}
                 </div>
 
@@ -517,7 +512,7 @@ if (initialLoad && (locationsLoading || landingLoading)) {
                     className="mt-[10px] w-full border-b border-[#666666]/30 pb-[10px] outline-none text-base text-[#666666] font-quattro"
                   />
                   {errors.email && (
-                    <p className="text-red-500 text-xs mt-2">{errors.email}</p>
+                    <p className="text-red-500 text-sm mt-1">{errors.email}</p>
                   )}
                 </div>
 
@@ -561,7 +556,7 @@ if (initialLoad && (locationsLoading || landingLoading)) {
                     dropdownClass="!text-sm"
                   />
                   {errors.phone && (
-                    <p className="text-red-500 text-xs mt-2">{errors.phone}</p>
+                    <p className="text-red-500 text-sm mt-1">{errors.phone}</p>
                   )}
                 </div>
 
@@ -579,7 +574,7 @@ if (initialLoad && (locationsLoading || landingLoading)) {
                     className="mt-[10px] w-full border-b border-[#666666]/30 pb-[10px] outline-none text-base resize-none text-[#666666] font-quattro"
                   />
                   {errors.message && (
-                    <p className="text-red-500 text-xs mt-2">
+                    <p className="text-red-500 text-sm mt-1">
                       {errors.message}
                     </p>
                   )}
@@ -595,6 +590,17 @@ if (initialLoad && (locationsLoading || landingLoading)) {
                     {loading ? "SENDING..." : "SEND"}
                   </button>
                 </div>
+                {formMessage.text && (
+  <p
+    className={`mt-4 text-sm font-medium ${
+      formMessage.type === "success"
+        ? "text-green-600"
+        : "text-red-600"
+    }`}
+  >
+    {formMessage.text}
+  </p>
+)}
               </form>
             </div>
           </div>

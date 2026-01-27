@@ -88,7 +88,7 @@ function SpaPackages() {
     setActiveSection(section);
   };
   const handleCancle = () => {
-    navigate("/packages-list");
+    navigate("/admin/packages-list");
   };
 
   const [validationErrors, setValidationErrors] = useState<
@@ -193,7 +193,7 @@ useEffect(() => {
 
       if (res?.status === "success") {
         toast.success(res.message || "Saved successfully");
-        navigate("/packages-list");
+        navigate("/admin/packages-list");
       } else {
         toast.error(res?.message || "Failed to save package");
       }
@@ -428,15 +428,19 @@ useEffect(() => {
           {/* Content Wrapper */}
           <div className="flex-1 pl-[15px] pr-6 px-6 flex flex-col h-full bg-card rounded-2xl shadow-card p-5 relative overflow-hidden">
             <div className="flex w-full gap-5 flex-1 overflow-y-auto scrollbar-thin pb-14">
-              <div className="lg:flex w-full gap-5 h-full overflow-y-auto">
+              {/* <div className="lg:flex w-full gap-5 h-full overflow-y-auto"> */}
+                 <div className="flex flex-col lg:flex-row flex-1 overflow-hidden min-h-0 gap-2 lg:gap-5">
                 <aside className="lg:w-[270px] flex-shrink-0 border border-border lg:p-4 rounded-[20px] lg:h-full overflow-y-auto mb-3 lg:mb-0">
                   <PackageNav
                     activeItem={activeSection}
                     onItemChange={handleSectionChange}
                   />
                 </aside>
-                <section className="flex-1 overflow-y-auto scrollbar-thin border border-border p-3 lg:p-5 rounded-[20px] scrollbar-thin h-full">
+                {/* <section className="flex-1 overflow-y-auto scrollbar-thin border border-border p-3 lg:p-5 rounded-[20px] scrollbar-thin h-full"> */}
+                  <section className="flex-1 min-h-0 overflow-hidden border border-border rounded-[20px] flex flex-col">
+                      <div className="flex-1 min-h-0 overflow-y-auto scrollbar-thin p-3 lg:p-5">
                   {renderTabContent()}
+                      </div>
                 </section>
               </div>
               <div className="flex items-center justify-end gap-3 pt-4 absolute bottom-4 right-6">

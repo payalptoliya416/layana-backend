@@ -98,21 +98,25 @@ useEffect(() => {
     .finally(() => setLoading(false));
 }, [treatmentViewIds]);
 
- useEffect(() => {
+useEffect(() => {
   if (!finalTreatmentId || !finalLocationId) return;
 
- setLoading(true);  
+  setLoading(true);
   setData(null);
-   getTreatmentById({
+
+  getTreatmentById({
     id: finalTreatmentId,
     location_id: finalLocationId,
   })
     .then((res) => {
       setData(res.data);
     })
+    .catch((err) => {
+      console.log("Treatment API Error:", err);
+    })
     .finally(() => setLoading(false));
-}, [treatmentId, locationId, location.pathname]);
 
+}, [finalTreatmentId, finalLocationId]);
   // --view data---
 
   const getRandomItems = <T,>(arr: T[], count: number): T[] => {

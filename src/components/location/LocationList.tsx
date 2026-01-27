@@ -19,7 +19,6 @@ import {
   AlertDialogFooter,
 } from "@/components/ui/alert-dialog";
 import { Button } from "../ui/button";
-import { getTableCount } from "@/services/getTeam";
 
 export type Category = {
   id: number;
@@ -306,11 +305,11 @@ function LocationList() {
   };
 
   const handleEdit = (id: number) => {
-    navigate(`/settings/location/edit/${id}`);
+    navigate(`/admin/settings/location/edit/${id}`);
   };
 
   const onView = (id: number) => {
-    navigate(`/settings/location-view/${id}`);
+    navigate(`/admin/settings/location-view/${id}`);
   }
   return (
     <>
@@ -398,7 +397,7 @@ function LocationList() {
                   )}
                 </div>
                 <button
-                  onClick={() => navigate("/settings/location/add")}
+                  onClick={() => navigate("/admin/settings/location/add")}
                   className="
                         flex items-center gap-2
                         rounded-full

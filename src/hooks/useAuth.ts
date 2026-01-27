@@ -23,7 +23,7 @@ export const useAuth = () => {
         
         // Redirect after showing success message
         setTimeout(() => {
-          navigate('/dashboard');
+          navigate('/admin/dashboard');
         }, 800);
       } else {
         setError(response.message || 'Login failed. Please try again.');
@@ -38,7 +38,7 @@ export const useAuth = () => {
 
   const logout = useCallback(() => {
     removeToken();
-    navigate('/login');
+    navigate('/admin/login');
   }, [navigate]);
 
   return {

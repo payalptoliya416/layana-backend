@@ -79,7 +79,7 @@ useEffect(() => {
   const handleLogout = () => {
     removeToken();
     setIsProfileOpen(false);
-    navigate('/login');
+    navigate('/admin/login');
   };
 
   // Close dropdowns when clicking outside

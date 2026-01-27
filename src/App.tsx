@@ -6,11 +6,11 @@ function App() {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/websiteurl/*" element={<WebsiteRoutes />} />
-        <Route path="/*" element={<AdminApp />} />
+        {/* <Route path="/websiteurl/*" element={<WebsiteRoutes />} />
+        <Route path="/*" element={<AdminApp />} /> */}
 
-        {/* <Route path="/*" element={<WebsiteApp />} />
-        <Route path="/admin/*" element={<AdminApp />} /> */}
+        <Route path="/*" element={<WebsiteRoutes />} />
+        <Route path="/admin/*" element={<AdminApp />} />
       </Routes>
     </BrowserRouter>
   );

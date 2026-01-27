@@ -257,7 +257,7 @@ const handleDragEnd = async (event: DragEndEvent) => {
 };
 
 const handleEdit = (id: number) => {
-  navigate(`/treatments-list/treatments/edit/${id}`);
+  navigate(`/admin/treatments-list/treatments/edit/${id}`);
 };
 
 const handleDelete = async () => {
@@ -360,7 +360,7 @@ const handleDelete = async () => {
               </div>
 
                   <button
-      onClick={() => navigate("/treatments-list/treatments")}
+      onClick={() => navigate("/admin/treatments-list/treatments")}
       className="
         flex items-center gap-2
         rounded-full

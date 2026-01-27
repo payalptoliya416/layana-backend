@@ -5,7 +5,7 @@ import MassageCard from "@/websiteComponent/common/home/MasssageCard";
 import { getTreatmentCategories, getTreatmentsByCategory } from "@/websiteComponent/api/treatments.api";
 import Loader from "@/websiteComponent/common/Loader";
 import { Breadcrumb } from "./Breadcrumb";
-import { useLocation } from "react-router-dom";
+import { useLocation, useSearchParams } from "react-router-dom";
 
 const CARD_COLORS = [
   "#F5EEE9",
@@ -25,40 +25,80 @@ const CARD_COLORS = [
 function Massage() {
   const routerLocation = useLocation();
     const locationId = routerLocation.state?.locationId ?? 1;
+    const categoryFromFooter = routerLocation.state?.categoryId;
 
 const [categories, setCategories] = useState<any[]>([]);
 const [activeCategory, setActiveCategory] = useState<number | null>(null);
 const [treatments, setTreatments] = useState<any[]>([]);
-
   const [loading, setLoading] = useState(true);
-  /* Load categories */
+
   useEffect(() => {
-    getTreatmentCategories().then((res) => {
-      setCategories(res.data);
-      if (res.data.length > 0) {
-        setActiveCategory(res.data[0].id);
+  window.scrollTo({
+    top: 0,
+    behavior: "smooth",
+  });
+}, []);
+
+useEffect(() => {
+  if (categoryFromFooter) {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  }
+}, [categoryFromFooter]);
+/* ================================
+     1️⃣ Load Categories Only Once
+  ================================= */
+  useEffect(() => {
+    const fetchCategories = async () => {
+      try {
+        const res = await getTreatmentCategories();
+        setCategories(res.data);
+
+        // ✅ Default active category
+        if (res.data.length > 0) {
+          setActiveCategory(res.data[0].id);
+        }
+      } catch (err) {
+        console.error("Category API Error", err);
       }
-    });
+    };
+
+    fetchCategories();
   }, []);
 
-  /* Load treatments on tab change */
-useEffect(() => {
-  if (!activeCategory) return;
+  /* ================================
+     2️⃣ Footer Click Update Category
+  ================================= */
+  useEffect(() => {
+    if (categoryFromFooter) {
+      setActiveCategory(categoryFromFooter);
+    }
+  }, [categoryFromFooter]);
 
-  setLoading(true);
+  /* ================================
+     3️⃣ Load Treatments When Category Changes
+  ================================= */
+  useEffect(() => {
+    if (!activeCategory) return;
 
-  getTreatmentsByCategory(activeCategory, locationId)
-    .then((res) => {
-      setTreatments(res.data.treatments || []);
-    })
-    .catch((err) => {
-      console.error("Treatment API error", err);
-      setTreatments([]);
-    })
-    .finally(() => setLoading(false));
-}, [activeCategory, locationId]);
+    const fetchTreatments = async () => {
+      setLoading(true);
+
+      try {
+        const res = await getTreatmentsByCategory(activeCategory, locationId);
+        setTreatments(res.data.treatments || []);
+      } catch (err) {
+        console.error("Treatment API Error", err);
+        setTreatments([]);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchTreatments();
+  }, [activeCategory, locationId]);
+
  
-  if (loading || !treatments) {
+ if (loading) {
   return (
     <div className="py-20 text-center">
       <Loader />
@@ -74,7 +114,7 @@ useEffect(() => {
          breadcrumb={<Breadcrumb />}
       />
 
-      <section className="py-12 lg:py-[110px]">
+      <section id="treatment-tabs" className="py-12 lg:py-[110px]">
         <div className="container mx-auto">
 
           {/* Tabs */}
@@ -116,9 +156,6 @@ useEffect(() => {
           </div>
 
           {/* Grid */}
-          {loading ? (
-            <div className="text-center py-20"></div>
-          ) : (
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-[48px]">
                {treatments.map((item, index) => (
                     <MassageCard
@@ -132,7 +169,6 @@ useEffect(() => {
                     />
                   ))}
             </div>
-          )}
         </div>
       </section>
     </>

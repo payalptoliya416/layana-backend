@@ -44,13 +44,13 @@ const Login: React.FC = () => {
   // Redirect if already authenticated
   useEffect(() => {
     if (isAuthenticated()) {
-      navigate('/dashboard');
+      navigate('/admin/dashboard');
     }
   }, [navigate]);
 
   useEffect(() => {
   if (success) {
-    navigate("/dashboard", { replace: true });
+    navigate("/admin/dashboard", { replace: true });
   }
 }, [success, navigate]);
 
