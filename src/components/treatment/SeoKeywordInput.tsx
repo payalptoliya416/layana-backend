@@ -8,7 +8,6 @@ interface SeoKeywordInputProps {
 export function SeoKeywordInput({ value, onChange }: SeoKeywordInputProps) {
   const [input, setInput] = useState("");
 
-  // ✅ ALWAYS normalize to string[]
   const keywords: string[] = Array.isArray(value)
     ? value.map((v) => (typeof v === "string" ? v : v?.name)).filter(Boolean)
     : [];
@@ -16,7 +15,6 @@ export function SeoKeywordInput({ value, onChange }: SeoKeywordInputProps) {
 const addKeyword = () => {
   const keyword = input.trim();
 
-  // ✅ Only letters & spaces allowed
   if (!/^[a-zA-Z\s]+$/.test(keyword)) return;
 
   if (!keyword) return;
@@ -40,7 +38,7 @@ const addKeyword = () => {
   };
 
   return (
-  <div className="rounded-xl border border-border p-3 bg-card focus-within:ring-2 focus-within:ring-ring/20 overflow-x-hidden">
+  <div className="rounded-xl border border-border p-3 bg-card focus-within:ring-2 focus-within:ring-ring/20 overflow-x-hidden flex-1 min-w-0 w-full  bg-transparent break-all whitespace-normal">
   <div className="flex flex-wrap lg:gap-2 items-center w-full min-w-0">
     {keywords.map((keyword, index) => (
       <span
