@@ -257,7 +257,7 @@ const handleSave = async () => {
                   <h2 className="text-sm font-medium mb-2">
                     Term & Condition <sup className="text-destructive">*</sup>
                   </h2>
-
+<div className="h-[calc(100dvh-370px)] sm:h-[calc(100dvh-380px)] lg:h-[calc(100dvh-330px)] overflow-y-auto [&_.ql-container]:overflow-hidden [&_.ql-editor]:overflow-hidden">
                   <TermsDescriptionEditor
                     value={membershipPayload.terms_condition}
                     onChange={(val) =>
@@ -268,6 +268,7 @@ const handleSave = async () => {
                     }
                     fullHeight
                   />
+</div>
                 </div>
 
                   </div>
