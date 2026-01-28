@@ -19,6 +19,7 @@ function MemberShip() {
   const { locationSlug } = useParams();
   const [resolvedLocationId, setResolvedLocationId] = useState<number | null>(null);
 const [membershipPlans, setMembershipPlans] = useState<MembershipPlan[]>([]);
+const [selectedLocation, setSelectedLocation] = useState<any>(null);
 const [landingData, setLandingData] =
   useState<MembershipLandingPageData | null>(null);
 const [loading, setLoading] = useState(true);
@@ -58,16 +59,34 @@ useEffect(() => {
     // slug thi location id find karo
     getLocations().then((res) => {
       const locations = res.data ?? [];
-
+console.log("locations",locations)
       const matched = locations.find(
         (loc: any) => loc.slug === locationSlug
       );
 
       if (matched) {
         setResolvedLocationId(matched.id);
+        setSelectedLocation(matched);
       }
     });
   }, [locationId, locationSlug]);
+
+  useEffect(() => {
+  if (!locationId) return;
+
+  getLocations().then((res) => {
+    const locations = res.data ?? [];
+
+    const matched = locations.find(
+      (loc: any) => loc.id === locationId
+    );
+
+    if (matched) {
+      setSelectedLocation(matched);
+    }
+  });
+}, [locationId]);
+
 
    useEffect(() => {
     if (!finalLocationId) return;
@@ -197,7 +216,7 @@ if (loading || !landingData) {
                       <IoCall size={16} />
                     </div>
                     <span className="text-base md:text-base text-[#666666] font-quattro">
-                      0208 371 6922
+                   {selectedLocation?.phone || ""}
                     </span>
                   </div>
                   <div className="h-8 w-px sm:bg-[#F7EFEC]" />
@@ -206,7 +225,7 @@ if (loading || !landingData) {
                       <IoIosMail size={18} />
                     </div>
                     <span className="text-base md:text-base text-[#666666] font-quattro">
-                      finchley@layana.co.uk
+                      {selectedLocation?.email || ""}
                     </span>
                   </div>
                 </div>
