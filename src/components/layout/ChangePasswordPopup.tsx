@@ -69,7 +69,7 @@ const showMessage = (type: "success" | "error", text: string) => {
 
     // ✅ Password Match Validation
     if (formData.new_password !== formData.confirm_password) {
-      toast.error("New password and confirm password do not match!");
+      showMessage("error", "New password and confirm password do not match!");
       return;
     }
 
@@ -87,7 +87,6 @@ const showMessage = (type: "success" | "error", text: string) => {
     } catch (error: any) {
       if (error?.response?.data?.errors) {
         setFieldErrors(error.response.data.errors);
-        showMessage("error", "Please fix the errors below!");
       } else {
        showMessage("error", error?.response?.data?.message || "Something went wrong!");
       }
@@ -112,7 +111,11 @@ const showMessage = (type: "success" | "error", text: string) => {
 
         <form onSubmit={handleSubmit} className="space-y-4">
             <div>
+            <label className="text-sm font-medium text-foreground">
+      Current Password <span className="text-red-500">*</span>
+    </label>
          <div className="relative">
+          
   <input
     type={showPassword.current ? "text" : "password"}
     name="current_password"
@@ -138,18 +141,21 @@ const showMessage = (type: "success" | "error", text: string) => {
 
   {/* Error */}
          </div>
-  {fieldErrors.current_password && (
-    <p className="text-red-500 text-xs mt-1">
-      {Array.isArray(fieldErrors.current_password)
-        ? fieldErrors.current_password[0]
-        : fieldErrors.current_password}
-    </p>
-  )}
+          {fieldErrors.current_password && (
+            <p className="text-red-500 text-xs mt-1">
+              {Array.isArray(fieldErrors.current_password)
+                ? fieldErrors.current_password[0]
+                : fieldErrors.current_password}
+            </p>
+          )}
             </div>
 
 
           {/* New Password */}
           <div className="">
+           <label className="text-sm font-medium text-foreground">
+      New Password <span className="text-red-500">*</span>
+    </label>
         <div className="relative">
   <input
     type={showPassword.new ? "text" : "password"}
@@ -185,6 +191,9 @@ const showMessage = (type: "success" | "error", text: string) => {
 
           {/* Confirm Password */}
           <div className="">
+             <label className="text-sm font-medium text-foreground">
+       Confirm Password <span className="text-red-500">*</span>
+    </label>
        <div className="relative">
   <input
     type={showPassword.confirm ? "text" : "password"}
