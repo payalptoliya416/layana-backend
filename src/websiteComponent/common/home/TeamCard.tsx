@@ -47,9 +47,9 @@ export default function TeamCard({ name, role, image, index, description, }: Pro
       <h3 className="font-quattro text-[22px] text-[#1e2b3a]">
         {name}
       </h3>
-        {description && (
+        {/* {description && (
           <p className="text-sm leading-[22px] text-[#666666] font-quattro">{description}</p>
-        )}
+        )} */}
     </div>
   );
 }
