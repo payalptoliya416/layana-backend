@@ -222,6 +222,7 @@ function LocationList() {
       toast.error("Failed to load locations");
     }
   };
+
   useEffect(() => {
     fetchTreatments();
   }, [page, sortBy, sortDirection, debouncedSearch]);
@@ -311,6 +312,7 @@ function LocationList() {
   const onView = (id: number) => {
     navigate(`/admin/settings/location-view/${id}`);
   }
+  
   return (
     <>
       <div className="bg-background flex">

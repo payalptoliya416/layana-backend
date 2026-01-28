@@ -778,6 +778,7 @@ const handleDragEnd = (event: any) => {
                       <tbody>
                         {(pricingMap[selectedBranchId] || []).map((item) => (
                        <SortableRow
+                       key={item.id}
                           item={item}
                           isEditing={editingRowId === item.id}
                           onEdit={() => setEditingRowId(item.id)}
