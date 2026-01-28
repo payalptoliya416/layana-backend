@@ -1118,7 +1118,6 @@ body {
 .quill-content h3,
 .quill-content h4,
 .quill-content h5 {
-  font-weight: 600;
   margin: 10px 0;
 }
 
@@ -1195,7 +1194,6 @@ body {
   margin-bottom: 8px;
 }
 
-/* Bold + Italic */
 .quill-content strong {
   font-weight: 700;
 }
@@ -1204,7 +1202,6 @@ body {
   font-style: italic;
 }
 
-/* Alignment */
 .quill-content .ql-align-center {
   text-align: center;
 }
