@@ -255,7 +255,7 @@ if (loading || !landingData) {
             <li> Massage Package prices are valid at Finchley branch.</li>
           </ul>
           <div
-          className=" text-[#666666] quill-content"
+          className="quill-content"
           dangerouslySetInnerHTML={{
             __html: landingData?.terms_condition || "",
           }}

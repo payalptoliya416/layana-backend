@@ -103,7 +103,7 @@ function SpaPackages() {
                 dangerouslySetInnerHTML={{
                   __html: landingData?.description || "",
                 }}
-                className="text-[#666666] mb-[15px] quill-content"
+                className="mb-[15px] quill-content"
               />
             </div>
           </div>

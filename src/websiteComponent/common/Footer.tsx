@@ -301,7 +301,7 @@ function Footer() {
 
               {/* Logo */}
               <div className="col-span-12 sm:col-span-6 lg:col-span-4 flex justify-center sm:border-l lg:border-y-0 lg:border border-[#f6eee9]  py-[36px]">
-                <Link to="#">
+                <Link to="/">
                   <img src={white_logo} alt="Layana" className="h-[80px]" />
                 </Link>
               </div>
