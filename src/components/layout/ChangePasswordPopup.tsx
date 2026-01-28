@@ -122,7 +122,9 @@ const showMessage = (type: "success" | "error", text: string) => {
     placeholder="Current Password"
     value={formData.current_password}
     onChange={handleChange}
-    className="form-input pr-10"
+      className={`form-input pr-10 ${
+    fieldErrors.current_password ? "border border-red-500 focus:ring-red-500" : ""
+  }`}
   />
 
   {/* Eye Button */}
@@ -163,7 +165,9 @@ const showMessage = (type: "success" | "error", text: string) => {
     placeholder="New Password"
     value={formData.new_password}
     onChange={handleChange}
-    className="form-input pr-10"
+    className={`form-input pr-10 ${
+    fieldErrors.current_password ? "border border-red-500 focus:ring-red-500" : ""
+  }`}
   />
 
   <button
@@ -201,7 +205,9 @@ const showMessage = (type: "success" | "error", text: string) => {
     placeholder="Confirm Password"
     value={formData.confirm_password}
     onChange={handleChange}
-    className="form-input pr-10"
+      className={`form-input pr-10 ${
+    fieldErrors.current_password ? "border border-red-500 focus:ring-red-500" : ""
+  }`}
   />
 
   <button
