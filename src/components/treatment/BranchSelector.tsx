@@ -35,6 +35,14 @@ export function BranchSelector({
     const loc = locations.find((l) => l.id === branch.id);
     return loc?.status !== "inactive";
   });
+  
+    if (activeBranches.length === 0) {
+    return (
+      <div className="py-10 text-center text-sm text-muted-foreground">
+        No active branches available
+      </div>
+    );
+  }
 
   return (
     <> 

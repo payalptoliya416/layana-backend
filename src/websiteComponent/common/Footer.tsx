@@ -418,7 +418,7 @@ const buildLink = (path: string, direct?: boolean) => {
                 </h4>
                 <ul className="space-y-3 text-sm">
                   {categoriesLoading ? (
-                    <li className="text-[#BEBEBE]">Loading...</li>
+                    <li className="text-[#BEBEBE]"></li>
                   ) : categories.length === 0 ? (
                     <li className="text-[#BEBEBE]"></li>
                   ) : (
