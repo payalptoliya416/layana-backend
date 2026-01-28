@@ -28,7 +28,7 @@ const PackageNav: React.FC<PackageNavProps> = ({
     <nav
       className="
         h-full w-full overflow-x-auto
-        lg:overflow-visible px-4
+        lg:overflow-visible 
         scrollbar-hide
       "
     >
@@ -36,7 +36,7 @@ const PackageNav: React.FC<PackageNavProps> = ({
         className="
           bg-card flex lg:flex-col
           gap-2 lg:gap-2
-          w-full width-scroll
+          w-full width-scroll px-2
           py-2 after:content-[''] after:w-2 after:flex-shrink-0 
         "
       >

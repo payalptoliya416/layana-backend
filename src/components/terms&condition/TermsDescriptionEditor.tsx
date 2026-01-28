@@ -145,7 +145,7 @@ const modules = {
   const editorHeight = fullHeight ? "100%" : height;
   return (
         <div
-      className={`flex flex-col ${fullHeight ? "h-full" : ""}`}
+      className={`flex flex-col  w-full ${fullHeight ? "h-full" : ""}`}
       style={{ height: editorHeight }}
     >
       <div

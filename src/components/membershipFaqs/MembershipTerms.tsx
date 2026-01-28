@@ -221,7 +221,7 @@ const handleSave = async () => {
                     <div
                       className={cn(activeSection !== "general" && "hidden")}
                     >
-                      <h2 className="text-lg font-semibold mb-3">
+                      <h2 className="text-sm font-medium mb-3">
                         Content <sup className="text-destructive">*</sup>
                       </h2>
 
@@ -252,22 +252,22 @@ const handleSave = async () => {
                     </div>
 
                     {/* TERMS TAB */}
-<div className={cn(activeSection !== "terms" && "hidden")}>
-  <h2 className="text-lg font-semibold mb-3">
-    Term & Condition <sup className="text-destructive">*</sup>
-  </h2>
+                <div className={cn(activeSection !== "terms" && "hidden")}>
+                  <h2 className="text-sm font-medium mb-2">
+                    Term & Condition <sup className="text-destructive">*</sup>
+                  </h2>
 
-  <TermsDescriptionEditor
-    value={membershipPayload.terms_condition}
-    onChange={(val) =>
-      setMembershipPayload((prev) => ({
-        ...prev,
-        terms_condition: val,
-      }))
-    }
-    fullHeight
-  />
-</div>
+                  <TermsDescriptionEditor
+                    value={membershipPayload.terms_condition}
+                    onChange={(val) =>
+                      setMembershipPayload((prev) => ({
+                        ...prev,
+                        terms_condition: val,
+                      }))
+                    }
+                    fullHeight
+                  />
+                </div>
 
                   </div>
                 </section>

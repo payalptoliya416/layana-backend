@@ -27,7 +27,7 @@ const PriceNav: React.FC<PriceNavProps> = ({
     <nav
       className="
         h-full w-full overflow-x-auto
-        lg:overflow-visible px-4
+        lg:overflow-visible
         scrollbar-hide
       "
     >

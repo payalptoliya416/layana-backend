@@ -79,16 +79,17 @@ const AboutContent = forwardRef<any, Props>(
     }, [watch, onChange]);
 
     return (
-      <div>
+     <div className="h-full flex flex-col">
         <label className="text-sm font-medium">
           Description <sup className="text-destructive">*</sup>
         </label>
-
+ <div className="flex-1">
         <TermsDescriptionEditor
           value={contentField.value || ""}
           onChange={contentField.onChange}
           fullHeight
         />
+ </div>
       </div>
     );
   }
