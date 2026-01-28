@@ -181,6 +181,12 @@ function Footer() {
     setMessage("");
     setError("");
   }, [location.pathname]);
+const buildLink = (path: string, direct?: boolean) => {
+  if (direct) return path;
+
+  // location wise prefix
+  return `/${activeSlug}${path}`;
+};
 
   return (
     <>
@@ -395,13 +401,7 @@ function Footer() {
                   {importantLinks.map((item) => (
                     <li key={item.label}>
                       <Link
-                       to={
-        item.direct
-          ? item.path // ✅ always direct
-          : hasLocationSlug
-          ? `/${activeSlug}${item.path}` // location wise
-          : item.path
-      }
+                      to={buildLink(item.path, item.direct)}
                         className="flex items-center gap-2 uppercase text-[#BEBEBE] hover:text-white cursor-pointer"
                       >
                         <ChevronRight size={14} className="text-[#f6eee9]" />
