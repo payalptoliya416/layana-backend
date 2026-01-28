@@ -351,46 +351,62 @@ const buildLink = (path: string, direct?: boolean) => {
                   ABOUT LAYANA
                 </h4>
 
-                <ul className="space-y-4 text-sm">
-                  <li>
-                    <a
-                      href="https://maps.google.com"
-                      target="_blank"
-                      className="flex gap-3 items-center text-[#A3A2A2] hover:text-white cursor-pointer"
-                    >
-                      <MapPin size={16} className="text-[#f6eee9]" />
-                      Centerl Park West La, New York
-                    </a>
-                  </li>
-
-                  <li>
-                    <a
-                      href="tel:+01234567890"
-                      className="flex gap-3 items-center text-[#A3A2A2] hover:text-white cursor-pointer"
-                    >
-                      <Phone size={16} className="text-[#f6eee9]" />
-                      +0 123 456 7890
-                    </a>
-                  </li>
-
-                  <li>
-                    <a
-                      href="mailto:info@example.com"
-                      className="flex gap-3 items-center text-[#A3A2A2] hover:text-white cursor-pointer"
-                    >
-                      <Mail size={16} className="text-[#f6eee9]" />
-                      info@example.com
-                    </a>
-                  </li>
-                </ul>
-
-                <div className="mt-6">
-                  <p className="text-white text-2xl mb-3">Open Hours</p>
-                  <p className="text-base text-[#A3A2A2]">
-                    Sunday to Friday{" "}
-                    <span className="text-white">08:00 – 20:00</span>
-                  </p>
+                 {activeLocation ? (
+          <ul className="space-y-4 text-sm">
+            {/* Address */}
+            <li>
+              <a
+                href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(
+                  activeLocation.address_line_1 +
+                    ", " +
+                    activeLocation.address_line_2 +
+                    ", " +
+                    activeLocation.postcode
+                )}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex gap-3 items-center text-[#A3A2A2] hover:text-white cursor-pointer"
+              >
+                <div>
+                <MapPin size={16} className="text-[#f6eee9]" />
                 </div>
+                {activeLocation.address_line_1},{" "}
+                {activeLocation.address_line_2},{" "}
+                {activeLocation.postcode}
+              </a>
+            </li>
+
+            {/* Phone */}
+            <li>
+              <a
+                href={`tel:${activeLocation.phone}`}
+                className="flex gap-3 items-center text-[#A3A2A2] hover:text-white cursor-pointer"
+              >
+                <div>
+                <Phone size={16} className="text-[#f6eee9]" />
+                </div>
+                {activeLocation.phone}
+              </a>
+            </li>
+
+            {/* Email */}
+            <li>
+              <a
+                href={`mailto:${activeLocation.email}`}
+                className="flex gap-3 items-center text-[#A3A2A2] hover:text-white cursor-pointer"
+              >
+                <div className="">
+                <Mail size={16} className="text-[#f6eee9]" />
+                </div>
+                {activeLocation.email}
+              </a>
+            </li>
+          </ul>
+        ) : (
+          <p className="text-[#BEBEBE] text-sm">
+            Location details not available
+          </p>
+        )}               
               </div>
 
               <div className="col-span-12 sm:col-span-6 lg:col-span-3 mb-10 sm:mb-0">
