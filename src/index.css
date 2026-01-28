@@ -1261,3 +1261,6 @@ body {
   max-width: 100%;
   margin: 10px 0;
 }
+.ql-container{
+  padding-bottom: 10px;
+}
