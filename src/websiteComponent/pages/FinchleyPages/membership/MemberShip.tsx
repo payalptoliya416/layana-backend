@@ -23,7 +23,7 @@ const [selectedLocation, setSelectedLocation] = useState<any>(null);
 const [landingData, setLandingData] =
   useState<MembershipLandingPageData | null>(null);
 const [loading, setLoading] = useState(true);
-
+console.log("landingData",landingData)
   // 👉 final usable locationId
   const finalLocationId = locationId ?? resolvedLocationId;
 const mapMembershipsToPlans = (memberships: Membership[]): MembershipPlan[] => {
@@ -256,6 +256,12 @@ if (loading || !landingData) {
             </li>
             <li> Massage Package prices are valid at Finchley branch.</li>
           </ul>
+          <div
+  className="quill-content text-[#666666]"
+  dangerouslySetInnerHTML={{
+    __html: landingData?.terms_condition || "",
+  }}
+/>
         </div>
 
         {/* Bottom grid */}

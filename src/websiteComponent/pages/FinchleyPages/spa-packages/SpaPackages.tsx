@@ -103,7 +103,7 @@ function SpaPackages() {
                 dangerouslySetInnerHTML={{
                   __html: landingData?.description || "",
                 }}
-                className="text-[#666666] mb-[15px] font-quattro text-sm md:text-base leading-[26px] text-justify"
+                className="text-[#666666] mb-[15px] text-justify"
               />
             </div>
           </div>

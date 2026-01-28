@@ -123,6 +123,7 @@ export interface MembershipLandingPageData {
   policy: MembershipPolicy[];
   created_at: string;
   updated_at: string;
+  terms_condition: string;
 }
 
 export interface MembershipLandingPageResponse {
