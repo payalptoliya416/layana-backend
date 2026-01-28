@@ -163,7 +163,7 @@ export default function   DescriptionEditor({
 
           .ql-editor {
             min-height: 100px;
-            padding-bottom: 70px;
+            padding-bottom: 80px;
           }
         `}
       </style>
