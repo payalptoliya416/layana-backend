@@ -317,6 +317,9 @@ useEffect(() => {
               onClick={(e) => {
                 e.stopPropagation();
                 setBanner(null);
+                 if (bannerRef.current) {
+      bannerRef.current.value = "";
+    }
               }}
               className="absolute right-2 top-2 z-20 rounded-full bg-card p-1 shadow"
             >
@@ -342,6 +345,8 @@ useEffect(() => {
               onClick={(e) => {
                 e.stopPropagation();
                 bannerRef.current?.click();
+
+                
               }}
             >
               Choose File
@@ -357,6 +362,7 @@ useEffect(() => {
           onChange={(e) => {
             if (e.target.files?.[0]) {
               handleBannerSelect(e.target.files[0]);
+                e.target.value = "";
             }
           }}
         />
@@ -392,6 +398,10 @@ useEffect(() => {
               onClick={(e) => {
                 e.stopPropagation();
                 setThumbnail(null);
+
+                 if (thumbRef.current) {
+      thumbRef.current.value = "";
+    }
               }}
               className="absolute right-2 top-2 z-20 rounded-full bg-card p-1 shadow"
             >
@@ -475,11 +485,16 @@ useEffect(() => {
         >
           <img src={img} className="h-full w-full object-cover" />
           <button
-            onClick={() =>
-              setGallery((prev) =>
-                prev.filter((_, index) => index !== i)
-              )
-            }
+           onClick={() => {
+    setGallery((prev) =>
+      prev.filter((_, index) => index !== i)
+    );
+
+    // ✅ Reset gallery input too
+    if (galleryRef.current) {
+      galleryRef.current.value = "";
+    }
+  }}
             className="absolute right-1 top-1 rounded-full bg-card p-1 shadow"
           >
             <X className="h-3 w-3 text-foreground" />
