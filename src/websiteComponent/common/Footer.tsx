@@ -62,7 +62,7 @@ function Footer() {
     { label: "Memberships", path: "/memberships" },
     { label: "Spa Packages", path: "/spa-packages" },
     { label: "Contact", path: "/contact-us" },
-    { label: "Terms & Conditions", path: "/terms-condition" },
+    { label: "Terms & Conditions", path: "/terms-condition", direct: true },
   ];
   const activeLocation = locations.find((loc) => loc.slug === activeSlug);
 
@@ -395,11 +395,13 @@ function Footer() {
                   {importantLinks.map((item) => (
                     <li key={item.label}>
                       <Link
-                        to={
-                          hasLocationSlug
-                            ? `/${activeSlug}${item.path}` // location wise
-                            : item.path // normal direct
-                        }
+                       to={
+        item.direct
+          ? item.path // ✅ always direct
+          : hasLocationSlug
+          ? `/${activeSlug}${item.path}` // location wise
+          : item.path
+      }
                         className="flex items-center gap-2 uppercase text-[#BEBEBE] hover:text-white cursor-pointer"
                       >
                         <ChevronRight size={14} className="text-[#f6eee9]" />
