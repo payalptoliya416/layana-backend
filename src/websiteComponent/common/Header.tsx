@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { X, ChevronDown } from "lucide-react";
-import { Link, useParams } from "react-router-dom";
+import { Link, useLocation, useParams } from "react-router-dom";
 import white_logo from "@/assets/logo.svg";
 import menuimg from "@/assets/menu.png";
 import { getLocations } from "../api/webLocationService";
@@ -80,6 +80,13 @@ export default function Header() {
     null,
   );  
   const { locationSlug } = useParams();
+const routerLocation = useLocation();
+  useEffect(() => {
+  // ✅ Close dropdown + mobile menu on page change
+  setActiveDropdown(null);
+  setOpen(false);
+}, [routerLocation.pathname]);
+
   useEffect(() => {
     if (!locationSlug) {
       setSelectedLocation(null);

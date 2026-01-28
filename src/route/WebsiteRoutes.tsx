@@ -66,7 +66,7 @@ function WebsiteRoutes() {
           <Route path="/team" element={<Team />} />
 
           {/* ================= TERM & CONDITION ================= */}
-            <Route path="/term-condition" element={<TermCondition/>}/>
+            <Route path="/terms-condition" element={<TermCondition/>}/>
 
             {/* ------------------- */}
           {/* <Route path="*" element={<Navigate to="/" replace />} /> */}
