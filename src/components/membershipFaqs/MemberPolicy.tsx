@@ -72,46 +72,46 @@ const titleInputRef = useRef<HTMLInputElement>(null);
   return (
     <tr ref={setNodeRef} style={style}>
       {/* TITLE */}
-      <td className="px-4 py-3 border-y border-border">
-        <input
-          value={title}
-          readOnly={!isEditing}
-            ref={titleInputRef} 
-          onChange={(e) => setTitle(e.target.value)}
-          className="
-              h-10 w-[220px]
-              rounded-lg
-              border border-input
-              bg-card
-              px-3
-              text-sm
-              text-foreground
-              focus:outline-none focus:ring-2 focus:ring-ring/20
-            "
-        />
-      </td>
+      <td className="px-4 py-2 border-y border-border w-[30%]">
+  {isEditing ? (
+    <input
+      value={title}
+      ref={titleInputRef}
+      onChange={(e) => setTitle(e.target.value)}
+      className="
+        h-10 w-[220px]
+        rounded-lg border border-input
+        px-3 text-sm
+      "
+    />
+  ) : (
+    <p className="w-full break-words whitespace-normal text-sm">
+      {item.title}
+    </p>
+  )}
+</td>
 
       {/* CONTENT */}
-      <td className="px-4 py-3 border-y border-border">
-        <input
-          value={content}
-          readOnly={!isEditing}
-          onChange={(e) => setContent(e.target.value)}
-          className="
-              h-10 w-[320px]
-              rounded-lg
-              border border-input
-              bg-card
-              px-3
-              text-sm
-              text-foreground
-              focus:outline-none focus:ring-2 focus:ring-ring/20
-            "
-        />
-      </td>
+   <td className="px-4 py-2 border-y border-border w-[50%]">
+  {isEditing ? (
+    <input
+      value={content}
+      onChange={(e) => setContent(e.target.value)}
+      className="
+        h-10 w-[320px]
+        rounded-lg border border-input
+        px-3 text-sm
+      "
+    />
+  ) : (
+    <p className="w-full break-words whitespace-normal text-sm">
+      {item.content}
+    </p>
+  )}
+</td>
 
       {/* ACTIONS */}
-      <td className="px-4 py-3 border-y border-border text-right">
+      <td className="px-4 py-2 border-y border-border text-right">
         {isEditing ? (
           <div className="inline-flex gap-2">
             {/* SAVE */}
@@ -377,9 +377,9 @@ const MemberPolicy = forwardRef<any, Props>(
                   className="rounded-xl border border-border bg-card p-4 space-y-3"
                 >
                   {/* TITLE */}
-                  <div className="flex justify-between items-center">
+                  <div className="flex justify-between items-center gap-1 flex-wrap">
                     <span className="text-sm text-muted-foreground">Title</span>
-
+  {isEditing ? (
                     <input
                       value={item.title}
                       readOnly={!isEditing}
@@ -394,15 +394,19 @@ const MemberPolicy = forwardRef<any, Props>(
                         );
                       }}
                       className="h-9 w-[150px] rounded-lg border border-input px-2 text-sm"
-                    />
+                    />) : (
+    <p className="w-full break-words whitespace-normal text-sm">
+      {item.title}
+    </p>
+  )}
                   </div>
 
                   {/* CONTENT */}
-                  <div className="flex justify-between items-center">
+                  <div className="flex justify-between items-center flex-wrap gap-1">
                     <span className="text-sm text-muted-foreground">
                       Content
                     </span>
-
+{isEditing ? (
                     <input
                       value={item.content}
                       readOnly={!isEditing}
@@ -417,7 +421,11 @@ const MemberPolicy = forwardRef<any, Props>(
                         );
                       }}
                       className="h-9 w-[150px] rounded-lg border border-input px-2 text-sm"
-                    />
+                    />): (
+    <p className="w-full break-words whitespace-normal text-sm">
+      {item.content}
+    </p>
+  )}
                   </div>
 
                   {/* ACTIONS */}

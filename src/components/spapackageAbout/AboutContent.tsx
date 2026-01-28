@@ -79,20 +79,20 @@ const AboutContent = forwardRef<any, Props>(
     }, [watch, onChange]);
 
     return (
-     <div className="h-full flex flex-col">
+      <div>
         <label className="text-sm font-medium">
           Description <sup className="text-destructive">*</sup>
         </label>
- <div className="flex-1">
-        <TermsDescriptionEditor
-          value={contentField.value || ""}
-          onChange={contentField.onChange}
-          fullHeight
-        />
- </div>
+            <div className="flex-1 overflow-y-auto scrollbar-thin pr-2 min-h-0">
+          <TermsDescriptionEditor
+            value={contentField.value || ""}
+            onChange={contentField.onChange}
+            fullHeight
+          />
+        </div>
       </div>
     );
-  }
+  },
 );
 
 AboutContent.displayName = "AboutContent";
