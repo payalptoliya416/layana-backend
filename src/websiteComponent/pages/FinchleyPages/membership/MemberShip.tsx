@@ -246,14 +246,6 @@ if (loading || !landingData) {
             TERMS & CONDITIONS
           </h2>
 
-          <ul className="text-base leading-[26px] text-[#666666] font-quattro">
-            <li> 1 year from the date of purchase.</li>
-            <li>
-               Massage packages are not valid for Hot stone massage, Pregnancy
-              massage &amp; Sport’s massage.
-            </li>
-            <li> Massage Package prices are valid at Finchley branch.</li>
-          </ul>
           <div
           className="quill-content"
           dangerouslySetInnerHTML={{
