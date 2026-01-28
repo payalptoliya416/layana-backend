@@ -1151,7 +1151,7 @@ body {
   border-radius: 12px;
 }
 .quill-content {
-  line-height: 20px;
+  line-height: 22px;
   font-size: 16px;
 }
 
@@ -1175,8 +1175,10 @@ body {
 }
 
 /* Paragraph spacing */
-.quill-content p {
+.quill-content p ,.quill-content p span{
   margin: 12px 0;
+  font-size: 16px;
+  line-height: 22px;
 }
 
 /* Lists */
