@@ -17,6 +17,7 @@ import PricingPage from "@/websiteComponent/pages/pricing/PricingPage";
 import ScrollToTop from "./ScrollToTop";
 import BookCounsultation from "@/websiteComponent/pages/book-consultation/BookCounsultation";
 import NotFound from "@/pages/NotFound";
+import WebNotFound from "@/pages/WebNotFound";
 
 export const DEFAULT_LOCATION = "finchley-central";
 
@@ -66,7 +67,11 @@ function WebsiteRoutes() {
 
           {/* ================= TERM & CONDITION ================= */}
             <Route path="/term-condition" element={<TermCondition/>}/>
-     <Route path="*" element={<Navigate to="/" replace />} />
+
+            {/* ------------------- */}
+            <Route path="*" element={<WebNotFound />} />
+          {/* <Route path="*" element={<Navigate to="/" replace />} /> */}
+
         </Route>
 
       </Routes>

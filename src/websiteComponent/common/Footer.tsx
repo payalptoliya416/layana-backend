@@ -435,7 +435,7 @@ useEffect(() => {
     locations.map((loc , index) => (
       <a
         key={loc.id}
-        href={`${loc.slug}`}
+        href={`/${loc.slug}`}
         className="flex gap-4 border-b last:border-b-0 border-[#f6eee9] pb-[21px] items-center"
       >
         {/* image */}
