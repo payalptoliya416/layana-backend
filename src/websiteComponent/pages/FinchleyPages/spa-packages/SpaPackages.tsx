@@ -99,10 +99,6 @@ function SpaPackages() {
               <img src={landingData?.gallery_image || spa} alt="spa" />
             </div>
             <div className="col-span-12 lg:col-span-6">
-              <h3 className="text-[28px] md:text-4xl mb-5 font-light">
-                Find your perfect escape
-              </h3>
-
               <div
                 dangerouslySetInnerHTML={{
                   __html: landingData?.description || "",
