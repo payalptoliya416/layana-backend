@@ -69,10 +69,10 @@ function WebsiteRoutes() {
             <Route path="/term-condition" element={<TermCondition/>}/>
 
             {/* ------------------- */}
-            <Route path="*" element={<WebNotFound />} />
           {/* <Route path="*" element={<Navigate to="/" replace />} /> */}
 
         </Route>
+            <Route path="*" element={<WebNotFound />} />
 
       </Routes>
     </>

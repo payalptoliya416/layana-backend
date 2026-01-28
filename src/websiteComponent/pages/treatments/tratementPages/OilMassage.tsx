@@ -11,11 +11,13 @@ import { Breadcrumb } from "./Breadcrumb";
 import { IoCall } from "react-icons/io5";
 import { Helmet } from "react-helmet-async";
 import { getLocations } from "@/websiteComponent/api/webLocationService";
+import { useNavigate } from "react-router-dom";
 
 const CARD_COLORS = ["#FBF3EC", "#F9EEE7", "#FFF4E9"];
 
 function OilMassage() {
   const location = useLocation();
+  const navigate = useNavigate();
   const treatmentId = location.state?.treatmentId;
 const locationId = location.state?.locationId;
 const { locationSlug, treatmentSlug } = useParams();
@@ -38,9 +40,15 @@ useEffect(() => {
   getTreatmentIdBySlug(treatmentSlug)
     .then((res) => {
       const id = res?.data?.id;
-      if (id) {
+       if (id) {
         setResolvedTreatmentId(id);
+      } else {
+        // ❌ invalid slug → redirect home
+        navigate("/", { replace: true });
       }
+    })
+    .catch(() => {
+      navigate("/", { replace: true });
     });
 }, [treatmentId, treatmentSlug]);
 

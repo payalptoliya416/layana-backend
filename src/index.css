@@ -1151,3 +1151,113 @@ body {
   max-width: 100%;
   border-radius: 12px;
 }
+.quill-content {
+  line-height: 20px;
+  font-size: 16px;
+}
+
+/* Headings same as admin */
+.quill-content h1 {
+  font-size: 42px;
+  font-weight: 700;
+  margin: 20px 0;
+}
+
+.quill-content h2 {
+  font-size: 32px;
+  font-weight: 600;
+  margin: 18px 0;
+}
+
+.quill-content h3 {
+  font-size: 26px;
+  font-weight: 600;
+  margin: 15px 0;
+}
+
+/* Paragraph spacing */
+.quill-content p {
+  margin: 12px 0;
+}
+
+/* Lists */
+.quill-content ul {
+  padding-left: 25px;
+  list-style: disc;
+}
+
+.quill-content ol {
+  padding-left: 25px;
+  list-style: decimal;
+}
+
+.quill-content li {
+  margin-bottom: 8px;
+}
+
+/* Bold + Italic */
+.quill-content strong {
+  font-weight: 700;
+}
+
+.quill-content em {
+  font-style: italic;
+}
+
+/* Alignment */
+.quill-content .ql-align-center {
+  text-align: center;
+}
+
+.quill-content .ql-align-right {
+  text-align: right;
+}
+
+.quill-content .ql-align-left {
+  text-align: left;
+}
+
+.quill-content .ql-align-justify {
+  text-align: justify;
+}
+
+/* Quill Size Classes Support */
+.quill-content .ql-size-small {
+  font-size: 13px;
+}
+
+.quill-content .ql-size-large {
+  font-size: 22px;
+}
+
+.quill-content .ql-size-huge {
+  font-size: 32px;
+}
+
+/* Font Family Support */
+.quill-content .ql-font-inter {
+  font-family: "Inter", sans-serif;
+}
+
+.quill-content .ql-font-mulish {
+  font-family: "Mulish", sans-serif;
+}
+
+.quill-content .ql-font-muli {
+  font-family: "Muli";
+}
+
+.quill-content .ql-font-quattrocento {
+  font-family: "Quattrocento", serif;
+}
+
+/* Links */
+.quill-content a {
+  text-decoration: underline;
+}
+
+/* Images responsive */
+.quill-content img {
+  max-width: 100%;
+  margin: 10px 0;
+}

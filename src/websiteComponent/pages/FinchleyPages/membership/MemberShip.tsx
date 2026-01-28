@@ -23,7 +23,6 @@ const [selectedLocation, setSelectedLocation] = useState<any>(null);
 const [landingData, setLandingData] =
   useState<MembershipLandingPageData | null>(null);
 const [loading, setLoading] = useState(true);
-console.log("landingData",landingData)
   // 👉 final usable locationId
   const finalLocationId = locationId ?? resolvedLocationId;
 const mapMembershipsToPlans = (memberships: Membership[]): MembershipPlan[] => {
@@ -59,7 +58,6 @@ useEffect(() => {
     // slug thi location id find karo
     getLocations().then((res) => {
       const locations = res.data ?? [];
-console.log("locations",locations)
       const matched = locations.find(
         (loc: any) => loc.slug === locationSlug
       );
@@ -257,27 +255,27 @@ if (loading || !landingData) {
             <li> Massage Package prices are valid at Finchley branch.</li>
           </ul>
           <div
-  className="quill-content text-[#666666]"
-  dangerouslySetInnerHTML={{
-    __html: landingData?.terms_condition || "",
-  }}
-/>
+          className=" text-[#666666] quill-content"
+          dangerouslySetInnerHTML={{
+            __html: landingData?.terms_condition || "",
+          }}
+        />
         </div>
 
         {/* Bottom grid */}
         <div className="flex justify-center">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-y-4 sm:gap-y-10 md:gap-y-10 gap-x-40  max-w-4xl w-full">
-   {landingData?.policy?.map((item, index) => (
-      <div key={index}>
-        <h3 className="text-base sm:text-lg font-bold uppercase mb-2 font-mulish">
-          {item.title}
-        </h3>
+        {landingData?.policy?.map((item, index) => (
+            <div key={index}>
+              <h3 className="text-base sm:text-lg font-bold uppercase mb-2 font-mulish">
+                {item.title}
+              </h3>
 
-        <p className="text-[#666666] font-quattro text-sm sm:text-base">
-          {item.content}
-        </p>
-      </div>
-    ))}
+              <p className="text-[#666666] font-quattro text-sm sm:text-base">
+                {item.content}
+              </p>
+            </div>
+          ))}
           {/* <div>
             <h3 className="text-base sm:text-lg font-bold uppercase mb-2 font-mulish">
               SESSION MINUTES
