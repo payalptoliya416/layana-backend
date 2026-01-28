@@ -423,7 +423,7 @@ const DesktopLocations = ({
   onSelect: (loc: UILocation) => void;
 }) => (
   <div className="absolute left-0 top-full pt-2 ">
-    <div className="w-[150px] sm:w-[160px] bg-white rounded-b-md overflow-hidden pt-[10px]">
+    <div className="w-[150px] sm:w-[160px] bg-white rounded-b-md overflow-hidden py-[2px]">
       {getAvailableLocations(locations, selectedLocation).map((loc) => (
         <Link
           key={loc.slug}
@@ -485,7 +485,7 @@ const DesktopDropdown = ({
  if (item.dropdownKey === "prices") {
     return (
       <div className="absolute left-0 top-full pt-2 w-[160px]">
-        <div className="bg-white rounded-b-md overflow-hidden pt-[10px]">
+        <div className="bg-white rounded-b-md overflow-hidden py-[2px]">
           {locations.map((loc) => (
             <Link
               key={loc.slug}
@@ -504,7 +504,7 @@ const DesktopDropdown = ({
   // ================= OTHER DROPDOWNS =================
   return (
     <div className="absolute left-0 top-full pt-2 w-[160px]">
-      <div className="bg-white rounded-b-md overflow-hidden pt-[10px] ">
+      <div className="bg-white rounded-b-md overflow-hidden py-[2px] ">
         {locations.map((loc) => (
           <Link
             key={loc.slug}
