@@ -224,17 +224,18 @@ const handleSave = async () => {
                       <h2 className="text-sm font-medium mb-3">
                         Content <sup className="text-destructive">*</sup>
                       </h2>
-
-                      <TermsDescriptionEditor
-                        value={membershipPayload.description}
-                        onChange={(val) =>
-                          setMembershipPayload((prev) => ({
-                            ...prev,
-                            description: val,
-                          }))
-                        }
-                        fullHeight
-                      />
+                      <div className="h-[calc(100dvh-370px)] sm:h-[calc(100dvh-380px)] lg:h-[calc(100dvh-330px)] overflow-y-auto [&_.ql-container]:overflow-hidden [&_.ql-editor]:overflow-hidden">
+                                            <TermsDescriptionEditor
+                                              value={membershipPayload.description}
+                                              onChange={(val) =>
+                                                setMembershipPayload((prev) => ({
+                                                  ...prev,
+                                                  description: val,
+                                                }))
+                                              }
+                                              fullHeight
+                                            />
+                      </div>
                     </div>
 
                     {/* POLICY TAB */}
