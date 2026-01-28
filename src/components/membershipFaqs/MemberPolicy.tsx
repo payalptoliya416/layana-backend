@@ -305,7 +305,7 @@ const MemberPolicy = forwardRef<any, Props>(
                       "
                     >
                       {/* TITLE */}
-                      <td className="px-4 py-3 border-y border-border">
+                      <td className=" py-3 border-y border-border">
                         <input
                           value={title}
                           onChange={(e) => setTitle(e.target.value)}
@@ -324,7 +324,7 @@ const MemberPolicy = forwardRef<any, Props>(
                       </td>
 
                       {/* CONTENT */}
-                      <td className="px-4 py-3 border-y border-border">
+                      <td className="py-3 border-y border-border">
                         <input
                           value={content}
                           onChange={(e) => setContent(e.target.value)}
@@ -343,7 +343,7 @@ const MemberPolicy = forwardRef<any, Props>(
                       </td>
 
                       {/* ACTION */}
-                      <td className="px-4 py-3 border-y border-border">
+                      <td className="py-3 border-y border-border">
                         <button
                           onClick={handleAdd}
                           className="inline-flex h-10 w-full items-center justify-center
@@ -393,7 +393,7 @@ const MemberPolicy = forwardRef<any, Props>(
                           ),
                         );
                       }}
-                      className="h-9 w-[180px] rounded-lg border border-input px-2 text-sm"
+                      className="h-9 w-[150px] rounded-lg border border-input px-2 text-sm"
                     />
                   </div>
 
@@ -416,7 +416,7 @@ const MemberPolicy = forwardRef<any, Props>(
                           ),
                         );
                       }}
-                      className="h-9 w-[180px] rounded-lg border border-input px-2 text-sm"
+                      className="h-9 w-[150px] rounded-lg border border-input px-2 text-sm"
                     />
                   </div>
 

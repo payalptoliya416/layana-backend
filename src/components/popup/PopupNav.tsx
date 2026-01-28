@@ -39,7 +39,7 @@ export function PopupNav({ activeItem, onItemChange }: SecondaryNavProps) {
       <div
         className="bg-card lg:space-y-2 flex
         lg:flex-col gap-2 width-scroll
-        flex-nowrap py-2 px-2"
+        flex-nowrap py-2 px-2 after:content-[''] after:w-2 after:flex-shrink-0"
       >
         {popupNavItems.map((item) => {
           const isActive = activeItem === item.id;

@@ -35,7 +35,7 @@ const AboutNav: React.FC<AboutNavProps> = ({
           bg-card flex lg:flex-col
           gap-2 lg:gap-2
           w-full width-scroll
-          py-2
+          py-2 after:content-[''] after:w-2 after:flex-shrink-0
         "
       >
         {AboutNavItems.map((item) => {

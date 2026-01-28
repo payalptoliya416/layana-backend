@@ -27,7 +27,7 @@ export function TeamNav({ activeItem, onItemChange }: SecondaryNavProps) {
   return (
     <nav
       className="h-full w-full overflow-x-auto
-      lg:overflow-visible     px-4
+      lg:overflow-visible px-4
       scrollbar-hide "
     >
       {/* Outer Card */}
@@ -36,7 +36,7 @@ export function TeamNav({ activeItem, onItemChange }: SecondaryNavProps) {
       lg:flex-col w-full
       gap-2 width-scroll 
       lg:gap-2  flex-nowrap
-      py-2"
+      py-2 after:content-[''] after:w-2 after:flex-shrink-0"
       >
         {navItems.map((item) => {
           const isActive = activeItem === item.id;
@@ -69,6 +69,7 @@ export function TeamNav({ activeItem, onItemChange }: SecondaryNavProps) {
           );
         })}
       </div>
+      
     </nav>
   );
 }
