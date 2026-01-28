@@ -231,7 +231,7 @@ if (loading || !landingData) {
                 </div>
               </div>
               <div className="mx-auto sm:mx-0">
-              <CommonButton>Buy Now</CommonButton>
+              <CommonButton href="https://www.fresha.com/providers/rmxjfmmk">Buy Now</CommonButton>
               </div>
             </div>
           </div>
