@@ -430,7 +430,7 @@ const DesktopLocations = ({
           to={`${baseUrl}/${loc.slug}`}
           state={locationState(loc)}
           onClick={() => onSelect(loc)}
-          className="block px-3 mb-[10px] text-[12px] text-black tracking-[2px]"
+          className="block px-3 py-[5px] hover:bg-[#f6eee9] transition duration-200 text-[12px] text-black tracking-[2px]"
         >
           {loc.label}
         </Link>
@@ -492,7 +492,7 @@ const DesktopDropdown = ({
               to={`/${loc.slug}/prices`}
               state={locationState(loc)}
               onClick={() => onSelectLocation(loc)}
-              className="block px-3 mb-[10px] text-xs text-black"
+              className="block px-3 py-[5px] text-xs text-black hover:bg-[#f6eee9] transition duration-200"
             >
               {loc.label}
             </Link>
@@ -511,7 +511,7 @@ const DesktopDropdown = ({
             to={`/${loc.slug}${item.basePath}`}
             state={locationState(loc)}
             onClick={() => onSelectLocation(loc)}
-            className="block px-3 mb-[10px] text-xs text-black "
+            className="block px-3 py-[5px] text-xs text-black hover:bg-[#f6eee9] transition duration-200"
           >
             {loc.label}
           </Link>

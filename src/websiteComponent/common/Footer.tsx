@@ -155,6 +155,7 @@ const handleNewsletterSubmit = async () => {
     setNewsletterEmail("");
   }
   } catch (err: any) {
+    console.log("err",err)
     setError(err?.message || "Something went wrong");
   } finally {
     setSubmitting(false);
@@ -166,6 +167,7 @@ useEffect(() => {
   setMessage("");
   setError("");
 }, [location.pathname]);
+
   return (
     <>
       {/* <SocialStrip /> */}
@@ -307,7 +309,7 @@ useEffect(() => {
                   </button>
                 </div>
                               {error && <p className="text-red-400 text-sm mt-2">{error}</p>}
-{message && <p className="text-green-400 text-sm mt-2">{message}</p>}
+                    {message && <p className="text-green-400 text-sm mt-2">{message}</p>}
               </div>
             </div>
           </div>

@@ -5,6 +5,17 @@ type ApiOptions = {
   body?: any;
 };
 
+export class ApiError extends Error {
+  status: number;
+  data: any;
+
+  constructor(message: string, status: number, data: any) {
+    super(message);
+    this.status = status;
+    this.data = data;
+  }
+}
+
 export async function publicApi<T>(
   url: string,
   options: ApiOptions = {}
@@ -17,9 +28,23 @@ export async function publicApi<T>(
     body: options.body ? JSON.stringify(options.body) : undefined,
   });
 
-  if (!res.ok) {
-    throw new Error("API Error");
+   let data: any;
+
+  try {
+    data = await res.json();
+  } catch {
+    data = null;
   }
 
-  return res.json();
+  // ✅ If API failed
+  if (!res.ok) {
+    const message =
+      data?.errors
+        ? Object.values(data.errors)[0][0] // first validation error
+        : data?.message || "Something went wrong";
+
+    throw new ApiError(message, res.status, data);
+  }
+
+  return data as T;
 }
