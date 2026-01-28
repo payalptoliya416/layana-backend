@@ -1237,7 +1237,6 @@ body {
   line-height: 40px;
 }
 
-/* Font Family Support */
 .quill-content .ql-font-inter {
   font-family: "Inter", sans-serif;
 }
@@ -1254,12 +1253,10 @@ body {
   font-family: "Quattrocento", serif;
 }
 
-/* Links */
 .quill-content a {
   text-decoration: underline;
 }
 
-/* Images responsive */
 .quill-content img {
   max-width: 100%;
   margin: 10px 0;

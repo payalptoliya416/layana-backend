@@ -47,7 +47,7 @@ function TermCondition() {
       <div className="container mx-auto">
         <div className="border-8 border-[#F6F6F6] p-[30px]">
            <div
-              className="prose prose-lg max-w-none text-[#666]"
+              className="prose prose-lg max-w-none quill-content"
               dangerouslySetInnerHTML={{ __html: termsHtml }}
             />
           {/* {termsData.map((item, index) => (
