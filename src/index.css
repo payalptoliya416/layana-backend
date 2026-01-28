@@ -989,7 +989,27 @@ body {
 .ql-toolbar {
   border-radius: 12px 12px 0 0;
 }
-
+.dark .ql-container {
+  color: hsl(var(--foreground)) !important;
+}
+.dark .ql-editor {
+  color: white !important;
+}
+.dark .ql-editor p,
+.dark .ql-editor span,
+.dark .ql-editor strong,
+.dark .ql-editor em,
+.dark .ql-editor u,
+.dark .ql-editor li,
+.dark .ql-editor h1,
+.dark .ql-editor h2,
+.dark .ql-editor h3,
+.dark .ql-editor a {
+  color: hsl(var(--foreground)) !important;
+}
+.dark .ql-editor a {
+  color: hsl(var(--primary)) !important;
+}
 .ql-container {
   border-radius: 0 0 12px 12px;
 }
