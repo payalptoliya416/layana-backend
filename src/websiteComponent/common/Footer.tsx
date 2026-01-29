@@ -38,7 +38,6 @@ const socialLinks = [
 
 function Footer() {
   const [locations, setLocations] = useState<any[]>([]);
-  console.log("locations", locations);
   const [loading, setLoading] = useState(true);
   const location = useLocation();
   const locationId = location.state?.locationId as number | undefined;

@@ -9,6 +9,7 @@ export type Enquiry = {
   message: string;
   created_at: string;
   updated_at: string;
+  type?: string;
   location: {
     id: number;
     name: string;

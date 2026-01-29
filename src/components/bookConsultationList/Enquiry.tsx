@@ -23,6 +23,7 @@ import {
 import { CSS } from "@dnd-kit/utilities";
 import { Button } from "../ui/button";
 import { useSortable } from "@dnd-kit/sortable";
+
 type EnquiryDetail = Enquiry & {
   location?: {
     id: number;
@@ -31,6 +32,7 @@ type EnquiryDetail = Enquiry & {
     city: string;
     address_line_1: string;
     address_line_2: string;
+    type?: string;
   };
 };
 function EnquiryRow({
@@ -68,6 +70,9 @@ function EnquiryRow({
         <div className="w-[20%] pl-4">{item.email}</div>
         <div className="w-[15%] pl-4">{item.mobile}</div>
         <div className="w-[20%] pl-4">{item.location?.name}</div>
+        <div className="w-[15%] pl-4">
+  {item.type ?? "-"}
+</div>
         <div className="w-[20%] pl-4 truncate">{item.message}</div>
         <div className="w-[100px] flex justify-center">
           <EyeIcon
@@ -84,6 +89,9 @@ function EnquiryRow({
         <p className="text-sm text-muted-foreground">{item.email}</p>
         <p className="text-sm">{item.mobile}</p>
         <p className="text-sm">{item.location?.name}</p>
+        <p className="text-sm font-medium text-primary">
+   {item.type ?? "-"}
+</p>
         <p className="text-sm text-muted-foreground line-clamp-2">
           {item.message}
         </p>
@@ -279,6 +287,7 @@ export default function EnquiryList() {
                   </span>
                   </div>
                 <div className="w-[20%] pl-4 border-l">Location </div>
+                <div className="w-[15%] pl-4 border-l">Type</div>
                 <div className="w-[20%] pl-4 border-l">Message </div>
 
                 <div className="w-[100px] pl-4 border-l cursor-pointer flex items-center justify-between">
@@ -403,6 +412,12 @@ export default function EnquiryList() {
       {viewData.location?.name}
     </p>
                   </div>
+                  <div>
+  <p className="text-muted-foreground">Type</p>
+  <p className="font-medium text-foreground">
+    {viewData.type ?? "-"}
+  </p>
+</div>
 
                   <div>
                     <p className="text-muted-foreground">Message</p>
