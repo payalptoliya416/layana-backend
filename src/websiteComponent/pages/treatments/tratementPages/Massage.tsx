@@ -52,9 +52,11 @@ useEffect(() => {
       try {
         const res = await getTreatmentCategories();
         setCategories(res.data);
-
+ if (categoryFromFooter) {
+        setActiveCategory(categoryFromFooter);
+      } 
         // ✅ Default active category
-        if (res.data.length > 0) {
+       else if (res.data.length > 0) {
           setActiveCategory(res.data[0].id);
         }
       } catch (err) {
