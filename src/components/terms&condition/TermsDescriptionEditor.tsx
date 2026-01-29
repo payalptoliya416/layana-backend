@@ -1,6 +1,8 @@
 import { useEffect } from "react";
 import ReactQuill, { Quill } from "react-quill";
 import "react-quill/dist/quill.snow.css";
+import QuillBetterTable from "quill-better-table";
+import "quill-better-table/dist/quill-better-table.css";
 
 const Font = Quill.import("formats/font") as any;
 
@@ -25,6 +27,13 @@ const fontWhitelist = [
 
 Font.whitelist = fontWhitelist;
 Quill.register(Font, true);
+
+Quill.register(
+  {
+    "modules/better-table": QuillBetterTable,
+  },
+  true,
+);
 
 // Inject font styles into the document
 const fontStyles = `
@@ -88,6 +97,10 @@ interface DescriptionEditorProps {
   height?: string;
 }
 
+const Size = Quill.import("formats/size");
+Size.whitelist = ["small", "normal", "large", "huge"];
+Quill.register(Size, true);
+
 export default function TermsDescriptionEditor({
   value,
   onChange,
@@ -105,23 +118,32 @@ export default function TermsDescriptionEditor({
     }
   }, []);
 
-const modules = {
-  toolbar: [
-    [{ font: fontWhitelist }],
-    [{ size: [] }],
-    ["bold", "italic", "underline", "strike"],
-    [{ color: [] }, { background: [] }],
-    [{ header: 1 }, { header: 2 }],
-    [{ list: "ordered" }, { list: "bullet" }],
-    [{ align: [] }],
-    ["link"],
-    ["clean"],
-  ],
+  const modules = {
+    toolbar: [
+      [{ font: fontWhitelist }], // Font Family Dropdown
+      [{ size: ["small", false, "large", "huge"] }], // Font Size
 
-  clipboard: {
-    matchVisual: false,
-  },
-};
+      [{ header: [1, 2, 3, 4, 5, 6, false] }], // Headings
+
+      ["bold", "italic", "underline", "strike"], // Text Styling
+
+      [{ color: [] }, { background: [] }], // Text + Background Color
+
+      [{ script: "sub" }, { script: "super" }], // Subscript/Superscript
+
+      [{ list: "ordered" }, { list: "bullet" }], // Lists
+      [{ indent: "-1" }, { indent: "+1" }], // Indent
+
+      [{ align: [] }], // Alignment
+
+      ["blockquote", "code-block"], // Quote + Code Block
+
+      ["link", "image", "video"], // Link + Image + Video
+
+      ["clean"], // Remove Formatting
+
+    ],
+  };
 
   const formats = [
     "font",

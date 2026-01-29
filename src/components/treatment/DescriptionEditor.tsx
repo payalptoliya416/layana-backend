@@ -1,10 +1,8 @@
 import { useEffect } from "react";
 import ReactQuill, { Quill } from "react-quill";
 import "react-quill/dist/quill.snow.css";
-
-/* ============================
-   FONT SETUP (Same as Terms)
-============================ */
+import QuillBetterTable from "quill-better-table";
+import "quill-better-table/dist/quill-better-table.css";
 
 const Font = Quill.import("formats/font") as any;
 
@@ -27,13 +25,19 @@ const fontWhitelist = [
   "muli",
 ];
 
-
 Font.whitelist = fontWhitelist;
 Quill.register(Font, true);
 
-/* ============================
-   Inject Font Styles
-============================ */
+Quill.register(
+  {
+    "modules/better-table": QuillBetterTable,
+  },
+  true,
+);
+
+const Size = Quill.import("formats/size");
+Size.whitelist = ["small", "normal", "large", "huge"];
+Quill.register(Size, true);
 
 const fontStyles = `
   @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Lato:wght@400;700&family=Montserrat:wght@400;500;600;700&family=Open+Sans:wght@400;500;600;700&family=Playfair+Display:wght@400;500;600;700&family=Poppins:wght@400;500;600;700&family=Roboto:wght@400;500;700&display=swap');
@@ -88,20 +92,19 @@ const fontStyles = `
     overflow-y: auto !important;
   }
 `;
-
 interface DescriptionEditorProps {
   value: string;
   onChange: (value: string) => void;
   height?: string;
 }
 
-export default function   DescriptionEditor({
+
+export default function DescriptionEditor({
   value,
   onChange,
   height = "260px",
 }: DescriptionEditorProps) {
 
-  /* ✅ Inject Styles Once */
   useEffect(() => {
     const styleId = "quill-font-styles";
     if (!document.getElementById(styleId)) {
@@ -112,23 +115,52 @@ export default function   DescriptionEditor({
     }
   }, []);
 
-  /* ============================
-     Toolbar Modules
-  ============================ */
-
   const modules = {
     toolbar: [
-      [{ font: fontWhitelist }], // ✅ Font Dropdown Added
-      [{ size: [] }],
-      ["bold", "italic", "underline"],
-      [{ color: [] }, { background: [] }],
-      [{ header: 1 }, { header: 2 }],
-      [{ list: "ordered" }, { list: "bullet" }],
-      [{ align: [] }],
-      ["link"],
-      ["clean"],
+      [{ font: fontWhitelist }], // Font Family Dropdown
+      [{ size: ["small", false, "large", "huge"] }], // Font Size
+
+      [{ header: [1, 2, 3, 4, 5, 6, false] }], // Headings
+
+      ["bold", "italic", "underline", "strike"], // Text Styling
+
+      [{ color: [] }, { background: [] }], // Text + Background Color
+
+      [{ script: "sub" }, { script: "super" }], // Subscript/Superscript
+
+      [{ list: "ordered" }, { list: "bullet" }], // Lists
+      [{ indent: "-1" }, { indent: "+1" }], // Indent
+
+      [{ align: [] }], // Alignment
+
+      ["blockquote", "code-block"], // Quote + Code Block
+
+      ["link", "image", "video"], // Link + Image + Video
+
+      ["clean"], // Remove Formatting
+
     ],
   };
+  
+  const formats = [
+    "font",
+    "size",
+    "bold",
+    "italic",
+    "underline",
+    "strike",
+    "color",
+    "background",
+    "script",
+    "header",
+    "blockquote",
+    "code-block",
+    "list",
+    "indent",
+    "align",
+    "link",
+    "image",
+  ];
 
   return (
     <div
@@ -149,6 +181,7 @@ export default function   DescriptionEditor({
         value={value}
         onChange={onChange}
         modules={modules}
+         formats={formats}
         placeholder="Enter Description..."
         className="h-full"
       />
