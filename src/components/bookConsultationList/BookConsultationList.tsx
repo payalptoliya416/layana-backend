@@ -590,76 +590,102 @@ function BookConsultationList() {
                         setViewData(null);
                       }}
                     >
-                      <AlertDialogContent className="max-w-[720px] rounded-2xl p-6 bg-card">
-                        <AlertDialogHeader>
-                          <AlertDialogTitle>
-                            Consultation Details
-                          </AlertDialogTitle>
-                        </AlertDialogHeader>
+                     <AlertDialogContent className="max-w-[720px] rounded-2xl p-6 
+  bg-white text-gray-900 
+  dark:bg-zinc-900 dark:text-gray-100
+  shadow-lg border border-gray-200 dark:border-zinc-700">
 
-                        {loadingView ? (
-                          <div className="py-10 text-center">Loading...</div>
-                        ) : (
-                          viewData && (
-                            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-sm">
-                              <div>
-                                <b>Name:</b> {viewData.firstName}{" "}
-                                {viewData.lastName}
-                              </div>
-                              <div>
-                                <b>Email:</b> {viewData.email}
-                              </div>
-                              <div>
-                                <b>Mobile:</b> {viewData.mobile}
-                              </div>
-                              <div>
-                                <b>Type:</b> {viewData.type}
-                              </div>
-                              <div>
-                                <b>Treatment:</b> {viewData.treatments}
-                              </div>
-                              <div>
-                                <b>Date:</b> {viewData.day}
-                              </div>
-                              <div>
-                                <b>Time:</b> {viewData.startTime} -{" "}
-                                {viewData.endTime}
-                              </div>
+  <AlertDialogHeader>
+    <AlertDialogTitle className="text-lg font-semibold">
+      Consultation Details
+    </AlertDialogTitle>
+  </AlertDialogHeader>
 
-                              <div>
-                                <b>Skin Type:</b> {viewData.skin_type},{" "}
-                                {viewData.skin_type_second}
-                              </div>
+  {loadingView ? (
+    <div className="py-10 text-center text-gray-500 dark:text-gray-400">
+      Loading...
+    </div>
+  ) : (
+    viewData && (
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-sm">
 
-                              <div>
-                                <b>Skin Goal:</b> {viewData.skin_goal}
-                              </div>
+        {/* Name */}
+        <div className="p-3 rounded-lg bg-gray-50 dark:bg-zinc-800">
+          <b>Name:</b> {viewData.firstName} {viewData.lastName}
+        </div>
 
-                              <div>
-                                <b>Skin Care Product:</b>{" "}
-                                {viewData.skin_care_products}
-                              </div>
+        {/* Email */}
+        <div className="p-3 rounded-lg bg-gray-50 dark:bg-zinc-800 break-all">
+          <b>Email:</b> {viewData.email}
+        </div>
 
-                              <div>
-                                <b>Message:</b>
-                                <div className="mt-2">{viewData.message}</div>
-                              </div>
-                            </div>
-                          )
-                        )}
+        {/* Mobile */}
+        <div className="p-3 rounded-lg bg-gray-50 dark:bg-zinc-800">
+          <b>Mobile:</b> {viewData.mobile}
+        </div>
 
-                        <AlertDialogFooter className="mt-6">
-                          <Button
-                            variant="cancel"
-                            onClick={() => {
-                              setViewId(null);
-                              setViewData(null);
-                            }}
-                          >
-                            Close
-                          </Button>
-                        </AlertDialogFooter>
-                      </AlertDialogContent>
+        {/* Type */}
+        <div className="p-3 rounded-lg bg-gray-50 dark:bg-zinc-800">
+          <b>Type:</b> {viewData.type}
+        </div>
+
+        {/* Treatment */}
+        <div className="p-3 rounded-lg bg-gray-50 dark:bg-zinc-800">
+          <b>Treatment:</b> {viewData.treatments}
+        </div>
+
+        {/* Date */}
+        <div className="p-3 rounded-lg bg-gray-50 dark:bg-zinc-800">
+          <b>Date:</b> {viewData.day}
+        </div>
+
+        {/* Time */}
+        <div className="p-3 rounded-lg bg-gray-50 dark:bg-zinc-800">
+          <b>Time:</b> {viewData.startTime} - {viewData.endTime}
+        </div>
+
+        {/* Skin Type */}
+        <div className="p-3 rounded-lg bg-gray-50 dark:bg-zinc-800">
+          <b>Skin Type:</b> {viewData.skin_type}, {viewData.skin_type_second}
+        </div>
+
+        {/* Skin Goal */}
+        <div className="p-3 rounded-lg bg-gray-50 dark:bg-zinc-800">
+          <b>Skin Goal:</b> {viewData.skin_goal}
+        </div>
+
+        {/* Skin Care Product */}
+        <div className="p-3 rounded-lg bg-gray-50 dark:bg-zinc-800">
+          <b>Skin Care Product:</b> {viewData.skin_care_products}
+        </div>
+
+        {/* Message Full Width */}
+        <div className="sm:col-span-2 p-3 rounded-lg bg-gray-50 dark:bg-zinc-800">
+          <b>Message:</b>
+          <div className="mt-2 text-gray-600 dark:text-gray-300">
+            {viewData.message}
+          </div>
+        </div>
+
+      </div>
+    )
+  )}
+
+  <AlertDialogFooter className="mt-6">
+    <Button
+      variant="cancel"
+      className="bg-gray-200 text-gray-900 
+        hover:bg-gray-300
+        dark:bg-zinc-700 dark:text-white dark:hover:bg-zinc-600"
+      onClick={() => {
+        setViewId(null);
+        setViewData(null);
+      }}
+    >
+      Close
+    </Button>
+  </AlertDialogFooter>
+</AlertDialogContent>
                     </AlertDialog>
                   )}
 
