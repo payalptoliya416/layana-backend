@@ -307,7 +307,7 @@ const GlobalLoader = () => {
 
           {/* Profile Dropdown Menu */}
       {isProfileOpen && (
-  <div className="absolute right-0 top-full mt-2 w-40 bg-card rounded-xl border border-border shadow-dropdown py-2 z-50">
+  <div className="absolute right-0 top-full mt-2 w-52 bg-card rounded-xl border border-border shadow-dropdown py-2 z-50">
 
     {/* Change Password */}
     <button
