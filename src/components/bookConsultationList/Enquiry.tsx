@@ -58,7 +58,7 @@ function EnquiryRow({
       <div
       data-row
         className={cn(
-          "hidden 2xl:flex items-center px-4 py-3 mx-4 my-1 rounded-xl",
+          "hidden 2xl:flex items-center px-4 py-3 mx-4 my-1 rounded-xl text-muted-foreground",
           index % 2 === 0 ? "bg-card" : "bg-muted",
           "hover:bg-muted/70"
         )}
