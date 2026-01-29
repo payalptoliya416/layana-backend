@@ -68,15 +68,6 @@ useEffect(() => {
   }, []);
 
   /* ================================
-     2️⃣ Footer Click Update Category
-  ================================= */
-  useEffect(() => {
-    if (categoryFromFooter) {
-      setActiveCategory(categoryFromFooter);
-    }
-  }, [categoryFromFooter]);
-
-  /* ================================
      3️⃣ Load Treatments When Category Changes
   ================================= */
   useEffect(() => {
