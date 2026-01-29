@@ -67,7 +67,7 @@ function EnquiryRow({
           {index + 1}
         </div>
         <div className="w-[18%] pl-4 font-medium">{item.name}</div>
-        <div className="w-[20%] pl-4">{item.email}</div>
+        <div className="w-[20%] pl-4 truncate">{item.email}</div>
         <div className="w-[15%] pl-4">{item.mobile}</div>
         <div className="w-[20%] pl-4">{item.location?.name}</div>
         <div className="w-[15%] pl-4">
