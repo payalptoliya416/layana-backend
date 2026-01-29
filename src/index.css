@@ -3,7 +3,6 @@
 @import url('https://fonts.googleapis.com/css2?family=Mulish:wght@400;500;600;700&family=Quattrocento:wght@400;700&display=swap');
 @import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Lato:wght@400;700&family=Montserrat:wght@400;500;600;700&family=Open+Sans:wght@400;500;600;700&family=Playfair+Display:wght@400;500;600;700&family=Poppins:wght@400;500;600;700&family=Roboto:wght@400;500;700&family=Mulish:wght@400;500;600;700&family=Quattrocento:wght@400;700&display=swap");
 
-
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -242,28 +241,7 @@
 .shadow-profile-pill {
   box-shadow: 0 10px 25px rgba(0, 0, 0, 0.12);
 }
-/* '---------quite board---' */
-.ql-toolbar {
-  border: none !important;
-  border-bottom: 1px solid hsl(var(--border)) !important;
-  background: hsl(var(--card));
-}
-.ql-editor.ql-blank::before {
-  color: hsl(var(--muted-foreground)) !important;
-  opacity: 1;
-}
-.ql-container {
-  border: none !important;
-  font-size: 14px;
-  border-radius: 0 0 12px 12px;
-    background: hsl(var(--card));
-  color: hsl(var(--foreground));
-}
 
-.ql-editor {
-  min-height: 180px;
-  padding: 16px;
-}
 label {
   display: block;
   margin-bottom: 10px;
@@ -544,36 +522,20 @@ input[type="time"]::-webkit-datetime-edit-ampm-field {
 }
 }
 /* Editor text */
-.ql-toolbar {
-  border: none !important;
-  border-bottom: 1px solid hsl(var(--border)) !important;
-  background: hsl(var(--card));
-}
-
-.ql-container {
-  border: none !important;
-  background: hsl(var(--card));
-  color: hsl(var(--foreground));
-}
-
-/* TimePicker input focus */
 .ant-picker-focused {
   border-color: #035865 !important;
   box-shadow: 0 0 0 2px rgba(3, 88, 101, 0.25) !important;
 }
 
-/* Selected time item */
 .ant-picker-time-panel-cell-selected .ant-picker-time-panel-cell-inner {
   background-color: #035865 !important;
   color: #fff !important;
 }
 
-/* Hover time item */
 .ant-picker-time-panel-cell-inner:hover {
   background-color: rgba(3, 88, 101, 0.15) !important;
 }
 
-/* OK button */
 .ant-picker-ok button {
   background-color: #035865 !important;
   border-color: #035865 !important;
@@ -587,7 +549,6 @@ input[type="time"]::-webkit-datetime-edit-ampm-field {
   /* color: #ffffff !important; */
 }
 
-/* Placeholder → soft grey (proper visible) */
 .ant-picker input::placeholder {
   /* color: #bfcfd4 !important;  */
   opacity: 1 !important;     /* AntD sometimes sets low opacity */
@@ -604,6 +565,40 @@ input[type="time"]::-webkit-datetime-edit-ampm-field {
 }
 
 /* ================= FONT DROPDOWN ================= */
+/* '---------quite board---' */
+.ql-toolbar {
+  border: none !important;
+  border-bottom: 1px solid hsl(var(--border)) !important;
+  background: hsl(var(--card));
+}
+.ql-editor.ql-blank::before {
+  color: hsl(var(--muted-foreground)) !important;
+  opacity: 1;
+}
+.ql-container {
+  border: none !important;
+  font-size: 14px;
+  border-radius: 0 0 12px 12px;
+    background: hsl(var(--card));
+  color: hsl(var(--foreground));
+}
+
+.editor.ql-snow .ql-editor {
+  padding:0;
+}
+
+.ql-toolbar {
+  border: none !important;
+  border-bottom: 1px solid hsl(var(--border)) !important;
+  background: hsl(var(--card));
+}
+
+.ql-container {
+  border: none !important;
+  background: hsl(var(--card));
+  color: hsl(var(--foreground));
+}
+
 .ql-snow .ql-picker.ql-font {
   width: 180px;
 }
@@ -881,9 +876,10 @@ body {
 }
 
 .ql-editor {
-  min-height: 400px;
+  /* min-height: 400px; */
   padding-bottom: 80px; 
 }
+
 @media(max-width:767px){
   .ql-editor {
   padding-bottom: 100px; 
@@ -895,10 +891,10 @@ body {
 }
 }
 
-.ql-editor {
+/* .ql-editor {
   height: 100% !important;
   overflow-y: auto !important;
-}
+} */
 .ql-snow .ql-picker.ql-font .ql-picker-label[data-value="mulish"]::before,
 .ql-snow .ql-picker.ql-font .ql-picker-item[data-value="mulish"]::before {
   content: "Mulish";
@@ -1013,52 +1009,42 @@ body {
 .ql-container {
   border-radius: 0 0 12px 12px;
 }
+
 /* ===============================
    ANT PICKER DARK MODE FIX
 ================================ */
 
-/* Input box background + text */
 .dark .ant-picker {
   background: hsl(var(--card)) !important;
   border: 1px solid hsl(var(--border)) !important;
   color: hsl(var(--foreground)) !important;
 }
 
-/* Input text */
 .dark .ant-picker input {
   color: hsl(var(--foreground)) !important;
 }
 
-/* Placeholder */
 .dark .ant-picker input::placeholder {
   color: hsl(var(--muted-foreground)) !important;
   opacity: 1 !important;
 }
 
-/* Clock icon */
 .dark .ant-picker-suffix {
   color: hsl(var(--muted-foreground)) !important;
 }
 
-/* Clear icon */
 .dark .ant-picker-clear {
   color: hsl(var(--muted-foreground)) !important;
 }
 
-/* Hover border */
 .dark .ant-picker:hover {
   border-color: hsl(var(--primary)) !important;
 }
 
-/* Focus border */
 .dark .ant-picker-focused {
   border-color: hsl(var(--primary)) !important;
   box-shadow: 0 0 0 2px hsl(var(--ring) / 0.3) !important;
 }
-
-/* ===============================
-   DROPDOWN PANEL DARK MODE
-================================ */
 
 .dark .ant-picker-dropdown {
   background: hsl(var(--popover)) !important;
@@ -1069,24 +1055,20 @@ body {
   color: hsl(var(--foreground)) !important;
 }
 
-/* Time list items */
 .dark .ant-picker-time-panel-cell-inner {
   color: hsl(var(--foreground)) !important;
 }
 
-/* Hover item */
 .dark .ant-picker-time-panel-cell-inner:hover {
   background: hsl(var(--muted)) !important;
 }
 
-/* Selected item */
 .dark .ant-picker-time-panel-cell-selected
   .ant-picker-time-panel-cell-inner {
   background: hsl(var(--primary)) !important;
   color: hsl(var(--primary-foreground)) !important;
 }
 
-/* OK button */
 .dark .ant-picker-ok button {
   background: hsl(var(--primary)) !important;
   border-color: hsl(var(--primary)) !important;
@@ -1097,25 +1079,20 @@ body {
   border-top: 1px solid hsl(var(--border)) !important;
 }
 
-/* Now button text */
 .dark .ant-picker-now-btn {
   color: hsl(var(--foreground)) !important;
 }
 
-/* OK button already styled but ensure footer match */
 .dark .ant-picker-ok button {
   background: hsl(var(--primary)) !important;
   border-color: hsl(var(--primary)) !important;
   color: hsl(var(--primary-foreground)) !important;
 }
 
-/* Footer padding fix */
 .quill-content {
-  font-family: inherit;
   line-height: 1.6;
 }
 
-/* ✅ Alignment Support */
 .quill-content .ql-align-center {
   text-align: center;
 }
@@ -1131,8 +1108,6 @@ body {
 .quill-content .ql-align-justify {
   text-align: justify;
 }
-
-/* ✅ Headings Support */
 .quill-content h1,
 .quill-content h2,
 .quill-content h3,
@@ -1141,7 +1116,6 @@ body {
   margin: 10px 0;
 }
 
-/* ✅ Lists */
 .quill-content ul {
   padding-left: 20px;
   list-style-type: disc;
@@ -1151,31 +1125,23 @@ body {
   margin-bottom: 6px;
 }
 
-/* ✅ Bold & Italic */
-.quill-content strong {
-  font-weight: 700;
-}
-
 .quill-content em {
   font-style: italic;
 }
 
-/* ✅ Background + Text Color Support */
 .quill-content span {
   white-space: pre-wrap;
 }
 
-/* Optional: Prevent overflow */
 .quill-content img {
   max-width: 100%;
-  border-radius: 12px;
 }
+
 .quill-content {
   line-height: 22px;
   font-size: 16px;
 }
 
-/* Headings same as admin */
 .quill-content h1 {
   font-size: 42px;
   font-weight: 700;
@@ -1194,14 +1160,12 @@ body {
   margin: 15px 0;
 }
 
-/* Paragraph spacing */
 .quill-content p ,.quill-content p span{
   margin: 12px 0;
   font-size: 16px;
   line-height: 22px;
 }
 
-/* Lists */
 .quill-content ul {
   padding-left: 25px;
   list-style: disc;
@@ -1240,7 +1204,6 @@ body {
   text-align: justify;
 }
 
-/* Quill Size Classes Support */
 .quill-content .ql-size-small {
   font-size: 13px;
   line-height: 20px;
@@ -1276,10 +1239,40 @@ body {
   text-decoration: underline;
 }
 
-.quill-content img {
-  max-width: 100%;
-  margin: 10px 0;
-}
 .ql-container{
   padding-bottom: 10px;
+}
+.ql-preview {
+  all: revert;
+  font-family: inherit;
+  line-height: 1.6;
+}
+.ql-preview .ql-align-center {
+  text-align: center;
+}
+
+.ql-preview .ql-size-huge {
+  font-size: 2.5em;
+}
+.ql-preview {
+  all: revert;
+}
+.ql-editor h1 {
+  font-size: 2em !important;
+}
+.ql-editor h2 {
+  font-size: 1.5em !important;
+}
+.ql-editor h3 {
+  font-size: 1.25em !important;
+}
+
+.ql-editor ul {
+  padding-left: 1.5rem !important;
+  list-style: disc !important;
+}
+
+.ql-editor ol {
+  padding-left: 1.5rem !important;
+  list-style: decimal !important;
 }

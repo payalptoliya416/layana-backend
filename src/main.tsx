@@ -4,6 +4,8 @@ import "react-quill/dist/quill.snow.css";
 import "./index.css";
 import { HelmetProvider } from "react-helmet-async";
 import React from "react";
+import "react-quill/dist/quill.snow.css";
+
 // createRoot(document.getElementById("root")!).render(<App />);
 createRoot(document.getElementById("root")!).render(
   <React.StrictMode>

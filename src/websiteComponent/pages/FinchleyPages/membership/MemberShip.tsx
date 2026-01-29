@@ -245,13 +245,14 @@ if (loading || !landingData) {
           <h2 className="text-lg mb-[15px] font-bold font-mulish">
             TERMS & CONDITIONS
           </h2>
-
+         <div className="editor ql-snow">
           <div
           className="quill-content"
           dangerouslySetInnerHTML={{
             __html: landingData?.terms_condition || "",
           }}
         />
+         </div>
         </div>
 
         {/* Bottom grid */}
