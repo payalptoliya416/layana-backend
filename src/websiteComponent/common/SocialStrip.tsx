@@ -19,7 +19,7 @@ const socials = [
   {
     label: "CONNECT US",
     name: "WhatsApp",
-    url: "https://wa.me/message/QZVCD34TB4OKC1", // replace with real number
+    url: "https://wa.me/+447367123786", 
   },
 ];
 

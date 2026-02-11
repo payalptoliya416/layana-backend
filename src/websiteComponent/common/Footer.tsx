@@ -32,7 +32,7 @@ const socialLinks = [
   },
   {
     icon: FaWhatsapp,
-    href: "https://wa.me/message/QZVCD34TB4OKC1",
+    href: "https://wa.me/+447367123786",
   },
 ];
 
@@ -189,7 +189,6 @@ const buildLink = (path: string, direct?: boolean) => {
 
   return (
     <>
-      {/* <SocialStrip /> */}
       <section
         className="relative w-full min-h-[520px] flex items-center justify-center text-center  bg-[left_center] xl:bg-[center] bg-no-repeat bg-cover"
         style={{

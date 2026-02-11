@@ -14,7 +14,7 @@ export default function FixedSocialBar() {
 
       {/* WhatsApp */}
       <a
-        href="https://wa.me/message/QZVCD34TB4OKC1"
+        href="https://wa.me/+447367123786"
         target="_blank"
         className="w-[55px] h-[51px] bg-green-500 flex items-center justify-center text-white mb-2"
       >
