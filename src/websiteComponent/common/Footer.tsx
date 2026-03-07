@@ -223,7 +223,7 @@ const buildLink = (path: string, direct?: boolean) => {
             />
           </a>
           {/* heading */}
-          <h1 className="font-quattro text-[28px] md:text-[36px] lg:text-[40px] md:leading-[36px] lg:leading-[48px] tracking-wide mb-8 text-white xl:text-[#282828]">
+          <h1 className="font-muli text-[28px] md:text-[36px] lg:text-[40px] md:leading-[36px] lg:leading-[48px] tracking-wide mb-8 text-white xl:text-[#282828]">
             YOUR WELLNESS IN YOUR CONTROL
           </h1>
 
@@ -280,60 +280,64 @@ const buildLink = (path: string, direct?: boolean) => {
         </div>
       </section>
 
-      <footer className=" text-[#cfd6da]">
+      <footer className="bg-[#1d252d] text-[#cfd3d8]">
         {/* ================= TOP STRIP ================= */}
-        <div className="bg-[#282828] border-b border-[#f6eee9]/30">
-          <div className="container mx-auto">
-            <div className="grid grid-cols-12 lg:gap-6 items-center ">
+        <div className="border-y border-[#e5ddd4]/55">
+          <div className="container mx-auto px-0 sm:px-8">
+            <div className="grid grid-cols-1 overflow-hidden lg:grid-cols-[1fr_0.9fr_1.15fr] lg:divide-x lg:divide-[#e5ddd4]/55">
               {/* Social icons */}
-              <div className="col-span-12 sm:col-span-6 lg:col-span-4 flex justify-center lg:justify-start gap-3 py-[36px]">
+              <div className="flex items-center justify-center gap-3 border-b border-[#e5ddd4]/55 px-6 py-6 sm:justify-start md:px-10 lg:border-b-0 lg:px-10 lg:py-6">
                 {socialLinks.map(({ icon: Icon, href }, i) => (
                   <a
                     key={i}
                     href={href}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="w-[55px] h-[55px] rounded-full border border-[#BEBEBE]
-                  flex items-center justify-center
-                  hover:bg-[#f6eee9] hover:text-[#282828]
-                  transition cursor-pointer"
+                    aria-label={`Social link ${i + 1}`}
+                    className="flex h-[46px] w-[46px] items-center justify-center rounded-full border border-[#e5ddd4] text-[#f3f1ea] transition-colors duration-300 hover:border-[#e5ddd4] hover:text-[#e5ddd4]"
                   >
-                    <Icon size={22} />
+                    <Icon size={18} />
                   </a>
                 ))}
               </div>
 
               {/* Logo */}
-              <div className="col-span-12 sm:col-span-6 lg:col-span-4 flex justify-center sm:border-l lg:border-y-0 lg:border border-[#f6eee9]/30 py-[40px]">
+              <div className="flex justify-center border-b border-[#e5ddd4]/55 px-6 py-6 lg:border-b-0 lg:px-10 lg:py-6">
                 <Link to="/">
-                  <img src={white_logo} alt="Layana" className="h-[80px]" />
+                  <img
+                    src={white_logo}
+                    alt="Layana"
+                    className="h-auto w-[138px] sm:w-[152px]"
+                  />
                 </Link>
               </div>
 
               {/* Newsletter */}
-              <div className="col-span-12 sm:col-span-12 lg:col-span-4 py-[36px]">
-                <p className="text-xl tracking-widest uppercase mb-[19px]">
+              <div className="px-6 py-6 sm:px-10 lg:px-10 lg:py-6">
+                <p className="font-muli text-[16px] uppercase tracking-[0.08em] text-white">
                   Our Newsletter
                 </p>
-                <div className="flex">
+                <div className="mt-5 flex flex-col gap-4 sm:flex-row sm:items-end sm:gap-0">
                   <input
                     type="email"
                     value={newsletterEmail}
                     onChange={(e) => setNewsletterEmail(e.target.value)}
                     placeholder="Enter your email..."
-                    className="flex-1 bg-transparent border-b border-[#FDE6D8]/30 text-[#BEBEBE] placeholder:text-white pr-4 py-2 text-sm focus:outline-none"
+                    className="h-[42px] flex-1 sm:min-w-[250px] lg:min-w-[280px] border-b border-[#e5ddd4]/55 bg-transparent pr-4 text-[13px] text-[#cfd3d8] placeholder:text-[#a8b0b7] focus:outline-none"
                   />
                   <button
                     onClick={handleNewsletterSubmit}
                     disabled={submitting}
-                    className="bg-[#f6eee9] px-[23px] py-[14px] text-xs leading-0 tracking-[2px] uppercase text-black font-semibold"
+                    className="h-[42px] min-w-[140px] bg-[#e5ddd4] px-6 text-[11px] font-semibold uppercase tracking-[0.28em] text-[#1d252d] transition-colors duration-300 hover:bg-[#d8cec4] disabled:cursor-not-allowed disabled:opacity-70"
                   >
                     {submitting ? "Submitting..." : "Subscribe"}
                   </button>
                 </div>
-                {error && <p className="text-red-400 text-sm mt-2">{error}</p>}
+                {error && (
+                  <p className="mt-2 text-sm text-red-400">{error}</p>
+                )}
                 {message && (
-                  <p className="text-green-400 text-sm mt-2">{message}</p>
+                  <p className="mt-2 text-sm text-green-400">{message}</p>
                 )}
               </div>
             </div>
@@ -341,86 +345,86 @@ const buildLink = (path: string, direct?: boolean) => {
         </div>
 
         {/* ================= MAIN FOOTER ================= */}
-        <div className=" bg-[#282828]">
+        <div>
           <div className="container mx-auto">
-            <div className="grid grid-cols-12 sm:gap-10 lg:gap-1 py-[39px]">
-              <div className="col-span-12 sm:col-span-6 lg:col-span-3 mb-10 sm:mb-0">
-                <h4 className="relative text-white tracking-widest mb-[33px] text-xl after:content-[''] after:block after:w-12 after:h-[2px] after:bg-[#f6eee9] after:mt-3">
+            <div className="grid grid-cols-1 gap-y-10 py-10 sm:grid-cols-2 sm:gap-x-10 lg:grid-cols-4 lg:gap-x-12 lg:py-10">
+              <div>
+                <h4 className="font-muli text-[17px] uppercase tracking-[0.04em] text-white after:mt-4 after:block after:h-px after:w-10 after:bg-[#e5ddd4] after:content-['']">
                   ABOUT LAYANA
                 </h4>
 
-                 {activeLocation ? (
-          <ul className="space-y-5 text-sm">
-            {/* Address */}
-            <li>
-              <a
-                href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(
-                  activeLocation.address_line_1 +
-                    ", " +
-                    activeLocation.address_line_2 +
-                    ", " +
-                    activeLocation.postcode
-                )}`}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="flex gap-2 items-center text-[#A3A2A2] hover:text-white cursor-pointer"
-              >
-                <div>
-                <MapPin size={16} className="text-[#f6eee9]" />
-                </div>
-                <span className="">
-                  {activeLocation.address_line_1},{" "}
-                {activeLocation.address_line_2},{" "}
-                {activeLocation.postcode}
-                </span>
-              </a>
-            </li>
+                {activeLocation ? (
+                  <ul className="mt-8 space-y-5 text-[14px] leading-7 text-[#aeb5bb]">
+                    {/* Address */}
+                    <li>
+                      <a
+                        href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(
+                          activeLocation.address_line_1 +
+                            ", " +
+                            activeLocation.address_line_2 +
+                            ", " +
+                            activeLocation.postcode,
+                        )}`}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="flex items-start gap-3 text-[#aeb5bb] transition-colors duration-300 hover:text-white"
+                      >
+                        <div className="pt-1">
+                          <MapPin size={15} className="text-[#e5ddd4]" />
+                        </div>
+                        <span>
+                          {activeLocation.address_line_1},{" "}
+                          {activeLocation.address_line_2},{" "}
+                          {activeLocation.postcode}
+                        </span>
+                      </a>
+                    </li>
 
-            {/* Phone */}
-            <li>
-              <a
-                href={`tel:${activeLocation.phone}`}
-                className="flex gap-2 items-center text-[#A3A2A2] hover:text-white cursor-pointer"
-              >
-                <div>
-                <Phone size={16} className="text-[#f6eee9]" />
-                </div>
-                {activeLocation.phone}
-              </a>
-            </li>
+                    {/* Phone */}
+                    <li>
+                      <a
+                        href={`tel:${activeLocation.phone}`}
+                        className="flex items-center gap-3 text-[#aeb5bb] transition-colors duration-300 hover:text-white"
+                      >
+                        <div className="pt-0.5">
+                          <Phone size={15} className="text-[#e5ddd4]" />
+                        </div>
+                        {activeLocation.phone}
+                      </a>
+                    </li>
 
-            {/* Email */}
-            <li>
-              <a
-                href={`mailto:${activeLocation.email}`}
-                className="flex gap-2 items-center text-[#A3A2A2] hover:text-white cursor-pointer"
-              >
-                <div className="">
-                <Mail size={16} className="text-[#f6eee9]" />
-                </div>
-                {activeLocation.email}
-              </a>
-            </li>
-          </ul>
-        ) : (
-          <p className="text-[#BEBEBE] text-sm">
-            Location details not available
-          </p>
-        )}               
+                    {/* Email */}
+                    <li>
+                      <a
+                        href={`mailto:${activeLocation.email}`}
+                        className="flex items-center gap-3 text-[#aeb5bb] transition-colors duration-300 hover:text-white"
+                      >
+                        <div className="pt-0.5">
+                          <Mail size={15} className="text-[#e5ddd4]" />
+                        </div>
+                        {activeLocation.email}
+                      </a>
+                    </li>
+                  </ul>
+                ) : (
+                  <p className="mt-8 text-sm text-[#aeb5bb]">
+                    Location details not available
+                  </p>
+                )}
               </div>
 
-              <div className="col-span-12 sm:col-span-6 lg:col-span-3 mb-10 sm:mb-0">
-                <h4 className="relative text-white tracking-widest mb-[33px] text-xl after:content-[''] after:block after:w-12 after:h-[2px] after:bg-[#f6eee9] after:mt-3">
+              <div>
+                <h4 className="font-muli text-[17px] uppercase tracking-[0.04em] text-white after:mt-4 after:block after:h-px after:w-10 after:bg-[#e5ddd4] after:content-['']">
                   IMPORTANT LINKS
                 </h4>
-                <ul className="space-y-[23px] text-sm">
+                <ul className="mt-8 space-y-4 text-[13px]">
                   {importantLinks.map((item) => (
                     <li key={item.label}>
                       <Link
-                      to={buildLink(item.path, item.direct)}
-                        className="flex items-center gap-2 uppercase text-[#BEBEBE] hover:text-white cursor-pointer"
+                        to={buildLink(item.path, item.direct)}
+                        className="flex items-center gap-2 uppercase tracking-[0.02em] text-[#aeb5bb] transition-colors duration-300 hover:text-white"
                       >
-                        <ChevronRight size={14} className="text-[#f6eee9]" />
+                        <ChevronRight size={14} className="text-[#e5ddd4]" />
                         {item.label}
                       </Link>
                     </li>
@@ -428,15 +432,15 @@ const buildLink = (path: string, direct?: boolean) => {
                 </ul>
               </div>
 
-              <div className="col-span-12 sm:col-span-6 lg:col-span-3 mb-10 sm:mb-0">
-                <h4 className="relative text-white tracking-widest mb-[33px] text-xl after:content-[''] after:block after:w-12 after:h-[2px] after:bg-[#f6eee9] after:mt-3">
+              <div>
+                <h4 className="font-muli text-[17px] uppercase tracking-[0.04em] text-white after:mt-4 after:block after:h-px after:w-10 after:bg-[#e5ddd4] after:content-['']">
                   CATEGORIES
                 </h4>
-                <ul className="space-y-[23px] text-sm">
+                <ul className="mt-8 space-y-4 text-[13px]">
                   {categoriesLoading ? (
-                    <li className="text-[#BEBEBE]"></li>
+                    <li className="text-[#aeb5bb]"></li>
                   ) : categories.length === 0 ? (
-                    <li className="text-[#BEBEBE]"></li>
+                    <li className="text-[#aeb5bb]"></li>
                   ) : (
                     categories.map((cat) => (
                       <li key={cat.id}>
@@ -446,9 +450,9 @@ const buildLink = (path: string, direct?: boolean) => {
                               state: { categoryId: cat.id },
                             })
                           }
-                          className="flex items-center gap-2 uppercase text-[#BEBEBE] hover:text-white cursor-pointer"
+                          className="flex items-center gap-2 uppercase tracking-[0.02em] text-[#aeb5bb] transition-colors duration-300 hover:text-white"
                         >
-                          <ChevronRight size={14} className="text-[#f6eee9]" />
+                          <ChevronRight size={14} className="text-[#e5ddd4]" />
                           {cat.name}
                         </button>
                       </li>
@@ -457,35 +461,37 @@ const buildLink = (path: string, direct?: boolean) => {
                 </ul>
               </div>
 
-              <div className="col-span-12 sm:col-span-6 lg:col-span-3">
-                <h4 className="relative text-white tracking-widest mb-3 text-xl after:content-[''] after:block after:w-12 after:h-[2px] after:bg-[#f6eee9] after:mt-3">
+              <div>
+                <h4 className="font-muli text-[17px] uppercase tracking-[0.04em] text-white after:mt-4 after:block after:h-px after:w-10 after:bg-[#e5ddd4] after:content-['']">
                   OUR LOCATIONS
                 </h4>
-                <div className="space-y-2">
+                <div className="mt-8 space-y-0">
                   {loading ? (
-                    <div className="py-6 flex justify-center">
+                    <div className="flex justify-center py-6">
                       <Loader />
                     </div>
                   ) : (
-                    locations.map((loc, index) => (
+                    locations.map((loc) => (
                       <a
                         key={loc.id}
                         href={`/${loc.slug}`}
-                        className="flex gap-[15px] border-b last:border-b-0 border-[#f6eee9]/30 pb-[21px] items-center"
+                        className="flex items-center gap-4 border-b border-[#e5ddd4]/35 py-4 first:pt-0 last:border-b-0"
                       >
                         {/* image */}
-                        <div className="w-[68px] h-[68px] rounded-full overflow-hidden flex-shrink-0">
+                        <div className="h-[62px] w-[62px] flex-shrink-0 overflow-hidden rounded-full">
                           <img
                             src={loc.shop_banner_image}
                             alt={loc.name}
-                            className="w-full h-full object-cover"
+                            className="h-full w-full object-cover"
                           />
                         </div>
 
                         {/* text */}
-                        <div>
-                          <p className="text-white font-quattro mb-[3px]">{loc.name}</p>
-                          <p className="text-xs text-[#BEBEBE]">
+                        <div className="min-w-0">
+                          <p className="font-muli text-[15px] text-white">
+                            {loc.name}
+                          </p>
+                          <p className="mt-1 text-[10px] uppercase leading-5 tracking-[0.03em] text-[#aeb5bb]">
                             {loc.address_line_1}, {loc.address_line_2},{" "}
                             {loc.postcode}
                           </p>
@@ -500,10 +506,10 @@ const buildLink = (path: string, direct?: boolean) => {
         </div>
 
         {/* ================= BOTTOM BAR ================= */}
-        <div className="bg-[#282828] border-t border-[#f6eee9]/30">
-          <div className="container mx-auto flex justify-center items-center flex-wrap gap-5 py-6">
-            <div className="text-center text-sm ">
-              Layana © 2015 - {new Date().getFullYear()}
+        <div className="border-t border-[#e5ddd4]/35">
+          <div className="container mx-auto flex flex-wrap items-center justify-center gap-5 py-4">
+            <div className="text-center text-sm text-[#aeb5bb]">
+              Layana &copy; 2015 - {new Date().getFullYear()}
             </div>
           </div>
         </div>
