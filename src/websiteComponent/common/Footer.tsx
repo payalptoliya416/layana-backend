@@ -284,9 +284,9 @@ const buildLink = (path: string, direct?: boolean) => {
         {/* ================= TOP STRIP ================= */}
         <div className="border-y border-[#e5ddd4]/55">
           <div className="container mx-auto px-0 sm:px-8">
-            <div className="grid grid-cols-1 overflow-hidden lg:grid-cols-[1fr_0.9fr_1.15fr] lg:divide-x lg:divide-[#e5ddd4]/55">
+            <div className="grid grid-cols-1 items-stretch overflow-hidden lg:grid-cols-[1fr_0.9fr_1.15fr] lg:divide-x lg:divide-[#e5ddd4]/55">
               {/* Social icons */}
-              <div className="flex items-center justify-center gap-3 border-b border-[#e5ddd4]/55 px-6 py-6 sm:justify-start md:px-10 lg:border-b-0 lg:px-10 lg:py-6">
+              <div className="flex h-full items-center justify-center gap-3 border-b border-[#e5ddd4]/55 px-6 py-6 sm:justify-start md:px-10 lg:border-b-0 lg:px-10 lg:py-6">
                 {socialLinks.map(({ icon: Icon, href }, i) => (
                   <a
                     key={i}
@@ -302,7 +302,7 @@ const buildLink = (path: string, direct?: boolean) => {
               </div>
 
               {/* Logo */}
-              <div className="flex justify-center border-b border-[#e5ddd4]/55 px-6 py-6 lg:border-b-0 lg:px-10 lg:py-6">
+              <div className="flex h-full items-center justify-center border-b border-[#e5ddd4]/55 px-6 py-6 lg:border-b-0 lg:px-10 lg:py-6">
                 <Link to="/">
                   <img
                     src={white_logo}
@@ -313,7 +313,7 @@ const buildLink = (path: string, direct?: boolean) => {
               </div>
 
               {/* Newsletter */}
-              <div className="px-6 py-6 sm:px-10 lg:px-10 lg:py-6">
+              <div className="flex h-full flex-col justify-center px-6 py-6 sm:px-10 lg:px-10 lg:py-6">
                 <p className="font-muli text-[16px] uppercase tracking-[0.08em] text-white">
                   Our Newsletter
                 </p>
@@ -347,7 +347,7 @@ const buildLink = (path: string, direct?: boolean) => {
         {/* ================= MAIN FOOTER ================= */}
         <div>
           <div className="container mx-auto">
-            <div className="grid grid-cols-1 gap-y-10 py-10 sm:grid-cols-2 sm:gap-x-10 lg:grid-cols-4 lg:gap-x-12 lg:py-10">
+            <div className="grid grid-cols-1 gap-y-10 py-10 sm:grid-cols-2 sm:gap-x-10 lg:grid-cols-4 lg:gap-x-16 lg:py-10">
               <div>
                 <h4 className="font-muli text-[17px] uppercase tracking-[0.04em] text-white after:mt-4 after:block after:h-px after:w-10 after:bg-[#e5ddd4] after:content-['']">
                   ABOUT LAYANA
@@ -367,10 +367,10 @@ const buildLink = (path: string, direct?: boolean) => {
                         )}`}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="flex items-start gap-3 text-[#aeb5bb] transition-colors duration-300 hover:text-white"
+                        className="group flex items-start gap-3 text-[#aeb5bb] transition-colors duration-300 hover:text-[#e5ddd4]"
                       >
                         <div className="pt-1">
-                          <MapPin size={15} className="text-[#e5ddd4]" />
+                          <MapPin size={15} className="text-[#e5ddd4] transition-colors duration-300 group-hover:text-[#e5ddd4]" />
                         </div>
                         <span>
                           {activeLocation.address_line_1},{" "}
@@ -384,10 +384,10 @@ const buildLink = (path: string, direct?: boolean) => {
                     <li>
                       <a
                         href={`tel:${activeLocation.phone}`}
-                        className="flex items-center gap-3 text-[#aeb5bb] transition-colors duration-300 hover:text-white"
+                        className="group flex items-center gap-3 text-[#aeb5bb] transition-colors duration-300 hover:text-[#e5ddd4]"
                       >
                         <div className="pt-0.5">
-                          <Phone size={15} className="text-[#e5ddd4]" />
+                          <Phone size={15} className="text-[#e5ddd4] transition-colors duration-300 group-hover:text-[#e5ddd4]" />
                         </div>
                         {activeLocation.phone}
                       </a>
@@ -397,10 +397,10 @@ const buildLink = (path: string, direct?: boolean) => {
                     <li>
                       <a
                         href={`mailto:${activeLocation.email}`}
-                        className="flex items-center gap-3 text-[#aeb5bb] transition-colors duration-300 hover:text-white"
+                        className="group flex items-center gap-3 text-[#aeb5bb] transition-colors duration-300 hover:text-[#e5ddd4]"
                       >
                         <div className="pt-0.5">
-                          <Mail size={15} className="text-[#e5ddd4]" />
+                          <Mail size={15} className="text-[#e5ddd4] transition-colors duration-300 group-hover:text-[#e5ddd4]" />
                         </div>
                         {activeLocation.email}
                       </a>
@@ -422,9 +422,9 @@ const buildLink = (path: string, direct?: boolean) => {
                     <li key={item.label}>
                       <Link
                         to={buildLink(item.path, item.direct)}
-                        className="flex items-center gap-2 uppercase tracking-[0.02em] text-[#aeb5bb] transition-colors duration-300 hover:text-white"
+                        className="group flex items-center gap-2 uppercase tracking-[0.02em] text-[#aeb5bb] transition-colors duration-300 hover:text-[#e5ddd4]"
                       >
-                        <ChevronRight size={14} className="text-[#e5ddd4]" />
+                        <ChevronRight size={14} className="text-[#e5ddd4] transition-colors duration-300 group-hover:text-[#e5ddd4]" />
                         {item.label}
                       </Link>
                     </li>
@@ -450,9 +450,9 @@ const buildLink = (path: string, direct?: boolean) => {
                               state: { categoryId: cat.id },
                             })
                           }
-                          className="flex items-center gap-2 uppercase tracking-[0.02em] text-[#aeb5bb] transition-colors duration-300 hover:text-white"
+                          className="group flex items-center gap-2 uppercase tracking-[0.02em] text-[#aeb5bb] transition-colors duration-300 hover:text-[#e5ddd4]"
                         >
-                          <ChevronRight size={14} className="text-[#e5ddd4]" />
+                          <ChevronRight size={14} className="text-[#e5ddd4] transition-colors duration-300 group-hover:text-[#e5ddd4]" />
                           {cat.name}
                         </button>
                       </li>
@@ -491,7 +491,7 @@ const buildLink = (path: string, direct?: boolean) => {
                           <p className="font-muli text-[15px] text-white">
                             {loc.name}
                           </p>
-                          <p className="mt-1 text-[10px] uppercase leading-5 tracking-[0.03em] text-[#aeb5bb]">
+                          <p className="text-xs text-[#BEBEBE]">
                             {loc.address_line_1}, {loc.address_line_2},{" "}
                             {loc.postcode}
                           </p>
