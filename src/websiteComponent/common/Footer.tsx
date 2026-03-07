@@ -282,11 +282,11 @@ const buildLink = (path: string, direct?: boolean) => {
 
       <footer className=" text-[#cfd6da]">
         {/* ================= TOP STRIP ================= */}
-        <div className="bg-[#282828] border-b border-[#f6eee9]">
+        <div className="bg-[#282828] border-b border-[#f6eee9]/30">
           <div className="container mx-auto">
             <div className="grid grid-cols-12 lg:gap-6 items-center ">
               {/* Social icons */}
-              <div className="col-span-12 sm:col-span-6 lg:col-span-4 flex justify-center lg:justify-start gap-3  py-[36px]">
+              <div className="col-span-12 sm:col-span-6 lg:col-span-4 flex justify-center lg:justify-start gap-3 py-[36px]">
                 {socialLinks.map(({ icon: Icon, href }, i) => (
                   <a
                     key={i}
@@ -304,7 +304,7 @@ const buildLink = (path: string, direct?: boolean) => {
               </div>
 
               {/* Logo */}
-              <div className="col-span-12 sm:col-span-6 lg:col-span-4 flex justify-center sm:border-l lg:border-y-0 lg:border border-[#f6eee9]  py-[36px]">
+              <div className="col-span-12 sm:col-span-6 lg:col-span-4 flex justify-center sm:border-l lg:border-y-0 lg:border border-[#f6eee9]/30 py-[40px]">
                 <Link to="/">
                   <img src={white_logo} alt="Layana" className="h-[80px]" />
                 </Link>
@@ -321,12 +321,12 @@ const buildLink = (path: string, direct?: boolean) => {
                     value={newsletterEmail}
                     onChange={(e) => setNewsletterEmail(e.target.value)}
                     placeholder="Enter your email..."
-                    className="flex-1 bg-transparent border-b border-[#FDE6D8]/30 text-[#BEBEBE] pr-4 py-2 text-sm focus:outline-none"
+                    className="flex-1 bg-transparent border-b border-[#FDE6D8]/30 text-[#BEBEBE] placeholder:text-white pr-4 py-2 text-sm focus:outline-none"
                   />
                   <button
                     onClick={handleNewsletterSubmit}
                     disabled={submitting}
-                    className="bg-[#f6eee9] px-[23px] py-[14px] text-xs tracking-widest uppercase text-black"
+                    className="bg-[#f6eee9] px-[23px] py-[14px] text-xs leading-0 tracking-[2px] uppercase text-black font-semibold"
                   >
                     {submitting ? "Submitting..." : "Subscribe"}
                   </button>
@@ -345,12 +345,12 @@ const buildLink = (path: string, direct?: boolean) => {
           <div className="container mx-auto">
             <div className="grid grid-cols-12 sm:gap-10 lg:gap-1 py-[39px]">
               <div className="col-span-12 sm:col-span-6 lg:col-span-3 mb-10 sm:mb-0">
-                <h4 className="relative text-white tracking-widest mb-6 text-xl after:content-[''] after:block after:w-12 after:h-[2px] after:bg-[#f6eee9] after:mt-3">
+                <h4 className="relative text-white tracking-widest mb-[33px] text-xl after:content-[''] after:block after:w-12 after:h-[2px] after:bg-[#f6eee9] after:mt-3">
                   ABOUT LAYANA
                 </h4>
 
                  {activeLocation ? (
-          <ul className="space-y-4 text-sm">
+          <ul className="space-y-5 text-sm">
             {/* Address */}
             <li>
               <a
@@ -363,14 +363,16 @@ const buildLink = (path: string, direct?: boolean) => {
                 )}`}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex gap-3 items-center text-[#A3A2A2] hover:text-white cursor-pointer"
+                className="flex gap-2 items-center text-[#A3A2A2] hover:text-white cursor-pointer"
               >
                 <div>
                 <MapPin size={16} className="text-[#f6eee9]" />
                 </div>
-                {activeLocation.address_line_1},{" "}
+                <span className="">
+                  {activeLocation.address_line_1},{" "}
                 {activeLocation.address_line_2},{" "}
                 {activeLocation.postcode}
+                </span>
               </a>
             </li>
 
@@ -378,7 +380,7 @@ const buildLink = (path: string, direct?: boolean) => {
             <li>
               <a
                 href={`tel:${activeLocation.phone}`}
-                className="flex gap-3 items-center text-[#A3A2A2] hover:text-white cursor-pointer"
+                className="flex gap-2 items-center text-[#A3A2A2] hover:text-white cursor-pointer"
               >
                 <div>
                 <Phone size={16} className="text-[#f6eee9]" />
@@ -391,7 +393,7 @@ const buildLink = (path: string, direct?: boolean) => {
             <li>
               <a
                 href={`mailto:${activeLocation.email}`}
-                className="flex gap-3 items-center text-[#A3A2A2] hover:text-white cursor-pointer"
+                className="flex gap-2 items-center text-[#A3A2A2] hover:text-white cursor-pointer"
               >
                 <div className="">
                 <Mail size={16} className="text-[#f6eee9]" />
@@ -408,10 +410,10 @@ const buildLink = (path: string, direct?: boolean) => {
               </div>
 
               <div className="col-span-12 sm:col-span-6 lg:col-span-3 mb-10 sm:mb-0">
-                <h4 className="relative text-white tracking-widest mb-6 text-xl after:content-[''] after:block after:w-12 after:h-[2px] after:bg-[#f6eee9] after:mt-3">
+                <h4 className="relative text-white tracking-widest mb-[33px] text-xl after:content-[''] after:block after:w-12 after:h-[2px] after:bg-[#f6eee9] after:mt-3">
                   IMPORTANT LINKS
                 </h4>
-                <ul className="space-y-3 text-sm">
+                <ul className="space-y-[23px] text-sm">
                   {importantLinks.map((item) => (
                     <li key={item.label}>
                       <Link
@@ -427,10 +429,10 @@ const buildLink = (path: string, direct?: boolean) => {
               </div>
 
               <div className="col-span-12 sm:col-span-6 lg:col-span-3 mb-10 sm:mb-0">
-                <h4 className="relative text-white tracking-widest mb-6 text-xl after:content-[''] after:block after:w-12 after:h-[2px] after:bg-[#f6eee9] after:mt-3">
+                <h4 className="relative text-white tracking-widest mb-[33px] text-xl after:content-[''] after:block after:w-12 after:h-[2px] after:bg-[#f6eee9] after:mt-3">
                   CATEGORIES
                 </h4>
-                <ul className="space-y-3 text-sm">
+                <ul className="space-y-[23px] text-sm">
                   {categoriesLoading ? (
                     <li className="text-[#BEBEBE]"></li>
                   ) : categories.length === 0 ? (
@@ -456,10 +458,10 @@ const buildLink = (path: string, direct?: boolean) => {
               </div>
 
               <div className="col-span-12 sm:col-span-6 lg:col-span-3">
-                <h4 className="relative text-white tracking-widest mb-6 text-xl after:content-[''] after:block after:w-12 after:h-[2px] after:bg-[#f6eee9] after:mt-3">
+                <h4 className="relative text-white tracking-widest mb-3 text-xl after:content-[''] after:block after:w-12 after:h-[2px] after:bg-[#f6eee9] after:mt-3">
                   OUR LOCATIONS
                 </h4>
-                <div className="space-y-3">
+                <div className="space-y-2">
                   {loading ? (
                     <div className="py-6 flex justify-center">
                       <Loader />
@@ -469,7 +471,7 @@ const buildLink = (path: string, direct?: boolean) => {
                       <a
                         key={loc.id}
                         href={`/${loc.slug}`}
-                        className="flex gap-4 border-b last:border-b-0 border-[#f6eee9] pb-[21px] items-center"
+                        className="flex gap-[15px] border-b last:border-b-0 border-[#f6eee9]/30 pb-[21px] items-center"
                       >
                         {/* image */}
                         <div className="w-[68px] h-[68px] rounded-full overflow-hidden flex-shrink-0">
@@ -482,8 +484,8 @@ const buildLink = (path: string, direct?: boolean) => {
 
                         {/* text */}
                         <div>
-                          <p className="text-white font-quattro">{loc.name}</p>
-                          <p className="text-sm text-[#BEBEBE]">
+                          <p className="text-white font-quattro mb-[3px]">{loc.name}</p>
+                          <p className="text-xs text-[#BEBEBE]">
                             {loc.address_line_1}, {loc.address_line_2},{" "}
                             {loc.postcode}
                           </p>
@@ -498,7 +500,7 @@ const buildLink = (path: string, direct?: boolean) => {
         </div>
 
         {/* ================= BOTTOM BAR ================= */}
-        <div className="bg-[#282828] border-t border-[#f6eee9]">
+        <div className="bg-[#282828] border-t border-[#f6eee9]/30">
           <div className="container mx-auto flex justify-center items-center flex-wrap gap-5 py-6">
             <div className="text-center text-sm ">
               Layana © 2015 - {new Date().getFullYear()}
