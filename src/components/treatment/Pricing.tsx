@@ -242,6 +242,7 @@ const handleCancel = () => {
   initialData?: any[]; // ✅ ADD
   onChange: (pricing: any[]) => void;
   category: string;
+    priceCount: Record<number, number>;
 }
 
 export const Pricing = forwardRef<
@@ -255,7 +256,8 @@ export const Pricing = forwardRef<
     onChange,
     initialData,
     showGrid,
-    category
+    category,
+    priceCount
   },
   ref
 ) {
@@ -494,6 +496,7 @@ const handleDragEnd = (event: any) => {
             branches={branches}
             selectedId={selectedBranchId}
             onSelect={onSelectBranch}
+            priceCount={priceCount}
           />
         )}
 

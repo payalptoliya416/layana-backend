@@ -64,7 +64,7 @@ useImperativeHandle(ref, () => ({
 /* ================= TOGGLE ================= */
 
   const toggleBranch = (id: number, status: string) => {
-    if (status === "inactive") return;
+    if (status === "draft") return;
 
     const updated = selectedLocations.includes(id)
       ? selectedLocations.filter((b) => b !== id)
@@ -98,16 +98,16 @@ useImperativeHandle(ref, () => ({
             >
               {/* LEFT CARD */}
               <button
-                disabled={location.status === "inactive"}
+                disabled={location.status === "draft"}
                 onClick={() =>
                   toggleBranch(location.id, location.status)
                 }
                 className={cn(
                   "flex w-full items-center gap-4 overflow-hidden rounded-[12px] border transition-all",
-                  isSelected && location.status !== "inactive"
+                  isSelected && location.status !== "draft"
                     ? "border-primary"
                     : "border-border bg-card",
-                  location.status === "inactive" &&
+                  location.status === "draft" &&
                     "cursor-not-allowed opacity-50 pointer-events-none"
                 )}
               >
@@ -126,7 +126,7 @@ useImperativeHandle(ref, () => ({
                       isSelected
                         ? "opacity-100"
                         : "opacity-30 grayscale",
-                      location.status === "inactive" &&
+                      location.status === "draft" &&
                         "opacity-20 grayscale"
                     )}
                   />
@@ -137,7 +137,7 @@ useImperativeHandle(ref, () => ({
                   className={cn(
                     "py-4 text-base font-medium",
                     isSelected ? "text-primary" : "text-foreground",
-                    location.status === "inactive" &&
+                    location.status === "draft" &&
                       "text-muted-foreground"
                   )}
                 >

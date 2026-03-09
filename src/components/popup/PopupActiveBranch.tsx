@@ -98,7 +98,7 @@ const PopupActiveBranch = forwardRef<
 
       const hasActiveBranch = branchIds.some((id) => {
         const branch = locations.find((l) => l.id === id);
-        return branch && branch.status !== "inactive";
+        return branch && branch.status !== "draft";
       });
 
       // ✅ AT LEAST ONE LOCATION REQUIRED
@@ -125,7 +125,7 @@ const PopupActiveBranch = forwardRef<
 
   /* ---------- TOGGLE BRANCH ---------- */
   const toggleBranch = (location: Location) => {
-    if (location.status === "inactive") return;
+    if (location.status === "draft") return;
 
     const updated = selectedBranches.includes(location.id)
       ? selectedBranches.filter((b) => b !== location.id)
@@ -289,14 +289,14 @@ const PopupActiveBranch = forwardRef<
             >
               {/* LEFT CARD */}
               <button
-                disabled={location.status === "inactive"}
+                disabled={location.status === "draft"}
                 onClick={() => toggleBranch(location)}
                 className={cn(
                   "flex w-full items-center gap-4 overflow-hidden rounded-[12px] border transition-all",
-                  isSelected && location.status !== "inactive"
+                  isSelected && location.status !== "draft"
                     ? "border-primary"
                     : "border-border bg-card",
-                  location.status === "inactive" &&
+                  location.status === "draft" &&
                     "cursor-not-allowed opacity-50 pointer-events-none"
                 )}
               >
@@ -313,7 +313,7 @@ const PopupActiveBranch = forwardRef<
                     className={cn(
                       "h-5 w-5 transition-opacity",
                       isSelected ? "opacity-100" : "opacity-30 grayscale",
-                      location.status === "inactive" && "opacity-20 grayscale"
+                      location.status === "draft" && "opacity-20 grayscale"
                     )}
                   />
                 </div>
@@ -323,7 +323,7 @@ const PopupActiveBranch = forwardRef<
                   className={cn(
                     "py-4 text-base font-medium",
                     isSelected ? "text-primary" : "text-foreground",
-                    location.status === "inactive" && "text-muted-foreground"
+                    location.status === "draft" && "text-muted-foreground"
                   )}
                 >
                   {location.name}

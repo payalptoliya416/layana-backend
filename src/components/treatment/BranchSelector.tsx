@@ -33,7 +33,7 @@ export function BranchSelector({
   
   const activeBranches = branches.filter((branch) => {
     const loc = locations.find((l) => l.id === branch.id);
-    return loc?.status !== "inactive";
+    return loc?.status !== "draft";
   });
   
     if (activeBranches.length === 0) {

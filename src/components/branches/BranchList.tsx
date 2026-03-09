@@ -80,7 +80,7 @@ useImperativeHandle(ref, () => ({
     // ✅ check if at least one ACTIVE branch is selected
     const hasActiveBranch = selectedBranches.some((id) => {
       const branch = locations.find((l) => l.id === id);
-      return branch && branch.status !== "inactive";
+      return branch && branch.status !== "draft";
     });
 
     if (!hasActiveBranch) {
@@ -104,7 +104,7 @@ useImperativeHandle(ref, () => ({
 }));
 
 const toggleBranch = (id: number) => {
-   if (status === "inactive") return; 
+   if (status === "draft") return; 
    
   const updated = selectedBranches.includes(id)
     ? selectedBranches.filter((b) => b !== id)
@@ -142,14 +142,14 @@ const toggleBranch = (id: number) => {
          <div key={`location-${location.id}`} className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-1 xl:grid-cols-2 gap-4 border xl:border-0 p-2 xl:p-0 rounded-lg xl:rounded-none">
           {/* LEFT CARD */}
         <button
-         disabled={location.status === "inactive"}
+         disabled={location.status === "draft"}
   onClick={() => toggleBranch(location.id)}
   className={cn(
     "flex w-full items-center gap-4 overflow-hidden rounded-[12px] border transition-all",
-     isSelected && location.status !== "inactive"
+     isSelected && location.status !== "draft"
       ? "border-primary"
       : "border-border bg-card",
-       location.status === "inactive" &&
+       location.status === "draft" &&
       "cursor-not-allowed opacity-50 pointer-events-none"
   )}
 >
@@ -167,7 +167,7 @@ const toggleBranch = (id: number) => {
       className={cn(
         "h-5 w-5 transition-opacity ",
         isSelected ? "opacity-100" : "opacity-30 grayscale",
-         location.status === "inactive" && "opacity-20 grayscale"
+         location.status === "draft" && "opacity-20 grayscale"
       )}
     />
   </div>
@@ -177,7 +177,7 @@ const toggleBranch = (id: number) => {
     className={cn(
       "py-4 text-base font-medium transition-colors ",
       isSelected ? "text-primary" : "text-foreground",
-      location.status === "inactive" && "text-muted-foreground"
+      location.status === "draft" && "text-muted-foreground"
     )}
   >
     {location.name}

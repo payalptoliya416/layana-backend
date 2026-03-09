@@ -68,7 +68,7 @@ function PopupIndex() {
     /* ---------- PAYLOAD ---------- */
 const [payload, setPayload] = useState({
   title: "",
-  status: "active" as "active" | "inactive",
+  status: "draft" as "draft" | "live",
 
   cross_color: "",
 
@@ -97,7 +97,7 @@ const [payload, setPayload] = useState({
       setPayload({
   title: res.title ?? "",
 
-  status: res.status === 1 ? "active" : "inactive",
+status: res.status ?? "draft",
 
   cross_color: res.cross_color ?? "",
 
@@ -144,7 +144,7 @@ const buildPopupPayload = () => ({
     ? payload.cta_text_color
     : null,
 
-  status: payload.status === "active" ? 1 : 0,
+  status: payload.status,
 });
 
  const handleSave = async () => {
@@ -153,7 +153,11 @@ const buildPopupPayload = () => ({
 
   try {
     /* ---------- VALIDATION ---------- */
-    const validators = [generalRef, branchRef, visualRef];
+   const isDraft = payload.status === "draft";
+
+const validators = isDraft
+  ? [generalRef]
+  : [generalRef, branchRef, visualRef];
 
     const results: ValidationResult[] = await Promise.all(
       validators.map(async (ref) => {
@@ -313,6 +317,7 @@ const buildPopupPayload = () => ({
                         onMenuClick={() => setSidebarOpen(true)}
                         onBack={() => navigate(-1)}
                         showBack={true}
+                        isTitleLoading={loading}
                     />
                 </div>
                 <div className="flex-1 pl-[15px] pr-6 px-6 flex flex-col h-full bg-card rounded-2xl shadow-card p-5 relative overflow-hidden">

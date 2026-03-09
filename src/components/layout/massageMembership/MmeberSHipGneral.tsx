@@ -1,5 +1,3 @@
-
-
 import { forwardRef, useEffect, useImperativeHandle, useRef } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
@@ -16,9 +14,9 @@ import {
 /* ================= SCHEMA ================= */
 
 const membershipSchema = z.object({
-  name: z.string().min(1, "Name is required"),
-  status: z.enum(["active", "inactive"]),
-  content: z.string().optional().or(z.literal("")),
+  name: z.string().optional(),
+  status: z.enum(["draft", "live"]),
+  content: z.string().optional(),
 });
 
 export type MembershipGeneralForm = z.infer<typeof membershipSchema>;
@@ -32,59 +30,52 @@ type Props = {
 
 const MembershipGeneral = forwardRef<any, Props>(
   ({ initialData, onChange }, ref) => {
-    const {
-      register,
-      watch,
-      trigger,
-      reset,
-      getFieldState,
-      setValue,
-    } = useForm<MembershipGeneralForm>({
-      resolver: zodResolver(membershipSchema),
-      mode: "onSubmit",
-      criteriaMode: "all",
-      defaultValues: {
-        name: "",
-        status: "active",
-        content: "",
-        ...initialData,
-      },
-    });
+    const { register, watch, trigger, reset, getFieldState, setValue ,getValues } =
+      useForm<MembershipGeneralForm>({
+        resolver: zodResolver(membershipSchema),
+        mode: "onSubmit",
+        criteriaMode: "all",
+        defaultValues: {
+          name: "",
+          status: "draft",
+          content: "",
+          ...initialData,
+        },
+      });
     const isInitializing = useRef(true);
-useEffect(() => {
-  if (!initialData) return;
+    useEffect(() => {
+      if (!initialData) return;
 
-  reset({
-    name: initialData.name ?? "",
-    status: initialData.status ?? "active",
-    content: initialData.content ?? "",
-  });
-}, [initialData, reset]);
+      reset({
+        name: initialData.name ?? "",
+        status: initialData.status ?? "draft",
+        content: initialData.content ?? "",
+      });
+    }, [initialData, reset]);
 
     /* ---------- expose validate ---------- */
     useImperativeHandle(ref, () => ({
       validate: async () => {
-        const isValid = await trigger(undefined, { shouldFocus: false });
+        const values = getValues();
+        const errors: any[] = [];
 
-        const fields: (keyof MembershipGeneralForm)[] = [
-          "name",
-          "status",
-        ];
+        const isDraft = values.status === "draft";
 
-        const errors = fields
-          .map((field) => {
-            const state = getFieldState(field);
-            return state.error
-              ? {
-                  section: "General",
-                  message: state.error.message || "Invalid value",
-                }
-              : null;
-          })
-          .filter(Boolean);
+        // always required
+        if (!values.name?.trim()) {
+          errors.push({
+            section: "General",
+            message: "Name is required",
+          });
+        }
+
+        // live validations
+        if (!isDraft) {
+          // future validations
+        }
 
         return {
-          valid: isValid && errors.length === 0,
+          valid: errors.length === 0,
           errors,
         };
       },
@@ -92,7 +83,7 @@ useEffect(() => {
       setData: (data: Partial<MembershipGeneralForm>) => {
         reset({
           name: data.name ?? "",
-          status: data.status ?? "active",
+          status: data.status ?? "draft",
           content: data.content ?? "",
         });
       },
@@ -112,7 +103,6 @@ useEffect(() => {
     return (
       <div className="space-y-6">
         <div className="grid grid-cols-1 xl:grid-cols-2 gap-6">
-
           {/* Name */}
           <div>
             <label className="text-sm font-medium">
@@ -131,30 +121,28 @@ useEffect(() => {
               Status <sup className="text-destructive">*</sup>
             </label>
             <Select
-  value={watch("status")}
-  onValueChange={(v) =>
-    setValue("status", v as "active" | "inactive", {
-      shouldDirty: true,
-      shouldValidate: true,
-    })
-  }
->
-  <SelectTrigger className="form-input">
-    <SelectValue placeholder="Select status" />
-  </SelectTrigger>
+              value={watch("status")}
+              onValueChange={(v) =>
+                setValue("status", v as "draft" | "live", {
+                  shouldDirty: true,
+                  shouldValidate: true,
+                })
+              }
+            >
+              <SelectTrigger className="form-input">
+                <SelectValue placeholder="Select status" />
+              </SelectTrigger>
 
-  <SelectContent>
-    <SelectItem value="active">Active</SelectItem>
-    <SelectItem value="inactive">Inactive</SelectItem>
-  </SelectContent>
-</Select>
+              <SelectContent>
+                <SelectItem value="draft">Draft</SelectItem>
+                <SelectItem value="live">Live</SelectItem>
+              </SelectContent>
+            </Select>
           </div>
 
           {/* Content */}
           <div className="xl:col-span-2">
-            <label className="text-sm font-medium">
-              Content
-            </label>
+            <label className="text-sm font-medium">Content</label>
 
             <DescriptionEditor
               value={watch("content") || ""}
@@ -166,11 +154,10 @@ useEffect(() => {
               }
             />
           </div>
-
         </div>
       </div>
     );
-  }
+  },
 );
 
 MembershipGeneral.displayName = "MembershipGeneral";

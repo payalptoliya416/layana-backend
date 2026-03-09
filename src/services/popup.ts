@@ -17,7 +17,7 @@ export type PopupItem = {
   cta_button_text: string | null;
   cta_button_link: string | null;
   cta_button_color: string | null;
-  status: number; // 1 = Active, 0 = Inactive
+  status: "live" | "draft"; 
   created_at: string;
   updated_at: string;
   title: string;
@@ -83,7 +83,7 @@ export async function createPopup(payload: {
   cta_button_text: string | null;
   cta_button_link: string | null;
   cta_button_color: string | null;
-  status: number;
+ status: "draft" | "live"; 
 }) {
   const res = await api.post("/popups/create", payload);
   return res.data;
@@ -98,7 +98,7 @@ export async function updatePopup(payload: {
   cta_button_text: string | null;
   cta_button_link: string | null;
   cta_button_color: string | null;
-  status: number;
+  status: "draft" | "live"; 
 }) {
   const res = await api.post("/popups/update", payload);
   return res.data;

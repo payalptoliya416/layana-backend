@@ -106,6 +106,24 @@ const initialTreatmentData = useMemo(() => {
   };
 }, [isEdit, treatmentPayload.general]);
 
+const pricingCountByBranch = useMemo(() => {
+  const map: Record<number, number> = {};
+
+  (treatmentPayload.pricing || []).forEach((p: any) => {
+    const branchId = p?.location?.id ?? p?.location_id;
+
+    if (!branchId) return;
+
+    if (!map[branchId]) {
+      map[branchId] = 0;
+    }
+
+    map[branchId] += 1;
+  });
+
+  return map;
+}, [treatmentPayload.pricing]);
+
 const [benefitsFaq, setBenefitsFaq] = useState({
   slogan: "",
   benifites: [] as string[],
@@ -336,6 +354,7 @@ const renderTabContent = () => {
           setSelectedPricingBranch(id);
           setShowPricingGrid(false);            // ✅ grid → form
         }}
+         priceCount={pricingCountByBranch} 
           initialData={treatmentPayload.pricing}
           onChange={(pricing) =>
             setTreatmentPayload((prev) => ({

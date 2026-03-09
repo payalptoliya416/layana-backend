@@ -1,3 +1,4 @@
+// const BASE_URL = "http://192.168.29.134:8081/api";
 const BASE_URL = "https://royalgujarati.com/Layana/api";
 
 type ApiOptions = {

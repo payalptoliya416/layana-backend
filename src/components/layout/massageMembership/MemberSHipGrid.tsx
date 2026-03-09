@@ -45,7 +45,7 @@ function MemberSHipGrid({
   /* ---------- FILTER ACTIVE ---------- */
   const activeBranches = branches.filter((branch) => {
     const loc = locations.find((l) => l.id === branch.id);
-    return loc && loc.status !== "inactive";
+    return loc && loc.status !== "draft";
   });
 
   /* ---------- UI ---------- */

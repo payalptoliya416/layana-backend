@@ -4,7 +4,7 @@ export interface Location {
   id: number;
   name: string;
   slug: string;
-  status?: "active" | "inactive";
+  status?: "live" | "draft" ;
 }
 
 export interface LocationsResponse {

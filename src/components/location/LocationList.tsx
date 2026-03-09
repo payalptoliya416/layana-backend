@@ -154,7 +154,7 @@ function SortableRow({
             <span
               className={cn(
                 "inline-block mb-2 px-3 py-1 rounded-sm text-xs",
-                item.status === "active"
+                item.status === "live"
                   ? "bg-green-100 text-green-700"
                   : "bg-muted text-muted-foreground"
               )}

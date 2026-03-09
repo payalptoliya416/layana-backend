@@ -65,7 +65,7 @@ const MemberActiveBranch = forwardRef<
       // ✅ At least one ACTIVE branch required
       const hasActiveBranch = selectedBranches.some((id) => {
         const branch = locations.find((l) => l.id === id);
-        return branch && branch.status !== "inactive";
+        return branch && branch.status !== "draft";
       });
 
       if (!hasActiveBranch) {
@@ -90,7 +90,7 @@ const MemberActiveBranch = forwardRef<
 
   /* ---------- TOGGLE ---------- */
   const toggleBranch = (location: Location) => {
-    if (location.status === "inactive") return;
+    if (location.status === "draft") return;
 
     const updated = selectedBranches.includes(location.id)
       ? selectedBranches.filter((b) => b !== location.id)
@@ -129,14 +129,14 @@ const MemberActiveBranch = forwardRef<
             >
               {/* LEFT CARD */}
               <button
-                disabled={location.status === "inactive"}
+                disabled={location.status === "draft"}
                 onClick={() => toggleBranch(location)}
                 className={cn(
                   "flex w-full items-center gap-4 overflow-hidden rounded-[12px] border transition-all",
-                  isSelected && location.status !== "inactive"
+                  isSelected && location.status !== "draft"
                     ? "border-primary"
                     : "border-border bg-card",
-                  location.status === "inactive" &&
+                  location.status === "draft" &&
                     "cursor-not-allowed opacity-50 pointer-events-none"
                 )}
               >
@@ -155,7 +155,7 @@ const MemberActiveBranch = forwardRef<
                       isSelected
                         ? "opacity-100"
                         : "opacity-30 grayscale",
-                      location.status === "inactive" &&
+                      location.status === "draft" &&
                         "opacity-20 grayscale"
                     )}
                   />
@@ -166,7 +166,7 @@ const MemberActiveBranch = forwardRef<
                   className={cn(
                     "py-4 text-base font-medium",
                     isSelected ? "text-primary" : "text-foreground",
-                    location.status === "inactive" &&
+                    location.status === "draft" &&
                       "text-muted-foreground"
                   )}
                 >

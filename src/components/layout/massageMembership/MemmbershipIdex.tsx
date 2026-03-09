@@ -36,7 +36,7 @@ const OK: ValidationResult = { valid: true, errors: [] };
 
 interface MembershipPayload {
   name: string;
-  status: "active" | "inactive";
+    status: "draft" | "live";
   content: string;
   // slogan: string;
   location_ids: number[];
@@ -80,7 +80,7 @@ const [selectedSeoBranch, setSelectedSeoBranch] =
   /* ---------- FORM DATA ---------- */
   const [payload, setPayload] = useState<MembershipPayload>({
     name: "",
-    status: "active",
+    status: "draft",
     content: "",
     // slogan: "",
     location_ids: [],
@@ -197,13 +197,11 @@ const handleSectionChange = (section: string) => {
     if (saving) return;
     setSaving(true);
 
-    const validators = [
-      generalRef,
-      branchesRef,
-      pricingRef,
-        seoRef,    
-      // sloganRef,
-    ];
+ const isDraft = payload.status === "draft";
+
+const validators = isDraft
+  ? [generalRef]
+  : [generalRef, branchesRef, pricingRef, seoRef];
     const results: ValidationResult[] = await Promise.all(
       validators.map(async (ref) => {
         try {
@@ -366,7 +364,6 @@ const handleBack = () => {
   );
 
   /* ================= UI ================= */
-
   return (
     <>
       {/* VALIDATION POPUP */}
@@ -439,12 +436,13 @@ const handleBack = () => {
         )}
       >
           <div className="sticky top-3 z-10 pb-3">
-              <PageHeader
-          onMenuClick={() => setSidebarOpen(true)}
-          title={displayName || "Memberships"}
-          showBack={shouldShowBack || true}
-          onBack={handleBack}
-        />
+            <PageHeader
+  onMenuClick={() => setSidebarOpen(true)}
+  title={displayName || "Memberships"}
+  showBack={shouldShowBack || true}
+  onBack={handleBack}
+  isTitleLoading={loading}
+/>
           </div>
                 <div className="flex-1 pl-[15px] pr-6 px-6 flex flex-col h-full bg-card rounded-2xl shadow-card p-5 relative overflow-hidden">
                     <div className="flex w-full gap-5 flex-1 overflow-y-auto scrollbar-thin pb-14">

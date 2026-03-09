@@ -32,7 +32,7 @@ export interface MembershipFaq {
 export interface MembershipPayload {
   id: number;
   name: string;
-  status: "active" | "inactive";
+  status: "draft" | "live";
   content: string;
   // slogan: string;
   locations: MembershipLocation[];
@@ -50,7 +50,7 @@ export interface MembershipPayload {
 export interface MembershipSavePayload {
   id?: number; // only for update
   name: string;
-  status: "active" | "inactive";
+    status: "draft" | "live";
   content: string;
   // slogan: string;
   location_ids: number[];

@@ -50,8 +50,8 @@ function PopupSortableRow({
     transform: CSS.Transform.toString(transform),
     transition,
   };
-const getStatusLabel = (status: number) => {
-  return status === 1 ? "Active" : "Inactive";
+const getStatusLabel = (status: "draft" | "live") => {
+  return status === "live" ? "Live" : "Draft";
 };
   return (
     <div ref={setNodeRef} style={style}>
@@ -101,12 +101,12 @@ const getStatusLabel = (status: number) => {
             <span
               className={cn(
                 "inline-block mb-2 px-3 py-1 rounded-sm text-xs",
-                item.status === 1
+                item.status === "live"
                   ? "bg-green-100 text-green-700"
                   : "bg-muted text-muted-foreground"
               )}
             >
-              {item.status === 1 ? "Active" : "Inactive"}
+               {item.status === "live" ? "Live" : "Draft"}
             </span>
 
              <p className="font-medium">{item.title}</p>
@@ -191,17 +191,6 @@ function PopupList() {
 
     return () => clearTimeout(t);
   }, [search]);
-
-  const statusMap: Record<number, { label: string; className: string }> = {
-    1: {
-      label: "Active",
-      className: "bg-green-100 text-green-700",
-    },
-    0: {
-      label: "Inactive",
-      className: "bg-red-100 text-red-700",
-    },
-  };
 
 const handleDeleteConfirm = async () => {
   if (!deleteId) return;

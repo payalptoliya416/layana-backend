@@ -94,11 +94,10 @@ function LocationIndex() {
   const seoRef = useRef<any>(null);
   const visualsRef = useRef<any>(null);
 
-  /* central data store */
   const [formData, setFormData] = useState<LocationFormData>({
     general: {
       name: "",
-      status: "",
+       status: "draft",
       slug: "",
       freeText: "",
     },
@@ -195,17 +194,22 @@ function LocationIndex() {
 
   const handleSaveTreatment = async () => {
     setSaving(true);
-const validators = [
-  generalRef,
-  contactRef,
-  workingRef,
-  parkingRef,
-  sliderRef,
-  aboutRef,
-  promo3Ref,
-  visualsRef,
-  seoRef,
-];
+
+  const isDraft = formData.general.status === "draft";
+
+  const validators = isDraft
+    ? [generalRef]
+    : [
+        generalRef,
+        contactRef,
+        workingRef,
+        parkingRef,
+        sliderRef,
+        aboutRef,
+        promo3Ref,
+        visualsRef,
+        seoRef,
+      ];
 
 const results = await Promise.all(
   validators.map((ref) =>
