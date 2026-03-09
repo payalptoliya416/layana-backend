@@ -26,7 +26,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from ".
 export type Category = {
   id: number;
   name: string;
-  status: "Disable" | "Enable";
+  status: "draft" | "live";
 };
 
 /* ================= ICON BUTTON ================= */
@@ -86,9 +86,7 @@ function SortableRow({
         {item.name}
       </td>
       <td className="flex-1 text-muted-foreground whitespace-nowrap w-[300px]">
-         {item.status
-    ? item.status.charAt(0).toUpperCase() + item.status.slice(1)
-    : ""}
+       {item.status === "live" ? "Live" : "Draft"}
       </td>
 
       {/* ACTIONS */}
@@ -138,7 +136,7 @@ function SortableRow({
                 <span
                   className={cn(
                     "inline-block mb-2 px-3 py-1 rounded-sm text-xs",
-                    item.status === "Enable"
+                    item.status === "live"
                       ? "bg-green-100 text-green-700"
                       : "bg-muted text-muted-foreground"
                   )}
@@ -183,7 +181,7 @@ const [category, setCategory] = useState<Category[]>([]);
 const [deleteId, setDeleteId] = useState<number | null>(null);
 const [isAdding, setIsAdding] = useState(false);
 const [newName, setNewName] = useState("");
-const [newStatus, setNewStatus] = useState<"Disable" | "Enable">("Enable");
+const [newStatus, setNewStatus] = useState<"draft" | "live">("live");
  const [showValidationPopup, setShowValidationPopup] = useState(false);
   const [validationErrors, setValidationErrors] = useState<
     { section: string; field: string; message: string }[]
@@ -262,7 +260,7 @@ const [editingId, setEditingId] = useState<number | null>(null);
   const [nameError, setNameError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
   const [initialLoading, setInitialLoading] = useState(false);
-const [status, setStatus] = useState<"Disable" | "Enable">("Disable");
+const [status, setStatus] = useState<"draft" | "live">("draft");
 const [statusError, setStatusError] = useState<string | null>(null);
 
   /* ---------- FETCH SINGLE CATEGORY ---------- */
@@ -276,7 +274,7 @@ const [statusError, setStatusError] = useState<string | null>(null);
         setInitialLoading(true);
         const data = await getCategoryById(editId);
         setName(data.name); // 👈 API DATA SET
-        setStatus(data.status ?? "Disable");
+        setStatus(data.status ?? "draft");
       } catch {
         toast.error("Failed to load category");
       } finally {
@@ -295,7 +293,7 @@ const handleEdit = async (id: number) => {
     const data = await getCategoryById(id);
 
     setNewName(data.name);   
-    setNewStatus(data.status ?? "Disable");
+    setNewStatus(data.status ?? "draft");
   } catch {
     toast.error("Failed to load category");
   }
@@ -338,7 +336,7 @@ const handleSubmit = async () => {
 
     // 🔄 RESET FORM
     setName("");
-    setStatus("Disable");
+    setStatus("draft");
     setEditingId(null);
     setNameError(null);
     setStatusError(null);;
@@ -441,7 +439,7 @@ const handleSubmit = async () => {
                 onClick={() => {
                 setIsAdding(true);
                 setNewName("");
-                setNewStatus("Disable");
+                setNewStatus("draft");
                 window.scrollTo({ top: 0, behavior: "smooth" });
               }}
                   className="
@@ -564,15 +562,15 @@ const handleSubmit = async () => {
                               <Select
                                 value={newStatus}
                                 onValueChange={(v) =>
-                                  setNewStatus(v as "Enable" | "Disable")
+                                  setNewStatus(v as "live" | "draft")
                                 }
                               >
                                 <SelectTrigger className="form-input">
                                   <SelectValue />
                                 </SelectTrigger>
                                 <SelectContent>
-                                  <SelectItem value="Enable">Enable</SelectItem>
-                                  <SelectItem value="Disable">Disable</SelectItem>
+                                  <SelectItem value="live">Live</SelectItem>
+                                  <SelectItem value="draft">Draft</SelectItem>
                                 </SelectContent>
                               </Select>
                             </div>
@@ -587,7 +585,7 @@ const handleSubmit = async () => {
                                   setIsAdding(false);
                                   setEditingId(null);
                                   setNewName("");
-                                  setNewStatus("Disable");
+                                  setNewStatus("draft");
                                 }}
                               >
                                 Cancel
@@ -648,7 +646,7 @@ const handleSubmit = async () => {
                                   setIsAdding(false);
                                   setEditingId(null);
                                   setNewName("");
-                                  setNewStatus("Disable");
+                                  setNewStatus("draft");
                                 } catch {
                                   toast.error("Failed to save category");
                                 }
