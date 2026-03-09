@@ -250,7 +250,7 @@ useEffect(() => {
         },
         seo: data.seo || [],
       });
-
+setHeaderTitle(data.general?.name || "Treatment");
       setBenefitsFaq(data.benifits_faq || {
         slogan: "",
         benifites: [],
@@ -265,7 +265,7 @@ useEffect(() => {
 
   loadTreatment();
 }, [id]);
-
+const [headerTitle, setHeaderTitle] = useState("Add Treatment");
 const pageTitle = useMemo(() => {
   // ✅ Edit mode + loading → show Loading...
   if (isEdit && loadingTreatment) {
@@ -532,7 +532,7 @@ const handleBack = () => {
         <div className="sticky top-3 z-10 pb-3">
         <PageHeader
         onMenuClick={() => setSidebarOpen(true)}
-        title={pageTitle}
+        title={headerTitle}
           isTitleLoading={isTitleLoading}
 //         showBack={
 //           (activeSection === "pricing" && selectedPricingBranch !== null) ||
